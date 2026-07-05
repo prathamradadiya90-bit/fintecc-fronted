@@ -57,6 +57,13 @@ export const clientsApi = createApi({
       }),
       invalidatesTags: [{ type: 'Client', id: 'LIST' }],
     }),
+    searchClients: builder.query<{ success: boolean; data: Partial<Client>[] }, string>({
+      query: (searchTerm) => ({
+        url: '/search',
+        params: { q: searchTerm },
+      }),
+      providesTags: ['Client'],
+    }),
   }),
 });
 
@@ -65,5 +72,6 @@ export const {
   useGetClientByIdQuery,
   useCreateClientMutation,
   useUpdateClientMutation,
-  useDeleteClientMutation
+  useDeleteClientMutation,
+  useSearchClientsQuery
 } = clientsApi;

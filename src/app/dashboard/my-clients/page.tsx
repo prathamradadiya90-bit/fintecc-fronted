@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Search, Plus, Filter, Eye, MoreHorizontal, Check, X as XIcon, Trash2, Edit2 } from 'lucide-react';
-import { useGetClientsQuery } from '@/lib/store/api/clientsApi';
+import { useGetClientsQuery, useSearchClientsQuery } from '@/lib/store/api/clientsApi';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Table, Column } from '@/components/ui/Table';
@@ -13,24 +13,39 @@ import type { Client } from '@/lib/types/client.types';
 
 export default function MyClientsPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
-  // Reset page when search term changes
+  // Debounce search input and reset page
   React.useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm]);
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      if (searchTerm !== debouncedSearchTerm) {
+        setCurrentPage(1);
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [searchTerm, debouncedSearchTerm]);
 
-  const { data: response, isLoading, isError, refetch } = useGetClientsQuery({ 
+  // Main list query (skipped when searching)
+  const { data: response, isLoading: isListLoading, isError: isListError, refetch } = useGetClientsQuery({ 
     page: currentPage,
     limit: 10,
-    search: searchTerm,
-  });
+  }, { skip: !!debouncedSearchTerm });
   
-  const clients = response?.data || [];
-  const meta = response?.meta;
+  // Search query (skipped when no search term)
+  const { data: searchResponse, isLoading: isSearchLoading, isError: isSearchError } = useSearchClientsQuery(
+    debouncedSearchTerm,
+    { skip: !debouncedSearchTerm }
+  );
+  
+  const isLoading = isListLoading || isSearchLoading;
+  const isError = isListError || isSearchError;
+  const clients = (debouncedSearchTerm ? searchResponse?.data : response?.data) as Client[] || [];
+  const meta = debouncedSearchTerm ? undefined : response?.meta;
 
   const handleEdit = (client: Client) => {
     setSelectedClient(client);
@@ -103,6 +118,7 @@ export default function MyClientsPage() {
       key: 'createdAt',
       header: 'Added On',
       render: (client) => {
+        if (!client.createdAt) return '-';
         const date = new Date(client.createdAt);
         return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
       },
