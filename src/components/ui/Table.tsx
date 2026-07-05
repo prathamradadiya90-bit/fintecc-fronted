@@ -9,7 +9,7 @@ export interface Column<T> {
 interface TableProps<T> {
   data: T[];
   columns: Column<T>[];
-  keyExtractor: (item: T) => string;
+  keyExtractor: (item: T, index: number) => string;
   emptyMessage?: string;
   onRowClick?: (item: T) => void;
 }
@@ -38,9 +38,9 @@ export function Table<T>({ data, columns, keyExtractor, emptyMessage = 'No data 
               </td>
             </tr>
           ) : (
-            data.map((item) => (
+            data.map((item, index) => (
               <tr 
-                key={keyExtractor(item)}
+                key={keyExtractor(item, index)}
                 onClick={() => onRowClick?.(item)}
                 className={`transition-colors hover:bg-slate-50/50 ${onRowClick ? 'cursor-pointer' : ''}`}
               >
