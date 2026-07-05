@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Search, Plus, Filter, Eye, MoreHorizontal, Check, X as XIcon, Trash2, Edit2 } from 'lucide-react';
 import { useGetClientsQuery, useSearchClientsQuery } from '@/lib/store/api/clientsApi';
 import { Button } from '@/components/ui/Button';
@@ -11,13 +12,24 @@ import { DeleteClientModal } from '@/components/clients/DeleteClientModal';
 import { Pagination } from '@/components/ui/Pagination';
 import type { Client } from '@/lib/types/client.types';
 
-export default function MyClientsPage() {
+function MyClientsPageContent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchParams.get('action') === 'new') {
+      setIsFormModalOpen(true);
+      // Remove the query parameter so it doesn't re-open on refresh
+      router.replace('/dashboard/my-clients', { scroll: false });
+    }
+  }, [searchParams, router]);
 
   // Debounce search input and reset page
   React.useEffect(() => {
@@ -233,5 +245,13 @@ export default function MyClientsPage() {
         client={selectedClient}
       />
     </div>
+  );
+}
+
+export default function MyClientsPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-slate-500 animate-pulse">Loading...</div>}>
+      <MyClientsPageContent />
+    </Suspense>
   );
 }
