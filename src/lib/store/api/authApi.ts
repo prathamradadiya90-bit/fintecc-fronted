@@ -6,7 +6,8 @@ import type {
   VerifyOTPRequest,
   User,
   ForgotPasswordRequest,
-  ResetPasswordRequest
+  ResetPasswordRequest,
+  ResendOtpRequest
 } from '../../types/auth.types';
 import { setCredentials } from '../features/auth/authSlice';
 
@@ -57,6 +58,13 @@ export const authApi = createApi({
         }
       },
     }),
+    resendOtp: builder.mutation<AuthResponse<null>, ResendOtpRequest>({
+      query: (data) => ({
+        url: '/resend-otp',
+        method: 'POST',
+        body: data,
+      }),
+    }),
     forgotPassword: builder.mutation<AuthResponse<{ email: string }>, ForgotPasswordRequest>({
       query: (data) => ({
         url: '/forgot-password',
@@ -97,6 +105,7 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useVerifyRegistrationMutation,
+  useResendOtpMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useLogoutMutation,

@@ -20,6 +20,7 @@ export interface RegisterRequest {
   userName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 export interface LoginRequest {
@@ -41,3 +42,8 @@ export interface ResetPasswordRequest {
   otp: string;
   newPassword: string;
 }
+
+export interface ResendOtpRequest {
+  email: string;
+}
+

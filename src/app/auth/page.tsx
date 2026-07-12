@@ -12,12 +12,15 @@ import {
   Landmark,
   ReceiptText,
   KeyRound,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 import {
   useRegisterMutation,
   useLoginMutation,
   useVerifyRegistrationMutation,
+  useResendOtpMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
 } from "../../lib/store/api/authApi";
@@ -55,23 +58,53 @@ function AuthForm() {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  React.useEffect(() => {
+    setShowPassword(false);
+  }, [view]);
 
   const [firmName, setFirmName] = useState("");
   const [userName, setUserName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
+  const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
 
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
   const [localError, setLocalError] = useState("");
   const [localSuccess, setLocalSuccess] = useState("");
+  const [resendTimer, setResendTimer] = useState(0);
+
+  React.useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
 
   const [register, { isLoading: isRegisterLoading }] = useRegisterMutation();
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
   const [verifyRegistration, { isLoading: isVerifyLoading }] = useVerifyRegistrationMutation();
+  const [resendOtp, { isLoading: isResendLoading }] = useResendOtpMutation();
   const [forgotPassword, { isLoading: isForgotLoading }] = useForgotPasswordMutation();
   const [resetPassword, { isLoading: isResetLoading }] = useResetPasswordMutation();
+
+  const handleResendOtp = async () => {
+    setLocalError("");
+    setLocalSuccess("");
+    try {
+      await resendOtp({ email: authEmail }).unwrap();
+      setLocalSuccess("A new verification code has been sent to your email.");
+      setResendTimer(60);
+    } catch (err: unknown) {
+      setLocalError(getErrorMessage(err, "Failed to resend OTP."));
+    }
+  };
 
   const product = (searchParams.get("product") as keyof typeof PRODUCT_META) || "bank";
   const meta = PRODUCT_META[product] || PRODUCT_META.bank;
@@ -100,8 +133,13 @@ function AuthForm() {
     setLocalError("");
     setLocalSuccess("");
 
-    if (!firmName || !userName || !signupEmail || !signupPassword) {
+    if (!firmName || !userName || !signupEmail || !signupPassword || !signupConfirmPassword) {
       setLocalError("Please fill in all fields.");
+      return;
+    }
+
+    if (signupPassword !== signupConfirmPassword) {
+      setLocalError("Passwords do not match.");
       return;
     }
 
@@ -111,6 +149,7 @@ function AuthForm() {
         userName,
         email: signupEmail,
         password: signupPassword,
+        confirmPassword: signupConfirmPassword,
       }).unwrap();
 
       setAuthEmail(signupEmail);
@@ -317,6 +356,19 @@ function AuthForm() {
                 {isVerifyLoading ? "Verifying..." : "Verify & Continue"}
                 {!isVerifyLoading && <ArrowRight className="w-4 h-4" />}
               </button>
+
+              <div className="text-center mt-4">
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  disabled={isResendLoading || resendTimer > 0}
+                  className={`text-xs font-semibold bg-transparent border-none p-0 transition-colors ${
+                    isResendLoading || resendTimer > 0 ? "text-slate-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-600 cursor-pointer"
+                  }`}
+                >
+                  {isResendLoading ? "Resending..." : resendTimer > 0 ? `Resend code in ${resendTimer}s` : "Didn't receive code? Resend"}
+                </button>
+              </div>
             </form>
           )}
 
@@ -368,14 +420,23 @@ function AuthForm() {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1.5">New Password</label>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="********"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="********"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               {localError && (
@@ -420,14 +481,23 @@ function AuthForm() {
                     Forgot password?
                   </button>
                 </div>
-                <input
-                  type="password"
-                  value={loginPassword}
-                  onChange={(e) => setLoginPassword(e.target.value)}
-                  placeholder="********"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    placeholder="********"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               {localError && (
@@ -488,14 +558,44 @@ function AuthForm() {
 
               <div>
                 <label className="text-xs font-bold text-slate-700 mb-1.5 block">Password</label>
-                <input
-                  type="password"
-                  value={signupPassword}
-                  onChange={(e) => setSignupPassword(e.target.value)}
-                  placeholder="********"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={signupPassword}
+                    onChange={(e) => setSignupPassword(e.target.value)}
+                    placeholder="********"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 mb-1.5 block">Confirm Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={signupConfirmPassword}
+                    onChange={(e) => setSignupConfirmPassword(e.target.value)}
+                    placeholder="********"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               {localError && (
