@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import Link from "next/link";
+import Logo from "@/components/ui/Logo";
 import { 
   Briefcase, 
   ArrowRight, 
@@ -28,9 +29,7 @@ export default function Landing() {
       {/* NAV */}
       <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-6 md:px-12 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-9 h-9 bg-[#0A1628] rounded-lg">
-            <Briefcase className="w-5 h-5 text-emerald-400" />
-          </div>
+          <Logo width={36} height={36} className="rounded-lg" />
           <span className="text-lg font-extrabold tracking-tight text-[#0A1628]">
             Fintecc
           </span>
@@ -342,9 +341,7 @@ export default function Landing() {
       {/* FOOTER */}
       <footer className="bg-[#0A1628] py-6 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between border-t border-slate-800 gap-4">
         <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center w-7 h-7 bg-white/10 rounded-md">
-            <Briefcase className="w-4 h-4 text-emerald-400" />
-          </div>
+          <Logo width={28} height={28} className="rounded-md" />
           <span className="text-sm font-bold text-white">Fintecc</span>
         </div>
         <p className="text-xs text-slate-500">

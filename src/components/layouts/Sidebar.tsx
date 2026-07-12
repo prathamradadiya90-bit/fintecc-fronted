@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
+import Logo from '@/components/ui/Logo';
 
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -38,10 +39,8 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
       {/* Logo Area */}
       <div className="h-16 flex items-center justify-between px-5">
         <div className="flex items-center gap-2">
-          {/* F logo placeholder */}
-          <div className="w-7 h-7 bg-gradient-to-br from-[#00C2B3] to-[#008f84] text-white flex items-center justify-center font-bold italic rounded-md text-sm">
-            F
-          </div>
+          {/* Logo */}
+          <Logo width={28} height={28} className="rounded-md" />
           <span className="text-white text-lg font-bold tracking-wide">FinTecc</span>
         </div>
         {/* Mobile close button */}
