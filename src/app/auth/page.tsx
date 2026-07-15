@@ -221,7 +221,7 @@ function AuthForm() {
 
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans">
-      <div className="hidden lg:flex w-[46%] bg-gradient-to-br from-[#0A1628] via-[#0F2040] to-[#0D1F3C] flex-col p-10 md:p-14 relative overflow-hidden shrink-0">
+      <div className="hidden lg:flex w-[46%] bg-gradient-to-br from-[#0A1628] via-[#0F2040] to-[#0D1F3C] flex-col p-10 md:p-14 relative overflow-hidden shrink-0 sticky top-0 h-screen">
         <div className="absolute w-[400px] h-[400px] rounded-full bg-radial from-emerald-500/5 to-transparent top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
 
         <Link href="/" className="inline-flex items-center gap-2.5 self-start bg-transparent border-none cursor-pointer p-0 mb-auto group">
@@ -337,7 +337,7 @@ function AuthForm() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ""))}
                   placeholder="000000"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-base text-center tracking-[0.5em] font-mono bg-white outline-none transition-colors"
+                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-base text-slate-900 text-center tracking-[0.5em] font-mono bg-white outline-none transition-colors"
                   required
                 />
               </div>
@@ -381,7 +381,7 @@ function AuthForm() {
                   value={authEmail}
                   onChange={(e) => setAuthEmail(e.target.value)}
                   placeholder="ca@yourfirm.com"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors"
+                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
                   required
                 />
               </div>
@@ -413,7 +413,7 @@ function AuthForm() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ""))}
                   placeholder="000000"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-base text-center tracking-[0.5em] font-mono bg-white outline-none transition-colors"
+                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-base text-slate-900 text-center tracking-[0.5em] font-mono bg-white outline-none transition-colors"
                   required
                 />
               </div>
@@ -426,7 +426,7 @@ function AuthForm() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="********"
-                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors pr-10"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors pr-10"
                     required
                   />
                   <button
@@ -465,7 +465,7 @@ function AuthForm() {
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   placeholder="ca@yourfirm.com"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors"
+                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
                   required
                 />
               </div>
@@ -487,7 +487,7 @@ function AuthForm() {
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="********"
-                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors pr-10"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors pr-10"
                     required
                   />
                   <button
@@ -527,7 +527,7 @@ function AuthForm() {
                     value={firmName}
                     onChange={(e) => setFirmName(e.target.value)}
                     placeholder="Your CA Firm"
-                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
                     required
                   />
                 </div>
@@ -538,7 +538,7 @@ function AuthForm() {
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                     placeholder="John Doe"
-                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
                     required
                   />
                 </div>
@@ -551,7 +551,7 @@ function AuthForm() {
                   value={signupEmail}
                   onChange={(e) => setSignupEmail(e.target.value)}
                   placeholder="ca@yourfirm.com"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors"
+                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
                   required
                 />
               </div>
@@ -564,7 +564,7 @@ function AuthForm() {
                     value={signupPassword}
                     onChange={(e) => setSignupPassword(e.target.value)}
                     placeholder="********"
-                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors pr-10"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors pr-10"
                     required
                   />
                   <button
@@ -585,7 +585,7 @@ function AuthForm() {
                     value={signupConfirmPassword}
                     onChange={(e) => setSignupConfirmPassword(e.target.value)}
                     placeholder="********"
-                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] bg-white outline-none transition-colors pr-10"
+                    className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors pr-10"
                     required
                   />
                   <button
