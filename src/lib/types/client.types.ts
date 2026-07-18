@@ -1,4 +1,4 @@
-export type ClientType = 'Individual' | 'Private Limited' | 'Partnership' | 'LLP' | 'HUF' | 'Trust' | 'Proprietorship';
+export type ClientType = 'Individual' | 'Company' | 'Partnership' | 'LLP' | 'HUF' | 'Trust';
 export type ClientStatus = 'Active' | 'Inactive' | 'Blocked';
 
 export interface Address {
