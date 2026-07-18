@@ -9,7 +9,8 @@ import type {
   ResetPasswordRequest,
   ResendOtpRequest,
   InviteStaffRequest,
-  UpdateStaffRequest
+  UpdateStaffRequest,
+  GoogleLoginRequest
 } from '../../types/auth.types';
 import { setCredentials } from '../features/auth/authSlice';
 
@@ -30,6 +31,23 @@ export const authApi = createApi({
     login: builder.mutation<AuthResponse<{ user: User }>, LoginRequest>({
       query: (credentials) => ({
         url: '/login',
+        method: 'POST',
+        body: credentials,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.data?.user) {
+            dispatch(setCredentials({ user: data.data.user }));
+          }
+        } catch {
+          // Let the component handle login errors
+        }
+      },
+    }),
+    googleLogin: builder.mutation<AuthResponse<{ user: User }>, GoogleLoginRequest>({
+      query: (credentials) => ({
+        url: '/google',
         method: 'POST',
         body: credentials,
       }),
@@ -143,6 +161,7 @@ export const authApi = createApi({
 export const {
   useRegisterMutation,
   useLoginMutation,
+  useGoogleLoginMutation,
   useVerifyRegistrationMutation,
   useResendOtpMutation,
   useForgotPasswordMutation,

@@ -1,14 +1,44 @@
 "use client";
 
-import React from 'react';
-import { usePathname } from 'next/navigation';
-import { Bell, Menu } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import React, { useState, useRef, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Bell, Menu, LogOut } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '@/lib/store/store';
+import { useLogoutMutation } from '@/lib/store/api/authApi';
+import { logout } from '@/lib/store/features/auth/authSlice';
 
 export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
+  const [logoutApi] = useLogoutMutation();
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logoutApi().unwrap();
+      dispatch(logout());
+      router.push('/auth');
+    } catch (error) {
+      console.error('Logout failed', error);
+      dispatch(logout());
+      router.push('/auth');
+    }
+  };
 
   // Basic title mapping based on pathname
   let title = 'Dashboard';
@@ -38,13 +68,33 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
           <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 border-2 border-white rounded-full"></span>
         </button>
 
-        <div className="flex items-center gap-2.5 pl-5 border-l border-slate-200">
-          <div className="w-8 h-8 rounded-full bg-[#091124] text-white flex items-center justify-center font-semibold text-xs">
-            {initials}
-          </div>
-          <div className="hidden md:block">
-            <p className="text-[13px] font-semibold text-slate-700">{displayName}</p>
-          </div>
+        <div className="relative pl-5 border-l border-slate-200" ref={dropdownRef}>
+          <button 
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="flex items-center gap-2.5 focus:outline-none"
+          >
+            <div className="w-8 h-8 rounded-full bg-[#091124] text-white flex items-center justify-center font-semibold text-xs">
+              {initials}
+            </div>
+            <div className="hidden md:block text-left">
+              <p className="text-[13px] font-semibold text-slate-700">{displayName}</p>
+            </div>
+          </button>
+
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-lg shadow-slate-200/50 border border-slate-100 py-1 z-50">
+              <div className="px-4 py-2.5 border-b border-slate-100 mb-1 lg:hidden">
+                 <p className="text-[13px] font-semibold text-slate-700">{displayName}</p>
+              </div>
+              <button 
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-2 text-[13px] font-medium text-red-600 hover:bg-red-50 hover:text-red-700 flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

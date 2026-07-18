@@ -23,7 +23,9 @@ import {
   useResendOtpMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+  useGoogleLoginMutation,
 } from "../../lib/store/api/authApi";
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 
 const PRODUCT_META = {
   bank: { name: "Bank Statement Converter", icon: Landmark, color: "text-blue-500", bg: "bg-blue-500/10" },
@@ -104,6 +106,23 @@ function AuthForm() {
   const [resendOtp, { isLoading: isResendLoading }] = useResendOtpMutation();
   const [forgotPassword, { isLoading: isForgotLoading }] = useForgotPasswordMutation();
   const [resetPassword, { isLoading: isResetLoading }] = useResetPasswordMutation();
+  const [googleLogin, { isLoading: isGoogleLoginLoading }] = useGoogleLoginMutation();
+
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    if (credentialResponse.credential) {
+      setLocalError("");
+      try {
+        await googleLogin({ token: credentialResponse.credential }).unwrap();
+        router.push("/dashboard");
+      } catch (err: unknown) {
+        setLocalError(getErrorMessage(err, "An error occurred during Google sign in."));
+      }
+    }
+  };
+
+  const handleGoogleError = () => {
+    setLocalError("Google Sign-In failed.");
+  };
 
   const handleResendOtp = async () => {
     setLocalError("");
@@ -634,15 +653,16 @@ function AuthForm() {
                 <div className="flex-1 h-[1px] bg-slate-200" />
               </div>
 
-              <button className="w-full py-2 border border-slate-200 hover:border-slate-300 rounded-lg bg-white text-[13px] font-semibold text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-center gap-2.5 cursor-pointer">
-                <svg width="16" height="16" viewBox="0 0 48 48">
-                  <path fill="#FFC107" d="M43.6 20H24v8h11.3C33.6 33.7 29.3 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l5.7-5.7C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.6 20-21 0-1.3-.2-2.7-.4-4z"/>
-                  <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.6 15.4 19 12 24 12c3.1 0 5.9 1.1 8.1 2.9l5.7-5.7C34.5 5.1 29.5 3 24 3c-7.6 0-14.3 4.1-17.7 10.7z"/>
-                  <path fill="#4CAF50" d="M24 45c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 36.5 26.7 37 24 37c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.7 40.8 16.4 45 24 45z"/>
-                  <path fill="#1976D2" d="M43.6 20H24v8h11.3c-.9 2.5-2.5 4.6-4.6 6.1l6.2 5.2C40.5 36.2 44 30.6 44 24c0-1.3-.2-2.7-.4-4z"/>
-                </svg>
-                Continue with Google
-              </button>
+              <div className="w-full flex justify-center mt-2">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  theme="outline"
+                  size="large"
+                  text="continue_with"
+                  width="100%"
+                />
+              </div>
 
               <p className="text-xs text-slate-500 text-center mt-6">
                 {view === "login" ? (

@@ -59,4 +59,6 @@ export interface UpdateStaffRequest {
   isActive?: boolean;
 }
 
-
+export interface GoogleLoginRequest {
+  token: string;
+}
