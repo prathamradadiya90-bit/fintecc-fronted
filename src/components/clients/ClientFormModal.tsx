@@ -89,6 +89,25 @@ const SectionHeader = ({ letter, title }: { letter: string; title: string }) => 
   </div>
 );
 
+const defaultFormValues: ClientFormData = {
+  name: '',
+  pan: '',
+  aadhaar: '',
+  phone: '',
+  secondaryPhone: '',
+  email: '',
+  type: 'Individual',
+  companyName: '',
+  isGstRegistered: false,
+  gstin: '',
+  tan: '',
+  status: 'Active',
+  tags: [],
+  notes: '',
+  address: { street: '', city: '', state: '', zip: '', country: '' },
+  bankDetails: [{ accountName: '', accountNumber: '', ifsc: '', bankName: '' }],
+};
+
 export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProps) {
   const [createClient, { isLoading: isCreating }] = useCreateClientMutation();
   const [updateClient, { isLoading: isUpdating }] = useUpdateClientMutation();
@@ -102,24 +121,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
     formState: { errors },
   } = useForm<ClientFormData>({
     resolver: zodResolver(clientSchema),
-    defaultValues: {
-      name: '',
-      pan: '',
-      aadhaar: '',
-      phone: '',
-      secondaryPhone: '',
-      email: '',
-      type: 'Individual',
-      companyName: '',
-      isGstRegistered: false,
-      gstin: '',
-      tan: '',
-      status: 'Active',
-      tags: [],
-      notes: '',
-      address: { street: '', city: '', state: '', zip: '', country: '' },
-      bankDetails: [{ accountName: '', accountNumber: '', ifsc: '', bankName: '' }],
-    },
+    defaultValues: defaultFormValues,
   });
 
   const isGstRegistered = watch('isGstRegistered');
@@ -146,8 +148,10 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
           ? client.bankDetails 
           : [{ accountName: '', accountNumber: '', ifsc: '', bankName: '' }],
       });
+    } else if (!client && isOpen) {
+      reset(defaultFormValues);
     } else if (!isOpen) {
-      reset();
+      setTimeout(() => reset(defaultFormValues), 300);
     }
   }, [client, isOpen, reset]);
 
@@ -226,7 +230,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             <input
               type="text"
               placeholder="ABCPM1234R"
+              maxLength={10}
               {...register('pan')}
+              onChange={(e) => {
+                e.target.value = e.target.value.toUpperCase();
+                register('pan').onChange(e);
+              }}
               className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono uppercase transition-all"
             />
             {errors.pan && <p className="text-red-500 text-xs mt-1">{errors.pan.message}</p>}
@@ -239,7 +248,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             <input
               type="text"
               placeholder="000000000000"
+              maxLength={12}
               {...register('aadhaar')}
+              onChange={(e) => {
+                e.target.value = e.target.value.replace(/\D/g, '');
+                register('aadhaar').onChange(e);
+              }}
               className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono transition-all"
             />
             {errors.aadhaar && <p className="text-red-500 text-xs mt-1">{errors.aadhaar.message}</p>}
@@ -260,7 +274,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               <input
                 type="text"
                 placeholder="98765 43210"
+                maxLength={10}
                 {...register('phone')}
+                onChange={(e) => {
+                  e.target.value = e.target.value.replace(/\D/g, '');
+                  register('phone').onChange(e);
+                }}
                 className="w-full px-3.5 py-2.5 border border-slate-200 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
               />
             </div>
@@ -283,7 +302,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             <input
               type="text"
               placeholder="Optional"
+              maxLength={10}
               {...register('secondaryPhone')}
+              onChange={(e) => {
+                e.target.value = e.target.value.replace(/\D/g, '');
+                register('secondaryPhone').onChange(e);
+              }}
               className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
             />
             {errors.secondaryPhone && <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone.message}</p>}
@@ -326,7 +350,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               <input
                 type="text"
                 placeholder="400001"
+                maxLength={6}
                 {...register('address.zip')}
+                onChange={(e) => {
+                  e.target.value = e.target.value.replace(/\D/g, '');
+                  register('address.zip').onChange(e);
+                }}
                 className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
               />
               {errors.address?.zip && <p className="text-red-500 text-xs mt-1">{errors.address.zip.message}</p>}
@@ -387,7 +416,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               <input
                 type="text"
                 placeholder="22AAAAA0000A1Z5"
+                maxLength={15}
                 {...register('gstin')}
+                onChange={(e) => {
+                  e.target.value = e.target.value.toUpperCase();
+                  register('gstin').onChange(e);
+                }}
                 className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono uppercase transition-all"
               />
               {errors.gstin && <p className="text-red-500 text-xs mt-1">{errors.gstin.message}</p>}
@@ -399,7 +433,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             <input
               type="text"
               placeholder="ABCD12345E"
+              maxLength={10}
               {...register('tan')}
+              onChange={(e) => {
+                e.target.value = e.target.value.toUpperCase();
+                register('tan').onChange(e);
+              }}
               className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono uppercase transition-all"
             />
             {errors.tan && <p className="text-red-500 text-xs mt-1">{errors.tan.message}</p>}
@@ -442,7 +481,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             <input
               type="text"
               placeholder="HDFC0001234"
+              maxLength={11}
               {...register('bankDetails.0.ifsc')}
+              onChange={(e) => {
+                e.target.value = e.target.value.toUpperCase();
+                register('bankDetails.0.ifsc').onChange(e);
+              }}
               className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono uppercase transition-all"
             />
             {errors.bankDetails?.[0]?.ifsc && <p className="text-red-500 text-xs mt-1">{errors.bankDetails[0].ifsc.message}</p>}
