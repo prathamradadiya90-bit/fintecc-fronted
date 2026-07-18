@@ -64,6 +64,17 @@ function AuthForm() {
     setShowPassword(false);
   }, [view]);
 
+  React.useEffect(() => {
+    const paramView = searchParams.get("view");
+    const paramEmail = searchParams.get("email");
+    if (paramView === "reset-password") {
+      setView("reset-password");
+      if (paramEmail) {
+        setAuthEmail(paramEmail);
+      }
+    }
+  }, [searchParams]);
+
   const [firmName, setFirmName] = useState("");
   const [userName, setUserName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");

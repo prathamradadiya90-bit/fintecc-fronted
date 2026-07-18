@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 import { StoreProvider } from "../lib/store/StoreProvider";
+import { ToastProvider } from "@/components/ui/Toast";
 
 export default function RootLayout({
   children,
@@ -31,7 +32,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <StoreProvider>
-          {children}
+          <ToastProvider>
+            {children}
+          </ToastProvider>
         </StoreProvider>
       </body>
     </html>

@@ -47,3 +47,16 @@ export interface ResendOtpRequest {
   email: string;
 }
 
+export interface InviteStaffRequest {
+  name: string;
+  email: string;
+  role: string;
+}
+
+export interface UpdateStaffRequest {
+  id: string;
+  role?: string;
+  isActive?: boolean;
+}
+
+

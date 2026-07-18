@@ -3,11 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
+import type { RootState } from '@/lib/store/store';
 
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -21,7 +22,17 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.auth);
   const [logoutApi, { isLoading }] = useLogoutMutation();
+
+  const items = [
+    ...navItems,
+    ...(user?.role === 'FIRM_OWNER'
+      ? [{ name: 'Manage Staff', href: '/dashboard/staff', icon: Shield }]
+      : []
+    ),
+  ];
+
 
   const handleLogout = async () => {
     try {
@@ -51,7 +62,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
 
       {/* Navigation */}
       <nav className="flex-1 py-6 flex flex-col gap-2 px-3 overflow-y-auto">
-        {navItems.map((item) => {
+        {items.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           const Icon = item.icon;
           return (

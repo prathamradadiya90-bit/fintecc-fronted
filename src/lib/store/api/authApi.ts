@@ -7,7 +7,9 @@ import type {
   User,
   ForgotPasswordRequest,
   ResetPasswordRequest,
-  ResendOtpRequest
+  ResendOtpRequest,
+  InviteStaffRequest,
+  UpdateStaffRequest
 } from '../../types/auth.types';
 import { setCredentials } from '../features/auth/authSlice';
 
@@ -16,6 +18,7 @@ import { baseQueryWithReauth } from './baseQuery';
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: baseQueryWithReauth('/auth'),
+  tagTypes: ['Staff'],
   endpoints: (builder) => ({
     register: builder.mutation<AuthResponse<{ email: string }>, RegisterRequest>({
       query: (credentials) => ({
@@ -98,6 +101,42 @@ export const authApi = createApi({
         }
       }
     }),
+    getStaff: builder.query<AuthResponse<User[]>, void>({
+      query: () => '/staff',
+      providesTags: (result) =>
+        result?.data
+          ? [
+              ...result.data.map(({ id }) => ({ type: 'Staff' as const, id })),
+              { type: 'Staff', id: 'LIST' },
+            ]
+          : [{ type: 'Staff', id: 'LIST' }],
+    }),
+    inviteStaff: builder.mutation<AuthResponse<{ email: string; role: string }>, InviteStaffRequest>({
+      query: (body) => ({
+        url: '/invite-staff',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{ type: 'Staff', id: 'LIST' }],
+    }),
+    updateStaff: builder.mutation<AuthResponse<User>, UpdateStaffRequest>({
+      query: ({ id, ...body }) => ({
+        url: `/staff/${id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Staff', id },
+        { type: 'Staff', id: 'LIST' },
+      ],
+    }),
+    deleteStaff: builder.mutation<AuthResponse<null>, string>({
+      query: (id) => ({
+        url: `/staff/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [{ type: 'Staff', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -109,5 +148,9 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useLogoutMutation,
-  useGetMeQuery
+  useGetMeQuery,
+  useGetStaffQuery,
+  useInviteStaffMutation,
+  useUpdateStaffMutation,
+  useDeleteStaffMutation,
 } = authApi;
