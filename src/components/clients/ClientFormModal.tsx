@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { SlideOver } from '@/components/ui/SlideOver';
 import { useCreateClientMutation, useUpdateClientMutation } from '@/lib/store/api/clientsApi';
+import { useToast } from '@/components/ui/Toast';
 import type { Client } from '@/lib/types/client.types';
 
 const SERVICES = [
@@ -18,7 +19,7 @@ const SERVICES = [
 ];
 
 const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
-const aadhaarRegex = /^\d{12}$/;
+const aadhaarRegex = /^[2-9]{1}[0-9]{11}$/;
 const phoneRegex = /^[6-9]\d{9}$/;
 const gstinRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/i;
 const tanRegex = /^[A-Z]{4}[0-9]{5}[A-Z]{1}$/i;
@@ -31,7 +32,7 @@ const clientSchema = z.object({
   phone: z.string().regex(phoneRegex, 'Invalid mobile number'),
   secondaryPhone: z.string().regex(phoneRegex, 'Invalid mobile number').optional().or(z.literal('')),
   email: z.string().email('Invalid email').optional().or(z.literal('')),
-  type: z.enum(['Individual', 'Private Limited', 'Partnership', 'LLP', 'HUF', 'Trust', 'Proprietorship']),
+  type: z.enum(['Individual', 'Company', 'Partnership', 'LLP', 'HUF', 'Trust']),
   companyName: z.string().optional(),
   isGstRegistered: z.boolean().optional(),
   gstin: z.string().optional(),
@@ -111,6 +112,7 @@ const defaultFormValues: ClientFormData = {
 export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProps) {
   const [createClient, { isLoading: isCreating }] = useCreateClientMutation();
   const [updateClient, { isLoading: isUpdating }] = useUpdateClientMutation();
+  const { showToast } = useToast();
 
   const {
     register,
@@ -166,12 +168,15 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
 
       if (client) {
         await updateClient({ id: client.id, data: payload }).unwrap();
+        showToast('Client updated successfully');
       } else {
         await createClient(payload).unwrap();
+        showToast('Client created successfully');
       }
       onClose();
-    } catch (error) {
-      console.error('Failed to save client:', error);
+    } catch (error: any) {
+      const errorMsg = error?.data?.message || 'Failed to save client';
+      showToast(errorMsg, 'error');
     }
   };
 
@@ -375,12 +380,11 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all appearance-none"
             >
               <option value="Individual">Individual</option>
-              <option value="Private Limited">Private Limited</option>
+              <option value="Company">Company</option>
               <option value="Partnership">Partnership</option>
               <option value="LLP">LLP</option>
               <option value="HUF">HUF</option>
               <option value="Trust">Trust</option>
-              <option value="Proprietorship">Proprietorship</option>
             </select>
           </div>
 

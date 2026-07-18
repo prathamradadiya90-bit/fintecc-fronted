@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Table, Column } from '@/components/ui/Table';
 import { ClientFormModal } from '@/components/clients/ClientFormModal';
 import { DeleteClientModal } from '@/components/clients/DeleteClientModal';
+import { ClientViewModal } from '@/components/clients/ClientViewModal';
 import { Pagination } from '@/components/ui/Pagination';
 import type { Client } from '@/lib/types/client.types';
 
@@ -18,6 +19,7 @@ function MyClientsPageContent() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
   const searchParams = useSearchParams();
@@ -58,6 +60,11 @@ function MyClientsPageContent() {
   const isError = isListError || isSearchError;
   const clients = (debouncedSearchTerm ? searchResponse?.data : response?.data) as Client[] || [];
   const meta = debouncedSearchTerm ? undefined : response?.meta;
+
+  const handleView = (client: Client) => {
+    setSelectedClient(client);
+    setIsViewModalOpen(true);
+  };
 
   const handleEdit = (client: Client) => {
     setSelectedClient(client);
@@ -143,6 +150,7 @@ function MyClientsPageContent() {
           <button 
             className="text-slate-400 hover:text-[#00C2B3] transition-colors p-1"
             title="View Details"
+            onClick={(e) => { e.stopPropagation(); handleView(client); }}
           >
             <Eye className="w-4 h-4" />
           </button>
@@ -242,6 +250,12 @@ function MyClientsPageContent() {
           setIsDeleteModalOpen(false);
           refetch(); // Explicitly refetch after closing modal to ensure data is fresh
         }}
+        client={selectedClient}
+      />
+
+      <ClientViewModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
         client={selectedClient}
       />
     </div>
