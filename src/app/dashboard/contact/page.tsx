@@ -1,0 +1,94 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useCreateContactMessageMutation } from "@/lib/store/api/contactApi";
+import { useToast } from "@/components/ui/Toast";
+import type { RootState } from "@/lib/store/store";
+
+export default function ContactPage() {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { showToast } = useToast();
+  const [createContactMessage, { isLoading }] = useCreateContactMessageMutation();
+  const [email, setEmail] = useState(user?.email || "");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (user?.email) {
+      setEmail(user.email);
+    }
+  }, [user]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !message) {
+      showToast("Please fill out both fields.", "error");
+      return;
+    }
+
+    try {
+      await createContactMessage({ email, message }).unwrap();
+      showToast("Your message has been sent successfully!");
+      if (!user?.email) {
+        setEmail("");
+      }
+      setMessage("");
+    } catch (error: any) {
+      showToast(error?.data?.message || "Failed to send message.", "error");
+    }
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto py-8 px-4">
+      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="border-b border-slate-100 bg-slate-50/50 p-6">
+          <h1 className="text-2xl font-bold text-slate-900">Contact Support</h1>
+          <p className="text-slate-500 mt-1 text-sm">
+            Have a question, feedback, or need help? Send us a message and we'll get back to you shortly.
+          </p>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          <div>
+            <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1.5">
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              readOnly={!!user?.email}
+              className={`w-full px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors ${user?.email ? 'bg-slate-50 text-slate-500 cursor-not-allowed' : ''}`}
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-1.5">
+              Message
+            </label>
+            <textarea
+              id="message"
+              rows={6}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="How can we help you?"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors resize-none"
+            />
+          </div>
+          
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="px-6 py-2.5 bg-[#0A1628] hover:bg-slate-800 text-white font-semibold rounded-lg text-sm transition-colors disabled:opacity-70 flex items-center justify-center min-w-[140px]"
+            >
+              {isLoading ? "Sending..." : "Send Message"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
