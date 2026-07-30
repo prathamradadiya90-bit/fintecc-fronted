@@ -27,7 +27,7 @@ export function InvestmentResultsPanel({
   const p2 = total > 0 ? (amount2Value / total) * 100 : 0;
 
   return (
-    <div className="bg-slate-50 rounded-2xl p-6 h-full border border-slate-100 flex flex-col relative overflow-hidden">
+    <div className="bg-slate-50 rounded-2xl p-6 h-full border border-slate-100 shadow-sm flex flex-col relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-gradient-to-br from-[#00C2B3]/10 to-transparent rounded-full blur-3xl"></div>
       
@@ -48,34 +48,47 @@ export function InvestmentResultsPanel({
           <span className="text-[#00C2B3] font-bold text-xl">{formatCurrencyExact(totalValue)}</span>
         </div>
 
-        {/* Visual Bar */}
-        <div className="mt-6">
-          <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden flex">
-            {type === 'SIP' ? (
-              <>
-                <div style={{ width: `${p1}%` }} className="h-full bg-[#091124] transition-all duration-500"></div>
-                <div style={{ width: `${p2}%` }} className="h-full bg-[#00C2B3] transition-all duration-500"></div>
-              </>
-            ) : (
-              <>
-                {/* For SWP visual might be different, but keeping it simple: */}
-                <div style={{ width: `50%` }} className="h-full bg-[#00C2B3] transition-all duration-500"></div>
-                <div style={{ width: `50%` }} className="h-full bg-[#091124] transition-all duration-500"></div>
-              </>
-            )}
+        {/* Visual Chart */}
+        <div className="mt-6 flex flex-col items-center">
+          <div className="relative w-36 h-36 mb-5">
+            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+              {/* Secondary amount circle */}
+              <circle
+                cx="80"
+                cy="80"
+                r={60}
+                fill="transparent"
+                stroke={type === 'SIP' ? '#00C2B3' : '#091124'}
+                strokeWidth="24"
+                strokeDasharray={`${(p2 / 100) * (2 * Math.PI * 60)} ${2 * Math.PI * 60}`}
+                strokeDashoffset={-((p1 / 100) * (2 * Math.PI * 60))}
+                className="transition-all duration-500"
+              />
+              {/* Primary amount circle */}
+              <circle
+                cx="80"
+                cy="80"
+                r={60}
+                fill="transparent"
+                stroke={type === 'SIP' ? '#091124' : '#00C2B3'}
+                strokeWidth="24"
+                strokeDasharray={`${(p1 / 100) * (2 * Math.PI * 60)} ${2 * Math.PI * 60}`}
+                className="transition-all duration-500"
+              />
+            </svg>
           </div>
-          <div className="flex justify-between text-[11px] text-slate-500 mt-2 font-medium">
+          
+          <div className="flex justify-center gap-6 text-[12px] text-slate-500 font-medium">
             <div className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full ${type === 'SIP' ? 'bg-[#091124]' : 'bg-[#00C2B3]'}`}></span>
+              <span className={`w-2.5 h-2.5 rounded-full ${type === 'SIP' ? 'bg-[#091124]' : 'bg-[#00C2B3]'}`}></span>
               <span>{amount1Label}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full ${type === 'SIP' ? 'bg-[#00C2B3]' : 'bg-[#091124]'}`}></span>
+              <span className={`w-2.5 h-2.5 rounded-full ${type === 'SIP' ? 'bg-[#00C2B3]' : 'bg-[#091124]'}`}></span>
               <span>{amount2Label}</span>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

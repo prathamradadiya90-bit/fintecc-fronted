@@ -36,7 +36,7 @@ export default function PublicCalculatorsPage() {
         </div>
 
         {/* Active Calculator Component */}
-        <div className="mt-6">
+        <div>
           {activeCalculator === 'EMI' && <EmiCalculator />}
           {activeCalculator === 'SIP' && <SipCalculator />}
           {activeCalculator === 'SWP' && <SwpCalculator />}
