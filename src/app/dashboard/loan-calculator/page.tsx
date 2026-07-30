@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { LoanTabs } from '@/components/loan-calculator/LoanTabs';
+
 import { SliderInput } from '@/components/loan-calculator/SliderInput';
 import { ResultsPanel } from '@/components/loan-calculator/ResultsPanel';
 import { AmortizationSchedule } from '@/components/loan-calculator/AmortizationSchedule';
 import { calculateEMI, generateAmortizationSchedule, formatCurrency } from '@/lib/utils/loanCalculator';
 
 export default function LoanCalculatorPage() {
-  const [activeTab, setActiveTab] = useState('Home Loan');
+  const activeTab = 'Home Loan';
   
   // Default values matching Figma design
   const [principal, setPrincipal] = useState(1000000); // 10L
@@ -51,7 +51,7 @@ export default function LoanCalculatorPage() {
       </div>
 
       <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm mb-6">
-        <LoanTabs activeTab={activeTab} onTabChange={setActiveTab} />
+
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
           {/* Left Column: Inputs */}
@@ -91,6 +91,20 @@ export default function LoanCalculatorPage() {
               minLabel="1 yr"
               maxLabel="30 yrs"
             />
+            <div className=" bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="flex items-center gap-2 mb-4">
+                <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h2 className="text-sm font-semibold text-slate-700">About Loan Calculator</h2>
+              </div>
+              <ul className="list-disc list-inside text-[11px] text-slate-600 space-y-2 leading-relaxed">
+                <li><strong>Accurate EMI Calculation:</strong> Instantly determine your Equated Monthly Installment (EMI) based on the principal, interest rate, and tenure.</li>
+                <li><strong>Comprehensive Amortization Schedule:</strong> View a detailed month-by-month breakdown of your principal and interest payments.</li>
+                {/* <li><strong>Visual Insights:</strong> Get a clear picture of the total interest you will pay over the life of the loan versus the principal amount.</li> */}
+                <li><strong>Easy Planning:</strong> Adjust sliders to see how different loan amounts, interest rates, or tenures affect your monthly budget.</li>
+              </ul>
+            </div>
           </div>
 
           {/* Right Column: Results */}
