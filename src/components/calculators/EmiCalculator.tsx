@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { SliderInput } from '@/components/calculators/SliderInput';
+import { ResultsPanel } from '@/components/calculators/ResultsPanel';
+import { AmortizationSchedule } from '@/components/calculators/AmortizationSchedule';
+import { calculateEMI, generateAmortizationSchedule } from '@/lib/utils/loanCalculator';
 
-import { SliderInput } from '@/components/loan-calculator/SliderInput';
-import { ResultsPanel } from '@/components/loan-calculator/ResultsPanel';
-import { AmortizationSchedule } from '@/components/loan-calculator/AmortizationSchedule';
-import { calculateEMI, generateAmortizationSchedule, formatCurrency } from '@/lib/utils/loanCalculator';
-
-export default function LoanCalculatorPage() {
+export function EmiCalculator() {
   const activeTab = 'Home Loan';
   
   // Default values matching Figma design
@@ -42,17 +41,8 @@ export default function LoanCalculatorPage() {
   }, [principal, interestRate, tenureYears]);
 
   return (
-    <div className="max-w-6xl mx-auto pb-10">
-      
-      {/* Header */}
-      <div className="mb-5">
-        <h1 className="text-2xl font-bold text-[#091124]">Loan Calculator</h1>
-        <p className="text-slate-500 mt-1 text-[14px]">Calculate EMI, total interest, and full amortization schedule.</p>
-      </div>
-
+    <>
       <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm mb-6">
-
-        
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
           {/* Left Column: Inputs */}
           <div className="flex flex-col">
@@ -60,12 +50,12 @@ export default function LoanCalculatorPage() {
               label="Principal Amount"
               value={principal}
               min={10000}
-              max={10000000} // 1Cr
+              max={50000000} // 1Cr
               step={10000}
               onChange={setPrincipal}
               formatValue={formatPrincipal}
               minLabel="₹10K"
-              maxLabel="₹1Cr"
+              maxLabel="₹5Cr"
             />
             
             <SliderInput 
@@ -96,12 +86,11 @@ export default function LoanCalculatorPage() {
                 <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <h2 className="text-sm font-semibold text-slate-700">About Loan Calculator</h2>
+                <h2 className="text-sm font-semibold text-slate-700">About EMI Calculator</h2>
               </div>
               <ul className="list-disc list-inside text-[11px] text-slate-600 space-y-2 leading-relaxed">
                 <li><strong>Accurate EMI Calculation:</strong> Instantly determine your Equated Monthly Installment (EMI) based on the principal, interest rate, and tenure.</li>
                 <li><strong>Comprehensive Amortization Schedule:</strong> View a detailed month-by-month breakdown of your principal and interest payments.</li>
-                {/* <li><strong>Visual Insights:</strong> Get a clear picture of the total interest you will pay over the life of the loan versus the principal amount.</li> */}
                 <li><strong>Easy Planning:</strong> Adjust sliders to see how different loan amounts, interest rates, or tenures affect your monthly budget.</li>
               </ul>
             </div>
@@ -122,7 +111,6 @@ export default function LoanCalculatorPage() {
 
       {/* Amortization Schedule Table */}
       <AmortizationSchedule schedule={schedule} />
-
-    </div>
+    </>
   );
 }

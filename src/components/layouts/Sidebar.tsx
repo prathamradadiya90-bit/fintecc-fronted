@@ -14,7 +14,7 @@ const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
   { name: 'Converters', href: '/dashboard/converters', icon: FileText },
-  { name: 'Loan Calculator', href: '/dashboard/loan-calculator', icon: Calculator },
+  { name: 'Calculators', href: '/dashboard/calculators', icon: Calculator },
   { name: 'Compliance Calendar', href: '/dashboard/compliance', icon: Calendar, badge: 'Soon' },
 ];
 

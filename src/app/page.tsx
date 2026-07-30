@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 import { useCreateContactMessageMutation } from "@/lib/store/api/contactApi";
 import { useToast } from "@/components/ui/Toast";
 import type { RootState } from "@/lib/store/store";
-import Logo from "@/components/ui/Logo";
+import { PublicNavbar } from "@/components/layouts/PublicNavbar";
+import { PublicFooter } from "@/components/layouts/PublicFooter";
 import { 
   Briefcase, 
   ArrowRight, 
@@ -67,44 +68,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-emerald-500 selection:text-white">
       {/* NAV */}
-      <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-6 md:px-12 bg-white/90 backdrop-blur-md border-b border-slate-200">
-        <div className="flex items-center gap-2.5">
-          <Logo width={36} height={36} className="rounded-lg" />
-          <span className="text-lg font-extrabold tracking-tight text-[#0A1628]">
-            Fintecc
-          </span>
-        </div>
-
-        <div className="hidden md:flex items-center gap-8">
-          <button 
-            onClick={scrollToProducts} 
-            className="text-sm font-semibold text-slate-600 hover:text-[#0A1628] transition-colors cursor-pointer"
-          >
-            Products
-          </button>
-          <a 
-            href="#contact" 
-            className="text-sm font-semibold text-slate-600 hover:text-[#0A1628] transition-colors"
-          >
-            Contact Us
-          </a>
-          <a 
-            href="#about" 
-            className="text-sm font-semibold text-slate-600 hover:text-[#0A1628] transition-colors"
-          >
-            About Us
-          </a>
-        </div>
-
-        <div>
-          <Link
-            href="/auth"
-            className="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-[#0A1628] bg-transparent border-2 border-[#0A1628] rounded-lg hover:bg-[#0A1628] hover:text-white transition-all duration-150 cursor-pointer"
-          >
-            Sign in
-          </Link>
-        </div>
-      </nav>
+      <PublicNavbar onProductsClick={scrollToProducts} />
 
       {/* HERO */}
       <section className="flex flex-col lg:flex-row items-center justify-between min-h-[calc(100vh-64px)] px-6 md:px-12 py-12 bg-gradient-to-br from-slate-50 via-indigo-50/30 to-emerald-50/30 gap-12">
@@ -388,25 +352,7 @@ export default function Landing() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#0A1628] py-6 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between border-t border-slate-800 gap-4">
-        <div className="flex items-center gap-2">
-          <Logo width={28} height={28} className="rounded-md" />
-          <span className="text-sm font-bold text-white">Fintecc</span>
-        </div>
-        <p className="text-xs text-slate-500">
-          &copy; 2026 Fintecc. All rights reserved.
-        </p>
-        <div className="flex gap-5">
-          {["Privacy", "Terms", "Security"].map((l) => (
-            <a key={l} href="#" className="text-xs text-slate-500 hover:text-slate-400 transition-colors">
-              {l}
-            </a>
-          ))}
-          <a href="#contact" className="text-xs text-slate-500 hover:text-slate-400 transition-colors">
-            Contact Us
-          </a>
-        </div>
-      </footer>
+      <PublicFooter />
     </div>
   );
 }
