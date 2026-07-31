@@ -94,23 +94,26 @@ export function FileUploader({ onFileSelect, isLoading = false }: FileUploaderPr
             <p className="text-slate-600 font-medium">Processing your document...</p>
           </div>
         ) : selectedFile ? (
-          <div className="flex flex-col items-center gap-4 w-full max-w-md">
-            <div className="w-14 h-14 bg-[#00C2B3]/10 text-[#00C2B3] rounded-full flex items-center justify-center mb-2">
-              <FileIcon className="w-7 h-7" />
-            </div>
-            <div className="text-center">
-              <h3 className="font-semibold text-slate-800 text-[15px] truncate max-w-[300px]" title={selectedFile.name}>
-                {selectedFile.name}
-              </h3>
-              <p className="text-slate-500 text-xs mt-0.5">
-                {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
-              </p>
+          <div className="flex items-center justify-between w-full max-w-md bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#00C2B3]/10 text-[#00C2B3] rounded-full flex items-center justify-center shrink-0">
+                <FileIcon className="w-6 h-6" />
+              </div>
+              <div className="text-left">
+                <h3 className="font-semibold text-slate-800 text-[15px] truncate max-w-[220px]" title={selectedFile.name}>
+                  {selectedFile.name}
+                </h3>
+                <p className="text-slate-500 text-xs mt-0.5">
+                  {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
+                </p>
+              </div>
             </div>
             <button
               onClick={removeFile}
-              className="mt-2 text-red-500 hover:text-red-600 text-sm font-medium flex items-center gap-1 transition-colors"
+              className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+              title="Remove File"
             >
-              <X className="w-4 h-4" /> Remove File
+              <X className="w-5 h-5" />
             </button>
           </div>
         ) : (

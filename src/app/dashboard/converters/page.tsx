@@ -4,54 +4,71 @@ import React, { useState } from 'react';
 import { ConversionType, ConversionTypeSelector } from '@/components/pdf-to-xml/ConversionTypeSelector';
 import { FileUploader } from '@/components/pdf-to-xml/FileUploader';
 import { TransactionsPreview } from '@/components/pdf-to-xml/TransactionsPreview';
+import { InvoicePreview } from '@/components/invoice-converter/InvoicePreview';
 import { useUploadBankStatementMutation } from '@/lib/store/api/bankStatementsApi';
+import { useUploadInvoiceMutation } from '@/lib/store/api/invoicesApi';
 import { BankStatementResponse } from '@/lib/types/bankStatement.types';
+import { ExtractedInvoice } from '@/lib/types/invoice.types';
 
-export default function PdfToXmlPage() {
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+
+export default function ConvertersPage() {
   const [selectedType, setSelectedType] = useState<ConversionType>('bank');
-  const [currentFile, setCurrentFile] = useState<File | null>(null);
-  const [parsedData, setParsedData] = useState<BankStatementResponse | null>(null);
-  
-  const [uploadBankStatement, { isLoading: isUploading }] = useUploadBankStatementMutation();
-  const [isDownloadingXml, setIsDownloadingXml] = useState(false);
-  const [isDownloadingCsv, setIsDownloadingCsv] = useState(false);
 
-  const handleFileSelect = async (file: File) => {
-    setCurrentFile(file);
-    setParsedData(null); // reset
+  // Bank statement state
+  const [bankFile, setBankFile] = useState<File | null>(null);
+  const [bankData, setBankData] = useState<BankStatementResponse | null>(null);
+  const [isDownloadingBankXml, setIsDownloadingBankXml] = useState(false);
+  const [isDownloadingBankCsv, setIsDownloadingBankCsv] = useState(false);
+
+  // Invoice state
+  const [invoiceFile, setInvoiceFile] = useState<File | null>(null);
+  const [invoiceData, setInvoiceData] = useState<ExtractedInvoice | null>(null);
+  const [isDownloadingInvoiceXml, setIsDownloadingInvoiceXml] = useState(false);
+  const [isDownloadingInvoiceCsv, setIsDownloadingInvoiceCsv] = useState(false);
+
+  const [uploadBankStatement, { isLoading: isBankUploading }] = useUploadBankStatementMutation();
+  const [uploadInvoice, { isLoading: isInvoiceUploading }] = useUploadInvoiceMutation();
+
+  // Reset all result state when the user switches conversion type
+  const handleTypeSelect = (type: ConversionType) => {
+    setSelectedType(type);
+    setBankData(null);
+    setInvoiceData(null);
+  };
+
+  // ────────────────────────── Bank Statement handlers ──────────────────────────
+  const handleBankFileSelect = async (file: File) => {
+    setBankFile(file);
+    setBankData(null);
 
     try {
       const formData = new FormData();
       formData.append('statement', file);
-
-      // RTK Query upload
       const response = await uploadBankStatement(formData).unwrap();
-      setParsedData(response);
+      setBankData(response);
     } catch (error: any) {
-      console.error('Failed to parse statement', error);
+      console.error('Failed to parse bank statement:', error);
       alert(error?.data?.message || 'Failed to process the PDF statement.');
     }
   };
 
-  const handleDownload = async (format: 'xml' | 'csv') => {
-    if (!currentFile) return;
-    
-    if (format === 'xml') setIsDownloadingXml(true);
-    if (format === 'csv') setIsDownloadingCsv(true);
+  const handleBankDownload = async (format: 'xml' | 'csv') => {
+    if (!bankFile) return;
+
+    if (format === 'xml') setIsDownloadingBankXml(true);
+    else setIsDownloadingBankCsv(true);
 
     try {
       const formData = new FormData();
-      formData.append('statement', currentFile);
-      
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1'}/bank-statements/convert?format=${format}`, {
-        method: 'POST',
-        body: formData,
-        credentials: 'include'
-      });
+      formData.append('statement', bankFile);
 
-      if (!response.ok) {
-        throw new Error(`Failed to download ${format.toUpperCase()}`);
-      }
+      const response = await fetch(
+        `${API_BASE}/bank-statements/convert?format=${format}`,
+        { method: 'POST', body: formData, credentials: 'include' }
+      );
+
+      if (!response.ok) throw new Error(`Failed to download ${format.toUpperCase()}`);
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -62,43 +79,113 @@ export default function PdfToXmlPage() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-
     } catch (error) {
-      console.error(`Download ${format} failed`, error);
+      console.error(`Bank ${format} download failed:`, error);
       alert(`Failed to download ${format.toUpperCase()}`);
     } finally {
-      if (format === 'xml') setIsDownloadingXml(false);
-      if (format === 'csv') setIsDownloadingCsv(false);
+      if (format === 'xml') setIsDownloadingBankXml(false);
+      else setIsDownloadingBankCsv(false);
     }
   };
+
+  // ────────────────────────── Invoice handlers ──────────────────────────────────
+  const handleInvoiceFileSelect = async (file: File) => {
+    setInvoiceFile(file);
+    setInvoiceData(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('invoice', file);
+      const response = await uploadInvoice(formData).unwrap();
+      setInvoiceData(response.data);
+    } catch (error: any) {
+      console.error('Failed to parse invoice:', error);
+      alert(error?.data?.message || 'Failed to process the invoice PDF.');
+    }
+  };
+
+  const handleInvoiceDownload = async (format: 'xml' | 'csv') => {
+    if (!invoiceFile) return;
+
+    if (format === 'xml') setIsDownloadingInvoiceXml(true);
+    else setIsDownloadingInvoiceCsv(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('invoice', invoiceFile);
+
+      const response = await fetch(
+        `${API_BASE}/invoices/convert?format=${format}`,
+        { method: 'POST', body: formData, credentials: 'include' }
+      );
+
+      if (!response.ok) throw new Error(`Failed to download ${format.toUpperCase()}`);
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download =
+        format === 'xml'
+          ? `invoice_${invoiceData?.invoiceNumber || 'extracted'}_tally.xml`
+          : `invoice_${invoiceData?.invoiceNumber || 'extracted'}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error(`Invoice ${format} download failed:`, error);
+      alert(`Failed to download ${format.toUpperCase()}`);
+    } finally {
+      if (format === 'xml') setIsDownloadingInvoiceXml(false);
+      else setIsDownloadingInvoiceCsv(false);
+    }
+  };
+
+  const isInvoiceMode = selectedType === 'invoice';
+  const isBankMode = selectedType === 'bank';
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#091124]">PDF to XML Converter</h1>
+        <h1 className="text-2xl font-bold text-[#091124]">PDF Converter</h1>
         <p className="text-slate-500 mt-0.5 text-[13px]">
-          Convert financial PDFs into structured, machine-readable XML in seconds.
+          Convert financial PDFs into structured, machine-readable XML or CSV in seconds.
         </p>
       </div>
 
-      <ConversionTypeSelector 
-        selectedType={selectedType} 
-        onSelect={setSelectedType} 
-      />
+      <ConversionTypeSelector selectedType={selectedType} onSelect={handleTypeSelect} />
 
-      <FileUploader 
-        onFileSelect={handleFileSelect} 
-        isLoading={isUploading}
-      />
+      {/* Bank Statement Flow */}
+      {isBankMode && (
+        <>
+          <FileUploader onFileSelect={handleBankFileSelect} isLoading={isBankUploading} />
+          {bankData?.data?.transactions && (
+            <TransactionsPreview
+              transactions={bankData.data.transactions}
+              onDownloadXml={() => handleBankDownload('xml')}
+              onDownloadCsv={() => handleBankDownload('csv')}
+              isDownloadingXml={isDownloadingBankXml}
+              isDownloadingCsv={isDownloadingBankCsv}
+            />
+          )}
+        </>
+      )}
 
-      {parsedData?.data?.transactions && (
-        <TransactionsPreview 
-          transactions={parsedData.data.transactions}
-          onDownloadXml={() => handleDownload('xml')}
-          onDownloadCsv={() => handleDownload('csv')}
-          isDownloadingXml={isDownloadingXml}
-          isDownloadingCsv={isDownloadingCsv}
-        />
+      {/* Invoice Flow */}
+      {isInvoiceMode && (
+        <>
+          <FileUploader onFileSelect={handleInvoiceFileSelect} isLoading={isInvoiceUploading} />
+          {invoiceData && (
+            <InvoicePreview
+              invoice={invoiceData}
+              onDownloadXml={() => handleInvoiceDownload('xml')}
+              onDownloadCsv={() => handleInvoiceDownload('csv')}
+              isDownloadingXml={isDownloadingInvoiceXml}
+              isDownloadingCsv={isDownloadingInvoiceCsv}
+            />
+          )}
+        </>
       )}
     </div>
   );

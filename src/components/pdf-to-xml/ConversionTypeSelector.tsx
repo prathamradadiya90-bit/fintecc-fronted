@@ -14,7 +14,7 @@ const CONVERSION_OPTIONS = [
     title: 'Invoice to XML',
     description: 'GST invoices, purchase orders',
     icon: Receipt,
-    disabled: true,
+    disabled: false,
   },
   {
     id: 'bank',

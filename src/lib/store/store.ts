@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authApi } from './api/authApi';
 import { clientsApi } from './api/clientsApi';
 import { bankStatementsApi } from './api/bankStatementsApi';
+import { invoicesApi } from './api/invoicesApi';
 import { dashboardApi } from './api/dashboardApi';
 import { contactApi } from './api/contactApi';
 import authReducer from './features/auth/authSlice';
@@ -12,14 +13,16 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [clientsApi.reducerPath]: clientsApi.reducer,
     [bankStatementsApi.reducerPath]: bankStatementsApi.reducer,
+    [invoicesApi.reducerPath]: invoicesApi.reducer,
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [contactApi.reducerPath]: contactApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      authApi.middleware, 
-      clientsApi.middleware, 
-      bankStatementsApi.middleware, 
+      authApi.middleware,
+      clientsApi.middleware,
+      bankStatementsApi.middleware,
+      invoicesApi.middleware,
       dashboardApi.middleware,
       contactApi.middleware
     ),
