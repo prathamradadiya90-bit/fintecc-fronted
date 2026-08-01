@@ -1,6 +1,9 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { baseQueryWithReauth } from './baseQuery';
 import type { ClientDocument, ClientDocumentsResponse } from '../../types/client.types';
+
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
 interface SingleDocumentResponse {
   success: boolean;
@@ -55,6 +58,40 @@ export const clientDocumentsApi = createApi({
         { type: 'ClientDocument', id: `LIST_${clientId}` },
       ],
     }),
+
+    downloadDocument: builder.mutation<null, { id: string; filename: string }>({
+      // Use a custom queryFn: the backend returns a binary stream (res.download),
+      // not JSON, so RTK Query's default fetch would fail to parse it.
+      queryFn: async ({ id, filename }) => {
+        try {
+          const response = await fetch(`${apiBaseUrl}/client-documents/${id}/download`, {
+            method: 'GET',
+            credentials: 'include',
+          });
+
+          if (!response.ok) {
+            // FetchBaseQueryError HTTP shape requires `{ status: number; data: unknown }`
+            const data = await response.text().catch(() => 'Download failed');
+            return { error: { status: response.status, data } satisfies FetchBaseQueryError };
+          }
+
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.href = url;
+          anchor.download = filename;
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+          window.URL.revokeObjectURL(url);
+
+          return { data: null };
+        } catch (error) {
+          // FetchBaseQueryError FETCH_ERROR shape
+          return { error: { status: 'FETCH_ERROR', error: String(error) } satisfies FetchBaseQueryError };
+        }
+      },
+    }),
   }),
 });
 
@@ -62,4 +99,5 @@ export const {
   useGetDocumentsByClientIdQuery,
   useUploadDocumentMutation,
   useDeleteDocumentMutation,
+  useDownloadDocumentMutation,
 } = clientDocumentsApi;

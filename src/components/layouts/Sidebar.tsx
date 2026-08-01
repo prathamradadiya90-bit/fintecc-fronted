@@ -75,8 +75,8 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
               }}
               className={`
                 flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group relative text-[13px]
-                ${isActive 
-                  ? 'text-[#00C2B3] bg-[#00C2B3]/10 font-medium' 
+                ${isActive
+                  ? 'text-[#00C2B3] bg-[#00C2B3]/10 font-medium'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                 }
               `}
@@ -102,7 +102,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
           <Settings className="w-[18px] h-[18px]" />
           <span>Settings</span>
         </button>
-        <button 
+        <button
           onClick={handleLogout}
           disabled={isLoading}
           className="flex items-center gap-3 px-3.5 py-2.5 text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-xl transition-all disabled:opacity-50 text-[13px]"

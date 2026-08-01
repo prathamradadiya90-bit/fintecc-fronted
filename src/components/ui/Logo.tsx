@@ -8,11 +8,11 @@ interface LogoProps {
 
 export default function Logo({ className = '', width = 36, height = 36 }: LogoProps) {
   return (
-    <Image 
-      src="/fintecclogo.jpeg" 
-      alt="Fintecc Logo" 
-      width={width} 
-      height={height} 
+    <Image
+      src="/fintecclogo.jpeg"
+      alt="Fintecc Logo"
+      width={width}
+      height={height}
       className={`object-contain ${className}`}
       priority
     />

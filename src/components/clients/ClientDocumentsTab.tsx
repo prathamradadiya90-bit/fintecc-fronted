@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Plus, Trash2, Download, FileText, AlertTriangle } from 'lucide-react';
-import { useGetDocumentsByClientIdQuery, useDeleteDocumentMutation } from '@/lib/store/api/clientDocumentsApi';
+import { Plus, Trash2, Download, AlertTriangle, Loader2 } from 'lucide-react';
+import { useGetDocumentsByClientIdQuery, useDeleteDocumentMutation, useDownloadDocumentMutation } from '@/lib/store/api/clientDocumentsApi';
 import { AddDocumentModal } from './AddDocumentModal';
 import { useToast } from '@/components/ui/Toast';
 import type { ClientDocument } from '@/lib/types/client.types';
@@ -55,9 +55,21 @@ interface DocumentCardProps {
 
 function DocumentCard({ doc, onDelete, isDeleting }: DocumentCardProps) {
   const typeConfig = getFileTypeConfig(doc.fileType);
+  const [downloadDocument, { isLoading: isDownloading }] = useDownloadDocumentMutation();
+  const { showToast } = useToast();
+
+  const handleDownload = async () => {
+    const ext = doc.fileType?.toLowerCase() ?? doc.filePath.split('.').pop() ?? 'file';
+    const filename = `${doc.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.${ext}`;
+    try {
+      await downloadDocument({ id: doc.id, filename }).unwrap();
+    } catch {
+      showToast('Failed to download document', 'error');
+    }
+  };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-4 flex flex-col gap-3 shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200 group">
+    <div className="bg-white border border-slate-100 rounded-2xl p-4 flex flex-col shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200 group">
       {/* Top Row: Icon + Title */}
       <div className="flex items-start gap-3">
         <div className={`w-10 h-10 ${typeConfig.bg} rounded-xl flex items-center justify-center shrink-0`}>
@@ -76,17 +88,16 @@ function DocumentCard({ doc, onDelete, isDeleting }: DocumentCardProps) {
         {/* Placeholder for category — kept empty as per requirements */}
         <div />
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          {doc.filePath && (
-            <a
-              href={doc.filePath}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Download"
-              className="p-1.5 rounded-lg text-slate-400 hover:text-[#00C2B3] hover:bg-teal-50 transition-colors"
-            >
-              <Download className="w-3.5 h-3.5" />
-            </a>
-          )}
+          <button
+            title="Download"
+            disabled={isDownloading}
+            onClick={handleDownload}
+            className="p-1.5 rounded-lg text-slate-400 hover:text-[#00C2B3] hover:bg-teal-50 transition-colors disabled:opacity-50"
+          >
+            {isDownloading
+              ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              : <Download className="w-3.5 h-3.5" />}
+          </button>
           <button
             title="Delete"
             disabled={isDeleting}
