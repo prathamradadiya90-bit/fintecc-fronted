@@ -222,6 +222,7 @@ function MyClientsPageContent() {
             columns={columns} 
             keyExtractor={(client) => client.id} 
             emptyMessage={searchTerm ? 'No clients found matching your search.' : 'You have no clients yet. Add one to get started.'}
+            onRowClick={(client) => router.push(`/dashboard/my-clients/${client.id}`)}
           />
           {meta && meta.totalPages > 1 && (
             <Pagination 

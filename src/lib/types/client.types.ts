@@ -47,6 +47,31 @@ export interface Client {
   tags?: string[];
   createdAt: string;
   updatedAt: string;
+  documents?: ClientDocument[];
+}
+
+export interface ClientDocument {
+  id: string;
+  clientId: string;
+  firmId: string;
+  title: string;
+  filePath: string;
+  fileType?: string; // "PDF", "JPG", "XLS", "DOC"
+  fileSize?: number; // bytes
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ClientDocumentsResponse {
+  success: boolean;
+  data: ClientDocument[];
+  message?: string;
+}
+
+export interface CreateDocumentRequest {
+  clientId: string;
+  title: string;
+  file: File;
 }
 
 export interface PaginatedClientsResponse {

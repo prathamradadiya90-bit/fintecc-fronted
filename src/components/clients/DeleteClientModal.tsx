@@ -8,9 +8,10 @@ interface DeleteClientModalProps {
   isOpen: boolean;
   onClose: () => void;
   client: Client | null;
+  onDeleted?: () => void;
 }
 
-export function DeleteClientModal({ isOpen, onClose, client }: DeleteClientModalProps) {
+export function DeleteClientModal({ isOpen, onClose, client, onDeleted }: DeleteClientModalProps) {
   const [deleteClient, { isLoading }] = useDeleteClientMutation();
 
   if (!client) return null;
@@ -19,6 +20,7 @@ export function DeleteClientModal({ isOpen, onClose, client }: DeleteClientModal
     try {
       await deleteClient(client.id).unwrap();
       onClose();
+      onDeleted?.();
     } catch (error) {
       console.error('Failed to delete client:', error);
     }
