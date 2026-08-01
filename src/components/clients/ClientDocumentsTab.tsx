@@ -87,7 +87,7 @@ function DocumentCard({ doc, onDelete, isDeleting }: DocumentCardProps) {
       <div className="flex items-center justify-between border-t border-slate-50 pt-2.5">
         {/* Placeholder for category — kept empty as per requirements */}
         <div />
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center gap-1">
           <button
             title="Download"
             disabled={isDownloading}
