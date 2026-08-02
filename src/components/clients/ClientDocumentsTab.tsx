@@ -50,10 +50,11 @@ function formatDate(dateStr: string): string {
 interface DocumentCardProps {
   doc: ClientDocument;
   onDelete: (doc: ClientDocument) => void;
+  onPreview: (doc: ClientDocument) => void;
   isDeleting: boolean;
 }
 
-function DocumentCard({ doc, onDelete, isDeleting }: DocumentCardProps) {
+function DocumentCard({ doc, onDelete, onPreview, isDeleting }: DocumentCardProps) {
   const typeConfig = getFileTypeConfig(doc.fileType);
   const [downloadDocument, { isLoading: isDownloading }] = useDownloadDocumentMutation();
   const { showToast } = useToast();
@@ -69,7 +70,10 @@ function DocumentCard({ doc, onDelete, isDeleting }: DocumentCardProps) {
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-4 flex flex-col shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200 group">
+    <div 
+      onClick={() => onPreview(doc)}
+      className="bg-white border border-slate-100 rounded-2xl p-4 flex flex-col shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200 group cursor-pointer"
+    >
       {/* Top Row: Icon + Title */}
       <div className="flex items-start gap-3">
         <div className={`w-10 h-10 ${typeConfig.bg} rounded-xl flex items-center justify-center shrink-0`}>
@@ -91,7 +95,7 @@ function DocumentCard({ doc, onDelete, isDeleting }: DocumentCardProps) {
           <button
             title="Download"
             disabled={isDownloading}
-            onClick={handleDownload}
+            onClick={(e) => { e.stopPropagation(); handleDownload(); }}
             className="p-1.5 rounded-lg text-slate-400 hover:text-[#00C2B3] hover:bg-teal-50 transition-colors disabled:opacity-50"
           >
             {isDownloading
@@ -101,7 +105,7 @@ function DocumentCard({ doc, onDelete, isDeleting }: DocumentCardProps) {
           <button
             title="Delete"
             disabled={isDeleting}
-            onClick={() => onDelete(doc)}
+            onClick={(e) => { e.stopPropagation(); onDelete(doc); }}
             className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -238,6 +242,13 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
             <DocumentCard
               key={doc.id}
               doc={doc}
+              onPreview={(d) => {
+                if (d.filePath) {
+                  window.open(d.filePath, '_blank', 'noopener,noreferrer');
+                } else {
+                  showToast('Preview not available for this document', 'error');
+                }
+              }}
               onDelete={(d) => setDocToDelete(d)}
               isDeleting={isDeleting && docToDelete?.id === doc.id}
             />

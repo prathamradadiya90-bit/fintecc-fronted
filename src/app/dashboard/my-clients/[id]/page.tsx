@@ -117,7 +117,7 @@ export default function ClientDetailPage() {
               )}
               <div className="flex flex-col">
                 <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">GST Registered</span>
-                <span className={`mt-1 px-2.5 py-0.5 rounded-full text-xs font-bold inline-block ${
+                <span className={`mt-1 w-fit px-2 py-0.5   rounded-full text-xs font-bold inline-block ${
                   hasGst ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'
                 }`}>
                   {hasGst ? (
