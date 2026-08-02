@@ -15,7 +15,7 @@ const navItems = [
   { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
   { name: 'Converters', href: '/dashboard/converters', icon: FileText },
   { name: 'Calculators', href: '/dashboard/calculators', icon: Calculator },
-  { name: 'Compliance Calendar', href: '/dashboard/compliance', icon: Calendar, badge: 'Soon' },
+  { name: 'Compliance Calendar', href: '/dashboard/compliance', icon: Calendar },
 ];
 
 export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () => void }) {
@@ -49,11 +49,11 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
   return (
     <aside className={`w-56 h-screen bg-[#091124] flex flex-col fixed left-0 top-0 border-r border-[#1a2333] z-50 transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       {/* Logo Area */}
-      <div className="h-16 flex items-center justify-between px-5">
-        <div className="flex items-center gap-2">
+      <div className="h-16 mt-2 mb-2 flex px-2 items-center">
+        <div className="flex items-center">
           {/* Logo */}
-          <Logo width={28} height={28} className="rounded-md" />
-          <span className="text-white text-lg font-bold tracking-wide">FinTecc</span>
+          <Logo width={60} height={60} className="rounded-md" />
+          <span className="text-white text-xl font-bold italic tracking-wide">FinTecc</span>
         </div>
         {/* Mobile close button */}
         <button onClick={onClose} className="lg:hidden text-slate-400 hover:text-white p-1">
@@ -62,7 +62,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-6 flex flex-col gap-2 px-3 overflow-y-auto">
+      <nav className="flex-1 pt-2 pb-6 flex flex-col gap-2 px-3 overflow-y-auto">
         {items.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           const Icon = item.icon;

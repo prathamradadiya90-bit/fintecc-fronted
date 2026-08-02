@@ -6,10 +6,10 @@ interface LogoProps {
   height?: number;
 }
 
-export default function Logo({ className = '', width = 36, height = 36 }: LogoProps) {
+export default function Logo({ className = '', width = 120, height = 36 }: LogoProps) {
   return (
     <Image
-      src="/fintecclogo.jpeg"
+      src="/Fintecc-logo.png"
       alt="Fintecc Logo"
       width={width}
       height={height}

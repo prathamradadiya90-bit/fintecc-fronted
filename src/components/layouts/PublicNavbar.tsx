@@ -16,10 +16,7 @@ export function PublicNavbar({ onProductsClick }: PublicNavbarProps) {
     <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-6 md:px-12 bg-white/90 backdrop-blur-md border-b border-slate-200">
       <div className="flex items-center gap-2.5">
         <Link href="/" className="flex items-center gap-2.5">
-          <Logo width={36} height={36} className="rounded-lg" />
-          <span className="text-lg font-extrabold tracking-tight text-[#0A1628]">
-            Fintecc
-          </span>
+          <Logo width={42} height={42} className="rounded-lg" />
         </Link>
       </div>
 

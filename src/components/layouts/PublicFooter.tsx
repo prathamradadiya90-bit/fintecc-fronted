@@ -7,8 +7,7 @@ export function PublicFooter() {
   return (
     <footer className="bg-[#0A1628] py-6 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between border-t border-slate-800 gap-4">
       <div className="flex items-center gap-2">
-        <Logo width={28} height={28} className="rounded-md" />
-        <span className="text-sm font-bold text-white">Fintecc</span>
+        <Logo width={100} height={30} className="rounded-md" />
       </div>
       <p className="text-xs text-slate-500">
         &copy; 2026 Fintecc. All rights reserved.
