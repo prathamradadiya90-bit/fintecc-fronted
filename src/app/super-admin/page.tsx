@@ -60,107 +60,76 @@ export default function SuperAdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060E1E] flex items-center justify-center px-4">
-      {/* Subtle radial glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,194,179,0.12) 0%, transparent 70%)",
-        }}
-      />
-
-      <div className="relative w-full max-w-md">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 font-sans">
+      <div className="w-full max-w-[360px]">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#00C2B3]/10 border border-[#00C2B3]/20 mb-5">
-            <Shield className="w-8 h-8 text-[#00C2B3]" />
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#0A1628] mb-4 shadow-sm">
+            <Shield className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Super Admin Portal</h1>
-          <p className="text-slate-400 mt-2 text-sm">
-            Restricted access — authorised personnel only.
+          <h1 className="text-xl font-extrabold text-slate-900 mb-1.5">Super Admin</h1>
+          <p className="text-xs text-slate-500">
+            Sign in to access the control panel
           </p>
         </div>
 
-        {/* Card */}
-        <div className="bg-[#0D1B2E]/80 backdrop-blur-xl border border-[#1a2d44] rounded-2xl p-8 shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-            {/* Email */}
-            <div className="space-y-1.5">
-              <label htmlFor="sa-email" className="block text-[13px] font-medium text-slate-300">
-                Email Address
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <Mail className="w-4 h-4 text-slate-500" />
-                </div>
-                <input
-                  id="sa-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@example.com"
-                  autoComplete="email"
-                  required
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#091124] border border-[#1e3a5f] rounded-xl text-[13px] text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]/50 focus:border-[#00C2B3]/50 transition-all"
-                />
-              </div>
-            </div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+          <div>
+            <label htmlFor="sa-email" className="block text-xs font-bold text-slate-700 mb-1.5">
+              Email Address
+            </label>
+            <input
+              id="sa-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@example.com"
+              autoComplete="email"
+              required
+              className="w-full px-3 py-2 border border-slate-200 focus:border-[#0A1628] rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
+            />
+          </div>
 
-            {/* Password */}
-            <div className="space-y-1.5">
-              <label
-                htmlFor="sa-password"
-                className="block text-[13px] font-medium text-slate-300"
+          <div>
+            <label htmlFor="sa-password" className="block text-xs font-bold text-slate-700 mb-1.5">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                id="sa-password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                autoComplete="current-password"
+                required
+                className="w-full pl-3 pr-10 py-2 border border-slate-200 focus:border-[#0A1628] rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"
               >
-                Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <Lock className="w-4 h-4 text-slate-500" />
-                </div>
-                <input
-                  id="sa-password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  required
-                  className="w-full pl-10 pr-11 py-2.5 bg-[#091124] border border-[#1e3a5f] rounded-xl text-[13px] text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]/50 focus:border-[#00C2B3]/50 transition-all"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
             </div>
+          </div>
 
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              id="sa-login-submit"
-              className="w-full py-3 bg-[#00C2B3] hover:bg-[#00a89b] active:bg-[#009084] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold rounded-xl text-[13px] transition-colors flex items-center justify-center gap-2 mt-2"
-            >
-              {isLoading ? (
-                <>
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Verifying...
-                </>
-              ) : (
-                "Sign In to Admin Panel"
-              )}
-            </button>
-          </form>
-        </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            id="sa-login-submit"
+            className={`w-full py-2.5 mt-2 text-white font-bold rounded-lg text-[13px] flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+              isLoading ? "bg-slate-400 cursor-wait" : "bg-[#0A1628] hover:bg-slate-800"
+            }`}
+          >
+            {isLoading ? "Signing in..." : "Sign in"}
+          </button>
+        </form>
 
-        {/* Footer note */}
-        <p className="text-center text-[12px] text-slate-600 mt-6">
-          This portal is monitored. Unauthorised access is prohibited.
+        <p className="text-center text-xs text-slate-400 mt-8">
+          Restricted access. Unauthorised access is prohibited.
         </p>
       </div>
     </div>

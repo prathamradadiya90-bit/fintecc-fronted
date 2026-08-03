@@ -17,6 +17,7 @@ export function PublicNavbar({ onProductsClick }: PublicNavbarProps) {
       <div className="flex items-center gap-2.5">
         <Link href="/" className="flex items-center gap-2.5">
           <Logo width={42} height={42} className="rounded-lg" />
+          <span className="text-xl font-extrabold text-[#0A1628] tracking-tight">Fintecc</span>
         </Link>
       </div>
 
