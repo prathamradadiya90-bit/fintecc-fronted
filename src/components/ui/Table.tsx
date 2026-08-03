@@ -12,9 +12,19 @@ interface TableProps<T> {
   keyExtractor: (item: T, index: number) => string;
   emptyMessage?: string;
   onRowClick?: (item: T) => void;
+  isLoading?: boolean;
+  loadingRowCount?: number;
 }
 
-export function Table<T>({ data, columns, keyExtractor, emptyMessage = 'No data available', onRowClick }: TableProps<T>) {
+export function Table<T>({ 
+  data, 
+  columns, 
+  keyExtractor, 
+  emptyMessage = 'No data available', 
+  onRowClick,
+  isLoading = false,
+  loadingRowCount = 5
+}: TableProps<T>) {
   return (
     <div className="w-full overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-100">
       <table className="w-full text-left border-collapse">
@@ -31,7 +41,17 @@ export function Table<T>({ data, columns, keyExtractor, emptyMessage = 'No data 
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-50">
-          {data.length === 0 ? (
+          {isLoading ? (
+            Array.from({ length: loadingRowCount }).map((_, rowIndex) => (
+              <tr key={`skeleton-${rowIndex}`}>
+                {columns.map((col, colIndex) => (
+                  <td key={col.key || String(colIndex)} className="px-4 py-4">
+                    <div className="h-4 bg-slate-100 rounded animate-pulse w-3/4"></div>
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : data.length === 0 ? (
             <tr>
               <td colSpan={columns.length} className="px-6 py-12 text-center text-slate-400">
                 {emptyMessage}

@@ -10,7 +10,14 @@ import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
 import type { RootState } from '@/lib/store/store';
 
-const navItems = [
+interface NavItem {
+  name: string;
+  href: string;
+  icon: React.ElementType;
+  badge?: string;
+}
+
+const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
   { name: 'Converters', href: '/dashboard/converters', icon: FileText },
@@ -25,7 +32,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
   const { user } = useSelector((state: RootState) => state.auth);
   const [logoutApi, { isLoading }] = useLogoutMutation();
 
-  const items = [
+  const items: NavItem[] = [
     ...navItems,
     ...(user?.role === 'FIRM_OWNER'
       ? [{ name: 'Manage Staff', href: '/dashboard/staff', icon: Shield }]

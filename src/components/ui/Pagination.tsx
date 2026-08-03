@@ -6,18 +6,22 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   totalItems: number;
+  pageSize?: number;
   onPageChange: (page: number) => void;
 }
 
-export function Pagination({ currentPage, totalPages, totalItems, onPageChange }: PaginationProps) {
-  if (totalPages <= 1) return null;
+export function Pagination({ currentPage, totalPages, totalItems, pageSize = 10, onPageChange }: PaginationProps) {
+  if (totalPages <= 1 && totalItems === 0) return null;
+
+  const startItem = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const endItem = Math.min(currentPage * pageSize, totalItems);
 
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-slate-100 sm:px-6 rounded-b-2xl">
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-slate-700">
-            Showing <span className="font-medium">{totalItems}</span> total results
+            Showing <span className="font-medium">{startItem}</span> to <span className="font-medium">{endItem}</span> of <span className="font-medium">{totalItems}</span> results
           </p>
         </div>
         <div>

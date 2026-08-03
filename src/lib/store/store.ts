@@ -6,6 +6,7 @@ import { bankStatementsApi } from './api/bankStatementsApi';
 import { invoicesApi } from './api/invoicesApi';
 import { dashboardApi } from './api/dashboardApi';
 import { contactApi } from './api/contactApi';
+import { superAdminApi } from './api/superAdminApi';
 import authReducer from './features/auth/authSlice';
 
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
     [invoicesApi.reducerPath]: invoicesApi.reducer,
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [contactApi.reducerPath]: contactApi.reducer,
+    [superAdminApi.reducerPath]: superAdminApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -27,7 +29,8 @@ export const store = configureStore({
       bankStatementsApi.middleware,
       invoicesApi.middleware,
       dashboardApi.middleware,
-      contactApi.middleware
+      contactApi.middleware,
+      superAdminApi.middleware
     ),
 });
 
