@@ -14,6 +14,7 @@ export default function Logo({ className = '', width = 120, height = 36 }: LogoP
       width={width}
       height={height}
       className={`object-contain ${className}`}
+      style={{ width: 'auto', height: 'auto' }}
       priority
     />
   );
