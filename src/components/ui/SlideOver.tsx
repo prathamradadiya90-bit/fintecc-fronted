@@ -57,13 +57,17 @@ export const SlideOver: React.FC<SlideOverProps> = ({
         {/* Slide-over panel */}
         <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
           <div className={`pointer-events-auto w-screen ${widthClasses[width]} transform transition-all animate-in slide-in-from-right duration-300`}>
-            <div className="flex h-full flex-col bg-white shadow-xl">
+            <div className="flex h-full flex-col shadow-xl" style={{ background: 'var(--color-bg-elevated)' }}>
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
-                <h2 className="text-xl font-extrabold text-slate-800">{title}</h2>
+              <div
+                className="flex items-center justify-between px-6 py-5"
+                style={{ borderBottom: '1px solid var(--color-border)' }}
+              >
+                <h2 className="text-xl font-extrabold" style={{ color: 'var(--color-text-primary)' }}>{title}</h2>
                 <button
                   onClick={onClose}
-                  className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-full transition-colors"
+                  className="p-2 rounded-full transition-colors"
+                  style={{ color: 'var(--color-text-muted)' }}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -76,7 +80,13 @@ export const SlideOver: React.FC<SlideOverProps> = ({
 
               {/* Footer */}
               {footer && (
-                <div className="px-6 py-4 border-t border-slate-100 bg-white">
+                <div
+                  className="px-6 py-4"
+                  style={{
+                    borderTop: '1px solid var(--color-border)',
+                    background: 'var(--color-bg-elevated)',
+                  }}
+                >
                   {footer}
                 </div>
               )}

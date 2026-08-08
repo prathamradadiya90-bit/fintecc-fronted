@@ -117,7 +117,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
             type="button"
             onClick={onClose}
             disabled={isLoading}
-            className="flex-1 md:flex-none px-6 py-2.5 border border-slate-200 text-[13px] text-slate-600 font-semibold rounded-xl hover:bg-slate-50 transition-colors"
+            className="flex-1 md:flex-none px-6 py-2.5 border dark:border-slate-700 border-slate-200 text-[13px] dark:dark:text-slate-500 text-slate-400 text-slate-600 font-semibold rounded-xl hover:dark:bg-slate-800/50 bg-slate-50 transition-colors"
           >
             Cancel
           </button>
@@ -136,7 +136,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
         
         <div className="space-y-5">
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
               Full Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -144,13 +144,13 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
               placeholder="Jane Doe"
               {...register('name')}
               disabled={!!staff}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all disabled:bg-slate-50 disabled:text-slate-400"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all disabled:dark:bg-slate-800/50 bg-slate-50 disabled:dark:text-slate-500 text-slate-400"
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
           </div>
 
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
               Email Address <span className="text-red-500">*</span>
             </label>
             <input
@@ -158,18 +158,18 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
               placeholder="jane@example.com"
               {...register('email')}
               disabled={!!staff}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all disabled:bg-slate-50 disabled:text-slate-400"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all disabled:dark:bg-slate-800/50 bg-slate-50 disabled:dark:text-slate-500 text-slate-400"
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
               Role <span className="text-red-500">*</span>
             </label>
             <select
               {...register('role')}
-              className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all appearance-none"
+              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
             >
               {ROLES_LIST.map((roleOpt) => (
                 <option key={roleOpt.value} value={roleOpt.value}>
@@ -181,7 +181,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
           </div>
 
           {staff && (
-            <div className="pt-4 border-t border-slate-100">
+            <div className="pt-4 border-t dark:border-slate-800 border-slate-100">
               <label className="flex items-center gap-3 cursor-pointer group w-max">
                 <div className="relative flex items-center justify-center w-5 h-5">
                   <input 
@@ -193,11 +193,11 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 </div>
-                <span className="text-[13px] font-medium text-slate-700 group-hover:text-slate-900 transition-colors">
+                <span className="text-[13px] font-medium dark:text-slate-300 text-slate-700 group-hover:text-slate-900 transition-colors">
                   Active Access Status
                 </span>
               </label>
-              <p className="text-[11px] text-slate-400 mt-1 ml-8">
+              <p className="text-[11px] dark:text-slate-500 text-slate-400 mt-1 ml-8">
                 Unchecking this will temporarily revoke the staff member&apos;s login access without deleting their account.
               </p>
             </div>

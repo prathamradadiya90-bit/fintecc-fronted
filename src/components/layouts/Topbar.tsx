@@ -2,11 +2,12 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Bell, Menu, LogOut } from 'lucide-react';
+import { Bell, Menu, LogOut, Sun, Moon } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '@/lib/store/store';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout } from '@/lib/store/features/auth/authSlice';
+import { useTheme } from '@/providers/ThemeProvider';
 
 export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const pathname = usePathname();
@@ -14,6 +15,7 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const [logoutApi] = useLogoutMutation();
+  const { theme, toggleTheme } = useTheme();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -51,24 +53,39 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
     : 'GU';
 
   return (
-    <header className="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30">
+    <header
+      className="h-16 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30"
+      style={{
+        background: 'var(--color-bg-card)',
+        borderBottom: '1px solid var(--color-border-subtle)',
+      }}
+    >
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
-          className="lg:hidden text-slate-500 hover:text-slate-800 p-1 -ml-1"
+          className="lg:hidden p-1 -ml-1"
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           <Menu className="w-6 h-6" />
         </button>
-        <h1 className="text-lg lg:text-xl font-bold text-slate-800">{title}</h1>
+        <h1
+          className="text-lg lg:text-xl font-bold"
+          style={{ color: 'var(--color-text-heading)' }}
+        >
+          {title}
+        </h1>
       </div>
 
       <div className="flex items-center gap-5">
-        <button className="relative text-slate-400 hover:text-slate-600 transition-colors">
+        <button className="relative transition-colors" style={{ color: 'var(--color-text-muted)' }}>
           <Bell className="w-5 h-5" />
-          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 border-2 border-white rounded-full"></span>
+          <span
+            className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full"
+            style={{ borderWidth: '2px', borderColor: 'var(--color-bg-card)' }}
+          />
         </button>
 
-        <div className="relative pl-5 border-l border-slate-200" ref={dropdownRef}>
+        <div className="relative pl-5" style={{ borderLeft: '1px solid var(--color-border)' }} ref={dropdownRef}>
           <button 
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center gap-2.5 focus:outline-none"
@@ -77,18 +94,43 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
               {initials}
             </div>
             <div className="hidden md:block text-left">
-              <p className="text-[13px] font-semibold text-slate-700">{displayName}</p>
+              <p className="text-[13px] font-semibold" style={{ color: 'var(--color-text-on-card)' }}>{displayName}</p>
             </div>
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-lg shadow-slate-200/50 border border-slate-100 py-1 z-50">
-              <div className="px-4 py-2.5 border-b border-slate-100 mb-1 lg:hidden">
-                 <p className="text-[13px] font-semibold text-slate-700">{displayName}</p>
+            <div
+              className="absolute right-0 mt-3 w-48 rounded-xl shadow-lg py-1 z-50"
+              style={{
+                background: 'var(--color-bg-elevated)',
+                border: '1px solid var(--color-border)',
+              }}
+            >
+              <div
+                className="px-4 py-2.5 mb-1 lg:hidden"
+                style={{ borderBottom: '1px solid var(--color-border-subtle)' }}
+              >
+                 <p className="text-[13px] font-semibold" style={{ color: 'var(--color-text-on-card)' }}>{displayName}</p>
               </div>
+
+              {/* Theme Toggle Row */}
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); toggleTheme(); }}
+                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center gap-2 transition-colors cursor-pointer"
+                style={{ color: 'var(--color-text-secondary)' }}
+              >
+                {theme === 'light' ? (
+                  <Moon className="w-4 h-4" />
+                ) : (
+                  <Sun className="w-4 h-4" />
+                )}
+                {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+              </button>
+
               <button 
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-[13px] font-medium text-red-600 hover:bg-red-50 hover:text-red-700 flex items-center gap-2 transition-colors cursor-pointer"
+                className="w-full text-left px-4 py-2 text-[13px] font-medium text-red-600 hover:bg-red-50 hover:text-red-700 flex items-center gap-2 transition-colors cursor-pointer dark:hover:bg-red-950/30"
               >
                 <LogOut className="w-4 h-4" />
                 Sign out

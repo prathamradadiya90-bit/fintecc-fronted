@@ -15,13 +15,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={inputId} className="block text-[13px] font-medium text-slate-700 mb-1">
+          <label
+            htmlFor={inputId}
+            className="block text-[13px] font-medium mb-1"
+            style={{ color: 'var(--color-text-on-card)' }}
+          >
             {label}
           </label>
         )}
         <div className="relative">
           {leftIcon && (
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" style={{ color: 'var(--color-text-muted)' }}>
               {leftIcon}
             </div>
           )}
@@ -29,20 +33,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={`
-              w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-xl text-[13px] 
-              placeholder:text-slate-400
+              w-full px-2.5 py-1.5 rounded-xl text-[13px] 
+              placeholder:opacity-50
               focus:outline-none focus:ring-2 focus:ring-[#00C2B3] focus:border-transparent
-              disabled:bg-slate-50 disabled:text-slate-500 disabled:cursor-not-allowed
+              disabled:opacity-50 disabled:cursor-not-allowed
               transition-shadow duration-200
               ${leftIcon ? 'pl-9' : ''}
               ${rightIcon ? 'pr-10' : ''}
-              ${error ? 'border-red-500 focus:ring-red-500' : ''}
+              ${error ? 'focus:ring-red-500' : ''}
               ${className}
             `}
+            style={{
+              background: 'var(--color-bg-input)',
+              border: `1px solid ${error ? '#ef4444' : 'var(--color-border)'}`,
+              color: 'var(--color-text-primary)',
+            }}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400">
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center" style={{ color: 'var(--color-text-muted)' }}>
               {rightIcon}
             </div>
           )}

@@ -28,10 +28,10 @@ export default function DashboardPage() {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#091124]">
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
             Good morning, {user?.name?.split(' ')[0] || 'User'} 👋
           </h1>
-          <p className="text-slate-500 mt-1 text-[14px]">
+          <p className="mt-1 text-[14px]" style={{ color: 'var(--color-text-secondary)' }}>
             Here is what's happening today, {today}.
           </p>
         </div>
@@ -39,13 +39,19 @@ export default function DashboardPage() {
 
       {/* AI Insights Banner (if available) */}
       {stats?.aiInsights && stats.aiInsights.length > 0 && (
-        <div className="bg-gradient-to-r from-[#00C2B3]/10 to-indigo-50 border border-[#00C2B3]/20 rounded-2xl p-4 flex items-start gap-3">
-          <div className="p-2 bg-white rounded-full shadow-sm text-[#00C2B3] shrink-0 mt-0.5">
+        <div
+          className="rounded-2xl p-4 flex items-start gap-3"
+          style={{
+            background: 'var(--color-bg-card)',
+            border: '1px solid var(--color-border)',
+          }}
+        >
+          <div className="p-2 rounded-full shadow-sm text-[#00C2B3] shrink-0 mt-0.5" style={{ background: 'var(--color-bg-elevated)' }}>
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-semibold text-slate-800 text-[14px]">AI Insight</h3>
-            <p className="text-slate-600 text-[13px] leading-relaxed mt-0.5">
+            <h3 className="font-semibold text-[14px]" style={{ color: 'var(--color-text-primary)' }}>AI Insight</h3>
+            <p className="text-[13px] leading-relaxed mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
               {stats.aiInsights[0]}
             </p>
           </div>
@@ -56,7 +62,7 @@ export default function DashboardPage() {
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="bg-slate-100 rounded-2xl h-28 animate-pulse"></div>
+            <div key={i} className="rounded-2xl h-28 animate-pulse" style={{ background: 'var(--color-bg-skeleton)' }} />
           ))}
         </div>
       ) : (
@@ -72,19 +78,19 @@ export default function DashboardPage() {
             title="Active GST Clients" 
             value={stats?.pendingCompliances?.gst || 0} 
             icon={Briefcase}
-            colorClass="text-indigo-600 bg-indigo-50" 
+            colorClass="text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-400" 
           />
           <StatCard 
             title="Loans Calculated" 
             value="12" // Placeholder since it's not explicitly in the backend API yet
             icon={Calculator} 
-            colorClass="text-amber-600 bg-amber-50"
+            colorClass="text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400"
           />
           <StatCard 
             title="PDFs Converted" 
             value={stats?.pdfsConverted || 0} 
             icon={FileText} 
-            colorClass="text-emerald-600 bg-emerald-50"
+            colorClass="text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-400"
           />
         </div>
       )}

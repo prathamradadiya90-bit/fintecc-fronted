@@ -23,8 +23,8 @@ function DetailItem({
   const display = value !== null && value !== undefined && value !== '' ? String(value) : '—';
   return (
     <div className={`flex flex-col gap-0.5 ${className}`}>
-      <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">{label}</span>
-      <span className="text-sm font-medium text-slate-800 truncate" title={display}>
+      <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>{label}</span>
+      <span className="text-sm font-medium truncate" style={{ color: 'var(--color-text-primary)' }} title={display}>
         {display}
       </span>
     </div>
@@ -41,12 +41,18 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
+    <div
+      className="rounded-xl p-4"
+      style={{
+        background: 'var(--color-bg-subtle)',
+        border: '1px solid var(--color-border)',
+      }}
+    >
       <div className="flex items-center gap-2 mb-3">
         <div className="w-6 h-6 rounded-md bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center">
           <Icon className="w-3.5 h-3.5" />
         </div>
-        <h3 className="text-[12px] font-semibold text-slate-600 uppercase tracking-wider">{title}</h3>
+        <h3 className="text-[12px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>{title}</h3>
       </div>
       <div className="grid grid-cols-2 gap-x-6 gap-y-3">{children}</div>
     </div>
@@ -67,12 +73,18 @@ export function InvoicePreview({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mt-6 space-y-5">
+    <div
+      className="rounded-2xl p-6 shadow-sm mt-6 space-y-5"
+      style={{
+        background: 'var(--color-bg-card)',
+        border: '1px solid var(--color-border)',
+      }}
+    >
       {/* Header row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-slate-800">Invoice Preview</h2>
-          <p className="text-slate-500 text-sm mt-1">
+          <h2 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>Invoice Preview</h2>
+          <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
             AI-extracted data from your invoice PDF. Download as Tally XML or CSV.
           </p>
         </div>
@@ -121,19 +133,19 @@ export function InvoicePreview({
           <div className="w-6 h-6 rounded-md bg-[#00C2B3]/20 text-[#00C2B3] flex items-center justify-center">
             <BadgeIndianRupee className="w-3.5 h-3.5" />
           </div>
-          <h3 className="text-[12px] font-semibold text-slate-600 uppercase tracking-wider">Financial Summary</h3>
+          <h3 className="text-[12px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>Financial Summary</h3>
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between py-2 border-b border-[#00C2B3]/10">
-            <span className="text-sm text-slate-600">Sub Total</span>
-            <span className="text-sm font-semibold text-slate-800">{formatCurrency(invoice.subTotal)}</span>
+            <span className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>Sub Total</span>
+            <span className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>{formatCurrency(invoice.subTotal)}</span>
           </div>
           <div className="flex items-center justify-between py-2 border-b border-[#00C2B3]/10">
-            <span className="text-sm text-slate-600">Tax Amount</span>
-            <span className="text-sm font-semibold text-slate-800">{formatCurrency(invoice.taxAmount)}</span>
+            <span className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>Tax Amount</span>
+            <span className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>{formatCurrency(invoice.taxAmount)}</span>
           </div>
           <div className="flex items-center justify-between pt-2">
-            <span className="text-base font-bold text-slate-800">Total</span>
+            <span className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>Total</span>
             <span className="text-xl font-bold text-[#00C2B3]">{formatCurrency(invoice.total)}</span>
           </div>
         </div>
@@ -141,9 +153,9 @@ export function InvoicePreview({
 
       {/* Notes */}
       {invoice.notes && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-          <span className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider">Notes</span>
-          <p className="text-sm text-slate-700 mt-1 leading-relaxed">{invoice.notes}</p>
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 dark:bg-amber-900/20 dark:border-amber-800">
+          <span className="text-[11px] font-semibold text-amber-600 uppercase tracking-wider dark:text-amber-400">Notes</span>
+          <p className="text-sm mt-1 leading-relaxed" style={{ color: 'var(--color-text-on-card)' }}>{invoice.notes}</p>
         </div>
       )}
     </div>

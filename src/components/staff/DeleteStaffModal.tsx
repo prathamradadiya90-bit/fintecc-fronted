@@ -47,7 +47,7 @@ export function DeleteStaffModal({ isOpen, onClose, staff }: DeleteStaffModalPro
         </>
       }
     >
-      <div className="py-2 text-slate-600">
+      <div className="py-2 dark:dark:text-slate-500 text-slate-400 text-slate-600">
         <p>
           Are you sure you want to permanently remove <strong>{staff.name}</strong> from your CA firm? 
           This action cannot be undone and will immediately revoke their access.

@@ -4,11 +4,12 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
 import type { RootState } from '@/lib/store/store';
+import { useTheme } from '@/providers/ThemeProvider';
 
 interface NavItem {
   name: string;
@@ -31,6 +32,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
   const [logoutApi, { isLoading }] = useLogoutMutation();
+  const { theme, toggleTheme } = useTheme();
 
   const items: NavItem[] = [
     ...navItems,
@@ -105,6 +107,19 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
 
       {/* Bottom Actions */}
       <div className="p-3 border-t border-[#1a2333] flex flex-col gap-1.5">
+        {/* Theme Toggle */}
+        <button
+          type="button"
+          onClick={(e) => { e.preventDefault(); toggleTheme(); }}
+          className="flex items-center gap-3 px-3.5 py-2.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all text-[13px]"
+        >
+          {theme === 'light' ? (
+            <Moon className="w-[18px] h-[18px]" />
+          ) : (
+            <Sun className="w-[18px] h-[18px]" />
+          )}
+          <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+        </button>
         <button className="flex items-center gap-3 px-3.5 py-2.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all text-[13px]">
           <Settings className="w-[18px] h-[18px]" />
           <span>Settings</span>

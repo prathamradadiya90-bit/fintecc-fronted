@@ -17,8 +17,8 @@ export function RecentClientsTable() {
       header: 'Client',
       render: (client) => (
         <div>
-          <p className="font-semibold text-slate-800">{client.name}</p>
-          <p className="text-[11px] text-slate-500">{client.pan}</p>
+          <p className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>{client.name}</p>
+          <p className="text-[11px]" style={{ color: 'var(--color-text-secondary)' }}>{client.pan}</p>
         </div>
       ),
     },
@@ -26,7 +26,7 @@ export function RecentClientsTable() {
       key: 'createdAt',
       header: 'Added',
       render: (client) => (
-        <span className="text-slate-600">
+        <span style={{ color: 'var(--color-text-secondary)' }}>
           {new Date(client.createdAt).toLocaleDateString('en-IN', {
             day: 'numeric',
             month: 'short',
@@ -39,7 +39,7 @@ export function RecentClientsTable() {
       key: 'status',
       header: 'Status',
       render: (client) => (
-        <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md text-[11px] font-medium">
+        <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md text-[11px] font-medium dark:bg-emerald-900/30 dark:text-emerald-400">
           Active
         </span>
       ),
@@ -47,9 +47,15 @@ export function RecentClientsTable() {
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
+    <div
+      className="rounded-2xl p-5 shadow-sm"
+      style={{
+        background: 'var(--color-bg-card)',
+        border: '1px solid var(--color-border)',
+      }}
+    >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">Recent Clients</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-primary)' }}>Recent Clients</h3>
         <Link 
           href="/dashboard/my-clients" 
           className="text-[12px] font-medium text-[#00C2B3] hover:text-[#00a89b] flex items-center gap-1"
@@ -61,11 +67,11 @@ export function RecentClientsTable() {
       {isLoading ? (
         <div className="animate-pulse space-y-3">
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-12 bg-slate-100 rounded-xl w-full"></div>
+            <div key={i} className="h-12 rounded-xl w-full" style={{ background: 'var(--color-bg-skeleton)' }} />
           ))}
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-slate-100">
+        <div className="overflow-hidden rounded-xl" style={{ border: '1px solid var(--color-border)' }}>
           <Table 
             data={recentClients}
             columns={columns}

@@ -148,8 +148,8 @@ export default function ConvertersPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#091124]">PDF Converter</h1>
-        <p className="text-slate-500 mt-0.5 text-[13px]">
+        <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-heading)' }}>PDF Converter</h1>
+        <p className="mt-0.5 text-[13px]" style={{ color: 'var(--color-text-secondary)' }}>
           Convert financial PDFs into structured, machine-readable XML or CSV in seconds.
         </p>
       </div>

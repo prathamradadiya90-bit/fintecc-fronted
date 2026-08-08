@@ -94,13 +94,13 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
       />
 
       {/* Dialog */}
-      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative dark:bg-slate-900 bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h3 className="text-base font-semibold text-slate-800">Upload Document</h3>
+        <div className="flex items-center justify-between px-6 py-4 border-b dark:border-slate-800 border-slate-100">
+          <h3 className="text-base font-semibold dark:text-slate-200 text-slate-800">Upload Document</h3>
           <button
             onClick={handleClose}
-            className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-full transition-colors"
+            className="dark:text-slate-500 text-slate-400 hover:dark:dark:text-slate-500 text-slate-400 text-slate-600 hover:dark:bg-slate-800 bg-slate-100 p-1.5 rounded-full transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -119,7 +119,7 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
                 ? 'border-[#00C2B3] bg-teal-50'
                 : selectedFile
                   ? 'border-teal-300 bg-teal-50/50'
-                  : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  : 'dark:border-slate-700 border-slate-200 hover:border-slate-300 hover:dark:bg-slate-800/50 bg-slate-50'
               }
             `}
           >
@@ -136,25 +136,25 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
                   <FileText className="w-6 h-6 text-teal-600" />
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-semibold text-slate-800 break-all">{selectedFile.name}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{formatFileSize(selectedFile.size)}</p>
+                  <p className="text-sm font-semibold dark:text-slate-200 text-slate-800 break-all">{selectedFile.name}</p>
+                  <p className="text-xs dark:text-slate-500 text-slate-400 mt-0.5">{formatFileSize(selectedFile.size)}</p>
                 </div>
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); setSelectedFile(null); setTitle(''); }}
-                  className="text-xs text-slate-400 hover:text-red-500 transition-colors underline"
+                  className="text-xs dark:text-slate-500 text-slate-400 hover:text-red-500 transition-colors underline"
                 >
                   Remove file
                 </button>
               </>
             ) : (
               <>
-                <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
-                  <Upload className="w-6 h-6 text-slate-400" />
+                <div className="w-12 h-12 dark:bg-slate-800 bg-slate-100 rounded-xl flex items-center justify-center">
+                  <Upload className="w-6 h-6 dark:text-slate-500 text-slate-400" />
                 </div>
                 <div className="text-center">
-                  <p className="text-sm font-semibold text-slate-700">Drop a file here or click to browse</p>
-                  <p className="text-xs text-slate-400 mt-1">PDF, JPG, PNG, XLS, CSV, DOC supported</p>
+                  <p className="text-sm font-semibold dark:text-slate-300 text-slate-700">Drop a file here or click to browse</p>
+                  <p className="text-xs dark:text-slate-500 text-slate-400 mt-1">PDF, JPG, PNG, XLS, CSV, DOC supported</p>
                 </div>
               </>
             )}
@@ -162,7 +162,7 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
 
           {/* Title Field */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label className="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">
               Document Title <span className="text-red-500">*</span>
             </label>
             <input
@@ -170,7 +170,7 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. PAN Card, Aadhaar, Bank Statement..."
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-sm text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-sm dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
 
@@ -183,12 +183,12 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 rounded-b-2xl">
+        <div className="px-6 py-4 border-t dark:border-slate-800 border-slate-100 dark:bg-slate-800/50 bg-slate-50 flex justify-end gap-3 rounded-b-2xl">
           <button
             type="button"
             onClick={handleClose}
             disabled={isLoading}
-            className="px-5 py-2 border border-slate-200 text-xs font-semibold text-slate-600 rounded-xl hover:bg-slate-100 transition-colors"
+            className="px-5 py-2 border dark:border-slate-700 border-slate-200 text-xs font-semibold dark:dark:text-slate-500 text-slate-400 text-slate-600 rounded-xl hover:dark:bg-slate-800 bg-slate-100 transition-colors"
           >
             Cancel
           </button>

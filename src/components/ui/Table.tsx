@@ -26,34 +26,41 @@ export function Table<T>({
   loadingRowCount = 5
 }: TableProps<T>) {
   return (
-    <div className="w-full overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-100">
+    <div
+      className="w-full overflow-x-auto rounded-2xl shadow-sm"
+      style={{
+        background: 'var(--color-bg-card)',
+        border: '1px solid var(--color-border)',
+      }}
+    >
       <table className="w-full text-left border-collapse">
         <thead>
-          <tr className="bg-slate-50/50 border-b border-slate-100">
+          <tr style={{ background: 'var(--color-bg-subtle)', borderBottom: '1px solid var(--color-border)' }}>
             {columns.map((col) => (
               <th 
                 key={col.key} 
-                className="px-4 py-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider"
+                className="px-4 py-3 text-[11px] font-semibold uppercase tracking-wider"
+                style={{ color: 'var(--color-text-secondary)' }}
               >
                 {col.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-50">
+        <tbody>
           {isLoading ? (
             Array.from({ length: loadingRowCount }).map((_, rowIndex) => (
               <tr key={`skeleton-${rowIndex}`}>
                 {columns.map((col, colIndex) => (
                   <td key={col.key || String(colIndex)} className="px-4 py-4">
-                    <div className="h-4 bg-slate-100 rounded animate-pulse w-3/4"></div>
+                    <div className="h-4 rounded animate-pulse w-3/4" style={{ background: 'var(--color-bg-skeleton)' }} />
                   </td>
                 ))}
               </tr>
             ))
           ) : data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} className="px-6 py-12 text-center text-slate-400">
+              <td colSpan={columns.length} className="px-6 py-12 text-center" style={{ color: 'var(--color-text-muted)' }}>
                 {emptyMessage}
               </td>
             </tr>
@@ -62,10 +69,13 @@ export function Table<T>({
               <tr 
                 key={keyExtractor(item, index)}
                 onClick={() => onRowClick?.(item)}
-                className={`transition-colors hover:bg-slate-50/50 ${onRowClick ? 'cursor-pointer' : ''}`}
+                className={`transition-colors ${onRowClick ? 'cursor-pointer' : ''}`}
+                style={{ borderBottom: '1px solid var(--color-border-subtle)' }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-card-hover)')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
               >
                 {columns.map((col) => (
-                  <td key={col.key} className="px-4 py-3 text-[13px] text-slate-700 whitespace-nowrap">
+                  <td key={col.key} className="px-4 py-3 text-[13px] whitespace-nowrap" style={{ color: 'var(--color-text-on-card)' }}>
                     {col.render ? col.render(item) : (item as any)[col.key]}
                   </td>
                 ))}

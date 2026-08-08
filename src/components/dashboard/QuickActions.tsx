@@ -28,8 +28,19 @@ export function QuickActions() {
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
-      <h3 className="text-sm font-semibold text-slate-800 mb-4 uppercase tracking-wider">Quick Actions</h3>
+    <div
+      className="rounded-2xl p-5 shadow-sm"
+      style={{
+        background: 'var(--color-bg-card)',
+        border: '1px solid var(--color-border)',
+      }}
+    >
+      <h3
+        className="text-sm font-semibold mb-4 uppercase tracking-wider"
+        style={{ color: 'var(--color-text-primary)' }}
+      >
+        Quick Actions
+      </h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {actions.map((action) => {
           const Icon = action.icon;
@@ -37,16 +48,22 @@ export function QuickActions() {
             <Link 
               key={action.title} 
               href={action.href}
-              className="flex items-center gap-4 p-3 rounded-xl border border-slate-100 hover:border-slate-300 hover:bg-slate-50 transition-all group"
+              className="flex items-center gap-4 p-3 rounded-xl transition-all group"
+              style={{ border: '1px solid var(--color-border)' }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-card-hover)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
             >
               <div className={`p-2.5 rounded-lg shrink-0 transition-colors ${action.colorClass}`}>
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-[14px] font-semibold text-slate-800 group-hover:text-slate-900">
+                <h4
+                  className="text-[14px] font-semibold"
+                  style={{ color: 'var(--color-text-primary)' }}
+                >
                   {action.title}
                 </h4>
-                <p className="text-[12px] text-slate-500 mt-0.5">
+                <p className="text-[12px] mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                   {action.description}
                 </p>
               </div>

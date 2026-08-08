@@ -52,8 +52,14 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
       </div>
 
       {/* Bottom Card: Breakup Chart */}
-      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm flex flex-col items-center">
-        <h3 className="text-sm font-bold text-slate-800 self-start mb-6">Principal vs Interest Breakup</h3>
+      <div
+        className="rounded-2xl p-6 shadow-sm flex flex-col items-center"
+        style={{
+          background: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
+        }}
+      >
+        <h3 className="text-sm font-bold self-start mb-6" style={{ color: 'var(--color-text-primary)' }}>Principal vs Interest Breakup</h3>
         
         <div className="relative w-36 h-36 mb-5">
           <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
@@ -90,10 +96,10 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-200">
             {hoveredSection ? (
               <>
-                <span className="text-[9px] text-slate-500 uppercase tracking-widest font-semibold">
+                <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
                   {hoveredSection}
                 </span>
-                <span className="text-xs font-bold text-slate-800 mt-0.5">
+                <span className="text-xs font-bold mt-0.5" style={{ color: 'var(--color-text-primary)' }}>
                   {hoveredSection === 'principal' 
                     ? formatCurrency(principal) 
                     : formatCurrency(totalInterest)}
@@ -105,12 +111,12 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
 
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#00C2B3]"></div>
-            <span className="text-sm text-slate-600 font-medium">Principal</span>
+            <div className="w-3 h-3 rounded-full bg-[#00C2B3]" />
+            <span className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>Principal</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#0f172a]"></div>
-            <span className="text-sm text-slate-600 font-medium">Interest</span>
+            <div className="w-3 h-3 rounded-full bg-[#0f172a]" />
+            <span className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>Interest</span>
           </div>
         </div>
       </div>

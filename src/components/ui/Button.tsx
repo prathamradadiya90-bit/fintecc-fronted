@@ -15,10 +15,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     
     const variants = {
       primary: 'bg-[#00C2B3] text-white hover:bg-[#00a89b] shadow-sm',
-      secondary: 'bg-slate-100 text-slate-700 hover:bg-slate-200',
-      danger: 'bg-red-50 text-red-600 hover:bg-red-100',
-      ghost: 'bg-transparent text-slate-600 hover:bg-slate-100',
-      outline: 'bg-transparent border border-slate-300 text-slate-700 hover:bg-slate-50',
+      secondary: 'text-[var(--color-text-on-card)] hover:opacity-80',
+      danger: 'bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/50',
+      ghost: 'bg-transparent hover:opacity-80',
+      outline: 'bg-transparent hover:opacity-80',
     };
 
     const sizes = {
@@ -29,8 +29,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
 
+    const inlineStyle: React.CSSProperties = {};
+    if (variant === 'secondary') {
+      inlineStyle.background = 'var(--color-bg-skeleton)';
+    } else if (variant === 'ghost') {
+      inlineStyle.color = 'var(--color-text-secondary)';
+    } else if (variant === 'outline') {
+      inlineStyle.border = '1px solid var(--color-border)';
+      inlineStyle.color = 'var(--color-text-on-card)';
+    }
+
     return (
-      <button ref={ref} className={classes} disabled={disabled || isLoading} {...props}>
+      <button ref={ref} className={classes} disabled={disabled || isLoading} style={inlineStyle} {...props}>
         {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
         {!isLoading && leftIcon && <span className="mr-2">{leftIcon}</span>}
         {children}

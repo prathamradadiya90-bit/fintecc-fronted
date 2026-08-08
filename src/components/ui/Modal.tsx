@@ -53,15 +53,20 @@ export const Modal: React.FC<ModalProps> = ({
 
       {/* Dialog */}
       <div 
-        className={`relative bg-white rounded-2xl shadow-xl w-full ${maxWidthClasses[maxWidth]} overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200`}
+        className={`relative rounded-2xl shadow-xl w-full ${maxWidthClasses[maxWidth]} overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200`}
+        style={{ background: 'var(--color-bg-elevated)' }}
         role="dialog"
         aria-modal="true"
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h3 className="text-lg font-semibold text-slate-800">{title}</h3>
+        <div
+          className="flex items-center justify-between px-6 py-4"
+          style={{ borderBottom: '1px solid var(--color-border)' }}
+        >
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>{title}</h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-full transition-colors"
+            className="p-2 rounded-full transition-colors"
+            style={{ color: 'var(--color-text-muted)' }}
           >
             <X className="w-5 h-5" />
           </button>
@@ -72,7 +77,13 @@ export const Modal: React.FC<ModalProps> = ({
         </div>
 
         {footer && (
-          <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end space-x-3 rounded-b-2xl">
+          <div
+            className="px-6 py-4 flex justify-end space-x-3 rounded-b-2xl"
+            style={{
+              borderTop: '1px solid var(--color-border)',
+              background: 'var(--color-bg-subtle)',
+            }}
+          >
             {footer}
           </div>
         )}

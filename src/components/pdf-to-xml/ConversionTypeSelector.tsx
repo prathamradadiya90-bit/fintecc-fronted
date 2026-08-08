@@ -27,12 +27,18 @@ const CONVERSION_OPTIONS = [
 
 export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTypeSelectorProps) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+    <div
+      className="rounded-2xl p-6 shadow-sm"
+      style={{
+        background: 'var(--color-bg-card)',
+        border: '1px solid var(--color-border)',
+      }}
+    >
       <div className="flex items-center gap-3 mb-5">
         <div className="w-7 h-7 rounded-full bg-[#00C2B3] text-white flex items-center justify-center font-semibold text-xs">
           1
         </div>
-        <h2 className="text-lg font-semibold text-slate-800">Select Conversion Type</h2>
+        <h2 className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>Select Conversion Type</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -46,22 +52,27 @@ export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTyp
               onClick={() => !option.disabled && onSelect(option.id as ConversionType)}
               disabled={option.disabled}
               className={`
-                relative flex items-start gap-3.5 p-4 rounded-xl border text-left transition-all
+                relative flex items-start gap-3.5 p-4 rounded-xl text-left transition-all
                 ${isSelected 
                   ? 'border-[#00C2B3] bg-[#00C2B3]/5 shadow-sm' 
-                  : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  : ''
                 }
-                ${option.disabled ? 'opacity-60 cursor-not-allowed hover:border-slate-200 hover:bg-white' : 'cursor-pointer'}
+                ${option.disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
               `}
+              style={{
+                border: `1px solid ${isSelected ? '#00C2B3' : 'var(--color-border)'}`,
+              }}
+              onMouseEnter={(e) => { if (!isSelected && !option.disabled) e.currentTarget.style.background = 'var(--color-bg-card-hover)'; }}
+              onMouseLeave={(e) => { if (!isSelected) e.currentTarget.style.background = 'transparent'; }}
             >
-              <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-[#00C2B3]/10 text-[#00C2B3]' : 'bg-slate-100 text-slate-500'}`}>
+              <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-[#00C2B3]/10 text-[#00C2B3]' : ''}`} style={isSelected ? {} : { background: 'var(--color-bg-skeleton)', color: 'var(--color-text-secondary)' }}>
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <h3 className={`font-semibold text-[14px] ${isSelected ? 'text-[#008f84]' : 'text-slate-700'}`}>
+                <h3 className="font-semibold text-[14px]" style={{ color: isSelected ? '#00C2B3' : 'var(--color-text-on-card)' }}>
                   {option.title}
                 </h3>
-                <p className="text-slate-500 text-[12px] mt-0.5 leading-relaxed">
+                <p className="text-[12px] mt-0.5 leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
                   {option.description}
                 </p>
               </div>

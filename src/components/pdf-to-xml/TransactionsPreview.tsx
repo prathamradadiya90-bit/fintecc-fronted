@@ -29,7 +29,7 @@ export function TransactionsPreview({
       key: 'description',
       header: 'Description',
       render: (tx) => (
-        <span className="text-slate-600 truncate max-w-xs block" title={tx.description}>
+        <span className="truncate max-w-xs block" style={{ color: 'var(--color-text-secondary)' }} title={tx.description}>
           {tx.description}
         </span>
       ),
@@ -38,7 +38,7 @@ export function TransactionsPreview({
       key: 'debit',
       header: 'Debit',
       render: (tx) => (
-        <span className="text-red-600 font-medium">
+        <span className="text-red-600 dark:text-red-400 font-medium">
           {tx.debit > 0 ? `₹${tx.debit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}` : '-'}
         </span>
       ),
@@ -47,7 +47,7 @@ export function TransactionsPreview({
       key: 'credit',
       header: 'Credit',
       render: (tx) => (
-        <span className="text-emerald-600 font-medium">
+        <span className="text-emerald-600 dark:text-emerald-400 font-medium">
           {tx.credit > 0 ? `₹${tx.credit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}` : '-'}
         </span>
       ),
@@ -56,7 +56,7 @@ export function TransactionsPreview({
       key: 'balance',
       header: 'Balance',
       render: (tx) => (
-        <span className="font-semibold text-slate-800">
+        <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>
           ₹{tx.balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
         </span>
       ),
@@ -66,11 +66,17 @@ export function TransactionsPreview({
   if (!transactions || transactions.length === 0) return null;
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mt-6">
+    <div
+      className="rounded-2xl p-6 shadow-sm mt-6"
+      style={{
+        background: 'var(--color-bg-card)',
+        border: '1px solid var(--color-border)',
+      }}
+    >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-xl font-semibold text-slate-800">Preview Transactions</h2>
-          <p className="text-slate-500 text-sm mt-1">
+          <h2 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>Preview Transactions</h2>
+          <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
             Successfully extracted {transactions.length} transactions from your statement.
           </p>
         </div>
@@ -93,7 +99,7 @@ export function TransactionsPreview({
         </div>
       </div>
 
-      <div className="max-h-[500px] overflow-y-auto rounded-xl border border-slate-200">
+      <div className="max-h-[500px] overflow-y-auto rounded-xl" style={{ border: '1px solid var(--color-border)' }}>
         <Table 
           data={transactions}
           columns={columns}

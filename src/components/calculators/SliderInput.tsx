@@ -30,20 +30,20 @@ export function SliderInput({
   return (
     <div className="w-full mb-6">
       <div className="flex justify-between items-center mb-3">
-        <label className="text-[15px] font-semibold text-slate-800">{label}</label>
-        <div className="text-[15px] font-bold text-slate-800">
+        <label className="text-[15px] font-semibold" style={{ color: 'var(--color-text-primary)' }}>{label}</label>
+        <div className="text-[15px] font-bold" style={{ color: 'var(--color-text-primary)' }}>
           {formatValue(value)}
         </div>
       </div>
       
       <div className="relative h-6 flex items-center">
         {/* Custom Track Background with border */}
-        <div className="absolute w-full h-1.5 bg-slate-100 border border-slate-300 rounded-full"></div>
+        <div className="absolute w-full h-1.5 rounded-full" style={{ background: 'var(--color-bg-skeleton)', border: '1px solid var(--color-border)' }} />
         {/* Custom Track Fill */}
         <div 
           className="absolute h-1.5 bg-[#00C2B3] rounded-full pointer-events-none"
           style={{ width: `${percentage}%` }}
-        ></div>
+        />
         {/* Native Range Input (Transparent) */}
         <input 
           type="range" 
@@ -77,8 +77,8 @@ export function SliderInput({
       </div>
 
       <div className="flex justify-between items-center mt-2">
-        <span className="text-xs text-slate-400 font-medium">{minLabel || formatValue(min)}</span>
-        <span className="text-xs text-slate-400 font-medium">{maxLabel || formatValue(max)}</span>
+        <span className="text-xs font-medium" style={{ color: 'var(--color-text-muted)' }}>{minLabel || formatValue(min)}</span>
+        <span className="text-xs font-medium" style={{ color: 'var(--color-text-muted)' }}>{maxLabel || formatValue(max)}</span>
       </div>
     </div>
   );

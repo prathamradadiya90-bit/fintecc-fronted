@@ -11,22 +11,22 @@ interface ClientViewModalProps {
 
 const DetailRow = ({ label, value, icon: Icon }: { label: string; value?: string | null; icon?: React.ElementType }) => (
   <div className="flex flex-col gap-1 mb-4">
-    <span className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+    <span className="text-[12px] font-semibold uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--color-text-secondary)' }}>
       {Icon && <Icon className="w-3.5 h-3.5" />}
       {label}
     </span>
-    <span className="text-[14px] font-medium text-slate-800">
-      {value || <span className="text-slate-300 italic">Not provided</span>}
+    <span className="text-[14px] font-medium" style={{ color: 'var(--color-text-primary)' }}>
+      {value || <span className="italic" style={{ color: 'var(--color-text-muted)' }}>Not provided</span>}
     </span>
   </div>
 );
 
 const SectionHeader = ({ letter, title }: { letter: string; title: string }) => (
-  <div className="flex items-center gap-2.5 mt-8 mb-5 pb-3 border-b border-slate-100">
+  <div className="flex items-center gap-2.5 mt-8 mb-5 pb-3" style={{ borderBottom: '1px solid var(--color-border)' }}>
     <div className="w-6 h-6 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600 text-[11px] font-bold">
       {letter}
     </div>
-    <h4 className="text-[12px] font-bold text-slate-800 uppercase tracking-[0.1em]">{title}</h4>
+    <h4 className="text-[12px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--color-text-primary)' }}>{title}</h4>
   </div>
 );
 
@@ -53,14 +53,14 @@ export function ClientViewModal({ isOpen, onClose, client }: ClientViewModalProp
     >
       <div className="pb-6">
         {/* Header Profile Section */}
-        <div className="flex items-start gap-4 mb-8 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+        <div className="flex items-start gap-4 mb-8 p-5 rounded-2xl" style={{ background: 'var(--color-bg-subtle)', border: '1px solid var(--color-border)' }}>
           <div className="w-14 h-14 rounded-full bg-[#091124] text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-sm">
             {client.name.charAt(0).toUpperCase()}
           </div>
           <div>
-            <h3 className="text-xl font-bold text-slate-900">{client.name}</h3>
+            <h3 className="text-xl font-bold" style={{ color: 'var(--color-text-primary)' }}>{client.name}</h3>
             <div className="flex items-center gap-3 mt-1.5 flex-wrap">
-              <span className="px-2.5 py-0.5 bg-white border border-slate-200 text-slate-600 rounded-full text-[11px] font-semibold">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)' }}>
                 {client.type}
               </span>
               <span className={`px-2.5 py-0.5 border rounded-full text-[11px] font-semibold ${
@@ -70,7 +70,7 @@ export function ClientViewModal({ isOpen, onClose, client }: ClientViewModalProp
               }`}>
                 {client.status || 'Active'}
               </span>
-              <span className="text-[11px] font-medium text-slate-400">
+              <span className="text-[11px] font-medium" style={{ color: 'var(--color-text-muted)' }}>
                 ID: C-{client.id.substring(0, 6).toUpperCase()}
               </span>
             </div>
@@ -97,9 +97,9 @@ export function ClientViewModal({ isOpen, onClose, client }: ClientViewModalProp
 
         {/* ADDRESS */}
         <SectionHeader letter="C" title="ADDRESS" />
-        <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-start gap-3">
-          <MapPin className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-          <div className="text-[14px] text-slate-700 leading-relaxed">
+        <div className="rounded-xl p-4 flex items-start gap-3" style={{ background: 'var(--color-bg-subtle)', border: '1px solid var(--color-border)' }}>
+          <MapPin className="w-4 h-4 mt-0.5 shrink-0" style={{ color: 'var(--color-text-muted)' }} />
+          <div className="text-[14px] leading-relaxed" style={{ color: 'var(--color-text-on-card)' }}>
             {client.address ? (
               <>
                 {client.address.street && <div>{client.address.street}</div>}
@@ -109,7 +109,7 @@ export function ClientViewModal({ isOpen, onClose, client }: ClientViewModalProp
                 {client.address.country && <div>{client.address.country}</div>}
               </>
             ) : (
-              <span className="text-slate-400 italic">No address provided</span>
+              <span className="italic" style={{ color: 'var(--color-text-muted)' }}>No address provided</span>
             )}
           </div>
         </div>
@@ -124,7 +124,7 @@ export function ClientViewModal({ isOpen, onClose, client }: ClientViewModalProp
             <DetailRow label="IFSC Code" value={client.bankDetails[0].ifsc} />
           </div>
         ) : (
-          <div className="text-[13px] text-slate-400 italic">No bank details provided</div>
+          <div className="text-[13px] italic" style={{ color: 'var(--color-text-muted)' }}>No bank details provided</div>
         )}
 
         {/* SERVICES ASSIGNED */}
@@ -146,7 +146,7 @@ export function ClientViewModal({ isOpen, onClose, client }: ClientViewModalProp
         {client.notes && (
           <>
             <SectionHeader letter="F" title="NOTES" />
-            <div className="p-4 bg-yellow-50/50 border border-yellow-100 rounded-xl text-[13px] text-slate-700 whitespace-pre-wrap leading-relaxed">
+            <div className="p-4 bg-yellow-50/50 border border-yellow-100 rounded-xl text-[13px] whitespace-pre-wrap leading-relaxed dark:bg-yellow-900/20 dark:border-yellow-800" style={{ color: 'var(--color-text-on-card)' }}>
               {client.notes}
             </div>
           </>

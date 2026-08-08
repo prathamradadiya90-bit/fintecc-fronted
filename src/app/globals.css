@@ -1,8 +1,57 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  /* ─── Page / Layout ─── */
+  --color-bg-page: #F7F9FC;
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f8fafc;
+  --color-bg-elevated: #ffffff;
+  --color-bg-input: #ffffff;
+  --color-bg-skeleton: #f1f5f9;
+  --color-bg-subtle: #f8fafc;
+
+  /* ─── Borders ─── */
+  --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
+
+  /* ─── Text ─── */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+  --color-text-on-card: #1e293b;
+  --color-text-heading: #091124;
+
+  /* ─── Next.js defaults ─── */
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.dark {
+  /* ─── Page / Layout ─── */
+  --color-bg-page: #0B1120;
+  --color-bg-card: #111827;
+  --color-bg-card-hover: #1a2332;
+  --color-bg-elevated: #1e293b;
+  --color-bg-input: #1e293b;
+  --color-bg-skeleton: #1e293b;
+  --color-bg-subtle: #162032;
+
+  /* ─── Borders ─── */
+  --color-border: #1e293b;
+  --color-border-subtle: #162032;
+
+  /* ─── Text ─── */
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-text-on-card: #e2e8f0;
+  --color-text-heading: #f1f5f9;
+
+  /* ─── Next.js defaults ─── */
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -10,13 +59,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

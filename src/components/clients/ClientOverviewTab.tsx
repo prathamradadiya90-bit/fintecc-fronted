@@ -16,19 +16,19 @@ const DetailRow = ({
   icon?: React.ElementType;
 }) => (
   <div className="flex flex-col gap-1 mb-4">
-    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+    <span className="text-[11px] font-semibold uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--color-text-secondary)' }}>
       {Icon && <Icon className="w-3 h-3" />}
       {label}
     </span>
-    <span className="text-sm font-medium text-slate-800">
-      {value || <span className="text-slate-300 italic text-xs">Not provided</span>}
+    <span className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
+      {value || <span className="italic text-xs" style={{ color: 'var(--color-text-muted)' }}>Not provided</span>}
     </span>
   </div>
 );
 
 const SectionHeader = ({ title }: { title: string }) => (
-  <div className="flex items-center gap-2 mt-8 mb-4 pb-2.5 border-b border-slate-100">
-    <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.1em]">{title}</h4>
+  <div className="flex items-center gap-2 mt-8 mb-4 pb-2.5" style={{ borderBottom: '1px solid var(--color-border)' }}>
+    <h4 className="text-[11px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--color-text-muted)' }}>{title}</h4>
   </div>
 );
 
@@ -64,12 +64,12 @@ export function ClientOverviewTab({ client }: ClientOverviewTabProps) {
       {/* ADDRESS */}
       <SectionHeader title="Address" />
       {addressParts.length > 0 ? (
-        <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-start gap-3">
-          <MapPin className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-          <p className="text-sm text-slate-700 leading-relaxed">{addressParts.join(', ')}</p>
+        <div className="rounded-xl p-4 flex items-start gap-3" style={{ background: 'var(--color-bg-subtle)', border: '1px solid var(--color-border)' }}>
+          <MapPin className="w-4 h-4 mt-0.5 shrink-0" style={{ color: 'var(--color-text-muted)' }} />
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-on-card)' }}>{addressParts.join(', ')}</p>
         </div>
       ) : (
-        <p className="text-sm text-slate-300 italic">No address provided</p>
+        <p className="text-sm italic" style={{ color: 'var(--color-text-muted)' }}>No address provided</p>
       )}
 
       {/* BANK DETAILS */}
@@ -82,7 +82,7 @@ export function ClientOverviewTab({ client }: ClientOverviewTabProps) {
           <DetailRow label="IFSC Code"       value={client.bankDetails[0].ifsc}          />
         </div>
       ) : (
-        <p className="text-sm text-slate-300 italic">No bank details provided</p>
+        <p className="text-sm italic" style={{ color: 'var(--color-text-muted)' }}>No bank details provided</p>
       )}
 
       {/* SERVICES */}
@@ -107,7 +107,7 @@ export function ClientOverviewTab({ client }: ClientOverviewTabProps) {
       {client.notes && (
         <>
           <SectionHeader title="Notes" />
-          <div className="p-4 bg-yellow-50/60 border border-yellow-100 rounded-xl text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">
+          <div className="p-4 bg-yellow-50/60 border border-yellow-100 rounded-xl text-sm whitespace-pre-wrap leading-relaxed dark:bg-yellow-900/20 dark:border-yellow-800" style={{ color: 'var(--color-text-on-card)' }}>
             {client.notes}
           </div>
         </>

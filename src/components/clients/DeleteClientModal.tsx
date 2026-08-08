@@ -43,7 +43,7 @@ export function DeleteClientModal({ isOpen, onClose, client, onDeleted }: Delete
         </>
       }
     >
-      <div className="py-2 text-slate-600">
+      <div className="py-2 dark:dark:text-slate-500 text-slate-400 text-slate-600">
         <p>
           Are you sure you want to delete <strong>{client.name}</strong>? 
           This action cannot be undone and will permanently remove all associated data.

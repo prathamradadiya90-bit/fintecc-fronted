@@ -40,17 +40,23 @@ export default function ContactPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4">
-      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-        <div className="border-b border-slate-100 bg-slate-50/50 p-6">
-          <h1 className="text-2xl font-bold text-slate-900">Contact Support</h1>
-          <p className="text-slate-500 mt-1 text-sm">
+      <div
+        className="rounded-2xl shadow-sm overflow-hidden"
+        style={{
+          background: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
+        }}
+      >
+        <div className="p-6" style={{ borderBottom: '1px solid var(--color-border-subtle)', background: 'var(--color-bg-subtle)' }}>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-heading)' }}>Contact Support</h1>
+          <p className="mt-1 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
             Have a question, feedback, or need help? Send us a message and we'll get back to you shortly.
           </p>
         </div>
         
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <label htmlFor="email" className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--color-text-on-card)' }}>
               Email Address
             </label>
             <input
@@ -60,12 +66,17 @@ export default function ContactPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               readOnly={!!user?.email}
-              className={`w-full px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors ${user?.email ? 'bg-slate-50 text-slate-500 cursor-not-allowed' : ''}`}
+              className={`w-full px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors ${user?.email ? 'opacity-50 cursor-not-allowed' : ''}`}
+              style={{
+                background: user?.email ? 'var(--color-bg-subtle)' : 'var(--color-bg-input)',
+                border: '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)',
+              }}
             />
           </div>
           
           <div>
-            <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <label htmlFor="message" className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--color-text-on-card)' }}>
               Message
             </label>
             <textarea
@@ -74,7 +85,12 @@ export default function ContactPage() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="How can we help you?"
-              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors resize-none"
+              className="w-full px-4 py-3 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors resize-none"
+              style={{
+                background: 'var(--color-bg-input)',
+                border: '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)',
+              }}
             />
           </div>
           

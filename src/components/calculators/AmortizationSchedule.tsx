@@ -16,7 +16,7 @@ export function AmortizationSchedule({ schedule }: AmortizationScheduleProps) {
       key: 'month',
       header: 'Month',
       render: (row) => (
-        <span className="font-medium text-slate-700">
+        <span className="font-medium" style={{ color: 'var(--color-text-on-card)' }}>
           {row.month.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
         </span>
       ),
@@ -24,12 +24,12 @@ export function AmortizationSchedule({ schedule }: AmortizationScheduleProps) {
     {
       key: 'openingBalance',
       header: 'Opening Balance',
-      render: (row) => <span className="text-slate-500">{formatCurrencyExact(row.openingBalance)}</span>,
+      render: (row) => <span style={{ color: 'var(--color-text-secondary)' }}>{formatCurrencyExact(row.openingBalance)}</span>,
     },
     {
       key: 'emi',
       header: 'EMI',
-      render: (row) => <span className="font-semibold text-slate-800">{formatCurrencyExact(row.emi)}</span>,
+      render: (row) => <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>{formatCurrencyExact(row.emi)}</span>,
     },
     {
       key: 'principal',
@@ -44,7 +44,7 @@ export function AmortizationSchedule({ schedule }: AmortizationScheduleProps) {
     {
       key: 'closingBalance',
       header: 'Closing Balance',
-      render: (row) => <span className="text-slate-500">{formatCurrencyExact(row.closingBalance)}</span>,
+      render: (row) => <span style={{ color: 'var(--color-text-secondary)' }}>{formatCurrencyExact(row.closingBalance)}</span>,
     },
   ];
 
@@ -74,11 +74,14 @@ export function AmortizationSchedule({ schedule }: AmortizationScheduleProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm mt-6">
+    <div
+      className="rounded-2xl p-6 shadow-sm mt-6"
+      style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
+    >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-lg font-bold text-slate-800">Amortization Schedule</h3>
-          <p className="text-sm text-slate-500">Month-by-month breakup of your loan repayment.</p>
+          <h3 className="text-lg font-bold" style={{ color: 'var(--color-text-primary)' }}>Amortization Schedule</h3>
+          <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>Month-by-month breakup of your loan repayment.</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" className="gap-2" onClick={() => window.print()}>
@@ -90,7 +93,7 @@ export function AmortizationSchedule({ schedule }: AmortizationScheduleProps) {
         </div>
       </div>
 
-      <div className="max-h-[600px] overflow-y-auto rounded-xl border border-slate-100 print:max-h-none print:overflow-visible print:border-none">
+      <div className="max-h-[600px] overflow-y-auto rounded-xl print:max-h-none print:overflow-visible print:border-none" style={{ border: '1px solid var(--color-border)' }}>
         <Table 
           data={schedule}
           columns={columns}

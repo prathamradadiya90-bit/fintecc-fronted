@@ -21,7 +21,7 @@ type Tab = 'overview' | 'documents';
 
 function ClientIdBadge({ id }: { id: string }) {
   return (
-    <span className="text-xs font-medium text-slate-400">
+    <span className="text-xs font-medium" style={{ color: 'var(--color-text-muted)' }}>
       Client ID C-{id.substring(0, 6).toUpperCase()}
     </span>
   );
@@ -46,7 +46,7 @@ export default function ClientDetailPage() {
       <div className="flex items-center justify-center py-24">
         <div className="flex flex-col items-center gap-3">
           <div className="w-9 h-9 border-4 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-slate-400">Loading client...</p>
+          <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Loading client...</p>
         </div>
       </div>
     );
@@ -55,7 +55,7 @@ export default function ClientDetailPage() {
   if (isError || !client) {
     return (
       <div className="max-w-lg mx-auto mt-20 text-center">
-        <p className="text-slate-500 mb-4">Client not found or failed to load.</p>
+        <p className="mb-4" style={{ color: 'var(--color-text-secondary)' }}>Client not found or failed to load.</p>
         <Link href="/dashboard/my-clients" className="text-[#00C2B3] font-semibold text-sm hover:underline">
           ← Back to My Clients
         </Link>
@@ -72,16 +72,22 @@ export default function ClientDetailPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-5">
       {/* ─── Breadcrumb ──────────────────────────────────────────────────── */}
-      <nav className="flex items-center gap-1.5 text-xs text-slate-400">
+      <nav className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-text-muted)' }}>
         <Link href="/dashboard/my-clients" className="hover:text-[#00C2B3] transition-colors font-medium">
           My Clients
         </Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-slate-700 font-semibold">{client.name}</span>
+        <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>{client.name}</span>
       </nav>
 
       {/* ─── Profile Header Card ─────────────────────────────────────────── */}
-      <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-5 sm:p-6">
+      <div
+        className="rounded-2xl shadow-sm p-5 sm:p-6"
+        style={{
+          background: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
+        }}
+      >
         <div className="flex flex-col sm:flex-row sm:items-start gap-4">
           {/* Avatar */}
           <div className="w-14 h-14 rounded-full bg-[#091124] text-white flex items-center justify-center font-bold text-xl shrink-0 shadow">
@@ -91,34 +97,40 @@ export default function ClientDetailPage() {
           {/* Name + meta */}
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-              <h1 className="text-xl font-bold text-slate-900 leading-tight">{client.name}</h1>
+              <h1 className="text-xl font-bold leading-tight" style={{ color: 'var(--color-text-heading)' }}>{client.name}</h1>
             </div>
             <ClientIdBadge id={client.id} />
 
             {/* Meta row */}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-3">
               <div className="flex flex-col">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Type</span>
-                <span className="mt-1 px-2.5 py-0.5 bg-slate-100 text-slate-700 rounded-full text-xs font-semibold inline-block">
+                <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>Type</span>
+                <span
+                  className="mt-1 px-2.5 py-0.5 rounded-full text-xs font-semibold inline-block"
+                  style={{
+                    background: 'var(--color-bg-skeleton)',
+                    color: 'var(--color-text-on-card)',
+                  }}
+                >
                   {client.type}
                 </span>
               </div>
               {client.pan && (
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">PAN</span>
-                  <span className="text-sm font-semibold text-slate-700 mt-1 font-mono">{client.pan}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>PAN</span>
+                  <span className="text-sm font-semibold mt-1 font-mono" style={{ color: 'var(--color-text-on-card)' }}>{client.pan}</span>
                 </div>
               )}
               {client.phone && (
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Mobile</span>
-                  <span className="text-sm font-semibold text-slate-700 mt-1">{client.phone}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>Mobile</span>
+                  <span className="text-sm font-semibold mt-1" style={{ color: 'var(--color-text-on-card)' }}>{client.phone}</span>
                 </div>
               )}
               <div className="flex flex-col">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">GST Registered</span>
-                <span className={`mt-1 w-fit px-2 py-0.5   rounded-full text-xs font-bold inline-block ${
-                  hasGst ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'
+                <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>GST Registered</span>
+                <span className={`mt-1 w-fit px-2 py-0.5 rounded-full text-xs font-bold inline-block ${
+                  hasGst ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'
                 }`}>
                   {hasGst ? (
                     <span className="flex items-center gap-1"><Check className="w-3 h-3" /> YES</span>
@@ -128,8 +140,8 @@ export default function ClientDetailPage() {
                 </span>
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Added On</span>
-                <span className="text-sm font-semibold text-slate-700 mt-1">
+                <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>Added On</span>
+                <span className="text-sm font-semibold mt-1" style={{ color: 'var(--color-text-on-card)' }}>
                   {new Date(client.createdAt).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: 'short',
@@ -147,7 +159,8 @@ export default function ClientDetailPage() {
                 <a
                   href={`tel:${client.phone}`}
                   title="Call client"
-                  className="p-2 rounded-xl border border-slate-200 text-slate-500 hover:text-[#00C2B3] hover:border-teal-200 hover:bg-teal-50 transition-all"
+                  className="p-2 rounded-xl transition-all text-[#00C2B3]"
+                  style={{ border: '1px solid var(--color-border)' }}
                 >
                   <Phone className="w-4 h-4" />
                 </a>
@@ -155,7 +168,8 @@ export default function ClientDetailPage() {
               <button
                 title="Delete client"
                 onClick={() => setIsDeleteOpen(true)}
-                className="p-2 rounded-xl border border-slate-200 text-slate-500 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all"
+                className="p-2 rounded-xl text-red-400 hover:text-red-500 transition-all"
+                style={{ border: '1px solid var(--color-border)' }}
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -172,9 +186,15 @@ export default function ClientDetailPage() {
       </div>
 
       {/* ─── Tab Navigation ──────────────────────────────────────────────── */}
-      <div className="bg-white border border-slate-100 rounded-2xl shadow-sm">
+      <div
+        className="rounded-2xl shadow-sm"
+        style={{
+          background: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
+        }}
+      >
         {/* Tab Bar */}
-        <div className="border-b border-slate-100 px-6">
+        <div className="px-6" style={{ borderBottom: '1px solid var(--color-border)' }}>
           <nav className="flex gap-0">
             {tabs.map((tab) => (
               <button
@@ -184,9 +204,10 @@ export default function ClientDetailPage() {
                   relative px-4 py-4 text-sm font-semibold transition-colors duration-150
                   ${activeTab === tab.key
                     ? 'text-[#00C2B3]'
-                    : 'text-slate-500 hover:text-slate-700'
+                    : ''
                   }
                 `}
+                style={activeTab !== tab.key ? { color: 'var(--color-text-secondary)' } : {}}
               >
                 {tab.label}
                 {activeTab === tab.key && (

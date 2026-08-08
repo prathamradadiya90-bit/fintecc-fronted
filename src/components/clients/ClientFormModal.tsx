@@ -194,7 +194,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             type="button"
             onClick={onClose}
             disabled={isLoading}
-            className="flex-1 md:flex-none px-6 py-2.5 border border-slate-200 text-[13px] text-slate-600 font-semibold rounded-xl hover:bg-slate-50 transition-colors"
+            className="flex-1 md:flex-none px-6 py-2.5 border dark:border-slate-700 border-slate-200 text-[13px] dark:dark:text-slate-500 text-slate-400 text-slate-600 font-semibold rounded-xl hover:dark:bg-slate-800/50 bg-slate-50 transition-colors"
           >
             Cancel
           </button>
@@ -213,24 +213,24 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
         <SectionHeader letter="A" title="PERSONAL INFORMATION" />
         <div className="space-y-5">
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
               Full Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               placeholder="Rajesh Kumar Mehta"
               {...register('name')}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
           </div>
 
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <label className="block text-[13px] font-semibold text-slate-800">
+              <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800">
                 PAN Number <span className="text-red-500">*</span>
               </label>
-              <span className="text-[10px] text-slate-400 font-mono tracking-widest">AAAAA0000A</span>
+              <span className="text-[10px] dark:text-slate-500 text-slate-400 font-mono tracking-widest">AAAAA0000A</span>
             </div>
             <input
               type="text"
@@ -241,13 +241,13 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.toUpperCase();
                 register('pan').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono uppercase transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
             />
             {errors.pan && <p className="text-red-500 text-xs mt-1">{errors.pan.message}</p>}
           </div>
           
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
               Aadhaar Number
             </label>
             <input
@@ -259,7 +259,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.replace(/\D/g, '');
                 register('aadhaar').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono transition-all"
             />
             {errors.aadhaar && <p className="text-red-500 text-xs mt-1">{errors.aadhaar.message}</p>}
           </div>
@@ -269,11 +269,11 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
         <SectionHeader letter="B" title="CONTACT DETAILS" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="md:col-span-2">
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
               Mobile Number <span className="text-red-500">*</span>
             </label>
             <div className="flex">
-              <div className="px-3.5 py-2.5 bg-slate-50 border border-r-0 border-slate-200 rounded-l-lg text-[13px] text-slate-500 font-medium flex items-center justify-center">
+              <div className="px-3.5 py-2.5 dark:bg-slate-800/50 bg-slate-50 border border-r-0 dark:border-slate-700 border-slate-200 rounded-l-lg text-[13px] dark:dark:text-slate-500 text-slate-400 text-slate-500 font-medium flex items-center justify-center">
                 +91
               </div>
               <input
@@ -285,25 +285,25 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                   e.target.value = e.target.value.replace(/\D/g, '');
                   register('phone').onChange(e);
                 }}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-r-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
               />
             </div>
             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
           </div>
 
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">Email Address</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">Email Address</label>
             <input
               type="email"
               placeholder="contact@example.com"
               {...register('email')}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">Secondary Phone</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">Secondary Phone</label>
             <input
               type="text"
               placeholder="Optional"
@@ -313,7 +313,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.replace(/\D/g, '');
                 register('secondaryPhone').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
             {errors.secondaryPhone && <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone.message}</p>}
           </div>
@@ -323,35 +323,35 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
         <SectionHeader letter="C" title="ADDRESS" />
         <div className="space-y-4">
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">Street</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">Street</label>
             <input
               type="text"
               placeholder="123 Main St"
               {...register('address.street')}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="col-span-2">
-              <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">City</label>
+              <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">City</label>
               <input
                 type="text"
                 placeholder="Mumbai"
                 {...register('address.city')}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
               />
             </div>
             <div>
-              <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">State</label>
+              <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">State</label>
               <input
                 type="text"
                 placeholder="MH"
                 {...register('address.state')}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
               />
             </div>
             <div>
-              <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">ZIP Code</label>
+              <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">ZIP Code</label>
               <input
                 type="text"
                 placeholder="400001"
@@ -361,7 +361,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                   e.target.value = e.target.value.replace(/\D/g, '');
                   register('address.zip').onChange(e);
                 }}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
               />
               {errors.address?.zip && <p className="text-red-500 text-xs mt-1">{errors.address.zip.message}</p>}
             </div>
@@ -372,12 +372,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
         <SectionHeader letter="D" title="BUSINESS DETAILS" />
         <div className="space-y-5">
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
               Client Type
             </label>
             <select
               {...register('type')}
-              className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all appearance-none"
+              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
             >
               <option value="Individual">Individual</option>
               <option value="Company">Company</option>
@@ -389,12 +389,12 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
           </div>
 
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">Company Name (If applicable)</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">Company Name (If applicable)</label>
             <input
               type="text"
               placeholder="Company Ltd"
               {...register('companyName')}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
 
@@ -409,14 +409,14 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </div>
-            <span className="text-[13px] font-medium text-slate-700 group-hover:text-slate-900 transition-colors">
+            <span className="text-[13px] font-medium dark:text-slate-300 text-slate-700 group-hover:text-slate-900 transition-colors">
               GST Registered
             </span>
           </label>
 
           {isGstRegistered && (
             <div>
-              <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">GSTIN Number</label>
+              <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">GSTIN Number</label>
               <input
                 type="text"
                 placeholder="22AAAAA0000A1Z5"
@@ -426,14 +426,14 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                   e.target.value = e.target.value.toUpperCase();
                   register('gstin').onChange(e);
                 }}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono uppercase transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
               />
               {errors.gstin && <p className="text-red-500 text-xs mt-1">{errors.gstin.message}</p>}
             </div>
           )}
 
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">TAN Number</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">TAN Number</label>
             <input
               type="text"
               placeholder="ABCD12345E"
@@ -443,7 +443,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.toUpperCase();
                 register('tan').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono uppercase transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
             />
             {errors.tan && <p className="text-red-500 text-xs mt-1">{errors.tan.message}</p>}
           </div>
@@ -453,35 +453,35 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
         <SectionHeader letter="E" title="BANK DETAILS" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">Bank Name</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">Bank Name</label>
             <input
               type="text"
               placeholder="HDFC Bank"
               {...register('bankDetails.0.bankName')}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">Account Name</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">Account Name</label>
             <input
               type="text"
               placeholder="John Doe"
               {...register('bankDetails.0.accountName')}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
           <div>
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">Account Number</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">Account Number</label>
             <input
               type="text"
               placeholder="50100012345678"
               {...register('bankDetails.0.accountNumber')}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono transition-all"
             />
             {errors.bankDetails?.[0]?.accountNumber && <p className="text-red-500 text-xs mt-1">{errors.bankDetails[0].accountNumber.message}</p>}
           </div>
           <div className="md:col-span-2">
-            <label className="block text-[13px] font-semibold text-slate-800 mb-1.5">IFSC Code</label>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">IFSC Code</label>
             <input
               type="text"
               placeholder="HDFC0001234"
@@ -491,7 +491,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.toUpperCase();
                 register('bankDetails.0.ifsc').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] text-slate-700 font-mono uppercase transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
             />
             {errors.bankDetails?.[0]?.ifsc && <p className="text-red-500 text-xs mt-1">{errors.bankDetails[0].ifsc.message}</p>}
           </div>
@@ -523,7 +523,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
                     </div>
-                    <span className="text-[13px] font-medium text-slate-700 group-hover:text-slate-900 transition-colors">
+                    <span className="text-[13px] font-medium dark:text-slate-300 text-slate-700 group-hover:text-slate-900 transition-colors">
                       {service}
                     </span>
                   </label>

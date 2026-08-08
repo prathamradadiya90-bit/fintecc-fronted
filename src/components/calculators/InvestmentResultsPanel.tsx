@@ -27,24 +27,27 @@ export function InvestmentResultsPanel({
   const p2 = total > 0 ? (amount2Value / total) * 100 : 0;
 
   return (
-    <div className="bg-slate-50 rounded-2xl p-6 h-full border border-slate-100 shadow-sm flex flex-col relative overflow-hidden">
+    <div
+      className="rounded-2xl p-6 h-full shadow-sm flex flex-col relative overflow-hidden"
+      style={{ background: 'var(--color-bg-subtle)', border: '1px solid var(--color-border)' }}
+    >
       {/* Background decoration */}
       <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-gradient-to-br from-[#00C2B3]/10 to-transparent rounded-full blur-3xl"></div>
       
       <div className="relative z-10 flex flex-col gap-6">
         
-        <div className="flex justify-between items-center border-b border-slate-200 pb-4">
-          <span className="text-slate-500 font-medium text-sm">{amount1Label}</span>
-          <span className="text-[#091124] font-bold text-base">{formatCurrencyExact(amount1Value)}</span>
+        <div className="flex justify-between items-center pb-4" style={{ borderBottom: '1px solid var(--color-border)' }}>
+          <span className="font-medium text-sm" style={{ color: 'var(--color-text-secondary)' }}>{amount1Label}</span>
+          <span className="font-bold text-base" style={{ color: 'var(--color-text-primary)' }}>{formatCurrencyExact(amount1Value)}</span>
         </div>
         
-        <div className="flex justify-between items-center border-b border-slate-200 pb-4">
-          <span className="text-slate-500 font-medium text-sm">{amount2Label}</span>
-          <span className="text-[#091124] font-bold text-base">{formatCurrencyExact(amount2Value)}</span>
+        <div className="flex justify-between items-center pb-4" style={{ borderBottom: '1px solid var(--color-border)' }}>
+          <span className="font-medium text-sm" style={{ color: 'var(--color-text-secondary)' }}>{amount2Label}</span>
+          <span className="font-bold text-base" style={{ color: 'var(--color-text-primary)' }}>{formatCurrencyExact(amount2Value)}</span>
         </div>
 
         <div className="flex justify-between items-center pt-2">
-          <span className="text-slate-700 font-semibold text-sm">{totalLabel}</span>
+          <span className="font-semibold text-sm" style={{ color: 'var(--color-text-on-card)' }}>{totalLabel}</span>
           <span className="text-[#00C2B3] font-bold text-xl">{formatCurrencyExact(totalValue)}</span>
         </div>
 
@@ -78,7 +81,7 @@ export function InvestmentResultsPanel({
             </svg>
           </div>
           
-          <div className="flex justify-center gap-6 text-[12px] text-slate-500 font-medium">
+          <div className="flex justify-center gap-6 text-[12px] font-medium" style={{ color: 'var(--color-text-secondary)' }}>
             <div className="flex items-center gap-1.5">
               <span className={`w-2.5 h-2.5 rounded-full ${type === 'SIP' ? 'bg-[#091124]' : 'bg-[#00C2B3]'}`}></span>
               <span>{amount1Label}</span>
