@@ -13,7 +13,7 @@ import { ExtractedInvoice } from '@/lib/types/invoice.types';
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
 export default function ConvertersPage() {
-  const [selectedType, setSelectedType] = useState<ConversionType>('bank');
+  const [selectedType, setSelectedType] = useState<ConversionType>('invoice');
 
   // Bank statement state
   const [bankFile, setBankFile] = useState<File | null>(null);

@@ -22,35 +22,7 @@ const CONVERSION_OPTIONS = [
     description: 'All major Indian banks',
     icon: Landmark,
     disabled: false,
-  },
-  {
-    id: 'itr',
-    title: 'ITR Acknowledgement',
-    description: 'Income Tax acknowledgement PDFs',
-    icon: FileText,
-    disabled: true,
-  },
-  {
-    id: 'salary',
-    title: 'Salary Slip to XML',
-    description: 'Payslips & Form 16',
-    icon: FileSpreadsheet,
-    disabled: true,
-  },
-  {
-    id: 'balance',
-    title: 'Balance Sheet',
-    description: 'Annual financial statements',
-    icon: PieChart,
-    disabled: true,
-  },
-  {
-    id: 'custom',
-    title: 'Custom / Other',
-    description: 'Any structured financial PDF',
-    icon: FileCode2,
-    disabled: true,
-  },
+  }
 ] as const;
 
 export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTypeSelectorProps) {
