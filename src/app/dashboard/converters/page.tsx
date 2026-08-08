@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { ConversionType, ConversionTypeSelector } from '@/components/pdf-to-xml/ConversionTypeSelector';
 import { FileUploader } from '@/components/pdf-to-xml/FileUploader';
 import { TransactionsPreview } from '@/components/pdf-to-xml/TransactionsPreview';
@@ -12,8 +13,20 @@ import { ExtractedInvoice } from '@/lib/types/invoice.types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
-export default function ConvertersPage() {
-  const [selectedType, setSelectedType] = useState<ConversionType>('invoice');
+function ConvertersPageContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const typeParam = searchParams.get('type') as ConversionType | null;
+
+  const [selectedType, setSelectedType] = useState<ConversionType>(
+    typeParam === 'bank' || typeParam === 'invoice' ? typeParam : 'invoice'
+  );
+
+  useEffect(() => {
+    if (searchParams.has('type')) {
+      router.replace('/dashboard/converters', { scroll: false });
+    }
+  }, [searchParams, router]);
 
   // Bank statement state
   const [bankFile, setBankFile] = useState<File | null>(null);
@@ -188,5 +201,13 @@ export default function ConvertersPage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function ConvertersPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center animate-pulse" style={{ color: 'var(--color-text-secondary)' }}>Loading...</div>}>
+      <ConvertersPageContent />
+    </Suspense>
   );
 }
