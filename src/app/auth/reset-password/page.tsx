@@ -151,19 +151,18 @@ function ResetPasswordForm() {
           )}
 
           <form onSubmit={handleResetSubmit} className="flex flex-col gap-4">
-            {!searchParams.get("email") && (
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">Email</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@company.com"
-                  className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
-                  required
-                />
-              </div>
-            )}
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@company.com"
+                className="w-full px-3 py-2 border border-slate-200 focus:border-blue-500 rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed"
+                required
+                disabled={!!searchParams.get("email")}
+              />
+            </div>
 
             {!searchParams.get("otp") && (
               <div>
