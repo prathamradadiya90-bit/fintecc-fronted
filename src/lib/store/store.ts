@@ -10,6 +10,7 @@ import { invoicesApi } from './api/invoicesApi';
 import { dashboardApi } from './api/dashboardApi';
 import { contactApi } from './api/contactApi';
 import { superAdminApi } from './api/superAdminApi';
+import { gstApi } from './api/gstApi';
 import authReducer from './features/auth/authSlice';
 
 const persistConfig = {
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   [dashboardApi.reducerPath]: dashboardApi.reducer,
   [contactApi.reducerPath]: contactApi.reducer,
   [superAdminApi.reducerPath]: superAdminApi.reducer,
+  [gstApi.reducerPath]: gstApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -47,7 +49,8 @@ export const store = configureStore({
       invoicesApi.middleware,
       dashboardApi.middleware,
       contactApi.middleware,
-      superAdminApi.middleware
+      superAdminApi.middleware,
+      gstApi.middleware
     ),
 });
 
