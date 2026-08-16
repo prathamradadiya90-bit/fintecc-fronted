@@ -10,6 +10,7 @@ import { invoicesApi } from './api/invoicesApi';
 import { dashboardApi } from './api/dashboardApi';
 import { contactApi } from './api/contactApi';
 import { superAdminApi } from './api/superAdminApi';
+import { plansApi } from './api/plansApi';
 import { gstApi } from './api/gstApi';
 import { itrApi } from './api/itrApi';
 import authReducer from './features/auth/authSlice';
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   [dashboardApi.reducerPath]: dashboardApi.reducer,
   [contactApi.reducerPath]: contactApi.reducer,
   [superAdminApi.reducerPath]: superAdminApi.reducer,
+  [plansApi.reducerPath]: plansApi.reducer,
   [gstApi.reducerPath]: gstApi.reducer,
   [itrApi.reducerPath]: itrApi.reducer,
 });
@@ -52,6 +54,7 @@ export const store = configureStore({
       dashboardApi.middleware,
       contactApi.middleware,
       superAdminApi.middleware,
+      plansApi.middleware,
       gstApi.middleware,
       itrApi.middleware
     ),

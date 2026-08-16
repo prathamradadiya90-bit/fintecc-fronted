@@ -1,7 +1,23 @@
+"use client";
+
 import React from "react";
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useGetPublicPlansQuery } from "@/lib/store/api/plansApi";
 
 export function Pricing() {
+  const router = useRouter();
+  const { data, isLoading, isError } = useGetPublicPlansQuery();
+  const plans = data?.data || [];
+
+  const handleGetStarted = () => {
+    // If we want to take the user to the subscription page, we route them through login first if needed.
+    // Assuming they are logged in, /dashboard/subscription. If not, /auth will handle redirect.
+    // For simplicity, we just push to dashboard subscription which has an AuthGuard,
+    // so it will redirect to /auth if they aren't logged in.
+    router.push('/dashboard/subscription');
+  };
+
   return (
     <section id="pricing" className="py-24 px-6 md:px-12 bg-[#0A1628] border-t border-slate-800/50 relative overflow-hidden">
       {/* Decorative background elements */}
@@ -18,108 +34,85 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-          {/* Starter */}
-          <div className="flex flex-col p-8 bg-[#0F1E36] rounded-3xl border border-slate-800/60 hover:border-slate-700 transition-colors">
-            <h3 className="text-base font-bold text-white mb-2 text-center">Starter</h3>
-            <p className="text-sm text-slate-400 mb-8 text-center h-10">For independent CAs just starting out.</p>
-            <div className="flex items-end justify-center gap-1 mb-10">
-              <span className="text-xl font-black text-white tracking-tighter">₹0</span>
-              <span className="text-xs text-slate-400 mb-0.5 font-medium">/mo</span>
-            </div>
-            <div className="flex flex-col gap-4 mt-auto">
-              {[
-                "Up to 50 Clients",
-                "Basic GST Tracking",
-                "Manual Client Sync",
-                "1 User Account",
-              ].map((feature, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-300 leading-tight">{feature}</span>
-                </div>
-              ))}
-            </div>
+        {isLoading ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6 justify-center">
+             {[1, 2, 3].map((i) => (
+                <div key={i} className="rounded-3xl h-[450px] animate-pulse bg-slate-800/50" />
+             ))}
           </div>
-
-          {/* Professional */}
-          <div className="flex flex-col p-8 bg-[#0F1E36] rounded-3xl border border-slate-800/60 hover:border-slate-700 transition-colors">
-            <h3 className="text-base font-bold text-white mb-2 text-center">Professional</h3>
-            <p className="text-sm text-slate-400 mb-8 text-center h-10">Perfect for growing practices.</p>
-            <div className="flex items-end justify-center gap-1 mb-10">
-              <span className="text-xl font-black text-white tracking-tighter">₹1,999</span>
-              <span className="text-xs text-slate-400 mb-0.5 font-medium">/mo</span>
-            </div>
-            <div className="flex flex-col gap-4 mt-auto">
-              {[
-                "Up to 500 Clients",
-                "Automated GST GSTR-1 & 3B",
-                "Tally ERP Integration",
-                "Up to 5 Staff Users",
-                "Basic DSC Vault",
-              ].map((feature, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-300 leading-tight">{feature}</span>
-                </div>
-              ))}
-            </div>
+        ) : isError ? (
+          <div className="text-center text-red-400 p-8">
+            Failed to load pricing plans. Please try again later.
           </div>
-
-          {/* Enterprise */}
-          <div className="flex flex-col p-8 bg-[#132342] rounded-3xl border-2 border-indigo-500 relative transform lg:-translate-y-4 shadow-2xl shadow-indigo-500/20">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-              <span className="bg-emerald-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
-                Most Popular
-              </span>
-            </div>
-            <h3 className="text-base font-bold text-white mb-2 text-center mt-2">Enterprise</h3>
-            <p className="text-sm text-slate-400 mb-8 text-center h-10">For mid-to-large CA firms.</p>
-            <div className="flex items-end justify-center gap-1 mb-10">
-              <span className="text-xl font-black text-white tracking-tighter">₹4,999</span>
-              <span className="text-xs text-slate-400 mb-0.5 font-medium">/mo</span>
-            </div>
-            <div className="flex flex-col gap-4 mt-auto">
-              {[
-                "Unlimited Clients",
-                "AI Bank Statement OCR (Gemini)",
-                "Up to 20 Staff Users",
-                "Advanced DSC & Credential Vault",
-                "Priority Support",
-              ].map((feature, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-300 leading-tight">{feature}</span>
-                </div>
-              ))}
-            </div>
+        ) : plans.length === 0 ? (
+          <div className="text-center text-slate-400 p-8">
+            No plans available at the moment.
           </div>
+        ) : (
+          <div className="flex flex-wrap justify-center gap-8 lg:gap-6">
+            {plans.map((plan, index) => {
+              // Highlight the middle plan or second plan as popular for visual flair
+              const isPopular = plans.length > 1 && index === 1;
 
-          {/* Ultimate */}
-          <div className="flex flex-col p-8 bg-[#0F1E36] rounded-3xl border border-slate-800/60 hover:border-slate-700 transition-colors">
-            <h3 className="text-base font-bold text-white mb-2 text-center">Ultimate</h3>
-            <p className="text-sm text-slate-400 mb-8 text-center h-10">Full-scale automation.</p>
-            <div className="flex items-end justify-center gap-1 mb-10">
-              <span className="text-xl font-black text-white tracking-tighter">₹9,999</span>
-              <span className="text-xs text-slate-400 mb-0.5 font-medium">/mo</span>
-            </div>
-            <div className="flex flex-col gap-4 mt-auto">
-              {[
-                "Unlimited Everything",
-                "Custom ERP Integrations",
-                "Dedicated Account Manager",
-                "On-premise deployment option",
-                "Custom SLA",
-              ].map((feature, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-300 leading-tight">{feature}</span>
+              return (
+                <div 
+                  key={plan.id}
+                  className={`flex flex-col p-8 rounded-3xl w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)] xl:w-[280px] transition-all duration-300 ${
+                    isPopular 
+                      ? 'bg-[#132342] border-2 border-indigo-500 relative transform lg:-translate-y-4 shadow-2xl shadow-indigo-500/20' 
+                      : 'bg-[#0F1E36] border border-slate-800/60 hover:border-slate-700'
+                  }`}
+                >
+                  {isPopular && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                      <span className="bg-emerald-500 text-white text-[11px] uppercase tracking-wider font-bold px-4 py-1.5 rounded-full shadow-lg">
+                        Most Popular
+                      </span>
+                    </div>
+                  )}
+
+                  <h3 className={`text-base font-bold text-white mb-2 text-center ${isPopular ? 'mt-2' : ''}`}>
+                    {plan.name}
+                  </h3>
+                  <p className="text-sm text-slate-400 mb-8 text-center h-10 line-clamp-2">
+                    {plan.description}
+                  </p>
+                  
+                  <div className="flex items-end justify-center gap-1 mb-10">
+                    <span className="text-2xl font-black text-white tracking-tighter">
+                      ₹{Number(plan.price).toLocaleString()}
+                    </span>
+                    <span className="text-xs text-slate-400 mb-1 font-medium">
+                       /{plan.durationMonths === 1 ? 'mo' : plan.durationMonths === 12 ? 'yr' : `${plan.durationMonths}mo`}
+                    </span>
+                  </div>
+                  
+                  <div className="flex flex-col gap-4 mt-auto mb-8">
+                    {plan.features?.map((feature, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                        <span className="text-sm text-slate-300 leading-tight">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button 
+                    onClick={handleGetStarted}
+                    className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
+                      isPopular
+                        ? 'bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/25'
+                        : plan.price === 0
+                          ? 'bg-white/10 hover:bg-white/20 text-white'
+                          : 'bg-[#00C2B3] hover:bg-[#00a89b] text-white'
+                    }`}
+                  >
+                    {plan.price === 0 ? 'Start Free' : 'Subscribe Now'}
+                  </button>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
-
-        </div>
+        )}
       </div>
     </section>
   );

@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, Building2, ReceiptText } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
@@ -26,6 +26,7 @@ const navItems: NavItem[] = [
   { name: 'Converters', href: '/dashboard/converters', icon: FileText },
   { name: 'Calculators', href: '/dashboard/calculators', icon: Calculator },
   { name: 'Compliance Calendar', href: '/dashboard/compliance', icon: Calendar },
+  { name: 'Subscription', href: '/dashboard/subscription', icon: CreditCard },
 ];
 
 export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () => void }) {
