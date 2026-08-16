@@ -1,34 +1,33 @@
 'use client';
 
 import React from 'react';
-import { UserCheck, Users } from 'lucide-react';
-import { useGetClientsQuery } from '@/lib/store/api/clientsApi';
+import { useGetItrClientsQuery } from '@/lib/store/api/itrApi';
 import { SearchableSelect, SearchableOption } from '@/components/ui/SearchableSelect';
 
-interface GstClientSelectorProps {
+interface ItrClientSelectorProps {
   selectedClientId: string;
   onSelectClient: (clientId: string) => void;
 }
 
-export const GstClientSelector: React.FC<GstClientSelectorProps> = ({
+export const ItrClientSelector: React.FC<ItrClientSelectorProps> = ({
   selectedClientId,
   onSelectClient,
 }) => {
-  const { data: clientsData, isLoading } = useGetClientsQuery();
+  const { data: clientsData, isLoading } = useGetItrClientsQuery();
   const clients = clientsData?.data || [];
 
   const options: SearchableOption[] = [
     {
       value: '',
-      label: 'All Clients (Firm Global View)',
-      sublabel: 'View all GST returns & profiles across all clients',
+      label: 'All Taxpayers (Firm Global View)',
+      sublabel: 'View all ITR returns & filings across all taxpayers',
     },
     ...clients.map((client) => ({
       value: client.id,
       label: client.name,
-      sublabel: client.companyName || undefined,
-      badge: client.gstin || (client.pan ? `PAN: ${client.pan}` : undefined),
-      metadata: client.email || client.phone || undefined,
+      badge: client.pan,
+      sublabel: client.client?.companyName || undefined,
+      metadata: client.email || client.mobile || client.phone || undefined,
     })),
   ];
 
@@ -38,8 +37,8 @@ export const GstClientSelector: React.FC<GstClientSelectorProps> = ({
         options={options}
         value={selectedClientId}
         onChange={onSelectClient}
-        placeholder="Filter by Client / GSTIN..."
-        searchPlaceholder="Search by name, company, GSTIN, PAN..."
+        placeholder="Filter by Taxpayer / PAN..."
+        searchPlaceholder="Search by name, PAN, email, mobile..."
         isLoading={isLoading}
         clearable={true}
       />

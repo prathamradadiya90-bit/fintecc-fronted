@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { SearchableSelect, SearchableOption } from '@/components/ui/SearchableSelect';
 import { useGetClientsQuery } from '@/lib/store/api/clientsApi';
 import { useCreateProfileMutation } from '@/lib/store/api/gstApi';
 import { gstProfileSchema, GstProfileFormData } from '../validation/gst.validation';
@@ -27,6 +28,7 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<GstProfileFormData>({
     resolver: zodResolver(gstProfileSchema),
@@ -37,6 +39,16 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       stateCode: '27',
     },
   });
+
+  const selectedClientId = watch('clientId');
+
+  const clientOptions: SearchableOption[] = (clientsData?.data || []).map((client) => ({
+    value: client.id,
+    label: client.name,
+    sublabel: client.companyName || undefined,
+    badge: client.pan ? `PAN: ${client.pan}` : undefined,
+    metadata: client.email || client.phone || undefined,
+  }));
 
   const onSubmit = async (data: GstProfileFormData) => {
     try {
@@ -65,32 +77,17 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       maxWidth="lg"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Client Selection */}
-        <div>
-          <label className="block text-[13px] font-medium mb-1" style={{ color: 'var(--color-text-on-card)' }}>
-            Associated Client *
-          </label>
-          <select
-            {...register('clientId')}
-            disabled={isLoadingClients}
-            className="w-full px-2.5 py-1.5 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
-            style={{
-              background: 'var(--color-bg-input)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text-primary)',
-            }}
-          >
-            <option value="">-- Select Client --</option>
-            {clientsData?.data?.map((client) => (
-              <option key={client.id} value={client.id}>
-                {client.name} {client.companyName ? `(${client.companyName})` : ''}
-              </option>
-            ))}
-          </select>
-          {errors.clientId && (
-            <p className="mt-1 text-xs text-red-500">{errors.clientId.message}</p>
-          )}
-        </div>
+        {/* Searchable Client Selection */}
+        <SearchableSelect
+          label="Associated Client *"
+          options={clientOptions}
+          value={selectedClientId}
+          onChange={(val) => setValue('clientId', val, { shouldValidate: true })}
+          placeholder="-- Select or Search Client --"
+          searchPlaceholder="Search client by name, company, PAN, email..."
+          isLoading={isLoadingClients}
+          error={errors.clientId?.message}
+        />
 
         {/* GSTIN & Legal Name */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

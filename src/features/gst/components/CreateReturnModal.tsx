@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { SearchableSelect, SearchableOption } from '@/components/ui/SearchableSelect';
 import { useGetProfilesQuery, useCreateReturnMutation } from '@/lib/store/api/gstApi';
 import { gstReturnSchema, GstReturnFormData } from '../validation/gst.validation';
 
@@ -33,6 +34,8 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<GstReturnFormData>({
     resolver: zodResolver(gstReturnSchema),
@@ -42,6 +45,16 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
       period: defaultPeriod,
     },
   });
+
+  const selectedProfileId = watch('gstProfileId');
+
+  const profileOptions: SearchableOption[] = profiles.map((profile) => ({
+    value: profile.id,
+    label: profile.legalName,
+    badge: profile.gstin,
+    sublabel: profile.client?.name ? `Client: ${profile.client.name}` : undefined,
+    metadata: profile.tradeName ? `Trade: ${profile.tradeName}` : undefined,
+  }));
 
   const onSubmit = async (data: GstReturnFormData) => {
     try {
@@ -62,31 +75,16 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Select GST Profile */}
-        <div>
-          <label className="block text-[13px] font-medium mb-1" style={{ color: 'var(--color-text-on-card)' }}>
-            Select GST Profile *
-          </label>
-          <select
-            {...register('gstProfileId')}
-            disabled={isLoadingProfiles}
-            className="w-full px-2.5 py-1.5 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
-            style={{
-              background: 'var(--color-bg-input)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text-primary)',
-            }}
-          >
-            <option value="">-- Select GSTIN Registration --</option>
-            {profiles.map((profile) => (
-              <option key={profile.id} value={profile.id}>
-                {profile.gstin} — {profile.legalName} ({profile.client?.name || 'Client'})
-              </option>
-            ))}
-          </select>
-          {errors.gstProfileId && (
-            <p className="mt-1 text-xs text-red-500">{errors.gstProfileId.message}</p>
-          )}
-        </div>
+        <SearchableSelect
+          label="Select GST Profile *"
+          options={profileOptions}
+          value={selectedProfileId}
+          onChange={(val) => setValue('gstProfileId', val, { shouldValidate: true })}
+          placeholder="-- Select or Search GST Profile --"
+          searchPlaceholder="Search by GSTIN, Legal Name, Client..."
+          isLoading={isLoadingProfiles}
+          error={errors.gstProfileId?.message}
+        />
 
         {/* Return Type */}
         <div>
