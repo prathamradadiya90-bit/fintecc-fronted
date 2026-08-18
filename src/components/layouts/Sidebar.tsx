@@ -37,14 +37,21 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
   const [logoutApi, { isLoading }] = useLogoutMutation();
   const { theme, toggleTheme } = useTheme();
 
-  const items: NavItem[] = [
-    ...navItems,
-    ...(user?.role === 'FIRM_OWNER'
-      ? [{ name: 'Manage Staff', href: '/dashboard/staff', icon: Shield }]
-      : []
-    ),
-    { name: 'Contact Us', href: '/dashboard/contact', icon: MessageSquare },
+  const clientNavItems: NavItem[] = [
+    { name: 'Chat', href: '/dashboard/chat', icon: MessageSquare },
+    { name: 'Documents', href: '/dashboard/documents', icon: FileText },
   ];
+
+  const items: NavItem[] = user?.role === 'CLIENT'
+    ? clientNavItems
+    : [
+        ...navItems,
+        ...(user?.role === 'FIRM_OWNER'
+          ? [{ name: 'Manage Staff', href: '/dashboard/staff', icon: Shield }]
+          : []
+        ),
+        { name: 'Contact Us', href: '/dashboard/contact', icon: MessageSquare },
+      ];
 
 
   const handleLogout = async () => {

@@ -57,6 +57,16 @@ export const clientsApi = createApi({
       }),
       invalidatesTags: [{ type: 'Client', id: 'LIST' }],
     }),
+    inviteClient: builder.mutation<{ success: boolean; message?: string }, string>({
+      query: (id) => ({
+        url: `/${id}/invite`,
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: 'Client', id },
+        { type: 'Client', id: 'LIST' }
+      ],
+    }),
     searchClients: builder.query<{ success: boolean; data: Partial<Client>[] }, string>({
       query: (searchTerm) => ({
         url: '/search',
@@ -73,5 +83,6 @@ export const {
   useCreateClientMutation,
   useUpdateClientMutation,
   useDeleteClientMutation,
+  useInviteClientMutation,
   useSearchClientsQuery
 } = clientsApi;

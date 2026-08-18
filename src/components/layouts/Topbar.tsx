@@ -42,9 +42,19 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
     }
   };
 
-  // Basic title mapping based on pathname
+  // Title mapping based on pathname
   let title = 'Dashboard';
   if (pathname.includes('/my-clients')) title = 'My Clients';
+  else if (pathname.includes('/chat')) title = user?.role === 'CLIENT' ? 'Chat with CA Firm' : 'Chat';
+  else if (pathname.includes('/documents')) title = 'My Documents';
+  else if (pathname.includes('/gst')) title = 'GST Compliance';
+  else if (pathname.includes('/itr')) title = 'ITR Filing';
+  else if (pathname.includes('/converters')) title = 'Converters';
+  else if (pathname.includes('/calculators')) title = 'Calculators';
+  else if (pathname.includes('/compliance')) title = 'Compliance Calendar';
+  else if (pathname.includes('/subscription')) title = 'Subscription';
+  else if (pathname.includes('/staff')) title = 'Manage Staff';
+  else if (pathname.includes('/contact')) title = 'Contact Us';
 
   const userName = user?.name || "Guest";
   const displayName = userName || 'Guest User';

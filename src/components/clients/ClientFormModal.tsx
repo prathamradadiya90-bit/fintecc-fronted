@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { SlideOver } from '@/components/ui/SlideOver';
-import { useCreateClientMutation, useUpdateClientMutation } from '@/lib/store/api/clientsApi';
+import { useCreateClientMutation, useUpdateClientMutation, useInviteClientMutation } from '@/lib/store/api/clientsApi';
 import { useToast } from '@/components/ui/Toast';
 import type { Client } from '@/lib/types/client.types';
 
@@ -112,6 +112,8 @@ const defaultFormValues: ClientFormData = {
 export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProps) {
   const [createClient, { isLoading: isCreating }] = useCreateClientMutation();
   const [updateClient, { isLoading: isUpdating }] = useUpdateClientMutation();
+  const [inviteClient] = useInviteClientMutation();
+  const [sendInvite, setSendInvite] = useState(true);
   const { showToast } = useToast();
 
   const {
@@ -151,6 +153,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
           : [{ accountName: '', accountNumber: '', ifsc: '', bankName: '' }],
       });
     } else if (!client && isOpen) {
+      setSendInvite(true);
       reset(defaultFormValues);
     } else if (!isOpen) {
       setTimeout(() => reset(defaultFormValues), 300);
@@ -170,8 +173,18 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
         await updateClient({ id: client.id, data: payload }).unwrap();
         showToast('Client updated successfully');
       } else {
-        await createClient(payload).unwrap();
-        showToast('Client created successfully');
+        const res = await createClient(payload).unwrap();
+        const createdId = res?.data?.id;
+        if (sendInvite && payload.email && createdId) {
+          try {
+            await inviteClient(createdId).unwrap();
+            showToast('Client created and invited to portal!');
+          } catch {
+            showToast('Client created, but failed to send portal invite email', 'error');
+          }
+        } else {
+          showToast('Client created successfully');
+        }
       }
       onClose();
     } catch (error: any) {
@@ -317,6 +330,21 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             />
             {errors.secondaryPhone && <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone.message}</p>}
           </div>
+
+          {!client && (
+            <div className="md:col-span-2 flex items-center gap-2.5 pt-1">
+              <input
+                type="checkbox"
+                id="sendInviteCheckbox"
+                checked={sendInvite}
+                onChange={(e) => setSendInvite(e.target.checked)}
+                className="w-4 h-4 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] cursor-pointer"
+              />
+              <label htmlFor="sendInviteCheckbox" className="text-xs font-medium dark:text-slate-300 text-slate-700 cursor-pointer">
+                Send portal invitation email with login credentials immediately
+              </label>
+            </div>
+          )}
         </div>
 
         {/* ADDRESS */}

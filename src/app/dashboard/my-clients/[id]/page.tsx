@@ -10,14 +10,18 @@ import {
   Trash2,
   Check,
   X as XIcon,
+  Mail,
+  Loader2,
 } from 'lucide-react';
-import { useGetClientByIdQuery } from '@/lib/store/api/clientsApi';
+import { useGetClientByIdQuery, useInviteClientMutation } from '@/lib/store/api/clientsApi';
+import { useToast } from '@/components/ui/Toast';
 import { ClientFormModal } from '@/components/clients/ClientFormModal';
 import { DeleteClientModal } from '@/components/clients/DeleteClientModal';
 import { ClientOverviewTab } from '@/components/clients/ClientOverviewTab';
 import { ClientDocumentsTab } from '@/components/clients/ClientDocumentsTab';
+import { ChatTab } from '@/components/clients/ChatTab';
 
-type Tab = 'overview' | 'documents';
+type Tab = 'overview' | 'documents' | 'chat';
 
 function ClientIdBadge({ id }: { id: string }) {
   return (
@@ -31,13 +35,30 @@ export default function ClientDetailPage() {
   const params = useParams();
   const router = useRouter();
   const clientId = params.id as string;
+  const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const { data: response, isLoading, isError, refetch } = useGetClientByIdQuery(clientId);
+  const [inviteClient, { isLoading: isInviting }] = useInviteClientMutation();
   const client = response?.data ?? null;
+
+  const handleInviteClient = async () => {
+    if (!client) return;
+    if (!client.email) {
+      showToast('Client does not have an email address. Please edit and add an email.', 'error');
+      return;
+    }
+    try {
+      await inviteClient(client.id).unwrap();
+      showToast('Invitation sent successfully! Login credentials have been emailed to the client.');
+    } catch (err: any) {
+      const msg = err?.data?.message || 'Failed to send invitation';
+      showToast(msg, 'error');
+    }
+  };
 
   // ─── Loading / Error States ──────────────────────────────────────────────
 
@@ -67,6 +88,7 @@ export default function ClientDetailPage() {
   const tabs: { key: Tab; label: string }[] = [
     { key: 'overview',   label: 'Overview'   },
     { key: 'documents',  label: 'Documents'  },
+    { key: 'chat',       label: 'Chat'       },
   ];
 
   return (
@@ -175,6 +197,19 @@ export default function ClientDetailPage() {
               </button>
             </div>
             <button
+              onClick={handleInviteClient}
+              disabled={isInviting}
+              className="flex items-center gap-1.5 px-4 py-2 bg-[#00C2B3] hover:bg-[#00a89b] text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-sm"
+              title="Send Portal Invite to Client"
+            >
+              {isInviting ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Mail className="w-3.5 h-3.5" />
+              )}
+              <span>{isInviting ? 'Inviting...' : 'Invite to Portal'}</span>
+            </button>
+            <button
               onClick={() => setIsEditOpen(true)}
               className="flex items-center gap-1.5 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition-colors"
             >
@@ -222,6 +257,7 @@ export default function ClientDetailPage() {
         <div className="p-6">
           {activeTab === 'overview' && <ClientOverviewTab client={client} />}
           {activeTab === 'documents' && <ClientDocumentsTab clientId={client.id} />}
+          {activeTab === 'chat' && <ChatTab clientId={client.id} />}
         </div>
       </div>
 

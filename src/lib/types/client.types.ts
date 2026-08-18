@@ -55,6 +55,7 @@ export interface ClientDocument {
   clientId: string;
   firmId: string;
   title: string;
+  category?: string; // "Identity Proof", "Financials", "Tax Returns", "Legal", "Other"
   filePath: string;
   fileType?: string; // "PDF", "JPG", "XLS", "DOC"
   fileSize?: number; // bytes

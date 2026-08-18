@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useRef, useState } from 'react';
-import { X, Upload, FileText, AlertCircle } from 'lucide-react';
+import { X, Upload, FileText, AlertCircle, ChevronDown } from 'lucide-react';
 import { useUploadDocumentMutation } from '@/lib/store/api/clientDocumentsApi';
 import { useToast } from '@/components/ui/Toast';
 
@@ -14,6 +14,7 @@ interface AddDocumentModalProps {
 export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [title, setTitle] = useState('');
+  const [category, setCategory] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -23,6 +24,7 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
   const resetState = () => {
     setSelectedFile(null);
     setTitle('');
+    setCategory('');
     setIsDragging(false);
   };
 
@@ -72,6 +74,9 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
     formData.append('file', selectedFile);
     formData.append('clientId', clientId);
     formData.append('title', title.trim());
+    if (category) {
+      formData.append('category', category);
+    }
 
     try {
       await uploadDocument(formData).unwrap();
@@ -180,6 +185,28 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
               <span className="text-xs font-medium">Please select a file to upload.</span>
             </div>
           )}
+
+          {/* Category Field */}
+          <div>
+            <label className="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">
+              Category
+            </label>
+            <div className="relative">
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-sm dark:text-slate-300 text-slate-700 transition-all appearance-none dark:bg-slate-900 bg-white"
+              >
+                <option value="">Select a category (optional)</option>
+                <option value="Identity Proof">Identity Proof</option>
+                <option value="Financials">Financials</option>
+                <option value="Tax Returns">Tax Returns</option>
+                <option value="Legal">Legal</option>
+                <option value="Other">Other</option>
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none dark:text-slate-500 text-slate-400" />
+            </div>
+          </div>
         </div>
 
         {/* Footer */}

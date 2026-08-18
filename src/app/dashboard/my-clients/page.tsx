@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, Plus, Filter, Eye, MoreHorizontal, Check, X as XIcon, Trash2, Edit2 } from 'lucide-react';
-import { useGetClientsQuery, useSearchClientsQuery } from '@/lib/store/api/clientsApi';
+import { Search, Plus, Filter, Eye, MoreHorizontal, Check, X as XIcon, Trash2, Edit2, Mail, Loader2 } from 'lucide-react';
+import { useGetClientsQuery, useSearchClientsQuery, useInviteClientMutation } from '@/lib/store/api/clientsApi';
+import { useToast } from '@/components/ui/Toast';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Table, Column } from '@/components/ui/Table';
@@ -14,6 +15,9 @@ import { Pagination } from '@/components/ui/Pagination';
 import type { Client } from '@/lib/types/client.types';
 
 function MyClientsPageContent() {
+  const { showToast } = useToast();
+  const [inviteClient, { isLoading: isInviting }] = useInviteClientMutation();
+  const [invitingId, setInvitingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -79,6 +83,23 @@ function MyClientsPageContent() {
   const handleAddNew = () => {
     setSelectedClient(null);
     setIsFormModalOpen(true);
+  };
+
+  const handleInvite = async (client: Client) => {
+    if (!client.email) {
+      showToast('Client does not have an email address. Please edit and add an email.', 'error');
+      return;
+    }
+    setInvitingId(client.id);
+    try {
+      await inviteClient(client.id).unwrap();
+      showToast(`Invitation sent to ${client.name} (${client.email})!`);
+    } catch (err: any) {
+      const msg = err?.data?.message || 'Failed to send invitation';
+      showToast(msg, 'error');
+    } finally {
+      setInvitingId(null);
+    }
   };
 
   const columns: Column<Client>[] = [
@@ -153,6 +174,18 @@ function MyClientsPageContent() {
       header: 'Actions',
       render: (client) => (
         <div className="flex items-center gap-2">
+          <button 
+            className="transition-colors p-1 text-[#00C2B3] hover:text-[#00a89b]"
+            title="Invite to Portal"
+            disabled={isInviting && invitingId === client.id}
+            onClick={(e) => { e.stopPropagation(); handleInvite(client); }}
+          >
+            {isInviting && invitingId === client.id ? (
+              <Loader2 className="w-4 h-4 animate-spin text-[#00C2B3]" />
+            ) : (
+              <Mail className="w-4 h-4" />
+            )}
+          </button>
           <button 
             className="transition-colors p-1 text-[#00C2B3] hover:text-[#00a89b]"
             title="View Details"

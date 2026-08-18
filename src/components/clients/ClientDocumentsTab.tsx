@@ -90,8 +90,20 @@ function DocumentCard({ doc, onDelete, onPreview, isDeleting }: DocumentCardProp
 
       {/* Actions Row */}
       <div className="flex items-center justify-between pt-2.5 mt-2" style={{ borderTop: '1px solid var(--color-border)' }}>
-        {/* Placeholder for category — kept empty as per requirements */}
-        <div />
+        {/* Category badge */}
+        {doc.category ? (
+          <span
+            className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+            style={{
+              background: 'var(--color-bg-skeleton)',
+              color: 'var(--color-text-secondary)',
+            }}
+          >
+            {doc.category}
+          </span>
+        ) : (
+          <div />
+        )}
         <div className="flex items-center gap-1">
           <button
             title="Download"
