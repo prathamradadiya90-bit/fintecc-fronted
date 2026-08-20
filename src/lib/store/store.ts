@@ -14,6 +14,7 @@ import { plansApi } from './api/plansApi';
 import { gstApi } from './api/gstApi';
 import { itrApi } from './api/itrApi';
 import { chatApi } from './api/chatApi';
+import { tasksApi } from './api/tasksApi';
 import authReducer from './features/auth/authSlice';
 
 const persistConfig = {
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   [gstApi.reducerPath]: gstApi.reducer,
   [itrApi.reducerPath]: itrApi.reducer,
   [chatApi.reducerPath]: chatApi.reducer,
+  [tasksApi.reducerPath]: tasksApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -59,7 +61,8 @@ export const store = configureStore({
       plansApi.middleware,
       gstApi.middleware,
       itrApi.middleware,
-      chatApi.middleware
+      chatApi.middleware,
+      tasksApi.middleware
     ),
 });
 

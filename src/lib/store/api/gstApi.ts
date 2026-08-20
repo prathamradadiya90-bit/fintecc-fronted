@@ -196,6 +196,31 @@ export const gstApi = createApi({
       }),
       invalidatesTags: (result, error, { returnId }) => [{ type: 'GstReturn', id: returnId }, { type: 'GstReturn', id: 'LIST' }],
     }),
+
+    reconcile2B: builder.mutation<{
+      success: boolean;
+      message: string;
+      data: {
+        summary: {
+          totalTallyInvoices: number;
+          totalGstr2bInvoices: number;
+          matchedCount: number;
+          missingIn2BCount: number;
+          missingInTallyCount: number;
+        };
+        results: {
+          matched: any[];
+          missingIn2B: any[];
+          missingInTally: any[];
+        };
+      };
+    }, FormData>({
+      query: (formData) => ({
+        url: '/reconcile-2b',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
 });
 
@@ -220,4 +245,5 @@ export const {
   usePrepareGstr3bMutation,
   useValidateGstr3bMutation,
   useFileGstr3bMutation,
+  useReconcile2BMutation,
 } = gstApi;

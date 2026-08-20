@@ -14,7 +14,20 @@ export const invoicesApi = createApi({
         body,
       }),
     }),
+    bulkOcr: builder.mutation<{
+      success: boolean;
+      data: {
+        results: Array<{ fileName: string; status: 'SUCCESS' | 'FAILED'; data?: any; error?: string }>;
+        summary: { total: number; successful: number; failed: number };
+      };
+    }, FormData>({
+      query: (formData) => ({
+        url: '/bulk-ocr',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
 });
 
-export const { useUploadInvoiceMutation } = invoicesApi;
+export const { useUploadInvoiceMutation, useBulkOcrMutation } = invoicesApi;
