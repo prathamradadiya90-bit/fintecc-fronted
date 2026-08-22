@@ -9,6 +9,9 @@ import {
   Save,
   Plus,
   Trash2,
+  MapPin,
+  UserCheck,
+  Phone,
   ShieldCheck,
   CheckCircle2,
 } from 'lucide-react';
@@ -19,9 +22,9 @@ import {
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useToast } from '@/components/ui/Toast';
-import type { TaxRate, InvoiceSettings, EmailSettings, SmsSettings, ThemeSettings } from '@/lib/types/settings.types';
+import type { TaxRate, InvoiceSettings, EmailSettings, FirmBranch } from '@/lib/types/settings.types';
 
-type SettingsTab = 'invoice' | 'tax' | 'email' | 'theme';
+type SettingsTab = 'invoice' | 'tax' | 'email' | 'branches';
 
 export default function SettingsPage() {
   const { showToast } = useToast();
@@ -51,6 +54,10 @@ export default function SettingsPage() {
     user: '',
     pass: '',
   });
+
+  const [branches, setBranches] = useState<FirmBranch[]>([
+    { branchName: 'Head Office', address: 'Main Financial Hub', headName: 'Principal Partner', phone: '' },
+  ]);
 
   useEffect(() => {
     if (response?.data) {
@@ -85,6 +92,22 @@ export default function SettingsPage() {
     setTaxRates(taxRates.filter((_, i) => i !== index));
   };
 
+  // Branch handlers
+  const handleAddBranch = () => {
+    setBranches([...branches, { branchName: '', address: '', headName: '', phone: '' }]);
+  };
+
+  const handleBranchChange = (index: number, field: keyof FirmBranch, value: string) => {
+    const updated = [...branches];
+    updated[index] = { ...updated[index], [field]: value };
+    setBranches(updated);
+  };
+
+  const handleRemoveBranch = (index: number) => {
+    if (branches.length === 1) return;
+    setBranches(branches.filter((_, i) => i !== index));
+  };
+
   // Submit Handler
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,7 +133,7 @@ export default function SettingsPage() {
             Firm Settings & Configuration
           </h1>
           <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
-            Manage invoice prefixes, billing terms, tax slab presets, and SMTP email parameters.
+            Manage invoice prefixes, billing terms, tax slab presets, multi-branch offices, and SMTP email parameters.
           </p>
         </div>
 
@@ -130,6 +153,7 @@ export default function SettingsPage() {
           { id: 'invoice', label: 'Invoice & Billing', icon: Receipt },
           { id: 'tax', label: 'Tax Rates & Slabs', icon: Percent },
           { id: 'email', label: 'Email & SMTP', icon: Mail },
+          { id: 'branches', label: 'Branches & Offices', icon: Building2 },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -358,6 +382,90 @@ export default function SettingsPage() {
                   setEmailSettings((prev) => ({ ...prev, pass: e.target.value }))
                 }
               />
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: Branches & Offices */}
+        {activeTab === 'branches' && (
+          <div
+            className="rounded-2xl p-6 shadow-sm space-y-5"
+            style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>
+                  Branch Offices & Regional Locations
+                </h2>
+                <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+                  Configure multiple CA firm branch locations, regional managers, and contact desks.
+                </p>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleAddBranch}
+                leftIcon={<Plus className="w-3.5 h-3.5" />}
+              >
+                Add Branch
+              </Button>
+            </div>
+
+            <div className="space-y-4">
+              {branches.map((branch, index) => (
+                <div
+                  key={index}
+                  className="p-4 rounded-xl border space-y-3"
+                  style={{ background: 'var(--color-bg-subtle)', borderColor: 'var(--color-border)' }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 text-[#00C2B3]">
+                      <Building2 className="w-3.5 h-3.5" />
+                      {branch.branchName || `Branch #${index + 1}`}
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveBranch(index)}
+                      disabled={branches.length === 1}
+                      className="p-1 text-slate-400 hover:text-rose-500 rounded transition-colors disabled:opacity-30"
+                      title="Remove branch"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <Input
+                      label="Branch Name"
+                      placeholder="e.g. Mumbai Financial District"
+                      value={branch.branchName}
+                      onChange={(e) => handleBranchChange(index, 'branchName', e.target.value)}
+                    />
+                    <Input
+                      label="Branch Head / Manager"
+                      placeholder="CA Rohan Mehta"
+                      value={branch.headName || ''}
+                      onChange={(e) => handleBranchChange(index, 'headName', e.target.value)}
+                    />
+                    <Input
+                      label="Contact Number"
+                      placeholder="+91 98765 43210"
+                      value={branch.phone || ''}
+                      onChange={(e) => handleBranchChange(index, 'phone', e.target.value)}
+                    />
+                  </div>
+
+                  <Input
+                    label="Office Address"
+                    placeholder="Suite 402, Trade Center, Nariman Point, Mumbai"
+                    value={branch.address || ''}
+                    onChange={(e) => handleBranchChange(index, 'address', e.target.value)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         )}

@@ -21,6 +21,8 @@ import { notificationsApi } from './api/notificationsApi';
 import { vaultApi } from './api/vaultApi';
 import { settingsApi } from './api/settingsApi';
 import { convertersApi } from './api/convertersApi';
+import { attendanceApi } from './api/attendanceApi';
+import { auditApi } from './api/auditApi';
 import authReducer from './features/auth/authSlice';
 
 const persistConfig = {
@@ -50,6 +52,8 @@ const rootReducer = combineReducers({
   [vaultApi.reducerPath]: vaultApi.reducer,
   [settingsApi.reducerPath]: settingsApi.reducer,
   [convertersApi.reducerPath]: convertersApi.reducer,
+  [attendanceApi.reducerPath]: attendanceApi.reducer,
+  [auditApi.reducerPath]: auditApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -80,7 +84,9 @@ export const store = configureStore({
       notificationsApi.middleware,
       vaultApi.middleware,
       settingsApi.middleware,
-      convertersApi.middleware
+      convertersApi.middleware,
+      attendanceApi.middleware,
+      auditApi.middleware
     ),
 });
 

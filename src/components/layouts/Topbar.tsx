@@ -59,7 +59,8 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   else if (pathname.includes('/calculators')) title = 'Calculators';
   else if (pathname.includes('/compliance')) title = 'Compliance Calendar';
   else if (pathname.includes('/subscription')) title = 'Subscription';
-  else if (pathname.includes('/staff')) title = 'Manage Staff';
+  else if (pathname.includes('/staff')) title = 'Manage Staff & Attendance';
+  else if (pathname.includes('/audit-logs')) title = 'Security Audit Logs';
   else if (pathname.includes('/contact')) title = 'Contact Us';
 
   const userName = user?.name || "Guest";

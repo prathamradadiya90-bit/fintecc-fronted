@@ -52,7 +52,10 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
     : [
         ...navItems,
         ...(user?.role === 'FIRM_OWNER'
-          ? [{ name: 'Manage Staff', href: '/dashboard/staff', icon: Shield }]
+          ? [
+              { name: 'Manage Staff', href: '/dashboard/staff', icon: Shield },
+              { name: 'Audit Logs', href: '/dashboard/audit-logs', icon: Shield },
+            ]
           : []
         ),
         { name: 'Contact Us', href: '/dashboard/contact', icon: MessageSquare },
