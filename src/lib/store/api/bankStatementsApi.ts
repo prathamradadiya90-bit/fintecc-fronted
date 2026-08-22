@@ -1,6 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQueryWithReauth } from './baseQuery';
-import type { BankStatementResponse } from '../../types/bankStatement.types';
+import type {
+  BankStatementResponse,
+  QueueBankStatementSyncResponse,
+  QueueBankStatementSyncInput,
+} from '../../types/bankStatement.types';
 
 export const bankStatementsApi = createApi({
   reducerPath: 'bankStatementsApi',
@@ -14,7 +18,17 @@ export const bankStatementsApi = createApi({
         body,
       }),
     }),
+    queueBankStatementSync: builder.mutation<QueueBankStatementSyncResponse, QueueBankStatementSyncInput>({
+      query: (body) => ({
+        url: '/queue-tally',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useUploadBankStatementMutation } = bankStatementsApi;
+export const {
+  useUploadBankStatementMutation,
+  useQueueBankStatementSyncMutation,
+} = bankStatementsApi;

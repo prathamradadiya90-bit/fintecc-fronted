@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
@@ -24,6 +24,8 @@ const navItems: NavItem[] = [
   { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
   { name: 'GST Compliance', href: '/dashboard/gst', icon: Building2 },
   { name: 'ITR Filing', href: '/dashboard/itr', icon: ReceiptText },
+  { name: 'E-Commerce', href: '/dashboard/ecommerce', icon: ShoppingBag },
+  { name: 'Tally Sync', href: '/dashboard/tally-sync', icon: RefreshCw },
   { name: 'Converters', href: '/dashboard/converters', icon: FileText },
   { name: 'Calculators', href: '/dashboard/calculators', icon: Calculator },
   { name: 'Compliance Calendar', href: '/dashboard/compliance', icon: Calendar },

@@ -16,3 +16,17 @@ export interface BankStatementResponse {
     transactions: BankTransaction[];
   };
 }
+
+export interface QueueBankStatementSyncResponse {
+  success: boolean;
+  message?: string;
+  data: {
+    jobId: string;
+    count: number;
+  };
+}
+
+export interface QueueBankStatementSyncInput {
+  transactions: BankTransaction[];
+  bankLedger?: string;
+}
