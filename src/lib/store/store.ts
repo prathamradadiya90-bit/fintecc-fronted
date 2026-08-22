@@ -17,6 +17,7 @@ import { chatApi } from './api/chatApi';
 import { tasksApi } from './api/tasksApi';
 import { ecommerceApi } from './api/ecommerceApi';
 import { tallyApi } from './api/tallyApi';
+import { notificationsApi } from './api/notificationsApi';
 import authReducer from './features/auth/authSlice';
 
 const persistConfig = {
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   [tasksApi.reducerPath]: tasksApi.reducer,
   [ecommerceApi.reducerPath]: ecommerceApi.reducer,
   [tallyApi.reducerPath]: tallyApi.reducer,
+  [notificationsApi.reducerPath]: notificationsApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -68,7 +70,8 @@ export const store = configureStore({
       chatApi.middleware,
       tasksApi.middleware,
       ecommerceApi.middleware,
-      tallyApi.middleware
+      tallyApi.middleware,
+      notificationsApi.middleware
     ),
 });
 

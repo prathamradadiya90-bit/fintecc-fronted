@@ -2,12 +2,13 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Bell, Menu, LogOut, Sun, Moon } from 'lucide-react';
+import { Menu, LogOut, Sun, Moon } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '@/lib/store/store';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout } from '@/lib/store/features/auth/authSlice';
 import { useTheme } from '@/providers/ThemeProvider';
+import { NotificationBell } from '@/components/notifications/NotificationBell';
 
 export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const pathname = usePathname();
@@ -45,10 +46,13 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   // Title mapping based on pathname
   let title = 'Dashboard';
   if (pathname.includes('/my-clients')) title = 'My Clients';
+  else if (pathname.includes('/invoices')) title = 'Invoice Management';
   else if (pathname.includes('/chat')) title = user?.role === 'CLIENT' ? 'Chat with CA Firm' : 'Chat';
   else if (pathname.includes('/documents')) title = 'My Documents';
   else if (pathname.includes('/gst')) title = 'GST Compliance';
   else if (pathname.includes('/itr')) title = 'ITR Filing';
+  else if (pathname.includes('/ecommerce')) title = 'E-Commerce Sales';
+  else if (pathname.includes('/tally-sync')) title = 'Tally Prime Sync';
   else if (pathname.includes('/converters')) title = 'Converters';
   else if (pathname.includes('/calculators')) title = 'Calculators';
   else if (pathname.includes('/compliance')) title = 'Compliance Calendar';
@@ -86,16 +90,10 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
         </h1>
       </div>
 
-      <div className="flex items-center gap-5">
-        <button className="relative transition-colors" style={{ color: 'var(--color-text-muted)' }}>
-          <Bell className="w-5 h-5" />
-          <span
-            className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full"
-            style={{ borderWidth: '2px', borderColor: 'var(--color-bg-card)' }}
-          />
-        </button>
+      <div className="flex items-center gap-4">
+        <NotificationBell />
 
-        <div className="relative pl-5" style={{ borderLeft: '1px solid var(--color-border)' }} ref={dropdownRef}>
+        <div className="relative pl-4" style={{ borderLeft: '1px solid var(--color-border)' }} ref={dropdownRef}>
           <button 
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center gap-2.5 focus:outline-none"
