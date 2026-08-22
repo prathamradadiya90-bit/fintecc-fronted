@@ -18,6 +18,9 @@ import { tasksApi } from './api/tasksApi';
 import { ecommerceApi } from './api/ecommerceApi';
 import { tallyApi } from './api/tallyApi';
 import { notificationsApi } from './api/notificationsApi';
+import { vaultApi } from './api/vaultApi';
+import { settingsApi } from './api/settingsApi';
+import { convertersApi } from './api/convertersApi';
 import authReducer from './features/auth/authSlice';
 
 const persistConfig = {
@@ -44,6 +47,9 @@ const rootReducer = combineReducers({
   [ecommerceApi.reducerPath]: ecommerceApi.reducer,
   [tallyApi.reducerPath]: tallyApi.reducer,
   [notificationsApi.reducerPath]: notificationsApi.reducer,
+  [vaultApi.reducerPath]: vaultApi.reducer,
+  [settingsApi.reducerPath]: settingsApi.reducer,
+  [convertersApi.reducerPath]: convertersApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -71,11 +77,14 @@ export const store = configureStore({
       tasksApi.middleware,
       ecommerceApi.middleware,
       tallyApi.middleware,
-      notificationsApi.middleware
+      notificationsApi.middleware,
+      vaultApi.middleware,
+      settingsApi.middleware,
+      convertersApi.middleware
     ),
 });
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

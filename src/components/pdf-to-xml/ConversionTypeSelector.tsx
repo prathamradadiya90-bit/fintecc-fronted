@@ -1,7 +1,7 @@
 import React from 'react';
 import { FileText, Landmark, Receipt, FileSpreadsheet, PieChart, FileCode2, CheckCircle2 } from 'lucide-react';
 
-export type ConversionType = 'invoice' | 'bank' | 'itr' | 'salary' | 'balance' | 'custom';
+export type ConversionType = 'invoice' | 'bank' | 'excel-json' | 'bulk-ocr' | 'receipt' | 'itr' | 'salary' | 'balance' | 'custom';
 
 interface ConversionTypeSelectorProps {
   selectedType: ConversionType;
@@ -11,18 +11,39 @@ interface ConversionTypeSelectorProps {
 const CONVERSION_OPTIONS = [
   {
     id: 'invoice',
-    title: 'Invoice to XML',
-    description: 'GST invoices, purchase orders',
+    title: 'Invoice PDF to XML',
+    description: 'Single GST invoice OCR parser',
     icon: Receipt,
     disabled: false,
   },
   {
     id: 'bank',
     title: 'Bank Statement',
-    description: 'All major Indian banks',
+    description: 'PDF bank statement to XML/CSV',
     icon: Landmark,
     disabled: false,
-  }
+  },
+  {
+    id: 'bulk-ocr',
+    title: 'Bulk Invoice OCR',
+    description: 'Batch upload up to 50 invoices',
+    icon: FileSpreadsheet,
+    disabled: false,
+  },
+  {
+    id: 'excel-json',
+    title: 'Excel ↔ JSON',
+    description: 'Spreadsheet converter & JSON export',
+    icon: FileCode2,
+    disabled: false,
+  },
+  {
+    id: 'receipt',
+    title: 'Receipt OCR',
+    description: 'Image photo to structured JSON',
+    icon: PieChart,
+    disabled: false,
+  },
 ] as const;
 
 export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTypeSelectorProps) {

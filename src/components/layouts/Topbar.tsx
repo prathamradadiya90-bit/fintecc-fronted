@@ -47,13 +47,15 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   let title = 'Dashboard';
   if (pathname.includes('/my-clients')) title = 'My Clients';
   else if (pathname.includes('/invoices')) title = 'Invoice Management';
+  else if (pathname.includes('/vault')) title = 'Client Password Vault';
+  else if (pathname.includes('/settings')) title = 'Firm Settings';
   else if (pathname.includes('/chat')) title = user?.role === 'CLIENT' ? 'Chat with CA Firm' : 'Chat';
   else if (pathname.includes('/documents')) title = 'My Documents';
   else if (pathname.includes('/gst')) title = 'GST Compliance';
   else if (pathname.includes('/itr')) title = 'ITR Filing';
   else if (pathname.includes('/ecommerce')) title = 'E-Commerce Sales';
   else if (pathname.includes('/tally-sync')) title = 'Tally Prime Sync';
-  else if (pathname.includes('/converters')) title = 'Converters';
+  else if (pathname.includes('/converters')) title = 'Converters & OCR Hub';
   else if (pathname.includes('/calculators')) title = 'Calculators';
   else if (pathname.includes('/compliance')) title = 'Compliance Calendar';
   else if (pathname.includes('/subscription')) title = 'Subscription';

@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
@@ -23,6 +23,7 @@ const navItems: NavItem[] = [
   { name: 'Work Board', href: '/dashboard/tasks', icon: ClipboardList },
   { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
   { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
+  { name: 'Client Vault', href: '/dashboard/vault', icon: KeyRound },
   { name: 'GST Compliance', href: '/dashboard/gst', icon: Building2 },
   { name: 'ITR Filing', href: '/dashboard/itr', icon: ReceiptText },
   { name: 'E-Commerce', href: '/dashboard/ecommerce', icon: ShoppingBag },
@@ -134,10 +135,20 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
           )}
           <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
         </button>
-        <button className="flex items-center gap-3 px-3.5 py-2.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all text-[13px]">
+        <Link
+          href="/dashboard/settings"
+          onClick={() => {
+            if (window.innerWidth < 1024 && onClose) onClose();
+          }}
+          className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all text-[13px] ${
+            pathname.startsWith('/dashboard/settings')
+              ? 'text-[#00C2B3] bg-[#00C2B3]/10 font-medium'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+          }`}
+        >
           <Settings className="w-[18px] h-[18px]" />
           <span>Settings</span>
-        </button>
+        </Link>
         <button
           onClick={handleLogout}
           disabled={isLoading}
