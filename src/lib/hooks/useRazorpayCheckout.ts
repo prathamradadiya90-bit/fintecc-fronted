@@ -45,6 +45,14 @@ export function useRazorpayCheckout() {
   const initiateCheckout = useCallback(
     async (options: RazorpayOptions): Promise<RazorpaySuccessResponse> => {
       return new Promise(async (resolve, reject) => {
+        if (options.orderId.startsWith('mock_')) {
+          return resolve({
+            razorpay_order_id: options.orderId,
+            razorpay_payment_id: 'pay_mock_' + Date.now(),
+            razorpay_signature: 'mock_signature'
+          });
+        }
+
         const isLoaded = await loadRazorpayScript();
         
         if (!isLoaded) {
@@ -85,3 +93,4 @@ export function useRazorpayCheckout() {
 
   return { initiateCheckout };
 }
+
