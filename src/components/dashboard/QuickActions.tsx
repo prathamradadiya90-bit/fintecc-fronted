@@ -19,10 +19,10 @@ export function QuickActions() {
       colorClass: 'bg-[#00C2B3] text-white hover:bg-[#00a89b]',
     },
     {
-      title: 'Loan Calculator',
-      description: 'Calculate EMIs instantly',
+      title: 'Calculators',
+      description: 'Tax & financial calculators',
       icon: Calculator,
-      href: '/dashboard/loan-calculator',
+      href: '/dashboard/calculators',
       colorClass: 'bg-amber-500 text-white hover:bg-amber-600',
     },
   ];

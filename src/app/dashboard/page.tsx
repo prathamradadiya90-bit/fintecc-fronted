@@ -7,7 +7,7 @@ import { useGetDocumentsByClientIdQuery } from '@/lib/store/api/clientDocumentsA
 import { StatCard } from '@/components/dashboard/StatCard';
 import { QuickActions } from '@/components/dashboard/QuickActions';
 import { RecentClientsTable } from '@/components/dashboard/RecentClientsTable';
-import { Users, FileText, Calculator, Briefcase, Sparkles, MessageSquare, ArrowRight, UploadCloud, ShieldCheck } from 'lucide-react';
+import { Users, FileText, Briefcase, Sparkles, MessageSquare, ArrowRight, UploadCloud, ShieldCheck } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store/store';
 
@@ -155,14 +155,14 @@ export default function DashboardPage() {
 
       {/* Loading State for Stats */}
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map(i => (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[1, 2, 3].map(i => (
             <div key={i} className="rounded-2xl h-28 animate-pulse" style={{ background: 'var(--color-bg-skeleton)' }} />
           ))}
         </div>
       ) : (
         /* Stats Grid */
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <StatCard 
             title="Total Clients" 
             value={stats?.totalClients || 0} 
@@ -174,12 +174,6 @@ export default function DashboardPage() {
             value={stats?.pendingCompliances?.gst || 0} 
             icon={Briefcase}
             colorClass="text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-400" 
-          />
-          <StatCard 
-            title="Loans Calculated" 
-            value="12" // Placeholder since it's not explicitly in the backend API yet
-            icon={Calculator} 
-            colorClass="text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400"
           />
           <StatCard 
             title="PDFs Converted" 
