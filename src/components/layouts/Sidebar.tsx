@@ -4,8 +4,9 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
+import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
 import type { RootState } from '@/lib/store/store';
@@ -41,6 +42,12 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
   const { user } = useSelector((state: RootState) => state.auth);
   const [logoutApi, { isLoading }] = useLogoutMutation();
   const { theme, toggleTheme } = useTheme();
+
+  const isSuperAdmin = user?.role === 'SUPER_ADMIN';
+  const { data: subData } = useGetMySubscriptionQuery(undefined, {
+    skip: !user || isSuperAdmin,
+  });
+  const hasActivePlan = isSuperAdmin || Boolean(subData?.data?.hasActivePlan);
 
   const clientNavItems: NavItem[] = [
     { name: 'Chat', href: '/dashboard/chat', icon: MessageSquare },
@@ -89,14 +96,19 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 pt-2 pb-6 flex flex-col gap-2 px-3 overflow-y-auto">
+      <nav className="flex-1 pt-2 pb-6 flex flex-col gap-1.5 px-3 overflow-y-auto">
         {items.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const isSubscriptionItem = item.href === '/dashboard/subscription';
+          const isContactItem = item.href === '/dashboard/contact';
+          const isLocked = !hasActivePlan && !isSubscriptionItem && !isContactItem;
+          const destinationHref = isLocked ? '/dashboard/subscription' : item.href;
           const Icon = item.icon;
+
           return (
             <Link
               key={item.name}
-              href={item.href}
+              href={destinationHref}
               onClick={() => {
                 if (window.innerWidth < 1024 && onClose) onClose();
               }}
@@ -104,16 +116,30 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
                 flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group relative text-[13px]
                 ${isActive
                   ? 'text-[#00C2B3] bg-[#00C2B3]/10 font-medium'
+                  : isLocked
+                  ? 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/30'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                 }
               `}
             >
-              <Icon className={`w-[18px] h-[18px] ${isActive ? 'text-[#00C2B3]' : 'text-slate-400 group-hover:text-slate-300'}`} />
-              <span>{item.name}</span>
+              <Icon className={`w-[18px] h-[18px] ${isActive ? 'text-[#00C2B3]' : isLocked ? 'text-slate-600' : 'text-slate-400 group-hover:text-slate-300'}`} />
+              <span className={isLocked ? 'text-slate-400' : ''}>{item.name}</span>
+
               {isActive && (
-                <div className="absolute right-4 w-1.5 h-1.5 rounded-full bg-[#00C2B3]" />
+                <div className="absolute right-3.5 w-1.5 h-1.5 rounded-full bg-[#00C2B3]" />
               )}
-              {item.badge && (
+
+              {isLocked && !isActive && (
+                <Lock className="w-3.5 h-3.5 ml-auto text-slate-500 shrink-0" />
+              )}
+
+              {isSubscriptionItem && !hasActivePlan && (
+                <span className="ml-auto text-[10px] uppercase tracking-wider font-semibold bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">
+                  Action
+                </span>
+              )}
+
+              {item.badge && hasActivePlan && (
                 <span className="ml-auto text-[10px] uppercase tracking-wider font-semibold bg-amber-500/20 text-amber-500 px-2 py-0.5 rounded-md">
                   {item.badge}
                 </span>

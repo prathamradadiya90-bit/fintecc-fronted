@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Sidebar } from '@/components/layouts/Sidebar';
 import { Topbar } from '@/components/layouts/Topbar';
 import { AuthGuard } from '@/components/common/AuthGuard';
+import { SubscriptionGuard } from '@/components/common/SubscriptionGuard';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -26,7 +27,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex-1 flex flex-col min-w-0 lg:ml-56">
             <Topbar onMenuClick={() => setIsSidebarOpen(true)} />
             <main className="flex-1 p-4 lg:p-6 overflow-auto">
-              {children}
+              <SubscriptionGuard>
+                {children}
+              </SubscriptionGuard>
             </main>
           </div>
         </div>

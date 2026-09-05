@@ -7,7 +7,8 @@ import type {
   UpdatePlanRequest, 
   CreateOrderRequest, 
   CreateOrderResponse, 
-  VerifyPaymentRequest 
+  VerifyPaymentRequest,
+  MySubscriptionData
 } from '../../types/plan.types';
 
 export interface ApiResponse<T> {
@@ -19,12 +20,18 @@ export interface ApiResponse<T> {
 export const plansApi = createApi({
   reducerPath: 'plansApi',
   baseQuery: baseQueryWithReauth('/plans'),
-  tagTypes: ['Plans', 'PublicPlans'],
+  tagTypes: ['Plans', 'PublicPlans', 'Subscription'],
   endpoints: (builder) => ({
     // Public Endpoints
     getPublicPlans: builder.query<ApiResponse<Plan[]>, void>({
       query: () => '/public',
       providesTags: ['PublicPlans'],
+    }),
+
+    // Customer / Firm Subscription Status
+    getMySubscription: builder.query<ApiResponse<MySubscriptionData>, void>({
+      query: () => '/my-subscription',
+      providesTags: ['Subscription'],
     }),
 
     // Super Admin Endpoints
@@ -63,6 +70,7 @@ export const plansApi = createApi({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Subscription'],
     }),
     verifyPayment: builder.mutation<ApiResponse<Subscription>, VerifyPaymentRequest>({
       query: (body) => ({
@@ -70,12 +78,14 @@ export const plansApi = createApi({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Subscription'],
     }),
   }),
 });
 
 export const {
   useGetPublicPlansQuery,
+  useGetMySubscriptionQuery,
   useGetAllPlansQuery,
   useCreatePlanMutation,
   useUpdatePlanMutation,
@@ -83,3 +93,4 @@ export const {
   useCreateOrderMutation,
   useVerifyPaymentMutation,
 } = plansApi;
+

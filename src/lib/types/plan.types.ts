@@ -58,3 +58,10 @@ export interface VerifyPaymentRequest {
   razorpayPaymentId: string;
   razorpaySignature: string;
 }
+
+export interface MySubscriptionData {
+  hasActivePlan: boolean;
+  hasUsedFreePlan: boolean;
+  subscription: Subscription | null;
+  activePlan: Plan | null;
+}

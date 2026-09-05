@@ -25,6 +25,9 @@ import {
   useResetPasswordMutation,
   useGoogleLoginMutation,
 } from "../../lib/store/api/authApi";
+import { plansApi } from "../../lib/store/api/plansApi";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../lib/store/store";
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 
 const PRODUCT_META = {
@@ -54,6 +57,20 @@ const getErrorMessage = (error: unknown, fallback: string) => {
 export default function AuthForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const navigateBasedOnSubscription = async () => {
+    try {
+      const res = await dispatch(plansApi.endpoints.getMySubscription.initiate(undefined, { forceRefetch: true })).unwrap();
+      if (res?.data?.hasActivePlan) {
+        router.push("/dashboard");
+      } else {
+        router.push("/dashboard/subscription");
+      }
+    } catch {
+      router.push("/dashboard");
+    }
+  };
 
   const [view, setView] = useState<"login" | "signup" | "otp" | "forgot-password" | "reset-password">("login");
   const [authEmail, setAuthEmail] = useState("");
@@ -113,7 +130,7 @@ export default function AuthForm() {
       setLocalError("");
       try {
         await googleLogin({ token: credentialResponse.credential }).unwrap();
-        router.push("/dashboard");
+        await navigateBasedOnSubscription();
       } catch (err: unknown) {
         setLocalError(getErrorMessage(err, "An error occurred during Google sign in."));
       }
@@ -152,7 +169,7 @@ export default function AuthForm() {
 
     try {
       await login({ email: loginEmail, password: loginPassword }).unwrap();
-      router.push("/dashboard");
+      await navigateBasedOnSubscription();
     } catch (err: unknown) {
       setLocalError(getErrorMessage(err, "An error occurred during login."));
     }
@@ -203,7 +220,7 @@ export default function AuthForm() {
 
     try {
       await verifyRegistration({ email: authEmail, otp }).unwrap();
-      router.push("/dashboard");
+      await navigateBasedOnSubscription();
     } catch (err: unknown) {
       setLocalError(getErrorMessage(err, "Invalid or expired OTP."));
     }
