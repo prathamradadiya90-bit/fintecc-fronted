@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ConversionType, ConversionTypeSelector } from '@/components/pdf-to-xml/ConversionTypeSelector';
 import { FileUploader } from '@/components/pdf-to-xml/FileUploader';
 import { TransactionsPreview } from '@/components/pdf-to-xml/TransactionsPreview';
@@ -29,6 +30,7 @@ import {
   FileText,
   AlertCircle,
   CheckCircle2,
+  Sparkles,
 } from 'lucide-react';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
@@ -54,6 +56,7 @@ function ConvertersPageContent() {
   const [bankData, setBankData] = useState<BankStatementResponse | null>(null);
   const [isDownloadingBankXml, setIsDownloadingBankXml] = useState(false);
   const [isDownloadingBankCsv, setIsDownloadingBankCsv] = useState(false);
+  const [isDownloadingBankExcel, setIsDownloadingBankExcel] = useState(false);
 
   // Invoice state
   const [invoiceFile, setInvoiceFile] = useState<File | null>(null);
@@ -104,10 +107,11 @@ function ConvertersPageContent() {
     }
   };
 
-  const handleBankDownload = async (format: 'xml' | 'csv') => {
+  const handleBankDownload = async (format: 'xml' | 'csv' | 'excel' | 'gst-json') => {
     if (!bankFile) return;
     if (format === 'xml') setIsDownloadingBankXml(true);
-    else setIsDownloadingBankCsv(true);
+    else if (format === 'csv') setIsDownloadingBankCsv(true);
+    else if (format === 'excel') setIsDownloadingBankExcel(true);
 
     try {
       const formData = new FormData();
@@ -122,7 +126,13 @@ function ConvertersPageContent() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = format === 'xml' ? 'tally_vouchers.xml' : 'bank_statement.csv';
+      let filename = 'bank_statement';
+      if (format === 'xml') filename = 'tally_vouchers.xml';
+      else if (format === 'csv') filename = 'bank_statement.csv';
+      else if (format === 'excel') filename = 'bank_statement.xlsx';
+      else filename = 'statement_gstr1.json';
+
+      a.download = filename;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
@@ -132,7 +142,8 @@ function ConvertersPageContent() {
       showToast(`Failed to download ${format.toUpperCase()}`, 'error');
     } finally {
       if (format === 'xml') setIsDownloadingBankXml(false);
-      else setIsDownloadingBankCsv(false);
+      else if (format === 'csv') setIsDownloadingBankCsv(false);
+      else if (format === 'excel') setIsDownloadingBankExcel(false);
     }
   };
 
@@ -307,14 +318,41 @@ function ConvertersPageContent() {
       {/* 1. Bank Statement Flow */}
       {selectedType === 'bank' && (
         <>
+          <div
+            className="p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+            style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3]">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="font-semibold text-xs" style={{ color: 'var(--color-text-primary)' }}>
+                  Stateless Bank Statement Quick Converter
+                </p>
+                <p className="text-[11px]" style={{ color: 'var(--color-text-secondary)' }}>
+                  Quickly convert a bank PDF into Excel, CSV, or Tally XML without saving to client vaults.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/dashboard/bank-statements"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#00C2B3]/10 hover:bg-[#00C2B3]/20 text-[#00C2B3] text-xs font-bold transition-colors whitespace-nowrap"
+            >
+              Open Full CA Review & Vault →
+            </Link>
+          </div>
+
           <FileUploader onFileSelect={handleBankFileSelect} isLoading={isBankUploading} />
           {bankData?.data?.transactions && (
             <TransactionsPreview
               transactions={bankData.data.transactions}
               onDownloadXml={() => handleBankDownload('xml')}
               onDownloadCsv={() => handleBankDownload('csv')}
+              onDownloadExcel={() => handleBankDownload('excel')}
               isDownloadingXml={isDownloadingBankXml}
               isDownloadingCsv={isDownloadingBankCsv}
+              isDownloadingExcel={isDownloadingBankExcel}
             />
           )}
         </>

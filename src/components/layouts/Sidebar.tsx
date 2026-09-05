@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
@@ -23,6 +23,7 @@ const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Work Board', href: '/dashboard/tasks', icon: ClipboardList },
   { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
+  { name: 'Bank Statements', href: '/dashboard/bank-statements', icon: Landmark },
   { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
   { name: 'Client Vault', href: '/dashboard/vault', icon: KeyRound },
   { name: 'GST Compliance', href: '/dashboard/gst', icon: Building2 },

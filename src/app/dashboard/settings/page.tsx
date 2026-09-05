@@ -14,6 +14,7 @@ import {
   Phone,
   ShieldCheck,
   CheckCircle2,
+  Brain,
 } from 'lucide-react';
 import {
   useGetSettingsQuery,
@@ -23,8 +24,9 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useToast } from '@/components/ui/Toast';
 import type { TaxRate, InvoiceSettings, EmailSettings, FirmBranch } from '@/lib/types/settings.types';
+import { LedgerMappingRulesSettings } from '@/components/settings/LedgerMappingRulesSettings';
 
-type SettingsTab = 'invoice' | 'tax' | 'email' | 'branches';
+type SettingsTab = 'invoice' | 'tax' | 'email' | 'branches' | 'ledger-rules';
 
 export default function SettingsPage() {
   const { showToast } = useToast();
@@ -137,14 +139,16 @@ export default function SettingsPage() {
           </p>
         </div>
 
-        <Button
-          type="submit"
-          form="settings-form"
-          isLoading={isUpdating}
-          leftIcon={<Save className="w-4 h-4" />}
-        >
-          Save Changes
-        </Button>
+        {activeTab !== 'ledger-rules' && (
+          <Button
+            type="submit"
+            form="settings-form"
+            isLoading={isUpdating}
+            leftIcon={<Save className="w-4 h-4" />}
+          >
+            Save Changes
+          </Button>
+        )}
       </div>
 
       {/* Tabs */}
@@ -154,6 +158,7 @@ export default function SettingsPage() {
           { id: 'tax', label: 'Tax Rates & Slabs', icon: Percent },
           { id: 'email', label: 'Email & SMTP', icon: Mail },
           { id: 'branches', label: 'Branches & Offices', icon: Building2 },
+          { id: 'ledger-rules', label: 'Ledger Mapping Rules', icon: Brain },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -469,6 +474,9 @@ export default function SettingsPage() {
             </div>
           </div>
         )}
+
+        {/* TAB 5: Ledger Mapping Rules */}
+        {activeTab === 'ledger-rules' && <LedgerMappingRulesSettings />}
       </form>
     </div>
   );

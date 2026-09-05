@@ -46,6 +46,7 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   // Title mapping based on pathname
   let title = 'Dashboard';
   if (pathname.includes('/my-clients')) title = 'My Clients';
+  else if (pathname.includes('/bank-statements')) title = 'Bank Statements & Automation';
   else if (pathname.includes('/invoices')) title = 'Invoice Management';
   else if (pathname.includes('/vault')) title = 'Client Password Vault';
   else if (pathname.includes('/settings')) title = 'Firm Settings';

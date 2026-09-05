@@ -12,16 +12,20 @@ interface TransactionsPreviewProps {
   transactions: BankTransaction[];
   onDownloadXml: () => void;
   onDownloadCsv: () => void;
+  onDownloadExcel?: () => void;
   isDownloadingXml?: boolean;
   isDownloadingCsv?: boolean;
+  isDownloadingExcel?: boolean;
 }
 
 export function TransactionsPreview({ 
   transactions, 
   onDownloadXml, 
   onDownloadCsv,
+  onDownloadExcel,
   isDownloadingXml,
-  isDownloadingCsv
+  isDownloadingCsv,
+  isDownloadingExcel,
 }: TransactionsPreviewProps) {
   const [bankLedger, setBankLedger] = useState('Bank Account');
   const [queueBankStatementSync, { isLoading: isSyncingToTally }] = useQueueBankStatementSyncMutation();
@@ -129,16 +133,27 @@ export function TransactionsPreview({
             />
           </div>
 
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={onDownloadCsv}
-            isLoading={isDownloadingCsv}
-            leftIcon={<FileSpreadsheet className="w-3.5 h-3.5" />}
-            className="text-xs"
-          >
-            Download CSV
-          </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={onDownloadExcel}
+              isLoading={isDownloadingExcel}
+              leftIcon={<FileSpreadsheet className="w-3.5 h-3.5 text-emerald-500" />}
+              className="text-xs"
+            >
+              Download Excel
+            </Button>
+
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={onDownloadCsv}
+              isLoading={isDownloadingCsv}
+              leftIcon={<FileSpreadsheet className="w-3.5 h-3.5" />}
+              className="text-xs"
+            >
+              Download CSV
+            </Button>
 
           <Button 
             variant="outline"
