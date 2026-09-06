@@ -3,7 +3,8 @@ export interface Plan {
   name: string;
   description: string | null;
   price: number;
-  durationMonths: number;
+  durationMonths?: number;
+  billingCycle?: string;
   features: string[] | null;
   isActive: boolean;
   createdAt: string;
@@ -28,7 +29,8 @@ export interface CreatePlanRequest {
   name: string;
   description?: string;
   price: number;
-  durationMonths: number;
+  durationMonths?: number;
+  billingCycle?: string;
   features?: string[];
   isActive?: boolean;
 }
@@ -38,6 +40,7 @@ export interface UpdatePlanRequest {
   description?: string;
   price?: number;
   durationMonths?: number;
+  billingCycle?: string;
   features?: string[];
   isActive?: boolean;
 }

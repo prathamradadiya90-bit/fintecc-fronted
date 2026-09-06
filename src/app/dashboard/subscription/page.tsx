@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/Toast";
 import { Button } from "@/components/ui/Button";
 import { useRazorpayCheckout } from "@/lib/hooks/useRazorpayCheckout";
 import type { RootState } from "@/lib/store/store";
+import { formatPlanBillingPeriod, cleanPlanFeature } from "@/lib/utils/subscriptionUtils";
 
 export default function SubscriptionPage() {
   const { data, isLoading, isError, refetch } = useGetPublicPlansQuery();
@@ -234,7 +235,7 @@ export default function SubscriptionPage() {
                 <div className="flex items-end gap-1 mb-8">
                   <span className="text-xl font-black" style={{ color: "var(--color-text-primary)" }}>₹{Number(plan.price).toLocaleString()}</span>
                   <span className="text-sm mb-0.5 font-medium" style={{ color: "var(--color-text-muted)" }}>
-                    /{plan.durationMonths === 1 ? 'mo' : plan.durationMonths === 12 ? 'yr' : `${plan.durationMonths}mo`}
+                    {formatPlanBillingPeriod(plan)}
                   </span>
                 </div>
 
@@ -244,7 +245,7 @@ export default function SubscriptionPage() {
                       <div className="mt-0.5 rounded-full p-0.5 bg-emerald-50 dark:bg-emerald-500/10 shrink-0">
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
                       </div>
-                      <span className="text-sm leading-snug" style={{ color: "var(--color-text-on-card)" }}>{feature}</span>
+                      <span className="text-sm leading-snug" style={{ color: "var(--color-text-on-card)" }}>{cleanPlanFeature(feature)}</span>
                     </div>
                   ))}
                 </div>

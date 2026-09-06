@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, Suspense } from "react";
-import { Plus, Edit2, Trash2, Power, PowerOff } from "lucide-react";
+import { Plus, Edit2, PowerOff } from "lucide-react";
 import { 
   useGetAllPlansQuery, 
   useCreatePlanMutation, 
@@ -20,7 +20,7 @@ function PlansContent() {
   const { data, isLoading, isError, refetch } = useGetAllPlansQuery();
   const [createPlan, { isLoading: isCreating }] = useCreatePlanMutation();
   const [updatePlan, { isLoading: isUpdating }] = useUpdatePlanMutation();
-  const [deletePlan, { isLoading: isDeleting }] = useDeletePlanMutation();
+  const [deletePlan] = useDeletePlanMutation();
 
   const plans = data?.data || [];
 
@@ -31,7 +31,7 @@ function PlansContent() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [durationMonths, setDurationMonths] = useState("");
+  const [billingCycle, setBillingCycle] = useState<"MONTHLY" | "ANNUALLY">("ANNUALLY");
   const [featuresText, setFeaturesText] = useState("");
   const [isActive, setIsActive] = useState(true);
 
@@ -40,7 +40,7 @@ function PlansContent() {
     setName("");
     setDescription("");
     setPrice("");
-    setDurationMonths("1");
+    setBillingCycle("ANNUALLY");
     setFeaturesText("");
     setIsActive(true);
     setIsModalOpen(true);
@@ -48,26 +48,33 @@ function PlansContent() {
 
   const openEditModal = (plan: Plan) => {
     setEditingPlan(plan);
-    setName(plan.name);
+    setName(plan.name || "");
     setDescription(plan.description || "");
-    setPrice(plan.price.toString());
-    setDurationMonths(plan.durationMonths.toString());
+    setPrice(plan.price !== undefined && plan.price !== null ? plan.price.toString() : "");
+    setBillingCycle(
+      plan.billingCycle?.toUpperCase() === "MONTHLY" || plan.durationMonths === 1
+        ? "MONTHLY"
+        : "ANNUALLY"
+    );
     setFeaturesText(plan.features ? plan.features.join(", ") : "");
-    setIsActive(plan.isActive);
+    setIsActive(Boolean(plan.isActive));
     setIsModalOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const features = featuresText.split(',').map(f => f.trim()).filter(f => f);
+      const features = featuresText
+        .split(",")
+        .map((f) => f.trim())
+        .filter((f) => f.length > 0);
       
       if (editingPlan) {
         const req: UpdatePlanRequest = {
           name,
           description,
           price: Number(price),
-          durationMonths: Number(durationMonths),
+          billingCycle,
           features,
           isActive,
         };
@@ -78,7 +85,7 @@ function PlansContent() {
           name,
           description,
           price: Number(price),
-          durationMonths: Number(durationMonths),
+          billingCycle,
           features,
           isActive,
         };
@@ -87,7 +94,7 @@ function PlansContent() {
       }
       setIsModalOpen(false);
     } catch (err: any) {
-      showToast(err.message || "An error occurred", "error");
+      showToast(err?.data?.message || err?.message || "An error occurred", "error");
     }
   };
 
@@ -97,7 +104,7 @@ function PlansContent() {
         await deletePlan(id).unwrap();
         showToast("Plan deactivated successfully", "success");
       } catch (err: any) {
-        showToast(err.message || "Failed to deactivate plan", "error");
+        showToast(err?.data?.message || err?.message || "Failed to deactivate plan", "error");
       }
     }
   };
@@ -108,7 +115,7 @@ function PlansContent() {
       header: "Plan Name",
       render: (plan) => (
         <div>
-          <p className="font-semibold text-slate-800">{plan.name}</p>
+          <p className="font-semibold text-slate-800 dark:text-slate-100">{plan.name}</p>
           <p className="text-[11px] text-slate-400 truncate max-w-[200px]">{plan.description}</p>
         </div>
       )
@@ -117,15 +124,22 @@ function PlansContent() {
       key: "price",
       header: "Price",
       render: (plan) => (
-        <span className="font-medium text-slate-700">₹{Number(plan.price).toLocaleString()}</span>
+        <span className="font-medium text-slate-700 dark:text-slate-200">
+          ₹{Number(plan.price).toLocaleString()}
+        </span>
       )
     },
     {
-      key: "durationMonths",
-      header: "Duration",
-      render: (plan) => (
-        <span className="text-slate-600">{plan.durationMonths} {plan.durationMonths === 1 ? 'month' : 'months'}</span>
-      )
+      key: "billingCycle",
+      header: "Billing Cycle",
+      render: (plan) => {
+        const isMonthly = plan.billingCycle?.toUpperCase() === "MONTHLY" || plan.durationMonths === 1;
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+            {isMonthly ? "Monthly" : "Annually"}
+          </span>
+        );
+      }
     },
     {
       key: "isActive",
@@ -139,7 +153,7 @@ function PlansContent() {
           />
           <span
             className={`text-[12px] font-medium ${
-              plan.isActive ? "text-emerald-700" : "text-red-600"
+              plan.isActive ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
             }`}
           >
             {plan.isActive ? "Active" : "Inactive"}
@@ -155,14 +169,14 @@ function PlansContent() {
           <button
             onClick={() => openEditModal(plan)}
             title="Edit Plan"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition-colors"
           >
             <Edit2 className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleDelete(plan.id)}
             title="Deactivate Plan"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
             disabled={!plan.isActive}
           >
             <PowerOff className="w-4 h-4" />
@@ -177,8 +191,8 @@ function PlansContent() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#091124]">Subscription Plans</h2>
-          <p className="text-slate-500 mt-0.5 text-[13px]">
+          <h2 className="text-xl font-bold text-[#091124] dark:text-white">Subscription Plans</h2>
+          <p className="text-slate-500 dark:text-slate-400 mt-0.5 text-sm">
             Manage subscription tiers and pricing for firm owners.
           </p>
         </div>
@@ -189,7 +203,7 @@ function PlansContent() {
 
       {/* Table */}
       {isError ? (
-        <div className="bg-red-50 border border-red-100 text-red-600 rounded-2xl p-6 text-center text-[13px] font-medium">
+        <div className="bg-red-50 border border-red-100 text-red-600 rounded-2xl p-6 text-center text-sm font-medium">
           Failed to load plans. <Button variant="ghost" onClick={() => refetch()}>Try Again</Button>
         </div>
       ) : (
@@ -232,22 +246,28 @@ function PlansContent() {
               onChange={(e) => setPrice(e.target.value)}
               required
             />
-            <Input
-              label="Duration (Months)"
-              type="number"
-              min="1"
-              placeholder="e.g. 12"
-              value={durationMonths}
-              onChange={(e) => setDurationMonths(e.target.value)}
-              required
-            />
+            <div>
+              <label
+                className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300"
+              >
+                Billing Cycle
+              </label>
+              <select
+                value={billingCycle}
+                onChange={(e) => setBillingCycle(e.target.value as "MONTHLY" | "ANNUALLY")}
+                className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+              >
+                <option value="ANNUALLY">Annually (1 Year)</option>
+                <option value="MONTHLY">Monthly (1 Month)</option>
+              </select>
+            </div>
           </div>
           <div>
-            <label className="block text-[13px] font-medium mb-1" style={{ color: 'var(--color-text-on-card)' }}>
+            <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
               Features (comma separated)
             </label>
             <textarea
-              className="w-full px-2.5 py-1.5 rounded-xl text-[13px] border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
               rows={3}
               placeholder="e.g. Unlimited Clients, GST Tracking, Priority Support"
               value={featuresText}
@@ -262,7 +282,7 @@ function PlansContent() {
               onChange={(e) => setIsActive(e.target.checked)}
               className="rounded text-[#00C2B3] focus:ring-[#00C2B3]"
             />
-            <label htmlFor="isActive" className="text-[13px] font-medium text-slate-700">
+            <label htmlFor="isActive" className="text-sm font-medium text-slate-700 dark:text-slate-300">
               Active (Visible to users)
             </label>
           </div>

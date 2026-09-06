@@ -4,6 +4,7 @@ import React from "react";
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useGetPublicPlansQuery } from "@/lib/store/api/plansApi";
+import { formatPlanBillingPeriod, cleanPlanFeature } from "@/lib/utils/subscriptionUtils";
 
 export function Pricing() {
   const router = useRouter();
@@ -83,7 +84,7 @@ export function Pricing() {
                       ₹{Number(plan.price).toLocaleString()}
                     </span>
                     <span className="text-xs text-slate-400 mb-1 font-medium">
-                       /{plan.durationMonths === 1 ? 'mo' : plan.durationMonths === 12 ? 'yr' : `${plan.durationMonths}mo`}
+                      {formatPlanBillingPeriod(plan)}
                     </span>
                   </div>
                   
@@ -91,7 +92,7 @@ export function Pricing() {
                     {plan.features?.map((feature, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-300 leading-tight">{feature}</span>
+                        <span className="text-sm text-slate-300 leading-tight">{cleanPlanFeature(feature)}</span>
                       </div>
                     ))}
                   </div>

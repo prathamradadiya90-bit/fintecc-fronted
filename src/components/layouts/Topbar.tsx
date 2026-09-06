@@ -46,6 +46,7 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   // Title mapping based on pathname
   let title = 'Dashboard';
   if (pathname.includes('/my-clients')) title = 'My Clients';
+  else if (pathname.includes('/tasks')) title = 'Work Board';
   else if (pathname.includes('/bank-statements')) title = 'Bank Statements & Automation';
   else if (pathname.includes('/invoices')) title = 'Invoice Management';
   else if (pathname.includes('/vault')) title = 'Client Password Vault';
@@ -62,6 +63,8 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   else if (pathname.includes('/subscription')) title = 'Subscription';
   else if (pathname.includes('/staff')) title = 'Manage Staff & Attendance';
   else if (pathname.includes('/audit-logs')) title = 'Security Audit Logs';
+  else if (pathname.includes('/dsc')) title = 'DSC Token Tracker';
+  else if (pathname.includes('/notices')) title = 'Notice Management';
   else if (pathname.includes('/contact')) title = 'Contact Us';
 
   const userName = user?.name || "Guest";

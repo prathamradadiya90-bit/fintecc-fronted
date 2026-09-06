@@ -23,6 +23,8 @@ import { settingsApi } from './api/settingsApi';
 import { convertersApi } from './api/convertersApi';
 import { attendanceApi } from './api/attendanceApi';
 import { auditApi } from './api/auditApi';
+import { dscApi } from './api/dscApi';
+import { noticesApi } from './api/noticesApi';
 import authReducer from './features/auth/authSlice';
 
 const persistConfig = {
@@ -54,6 +56,8 @@ const rootReducer = combineReducers({
   [convertersApi.reducerPath]: convertersApi.reducer,
   [attendanceApi.reducerPath]: attendanceApi.reducer,
   [auditApi.reducerPath]: auditApi.reducer,
+  [dscApi.reducerPath]: dscApi.reducer,
+  [noticesApi.reducerPath]: noticesApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -86,7 +90,9 @@ export const store = configureStore({
       settingsApi.middleware,
       convertersApi.middleware,
       attendanceApi.middleware,
-      auditApi.middleware
+      auditApi.middleware,
+      dscApi.middleware,
+      noticesApi.middleware
     ),
 });
 

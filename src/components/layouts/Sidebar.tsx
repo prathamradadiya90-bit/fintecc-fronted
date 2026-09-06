@@ -4,9 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
+import { useGetTasksQuery } from '@/lib/store/api/tasksApi';
 import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
 import type { RootState } from '@/lib/store/store';
@@ -22,8 +23,10 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Work Board', href: '/dashboard/tasks', icon: ClipboardList },
+  { name: 'Notice Board', href: '/dashboard/notices', icon: FileWarning },
   { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
   { name: 'Bank Statements', href: '/dashboard/bank-statements', icon: Landmark },
+  { name: 'DSC Tracker', href: '/dashboard/dsc', icon: Key },
   { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
   { name: 'Client Vault', href: '/dashboard/vault', icon: KeyRound },
   { name: 'GST Compliance', href: '/dashboard/gst', icon: Building2 },
@@ -50,12 +53,20 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
   });
   const hasActivePlan = isSuperAdmin || Boolean(subData?.data?.hasActivePlan);
 
+  // Dynamic active tasks tracking for the Work Board badge
+  const { data: tasksData } = useGetTasksQuery(undefined, {
+    skip: !user || isSuperAdmin || user?.role === 'CLIENT',
+  });
+  const activeTasksCount = tasksData?.data
+    ? tasksData.data.filter((t) => t.status !== 'DONE').length
+    : 0;
+
   const clientNavItems: NavItem[] = [
     { name: 'Chat', href: '/dashboard/chat', icon: MessageSquare },
     { name: 'Documents', href: '/dashboard/documents', icon: FileText },
   ];
 
-  const items: NavItem[] = user?.role === 'CLIENT'
+  const rawItems: NavItem[] = user?.role === 'CLIENT'
     ? clientNavItems
     : [
         ...navItems,
@@ -68,6 +79,16 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
         ),
         { name: 'Contact Us', href: '/dashboard/contact', icon: MessageSquare },
       ];
+
+  const items: NavItem[] = rawItems.map((item) => {
+    if (item.name === 'Work Board') {
+      return {
+        ...item,
+        badge: activeTasksCount > 0 ? String(activeTasksCount) : undefined,
+      };
+    }
+    return item;
+  });
 
 
   const handleLogout = async () => {

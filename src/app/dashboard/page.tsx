@@ -7,6 +7,7 @@ import { useGetDocumentsByClientIdQuery } from '@/lib/store/api/clientDocumentsA
 import { StatCard } from '@/components/dashboard/StatCard';
 import { QuickActions } from '@/components/dashboard/QuickActions';
 import { RecentClientsTable } from '@/components/dashboard/RecentClientsTable';
+import { DscExpiringWidget } from '@/components/dsc/DscExpiringWidget';
 import { Users, FileText, Briefcase, Sparkles, MessageSquare, ArrowRight, UploadCloud, ShieldCheck } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store/store';
@@ -132,6 +133,9 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Expiring DSC Alert Widget */}
+      <DscExpiringWidget />
+
       {/* AI Insights Banner (if available) */}
       {stats?.aiInsights && stats.aiInsights.length > 0 && (
         <div
@@ -172,14 +176,14 @@ export default function DashboardPage() {
           <StatCard 
             title="Active GST Clients" 
             value={stats?.pendingCompliances?.gst || 0} 
-            icon={Briefcase}
+            icon={Briefcase} 
             colorClass="text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-400" 
           />
           <StatCard 
             title="PDFs Converted" 
             value={stats?.pdfsConverted || 0} 
             icon={FileText} 
-            colorClass="text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-400"
+            colorClass="text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-400" 
           />
         </div>
       )}
