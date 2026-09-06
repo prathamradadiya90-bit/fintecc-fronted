@@ -8,6 +8,7 @@ import { StatCard } from '@/components/dashboard/StatCard';
 import { QuickActions } from '@/components/dashboard/QuickActions';
 import { RecentClientsTable } from '@/components/dashboard/RecentClientsTable';
 import { DscExpiringWidget } from '@/components/dsc/DscExpiringWidget';
+import { AnnouncementBanner } from '@/components/common/AnnouncementBanner';
 import { Users, FileText, Briefcase, Sparkles, MessageSquare, ArrowRight, UploadCloud, ShieldCheck } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store/store';
@@ -39,6 +40,7 @@ export default function DashboardPage() {
   if (isClient) {
     return (
       <div className="max-w-6xl mx-auto space-y-6 pb-10">
+        <AnnouncementBanner />
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
@@ -120,6 +122,7 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6 pb-10">
+      <AnnouncementBanner />
       
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">

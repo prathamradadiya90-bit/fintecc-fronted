@@ -25,6 +25,11 @@ import { attendanceApi } from './api/attendanceApi';
 import { auditApi } from './api/auditApi';
 import { dscApi } from './api/dscApi';
 import { noticesApi } from './api/noticesApi';
+import { searchApi } from './api/searchApi';
+import { mcaApi } from './api/mcaApi';
+import { rocApi } from './api/rocApi';
+import { announcementsApi } from './api/announcementsApi';
+import { clientPortalApi } from './api/clientPortalApi';
 import authReducer from './features/auth/authSlice';
 
 const persistConfig = {
@@ -58,6 +63,11 @@ const rootReducer = combineReducers({
   [auditApi.reducerPath]: auditApi.reducer,
   [dscApi.reducerPath]: dscApi.reducer,
   [noticesApi.reducerPath]: noticesApi.reducer,
+  [searchApi.reducerPath]: searchApi.reducer,
+  [mcaApi.reducerPath]: mcaApi.reducer,
+  [rocApi.reducerPath]: rocApi.reducer,
+  [announcementsApi.reducerPath]: announcementsApi.reducer,
+  [clientPortalApi.reducerPath]: clientPortalApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -92,7 +102,12 @@ export const store = configureStore({
       attendanceApi.middleware,
       auditApi.middleware,
       dscApi.middleware,
-      noticesApi.middleware
+      noticesApi.middleware,
+      searchApi.middleware,
+      mcaApi.middleware,
+      rocApi.middleware,
+      announcementsApi.middleware,
+      clientPortalApi.middleware
     ),
 });
 

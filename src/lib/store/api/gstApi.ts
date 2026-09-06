@@ -12,6 +12,13 @@ import type {
   PaginatedGstReturnsResponse,
   GstReturnResponse,
   GstReturn,
+  GstInvoice,
+  ComplianceCalendarEvent,
+  LinkedGstin,
+  GstinDetails,
+  WhitebooksOtpRequest,
+  WhitebooksTokenRequest,
+  WhitebooksGstr2bRequest,
 } from '../../types/gst.types';
 
 export const gstApi = createApi({
@@ -221,6 +228,85 @@ export const gstApi = createApi({
         body: formData,
       }),
     }),
+
+    // --- COMPLIANCE CALENDAR ---
+    getComplianceCalendar: builder.query<{ success: boolean; data: ComplianceCalendarEvent[] }, void>({
+      query: () => '/compliance-calendar',
+    }),
+
+    // --- CLIENT GSTIN MANAGEMENT ---
+    linkGstin: builder.mutation<{ success: boolean; data: LinkedGstin; message?: string }, { clientId: string; gstin: string }>({
+      query: ({ clientId, gstin }) => ({
+        url: `/clients/${clientId}/link`,
+        method: 'POST',
+        body: { gstin },
+      }),
+      invalidatesTags: [{ type: 'GstProfile', id: 'LIST' }],
+    }),
+
+    getLinkedGstins: builder.query<{ success: boolean; data: LinkedGstin[] }, string>({
+      query: (clientId) => `/clients/${clientId}`,
+    }),
+
+    getGstinDetails: builder.query<{ success: boolean; data: GstinDetails }, { clientId: string; gstin: string }>({
+      query: ({ clientId, gstin }) => `/${clientId}/gstin/${gstin}`,
+    }),
+
+    // --- GST INVOICES (GSP LAYER) ---
+    addGstInvoice: builder.mutation<{ success: boolean; data: GstInvoice; message?: string }, { clientId: string; invoice: Partial<GstInvoice> }>({
+      query: ({ clientId, invoice }) => ({
+        url: `/${clientId}/invoices`,
+        method: 'POST',
+        body: invoice,
+      }),
+    }),
+
+    getGstInvoices: builder.query<{ success: boolean; data: GstInvoice[] }, string>({
+      query: (clientId) => `/${clientId}/invoices`,
+    }),
+
+    // --- RETURNS GSP LAYER & IMPORT ---
+    importInvoices: builder.mutation<{ success: boolean; data: any; message?: string }, { returnId: string; invoiceIds: string[] }>({
+      query: ({ returnId, invoiceIds }) => ({
+        url: `/returns/${returnId}/import-invoices`,
+        method: 'POST',
+        body: { invoiceIds },
+      }),
+      invalidatesTags: (result, error, { returnId }) => [{ type: 'GstReturn', id: returnId }],
+    }),
+
+    getGspReturns: builder.query<{ success: boolean; data: any[] }, string>({
+      query: (clientId) => `/${clientId}/returns-gsp`,
+    }),
+
+    getReturnStatus: builder.query<{ success: boolean; data: any }, string>({
+      query: (returnId) => `/returns/${returnId}/status`,
+    }),
+
+    // --- WHITEBOOKS GST INTEGRATION ---
+    whitebooksRequestOtp: builder.mutation<{ success: boolean; data: any; message?: string }, WhitebooksOtpRequest>({
+      query: (body) => ({
+        url: '/whitebooks/otp',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    whitebooksGetToken: builder.mutation<{ success: boolean; data: any; message?: string }, WhitebooksTokenRequest>({
+      query: (body) => ({
+        url: '/whitebooks/token',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    whitebooksGetGstr2b: builder.mutation<{ success: boolean; data: any; message?: string }, WhitebooksGstr2bRequest>({
+      query: (body) => ({
+        url: '/whitebooks/gstr2b',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -246,4 +332,16 @@ export const {
   useValidateGstr3bMutation,
   useFileGstr3bMutation,
   useReconcile2BMutation,
+  useGetComplianceCalendarQuery,
+  useLinkGstinMutation,
+  useGetLinkedGstinsQuery,
+  useGetGstinDetailsQuery,
+  useAddGstInvoiceMutation,
+  useGetGstInvoicesQuery,
+  useImportInvoicesMutation,
+  useGetGspReturnsQuery,
+  useGetReturnStatusQuery,
+  useWhitebooksRequestOtpMutation,
+  useWhitebooksGetTokenMutation,
+  useWhitebooksGetGstr2bMutation,
 } = gstApi;

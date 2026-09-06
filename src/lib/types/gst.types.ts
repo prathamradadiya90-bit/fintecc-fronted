@@ -160,3 +160,53 @@ export type UpdateGstProfileInput = Partial<CreateGstProfileInput>;
 export interface VerifyGstinInput {
   gstin: string;
 }
+
+export interface ComplianceCalendarEvent {
+  id: string;
+  title: string;
+  dueDate: string;
+  category: string;
+  description?: string;
+  isCompleted?: boolean;
+}
+
+export interface LinkedGstin {
+  id?: string;
+  gstin: string;
+  clientId: string;
+  legalName?: string;
+  tradeName?: string;
+  status?: string;
+  stateCode?: string;
+}
+
+export interface GstinDetails {
+  gstin: string;
+  legalName: string;
+  tradeName?: string;
+  status: string;
+  registrationType?: string;
+  stateCode?: string;
+  address?: string;
+}
+
+export interface WhitebooksOtpRequest {
+  gstin: string;
+  username: string;
+}
+
+export interface WhitebooksTokenRequest {
+  gstin: string;
+  username: string;
+  otp: string;
+}
+
+export interface WhitebooksGstr2bRequest {
+  gstin: string;
+  returnPeriod: string;
+}
+
+export interface ImportInvoicesRequest {
+  returnId: string;
+  invoiceIds: string[];
+}

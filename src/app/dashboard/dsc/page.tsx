@@ -153,7 +153,7 @@ export default function DscTrackerPage() {
           setIsModalOpen(false);
           setTokenToEdit(null);
         }}
-        tokenToEdit={tokenToEdit}
+        editingToken={tokenToEdit}
       />
     </div>
   );

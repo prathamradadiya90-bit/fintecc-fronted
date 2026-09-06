@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, MessageSquare, CreditCard } from "lucide-react";
+import { LayoutDashboard, Users, MessageSquare, CreditCard, Megaphone } from "lucide-react";
 
 const navItems = [
   { name: "Dashboard", href: "/super-admin/dashboard", icon: LayoutDashboard },
@@ -14,6 +14,7 @@ const navItems = [
     icon: MessageSquare,
   },
   { name: "Plans", href: "/super-admin/plans", icon: CreditCard },
+  { name: "Announcements", href: "/super-admin/announcements", icon: Megaphone },
 ];
 
 interface SuperAdminNavLinksProps {

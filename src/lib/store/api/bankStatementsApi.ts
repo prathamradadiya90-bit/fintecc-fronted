@@ -152,6 +152,14 @@ export const bankStatementsApi = createApi({
         body,
       }),
     }),
+
+    // Export Statement to Excel / CSV / Tally
+    exportStatement: builder.query<Blob, { id: string; format?: 'excel' | 'csv' | 'tally' }>({
+      query: ({ id, format = 'excel' }) => ({
+        url: `/${id}/export?format=${format}`,
+        responseHandler: (response) => response.blob(),
+      }),
+    }),
   }),
 });
 
@@ -167,4 +175,5 @@ export const {
   useGetLedgerMappingsQuery,
   useSaveLedgerMappingMutation,
   useUploadBankStatementMutation,
+  useLazyExportStatementQuery,
 } = bankStatementsApi;

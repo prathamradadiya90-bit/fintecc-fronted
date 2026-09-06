@@ -82,3 +82,70 @@ export interface TallyQueueResponse {
     voucherCount: number;
   };
 }
+
+export interface EcommerceLineItem {
+  id: string;
+  reportId: string;
+  orderId: string;
+  invoiceDate?: string;
+  buyerState?: string;
+  gstin?: string;
+  classification?: string;
+  taxableValue: number;
+  igst: number;
+  cgst: number;
+  sgst: number;
+  tcsAmount?: number;
+  hsnCode?: string;
+  taxRate?: number;
+  isTable14?: boolean;
+  ecommGstin?: string;
+}
+
+export interface EcommerceReport {
+  id: string;
+  firmId: string;
+  platform: string;
+  originalFilename?: string;
+  reportPeriod?: string;
+  totalOrders?: number;
+  totalTaxableValue?: number;
+  totalIgst?: number;
+  totalCgst?: number;
+  totalSgst?: number;
+  tcsReconciliation?: {
+    portalTcsAmount?: number;
+    systemTcs?: number;
+    delta?: number;
+    splitAdjustment?: any;
+  };
+  lineItems: EcommerceLineItem[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface EcommerceReportResponse {
+  success: boolean;
+  data: EcommerceReport;
+  message?: string;
+}
+
+export interface UpdateTcsRequest {
+  id: string;
+  portalTcsAmount: number;
+  splitAdjustment?: any;
+}
+
+export interface BulkUpdateHsnRequest {
+  id: string;
+  itemIds: string[];
+  hsnCode: string;
+  taxRate?: number;
+}
+
+export interface OverrideTable14Request {
+  id: string;
+  itemId: string;
+  isTable14: boolean;
+  ecommGstin?: string;
+}

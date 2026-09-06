@@ -19,6 +19,7 @@ import { GstProfilesTable } from '@/features/gst/components/GstProfilesTable';
 import { CreateProfileModal } from '@/features/gst/components/CreateProfileModal';
 import { EditProfileModal } from '@/features/gst/components/EditProfileModal';
 import { VerifyGstinModal } from '@/features/gst/components/VerifyGstinModal';
+import { GstComplianceCalendar } from '@/features/gst/components/GstComplianceCalendar';
 import type { GstProfile } from '@/lib/types/gst.types';
 
 export default function GstOverviewPage() {
@@ -184,6 +185,9 @@ export default function GstOverviewPage() {
           onVerify={(profile) => setVerifyingProfile(profile)}
         />
       </div>
+
+      {/* Statutory Compliance Calendar */}
+      <GstComplianceCalendar />
 
       {/* Modals */}
       <CreateProfileModal

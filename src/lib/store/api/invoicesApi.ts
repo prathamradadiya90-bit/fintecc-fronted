@@ -85,6 +85,28 @@ export const invoicesApi = createApi({
         body: formData,
       }),
     }),
+
+    // Invoice Downloads
+    downloadPdf: builder.query<Blob, string>({
+      query: (id) => ({
+        url: `/${id}/pdf`,
+        responseHandler: (response) => response.blob(),
+      }),
+    }),
+
+    downloadTallyXml: builder.query<Blob, string>({
+      query: (id) => ({
+        url: `/${id}/tally-xml`,
+        responseHandler: (response) => response.blob(),
+      }),
+    }),
+
+    downloadCsv: builder.query<Blob, string>({
+      query: (id) => ({
+        url: `/${id}/csv`,
+        responseHandler: (response) => response.blob(),
+      }),
+    }),
   }),
 });
 
@@ -96,4 +118,7 @@ export const {
   useDeleteInvoiceMutation,
   useUploadInvoiceMutation,
   useBulkOcrMutation,
+  useLazyDownloadPdfQuery,
+  useLazyDownloadTallyXmlQuery,
+  useLazyDownloadCsvQuery,
 } = invoicesApi;

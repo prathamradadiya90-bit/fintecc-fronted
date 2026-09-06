@@ -31,6 +31,22 @@ export const convertersApi = createApi({
         body: formData,
       }),
     }),
+
+    scanInvoice: builder.mutation<{ success: boolean; data: any; message?: string }, FormData>({
+      query: (formData) => ({
+        url: '/ocr/scan-invoice',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
+
+    scanBankStatement: builder.mutation<{ success: boolean; data: any; message?: string }, FormData>({
+      query: (formData) => ({
+        url: '/ocr/scan-bank-statement',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
 });
 
@@ -38,4 +54,6 @@ export const {
   useConvertExcelToJsonMutation,
   useConvertJsonToExcelMutation,
   useScanReceiptMutation,
+  useScanInvoiceMutation,
+  useScanBankStatementMutation,
 } = convertersApi;

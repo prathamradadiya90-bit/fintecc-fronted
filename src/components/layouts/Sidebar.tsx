@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, FileStack, Clock } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
 import { useGetTasksQuery } from '@/lib/store/api/tasksApi';
@@ -32,6 +32,8 @@ const navItems: NavItem[] = [
   { name: 'GST Compliance', href: '/dashboard/gst', icon: Building2 },
   { name: 'ITR Filing', href: '/dashboard/itr', icon: ReceiptText },
   { name: 'E-Commerce', href: '/dashboard/ecommerce', icon: ShoppingBag },
+  { name: 'MCA Registry', href: '/dashboard/mca', icon: Building2 },
+  { name: 'ROC Filings', href: '/dashboard/roc', icon: FileStack },
   { name: 'Tally Sync', href: '/dashboard/tally-sync', icon: RefreshCw },
   { name: 'Converters', href: '/dashboard/converters', icon: FileText },
   { name: 'Calculators', href: '/dashboard/calculators', icon: Calculator },
@@ -62,6 +64,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
     : 0;
 
   const clientNavItems: NavItem[] = [
+    { name: 'My Invoices', href: '/dashboard/portal', icon: Receipt },
     { name: 'Chat', href: '/dashboard/chat', icon: MessageSquare },
     { name: 'Documents', href: '/dashboard/documents', icon: FileText },
   ];
@@ -73,6 +76,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
         ...(user?.role === 'FIRM_OWNER'
           ? [
               { name: 'Manage Staff', href: '/dashboard/staff', icon: Shield },
+              { name: 'Attendance', href: '/dashboard/attendance', icon: Clock },
               { name: 'Audit Logs', href: '/dashboard/audit-logs', icon: Shield },
             ]
           : []

@@ -9,6 +9,7 @@ import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { logout } from '@/lib/store/features/auth/authSlice';
 import { useTheme } from '@/providers/ThemeProvider';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
+import { GlobalSearchBar } from '@/components/common/GlobalSearchBar';
 
 export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const pathname = usePathname();
@@ -51,17 +52,21 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   else if (pathname.includes('/invoices')) title = 'Invoice Management';
   else if (pathname.includes('/vault')) title = 'Client Password Vault';
   else if (pathname.includes('/settings')) title = 'Firm Settings';
+  else if (pathname.includes('/portal')) title = 'My Invoices & Documents';
   else if (pathname.includes('/chat')) title = user?.role === 'CLIENT' ? 'Chat with CA Firm' : 'Chat';
   else if (pathname.includes('/documents')) title = 'My Documents';
   else if (pathname.includes('/gst')) title = 'GST Compliance';
   else if (pathname.includes('/itr')) title = 'ITR Filing';
   else if (pathname.includes('/ecommerce')) title = 'E-Commerce Sales';
+  else if (pathname.includes('/mca')) title = 'MCA Company Registry';
+  else if (pathname.includes('/roc')) title = 'ROC Annual Filings';
   else if (pathname.includes('/tally-sync')) title = 'Tally Prime Sync';
   else if (pathname.includes('/converters')) title = 'Converters & OCR Hub';
   else if (pathname.includes('/calculators')) title = 'Calculators';
   else if (pathname.includes('/compliance')) title = 'Compliance Calendar';
   else if (pathname.includes('/subscription')) title = 'Subscription';
-  else if (pathname.includes('/staff')) title = 'Manage Staff & Attendance';
+  else if (pathname.includes('/staff')) title = 'Manage Staff';
+  else if (pathname.includes('/attendance')) title = 'Staff Attendance';
   else if (pathname.includes('/audit-logs')) title = 'Security Audit Logs';
   else if (pathname.includes('/dsc')) title = 'DSC Token Tracker';
   else if (pathname.includes('/notices')) title = 'Notice Management';
@@ -75,13 +80,13 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
 
   return (
     <header
-      className="h-16 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30"
+      className="h-16 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30 gap-4"
       style={{
         background: 'var(--color-bg-card)',
         borderBottom: '1px solid var(--color-border-subtle)',
       }}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 shrink-0">
         <button
           onClick={onMenuClick}
           className="lg:hidden p-1 -ml-1"
@@ -90,14 +95,19 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
           <Menu className="w-6 h-6" />
         </button>
         <h1
-          className="text-lg lg:text-xl font-bold"
+          className="text-lg lg:text-xl font-bold whitespace-nowrap"
           style={{ color: 'var(--color-text-heading)' }}
         >
           {title}
         </h1>
       </div>
 
-      <div className="flex items-center gap-4">
+      {/* Global Search */}
+      <div className="hidden sm:flex flex-1 justify-center max-w-lg mx-auto">
+        <GlobalSearchBar />
+      </div>
+
+      <div className="flex items-center gap-4 shrink-0">
         <NotificationBell />
 
         <div className="relative pl-4" style={{ borderLeft: '1px solid var(--color-border)' }} ref={dropdownRef}>
