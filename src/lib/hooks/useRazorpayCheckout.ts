@@ -7,10 +7,15 @@ declare global {
   }
 }
 
-interface RazorpayOptions {
-  orderId: string;
-  amount: number;
-  currency: string;
+/**
+ * Options for initiating a Razorpay Subscription checkout.
+ * Backend now uses Razorpay Subscriptions (not Orders).
+ */
+export interface RazorpaySubscriptionOptions {
+  /** Razorpay Subscription ID (sub_xxx) from the backend */
+  subscriptionId: string;
+  /** Razorpay API key returned by the backend */
+  key: string;
   name?: string;
   description?: string;
   prefill?: {
@@ -20,9 +25,9 @@ interface RazorpayOptions {
   };
 }
 
-interface RazorpaySuccessResponse {
+export interface RazorpaySubscriptionSuccessResponse {
   razorpay_payment_id: string;
-  razorpay_order_id: string;
+  razorpay_subscription_id: string;
   razorpay_signature: string;
 }
 
@@ -33,7 +38,7 @@ export function useRazorpayCheckout() {
         resolve(true);
         return;
       }
-      
+
       const script = document.createElement('script');
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.onload = () => resolve(true);
@@ -42,105 +47,79 @@ export function useRazorpayCheckout() {
     });
   }, []);
 
+  /**
+   * Opens the Razorpay checkout for a subscription.
+   * In test/mock mode (subscriptionId starts with "mock_"), renders a simulated
+   * payment modal so the flow can be tested without a real Razorpay account.
+   */
   const initiateCheckout = useCallback(
-    async (options: RazorpayOptions): Promise<RazorpaySuccessResponse> => {
+    async (options: RazorpaySubscriptionOptions): Promise<RazorpaySubscriptionSuccessResponse> => {
       return new Promise(async (resolve, reject) => {
-        if (options.orderId.startsWith('mock_')) {
-          // Create a mock modal directly in the DOM
+        // Mock mode: triggered when backend isn't connected to a real Razorpay account
+        if (options.subscriptionId.startsWith('mock_') || options.subscriptionId.startsWith('sub_mock')) {
           const overlay = document.createElement('div');
-          overlay.style.position = 'fixed';
-          overlay.style.top = '0';
-          overlay.style.left = '0';
-          overlay.style.width = '100vw';
-          overlay.style.height = '100vh';
-          overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-          overlay.style.zIndex = '99999';
-          overlay.style.display = 'flex';
-          overlay.style.justifyContent = 'center';
-          overlay.style.alignItems = 'center';
-          
+          overlay.style.cssText =
+            'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:99999;display:flex;justify-content:center;align-items:center;';
+
           const modal = document.createElement('div');
-          modal.style.backgroundColor = '#fff';
-          modal.style.padding = '30px';
-          modal.style.borderRadius = '10px';
-          modal.style.width = '400px';
-          modal.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-          modal.style.textAlign = 'center';
-          modal.style.fontFamily = 'sans-serif';
-          
+          modal.style.cssText =
+            'background:#fff;padding:30px;border-radius:12px;width:420px;box-shadow:0 8px 32px rgba(0,0,0,0.25);text-align:center;font-family:sans-serif;';
+
           modal.innerHTML = `
-            <div style="background-color: #00C2B3; color: white; padding: 15px; border-radius: 5px 5px 0 0; margin: -30px -30px 20px -30px; font-weight: bold; font-size: 18px;">
+            <div style="background:#00C2B3;color:white;padding:16px;border-radius:8px 8px 0 0;margin:-30px -30px 20px -30px;font-weight:bold;font-size:16px;">
               Mock Payment Gateway (Test Mode)
             </div>
-            <h2 style="margin: 0 0 10px 0; color: #333;">${options.name || 'Fintecc'}</h2>
-            <p style="color: #666; margin-bottom: 20px;">${options.description || 'Subscription Payment'}</p>
-            <div style="font-size: 24px; font-weight: bold; margin-bottom: 25px; color: #111;">
-              ₹${(options.amount / 100).toFixed(2)}
-            </div>
+            <h2 style="margin:0 0 8px 0;color:#333;font-size:18px;">${options.name || 'Fintecc'}</h2>
+            <p style="color:#666;margin-bottom:8px;font-size:14px;">${options.description || 'Subscription Payment'}</p>
+            <p style="color:#999;margin-bottom:24px;font-size:12px;">Subscription: ${options.subscriptionId}</p>
           `;
-          
+
           const buttonContainer = document.createElement('div');
-          buttonContainer.style.display = 'flex';
-          buttonContainer.style.justifyContent = 'space-between';
-          buttonContainer.style.gap = '10px';
-          
+          buttonContainer.style.cssText = 'display:flex;justify-content:space-between;gap:12px;';
+
           const cancelBtn = document.createElement('button');
           cancelBtn.innerText = 'Cancel';
-          cancelBtn.style.flex = '1';
-          cancelBtn.style.padding = '12px';
-          cancelBtn.style.border = '1px solid #ccc';
-          cancelBtn.style.backgroundColor = '#f9f9f9';
-          cancelBtn.style.borderRadius = '5px';
-          cancelBtn.style.cursor = 'pointer';
-          cancelBtn.style.color = '#333';
+          cancelBtn.style.cssText =
+            'flex:1;padding:12px;border:1px solid #ccc;background:#f9f9f9;border-radius:8px;cursor:pointer;color:#333;font-size:14px;';
           cancelBtn.onclick = () => {
             document.body.removeChild(overlay);
             reject(new Error('Payment cancelled by user.'));
           };
-          
+
           const payBtn = document.createElement('button');
           payBtn.innerText = 'Pay Now (Success)';
-          payBtn.style.flex = '1';
-          payBtn.style.padding = '12px';
-          payBtn.style.border = 'none';
-          payBtn.style.backgroundColor = '#00C2B3';
-          payBtn.style.color = 'white';
-          payBtn.style.borderRadius = '5px';
-          payBtn.style.cursor = 'pointer';
-          payBtn.style.fontWeight = 'bold';
+          payBtn.style.cssText =
+            'flex:1;padding:12px;border:none;background:#00C2B3;color:white;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px;';
           payBtn.onclick = () => {
             document.body.removeChild(overlay);
             resolve({
-              razorpay_order_id: options.orderId,
+              razorpay_subscription_id: options.subscriptionId,
               razorpay_payment_id: 'pay_mock_' + Date.now(),
-              razorpay_signature: 'mock_signature'
+              razorpay_signature: 'mock_signature',
             });
           };
-          
+
           buttonContainer.appendChild(cancelBtn);
           buttonContainer.appendChild(payBtn);
           modal.appendChild(buttonContainer);
           overlay.appendChild(modal);
           document.body.appendChild(overlay);
-          
           return;
         }
 
         const isLoaded = await loadRazorpayScript();
-        
+
         if (!isLoaded) {
           reject(new Error('Razorpay SDK failed to load. Are you online?'));
           return;
         }
 
-        const optionsForRazorpay = {
-          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-          amount: options.amount,
-          currency: options.currency,
+        const razorpayOptions = {
+          key: options.key,
+          subscription_id: options.subscriptionId,
           name: options.name || 'Fintecc',
           description: options.description || 'Subscription Payment',
-          order_id: options.orderId,
-          handler: function (response: RazorpaySuccessResponse) {
+          handler: function (response: RazorpaySubscriptionSuccessResponse) {
             resolve(response);
           },
           prefill: options.prefill,
@@ -154,7 +133,7 @@ export function useRazorpayCheckout() {
           },
         };
 
-        const paymentObject = new window.Razorpay(optionsForRazorpay);
+        const paymentObject = new window.Razorpay(razorpayOptions);
         paymentObject.on('payment.failed', function (response: any) {
           reject(new Error(response.error.description || 'Payment failed.'));
         });
