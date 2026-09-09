@@ -72,6 +72,15 @@ export const invoicesApi = createApi({
       }),
     }),
 
+    downloadInvoiceConvert: builder.mutation<Blob, { formData: FormData; format: 'xml' | 'csv' }>({
+      query: ({ formData, format }) => ({
+        url: `/convert?format=${format}`,
+        method: 'POST',
+        body: formData,
+        responseHandler: (response) => response.blob(),
+      }),
+    }),
+
     bulkOcr: builder.mutation<{
       success: boolean;
       data: {
@@ -83,6 +92,15 @@ export const invoicesApi = createApi({
         url: '/bulk-ocr',
         method: 'POST',
         body: formData,
+      }),
+    }),
+
+    downloadBulkOcrCsv: builder.mutation<Blob, FormData>({
+      query: (formData) => ({
+        url: '/bulk-ocr?format=csv',
+        method: 'POST',
+        body: formData,
+        responseHandler: (response) => response.blob(),
       }),
     }),
 
@@ -117,7 +135,9 @@ export const {
   useUpdateInvoiceMutation,
   useDeleteInvoiceMutation,
   useUploadInvoiceMutation,
+  useDownloadInvoiceConvertMutation,
   useBulkOcrMutation,
+  useDownloadBulkOcrCsvMutation,
   useLazyDownloadPdfQuery,
   useLazyDownloadTallyXmlQuery,
   useLazyDownloadCsvQuery,

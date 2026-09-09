@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../ui/Button';
-import { FileCode2, FileSpreadsheet, Building2, User2, Receipt, Calendar, Hash, BadgeIndianRupee } from 'lucide-react';
+import { FileCode2, FileSpreadsheet, Building2, User2, Receipt, Calendar, Hash, BadgeIndianRupee, Sparkles } from 'lucide-react';
 import type { ExtractedInvoice } from '@/lib/types/invoice.types';
 
 interface InvoicePreviewProps {
@@ -83,7 +83,14 @@ export function InvoicePreview({
       {/* Header row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>Invoice Preview</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>Invoice Preview</h2>
+            {invoice.processingTimeMs ? (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20">
+                <Sparkles className="w-3 h-3" /> Parsed in {invoice.processingTimeMs}ms
+              </span>
+            ) : null}
+          </div>
           <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
             AI-extracted data from your invoice PDF. Download as Tally XML or CSV.
           </p>

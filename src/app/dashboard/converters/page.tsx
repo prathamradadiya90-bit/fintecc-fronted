@@ -8,15 +8,26 @@ import { FileUploader } from '@/components/pdf-to-xml/FileUploader';
 import { TransactionsPreview } from '@/components/pdf-to-xml/TransactionsPreview';
 import { InvoicePreview } from '@/components/invoice-converter/InvoicePreview';
 import { Button } from '@/components/ui/Button';
-import { useUploadBankStatementMutation } from '@/lib/store/api/bankStatementsApi';
-import { useUploadInvoiceMutation, useBulkOcrMutation } from '@/lib/store/api/invoicesApi';
+import {
+  useUploadBankStatementMutation,
+  useDownloadBankStatementConvertMutation,
+  useUploadStatementIntakeMutation,
+} from '@/lib/store/api/bankStatementsApi';
+import {
+  useUploadInvoiceMutation,
+  useDownloadInvoiceConvertMutation,
+  useBulkOcrMutation,
+  useDownloadBulkOcrCsvMutation,
+} from '@/lib/store/api/invoicesApi';
+import { useGetClientsQuery } from '@/lib/store/api/clientsApi';
+import { PasswordProtectedModal } from '@/components/pdf-to-xml/PasswordProtectedModal';
 import {
   useConvertExcelToJsonMutation,
   useConvertJsonToExcelMutation,
   useScanReceiptMutation,
 } from '@/lib/store/api/convertersApi';
 import { useToast } from '@/components/ui/Toast';
-import { BankStatementResponse } from '@/lib/types/bankStatement.types';
+import { BankStatementResponse, BankTransaction } from '@/lib/types/bankStatement.types';
 import { ExtractedInvoice } from '@/lib/types/invoice.types';
 import type { ExcelToJsonResponse, ReceiptOcrResponse } from '@/lib/types/converter.types';
 import {
@@ -31,9 +42,11 @@ import {
   AlertCircle,
   CheckCircle2,
   Sparkles,
+  Lock,
+  Building2,
+  ExternalLink,
+  ShieldAlert,
 } from 'lucide-react';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
 function ConvertersPageContent() {
   const searchParams = useSearchParams();
@@ -54,9 +67,20 @@ function ConvertersPageContent() {
   // Bank statement state
   const [bankFile, setBankFile] = useState<File | null>(null);
   const [bankData, setBankData] = useState<BankStatementResponse | null>(null);
+  const [bankMode, setBankMode] = useState<'direct' | 'async'>('direct');
+  const [selectedClientId, setSelectedClientId] = useState<string>('');
+  const [asyncUploadStatus, setAsyncUploadStatus] = useState<{
+    statementId: string;
+    status: string;
+    message: string;
+  } | null>(null);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [passwordProtectedFileName, setPasswordProtectedFileName] = useState('');
+
   const [isDownloadingBankXml, setIsDownloadingBankXml] = useState(false);
   const [isDownloadingBankCsv, setIsDownloadingBankCsv] = useState(false);
   const [isDownloadingBankExcel, setIsDownloadingBankExcel] = useState(false);
+  const [isDownloadingBankGstJson, setIsDownloadingBankGstJson] = useState(false);
 
   // Invoice state
   const [invoiceFile, setInvoiceFile] = useState<File | null>(null);
@@ -79,10 +103,19 @@ function ConvertersPageContent() {
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [receiptResult, setReceiptResult] = useState<ReceiptOcrResponse['data'] | null>(null);
 
-  // RTK Mutations
+  // RTK Mutations & Queries
+  const { data: clientsData, isLoading: isLoadingClients } = useGetClientsQuery();
+  const clients = clientsData?.data || [];
+
   const [uploadBankStatement, { isLoading: isBankUploading }] = useUploadBankStatementMutation();
+  const [downloadBankStatementConvert] = useDownloadBankStatementConvertMutation();
+  const [uploadStatementIntake, { isLoading: isIntakeUploading }] = useUploadStatementIntakeMutation();
+
   const [uploadInvoice, { isLoading: isInvoiceUploading }] = useUploadInvoiceMutation();
+  const [downloadInvoiceConvert] = useDownloadInvoiceConvertMutation();
   const [bulkOcr, { isLoading: isBulkOcrUploading }] = useBulkOcrMutation();
+  const [downloadBulkOcrCsv] = useDownloadBulkOcrCsvMutation();
+
   const [convertExcelToJson, { isLoading: isExcelConverting }] = useConvertExcelToJsonMutation();
   const [convertJsonToExcel, { isLoading: isJsonConverting }] = useConvertJsonToExcelMutation();
   const [scanReceipt, { isLoading: isReceiptScanning }] = useScanReceiptMutation();
@@ -92,58 +125,118 @@ function ConvertersPageContent() {
     setSelectedType(type);
   };
 
+  // Safe transactions extraction from backend array or nested object
+  const bankTransactions: BankTransaction[] = Array.isArray(bankData?.data)
+    ? (bankData.data as BankTransaction[])
+    : (bankData?.data?.transactions || []);
+
   // ────────────────────────── Bank Statement handlers ──────────────────────────
   const handleBankFileSelect = async (file: File) => {
     setBankFile(file);
     setBankData(null);
+    setAsyncUploadStatus(null);
+
+    // 1. Async Upload Flow (save to database for CA review)
+    if (bankMode === 'async') {
+      if (!selectedClientId) {
+        showToast('Please select a client entity before uploading for vault review.', 'error');
+        return;
+      }
+      try {
+        const formData = new FormData();
+        formData.append('statement', file);
+        formData.append('file', file);
+        formData.append('clientId', selectedClientId);
+
+        const response = await uploadStatementIntake(formData).unwrap();
+        setAsyncUploadStatus(response.data);
+        showToast(response.message || 'Statement accepted for processing in background!', 'success');
+      } catch (error: any) {
+        console.error('Failed to upload bank statement intake:', error);
+        const errMsg = error?.data?.message || '';
+        if (
+          error?.status === 400 &&
+          (errMsg.toLowerCase().includes('password') || errMsg === 'PDF_PASSWORD_PROTECTED')
+        ) {
+          setPasswordProtectedFileName(file.name);
+          setIsPasswordModalOpen(true);
+        }
+        showToast(errMsg || 'Failed to process statement intake.', 'error');
+      }
+      return;
+    }
+
+    // 2. Direct Stateless Conversion Flow (on-the-fly parsing)
     try {
       const formData = new FormData();
       formData.append('statement', file);
+      formData.append('file', file);
+
       const response = await uploadBankStatement(formData).unwrap();
       setBankData(response);
+      showToast('Statement parsed successfully!', 'success');
     } catch (error: any) {
       console.error('Failed to parse bank statement:', error);
-      showToast(error?.data?.message || 'Failed to process the PDF statement.', 'error');
+      const errMsg = error?.data?.message || '';
+      if (
+        error?.status === 400 &&
+        (errMsg.toLowerCase().includes('password') || errMsg === 'PDF_PASSWORD_PROTECTED')
+      ) {
+        setPasswordProtectedFileName(file.name);
+        setIsPasswordModalOpen(true);
+      }
+      showToast(errMsg || 'Failed to process the PDF statement.', 'error');
     }
   };
 
-  const handleBankDownload = async (format: 'xml' | 'csv' | 'excel' | 'gst-json') => {
+  const handleBankDownload = async (
+    format: 'xml' | 'csv' | 'excel' | 'gst-json',
+    companyName?: string,
+    bankLedger?: string,
+    fp?: string
+  ) => {
     if (!bankFile) return;
     if (format === 'xml') setIsDownloadingBankXml(true);
     else if (format === 'csv') setIsDownloadingBankCsv(true);
     else if (format === 'excel') setIsDownloadingBankExcel(true);
+    else if (format === 'gst-json') setIsDownloadingBankGstJson(true);
 
     try {
       const formData = new FormData();
       formData.append('statement', bankFile);
-      const response = await fetch(
-        `${API_BASE}/bank-statements/convert?format=${format}`,
-        { method: 'POST', body: formData, credentials: 'include' }
-      );
-      if (!response.ok) throw new Error(`Failed to download ${format.toUpperCase()}`);
+      formData.append('file', bankFile);
 
-      const blob = await response.blob();
+      const blob = await downloadBankStatementConvert({
+        formData,
+        format,
+        companyName,
+        bankLedger,
+        fp,
+      }).unwrap();
+
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       let filename = 'bank_statement';
-      if (format === 'xml') filename = 'tally_vouchers.xml';
+      if (format === 'xml') filename = `${companyName ? companyName.replace(/\s+/g, '_') : 'tally'}_vouchers.xml`;
       else if (format === 'csv') filename = 'bank_statement.csv';
       else if (format === 'excel') filename = 'bank_statement.xlsx';
-      else filename = 'statement_gstr1.json';
+      else filename = `statement_gstr1_${fp || 'period'}.json`;
 
       a.download = filename;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    } catch (error) {
+      showToast(`Downloaded ${format.toUpperCase()} successfully!`, 'success');
+    } catch (error: any) {
       console.error(`Bank ${format} download failed:`, error);
-      showToast(`Failed to download ${format.toUpperCase()}`, 'error');
+      showToast(error?.data?.message || `Failed to download ${format.toUpperCase()}`, 'error');
     } finally {
       if (format === 'xml') setIsDownloadingBankXml(false);
       else if (format === 'csv') setIsDownloadingBankCsv(false);
       else if (format === 'excel') setIsDownloadingBankExcel(false);
+      else if (format === 'gst-json') setIsDownloadingBankGstJson(false);
     }
   };
 
@@ -153,9 +246,11 @@ function ConvertersPageContent() {
     setInvoiceData(null);
     try {
       const formData = new FormData();
+      formData.append('file', file);
       formData.append('invoice', file);
       const response = await uploadInvoice(formData).unwrap();
       setInvoiceData(response.data);
+      showToast('Invoice parsed successfully with AI!', 'success');
     } catch (error: any) {
       console.error('Failed to parse invoice:', error);
       showToast(error?.data?.message || 'Failed to process the invoice PDF.', 'error');
@@ -169,14 +264,11 @@ function ConvertersPageContent() {
 
     try {
       const formData = new FormData();
+      formData.append('file', invoiceFile);
       formData.append('invoice', invoiceFile);
-      const response = await fetch(
-        `${API_BASE}/invoices/convert?format=${format}`,
-        { method: 'POST', body: formData, credentials: 'include' }
-      );
-      if (!response.ok) throw new Error(`Failed to download ${format.toUpperCase()}`);
 
-      const blob = await response.blob();
+      const blob = await downloadInvoiceConvert({ formData, format }).unwrap();
+
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -188,9 +280,10 @@ function ConvertersPageContent() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    } catch (error) {
+      showToast(`Downloaded ${format.toUpperCase()} successfully!`, 'success');
+    } catch (error: any) {
       console.error(`Invoice ${format} download failed:`, error);
-      showToast(`Failed to download ${format.toUpperCase()}`, 'error');
+      showToast(error?.data?.message || `Failed to download ${format.toUpperCase()}`, 'error');
     } finally {
       if (format === 'xml') setIsDownloadingInvoiceXml(false);
       else setIsDownloadingInvoiceCsv(false);
@@ -225,13 +318,8 @@ function ConvertersPageContent() {
       setIsDownloadingBulkCsv(true);
       const formData = new FormData();
       bulkFiles.forEach((file) => formData.append('files', file));
-      const response = await fetch(`${API_BASE}/invoices/bulk-ocr?format=csv`, {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
-      if (!response.ok) throw new Error('Failed to download bulk CSV');
-      const blob = await response.blob();
+
+      const blob = await downloadBulkOcrCsv(formData).unwrap();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -240,9 +328,9 @@ function ConvertersPageContent() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      showToast('Consolidated CSV downloaded', 'success');
-    } catch (err) {
-      showToast('Failed to download CSV', 'error');
+      showToast('Consolidated CSV downloaded successfully', 'success');
+    } catch (err: any) {
+      showToast(err?.data?.message || 'Failed to download CSV', 'error');
     } finally {
       setIsDownloadingBulkCsv(false);
     }
@@ -306,7 +394,7 @@ function ConvertersPageContent() {
     <div className="max-w-6xl mx-auto space-y-6">
       <div>
         <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
-          Financial Converters & OCR Hub
+          Financial Converters &amp; OCR Hub
         </h1>
         <p className="mt-0.5 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
           Convert financial PDFs, invoices, spreadsheets, and receipt photos into clean Tally XML, JSON, or CSV.
@@ -317,7 +405,8 @@ function ConvertersPageContent() {
 
       {/* 1. Bank Statement Flow */}
       {selectedType === 'bank' && (
-        <>
+        <div className="space-y-4">
+          {/* Dual-Mode Selector: Direct vs Async */}
           <div
             className="p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
             style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
@@ -328,34 +417,131 @@ function ConvertersPageContent() {
               </div>
               <div>
                 <p className="font-semibold text-xs" style={{ color: 'var(--color-text-primary)' }}>
-                  Stateless Bank Statement Quick Converter
+                  {bankMode === 'direct' ? 'Direct On-the-fly Conversion' : 'Async Upload & CA Review'}
                 </p>
                 <p className="text-[11px]" style={{ color: 'var(--color-text-secondary)' }}>
-                  Quickly convert a bank PDF into Excel, CSV, or Tally XML without saving to client vaults.
+                  {bankMode === 'direct'
+                    ? 'Extracts transactions immediately without saving to client database.'
+                    : 'Saves statement to client vault and queues for full 3-Tier AI Mapping.'}
                 </p>
               </div>
             </div>
-            <Link
-              href="/dashboard/bank-statements"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#00C2B3]/10 hover:bg-[#00C2B3]/20 text-[#00C2B3] text-xs font-bold transition-colors whitespace-nowrap"
-            >
-              Open Full CA Review & Vault →
-            </Link>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setBankMode('direct');
+                  setAsyncUploadStatus(null);
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  bankMode === 'direct'
+                    ? 'bg-[#00C2B3] text-white shadow-sm'
+                    : 'border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-slate-500/10'
+                }`}
+              >
+                Direct Convert
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setBankMode('async');
+                  setBankData(null);
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  bankMode === 'async'
+                    ? 'bg-[#00C2B3] text-white shadow-sm'
+                    : 'border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-slate-500/10'
+                }`}
+              >
+                Save to Vault (CA Review)
+              </button>
+            </div>
           </div>
 
-          <FileUploader onFileSelect={handleBankFileSelect} isLoading={isBankUploading} />
-          {bankData?.data?.transactions && (
+          {/* Client Entity Selector for Async Mode */}
+          {bankMode === 'async' && (
+            <div
+              className="p-4 rounded-2xl border space-y-2 animate-fadeIn"
+              style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+            >
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-[#00C2B3]" />
+                <label className="text-xs font-semibold" style={{ color: 'var(--color-text-primary)' }}>
+                  Select Client Entity <span className="text-red-500">*</span>
+                </label>
+              </div>
+              <select
+                value={selectedClientId}
+                onChange={(e) => setSelectedClientId(e.target.value)}
+                disabled={isLoadingClients}
+                className="w-full text-xs px-3 py-2.5 rounded-xl border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+              >
+                <option value="">-- Choose a Client to link this statement --</option>
+                {clients.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name} {c.companyName ? `(${c.companyName})` : ''}
+                  </option>
+                ))}
+              </select>
+              <p className="text-[11px]" style={{ color: 'var(--color-text-secondary)' }}>
+                Required for saving to database. The statement will be assigned to this client.
+              </p>
+            </div>
+          )}
+
+          {/* File Uploader */}
+          <FileUploader
+            onFileSelect={handleBankFileSelect}
+            isLoading={isBankUploading || isIntakeUploading}
+          />
+
+          {/* Async Upload Success Status (202 Accepted) */}
+          {asyncUploadStatus && (
+            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs space-y-2 animate-fadeIn">
+              <div className="flex items-center justify-between">
+                <p className="font-semibold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" /> 202 Accepted for Processing!
+                </p>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                  {asyncUploadStatus.status}
+                </span>
+              </div>
+              <p className="text-[12px] text-emerald-600 dark:text-emerald-400">
+                {asyncUploadStatus.message || 'Statement uploaded successfully and is parsing in the background.'}
+              </p>
+              <div className="flex items-center gap-2 pt-1">
+                <Link
+                  href={`/dashboard/bank-statements/${asyncUploadStatus.statementId}/review`}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#00C2B3] text-white text-xs font-semibold hover:bg-[#00a89b] transition-colors"
+                >
+                  Open CA Review Grid <ExternalLink className="w-3.5 h-3.5" />
+                </Link>
+                <Link
+                  href="/dashboard/bank-statements"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-xs font-medium hover:bg-slate-500/10 transition-colors"
+                >
+                  View All Statements
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* Direct Mode Transactions Preview Table */}
+          {bankTransactions.length > 0 && (
             <TransactionsPreview
-              transactions={bankData.data.transactions}
-              onDownloadXml={() => handleBankDownload('xml')}
+              transactions={bankTransactions}
+              onDownloadXml={(comp, ledger) => handleBankDownload('xml', comp, ledger)}
               onDownloadCsv={() => handleBankDownload('csv')}
               onDownloadExcel={() => handleBankDownload('excel')}
+              onDownloadGstJson={(fp) => handleBankDownload('gst-json', undefined, undefined, fp)}
               isDownloadingXml={isDownloadingBankXml}
               isDownloadingCsv={isDownloadingBankCsv}
               isDownloadingExcel={isDownloadingBankExcel}
+              isDownloadingGstJson={isDownloadingBankGstJson}
             />
           )}
-        </>
+        </div>
       )}
 
       {/* 2. Single Invoice Flow */}
@@ -648,6 +834,13 @@ function ConvertersPageContent() {
           )}
         </div>
       )}
+
+      {/* Password Protected PDF Modal */}
+      <PasswordProtectedModal
+        isOpen={isPasswordModalOpen}
+        fileName={passwordProtectedFileName}
+        onClose={() => setIsPasswordModalOpen(false)}
+      />
     </div>
   );
 }

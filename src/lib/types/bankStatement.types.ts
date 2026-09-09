@@ -127,10 +127,12 @@ export interface BankStatement {
 export interface BankStatementResponse {
   success: boolean;
   message?: string;
-  data: {
-    count: number;
-    transactions: BankTransaction[];
-  };
+  data:
+    | BankTransaction[]
+    | {
+        count?: number;
+        transactions?: BankTransaction[];
+      };
 }
 
 export interface BankStatementIntakeData {

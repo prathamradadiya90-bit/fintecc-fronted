@@ -144,21 +144,71 @@ export const bankStatementsApi = createApi({
       invalidatesTags: ['LedgerMapping'],
     }),
 
-    // Stateless document conversion (legacy & quick conversion)
-    uploadBankStatement: builder.mutation<BankStatementResponse, FormData>({
-      query: (body) => ({
-        url: '/convert?format=json',
-        method: 'POST',
-        body,
-      }),
+    // Stateless document conversion (Direct Conversion on-the-fly)
+    uploadBankStatement: builder.mutation<
+      BankStatementResponse,
+      FormData | { formData: FormData; format?: 'json'; companyName?: string; bankLedger?: string; fp?: string }
+    >({
+      query: (arg) => {
+        if (arg instanceof FormData) {
+          return {
+            url: '/convert?format=json',
+            method: 'POST',
+            body: arg,
+          };
+        }
+        const params = new URLSearchParams();
+        params.append('format', 'json');
+        if (arg.companyName) params.append('companyName', arg.companyName);
+        if (arg.bankLedger) params.append('bankLedger', arg.bankLedger);
+        if (arg.fp) params.append('fp', arg.fp);
+        return {
+          url: `/convert?${params.toString()}`,
+          method: 'POST',
+          body: arg.formData,
+        };
+      },
     }),
 
-    // Export Statement to Excel / CSV / Tally
-    exportStatement: builder.query<Blob, { id: string; format?: 'excel' | 'csv' | 'tally' }>({
-      query: ({ id, format = 'excel' }) => ({
-        url: `/${id}/export?format=${format}`,
-        responseHandler: (response) => response.blob(),
-      }),
+    // Direct conversion file download (stateless: Excel, CSV, XML, GST-JSON)
+    downloadBankStatementConvert: builder.mutation<
+      Blob,
+      {
+        formData: FormData;
+        format: 'csv' | 'excel' | 'xml' | 'gst-json';
+        companyName?: string;
+        bankLedger?: string;
+        fp?: string;
+      }
+    >({
+      query: ({ formData, format, companyName, bankLedger, fp }) => {
+        const params = new URLSearchParams();
+        params.append('format', format);
+        if (companyName) params.append('companyName', companyName);
+        if (bankLedger) params.append('bankLedger', bankLedger);
+        if (fp) params.append('fp', fp);
+        return {
+          url: `/convert?${params.toString()}`,
+          method: 'POST',
+          body: formData,
+          responseHandler: (response) => response.blob(),
+        };
+      },
+    }),
+
+    // Export Statement to Excel / CSV / Tally (from database by statement ID)
+    exportStatement: builder.query<Blob, { id: string; format?: 'excel' | 'csv' | 'tally' | 'xml' | 'gst-json'; companyName?: string; bankLedger?: string; fp?: string }>({
+      query: ({ id, format = 'excel', companyName, bankLedger, fp }) => {
+        const params = new URLSearchParams();
+        params.append('format', format);
+        if (companyName) params.append('companyName', companyName);
+        if (bankLedger) params.append('bankLedger', bankLedger);
+        if (fp) params.append('fp', fp);
+        return {
+          url: `/${id}/export?${params.toString()}`,
+          responseHandler: (response) => response.blob(),
+        };
+      },
     }),
   }),
 });
@@ -175,5 +225,6 @@ export const {
   useGetLedgerMappingsQuery,
   useSaveLedgerMappingMutation,
   useUploadBankStatementMutation,
+  useDownloadBankStatementConvertMutation,
   useLazyExportStatementQuery,
 } = bankStatementsApi;

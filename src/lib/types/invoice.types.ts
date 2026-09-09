@@ -11,6 +11,15 @@ export interface ExtractedInvoice {
   buyerName: string | null;
   buyerGstin: string | null;
   notes: string | null;
+  processingTimeMs?: number | null;
+  items?: Array<{
+    description?: string;
+    hsnCode?: string;
+    quantity?: number;
+    rate?: number;
+    taxRate?: number;
+    total?: number;
+  }>;
 }
 
 export interface InvoiceConvertResponse {
