@@ -49,7 +49,14 @@ export default function BankStatementsHubPage() {
   });
 
   const getStatusBadge = (status: string) => {
-    if (status === 'REVIEW' || status === 'COMPLETED') {
+    if (status === 'COMPLETED') {
+      return (
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+          <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Fully Approved
+        </span>
+      );
+    }
+    if (status === 'REVIEW') {
       return (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20">
           <CheckCircle2 className="w-3 h-3" /> Ready for Review

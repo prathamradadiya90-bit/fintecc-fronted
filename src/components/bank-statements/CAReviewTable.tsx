@@ -87,7 +87,7 @@ export function CAReviewTable({
 
   const filteredTransactions = transactions.filter((tx) => {
     if (filterStatus === 'NEEDS_REVIEW') {
-      return tx.needsReview || tx.confidenceScore < 80;
+      return tx.status !== 'APPROVED' && (tx.needsReview || (tx.confidenceScore !== null && tx.confidenceScore !== undefined && tx.confidenceScore < 80));
     }
     if (filterStatus === 'PENDING') {
       return tx.status === 'PENDING';
@@ -196,7 +196,7 @@ export function CAReviewTable({
                 const isSaving = savingRowId === tx.id;
                 const isSaved = savedSuccessRowId === tx.id;
 
-                const isLowConfidence = tx.needsReview || (tx.confidenceScore !== null && tx.confidenceScore < 80);
+                const isLowConfidence = tx.status !== 'APPROVED' && (tx.needsReview || (tx.confidenceScore !== null && tx.confidenceScore !== undefined && tx.confidenceScore < 80));
                 const isFallback = tx.source === 'fallback';
                 const isLearned = tx.source === 'learned_exact';
                 const isRule = tx.source === 'rule_based';

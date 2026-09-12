@@ -57,7 +57,10 @@ export default function BankStatementReviewPage({ params }: PageProps) {
 
   const unapprovedTransactions = transactions.filter((t) => t.status !== 'APPROVED');
   const unapprovedCount = unapprovedTransactions.length;
-  const needsReviewCount = transactions.filter((t) => t.needsReview || t.confidenceScore < 80).length;
+  const needsReviewTransactions = transactions.filter(
+    (t) => t.status !== 'APPROVED' && (t.needsReview || (t.confidenceScore !== null && t.confidenceScore !== undefined && t.confidenceScore < 80))
+  );
+  const needsReviewCount = needsReviewTransactions.length;
 
   const handleToggleSelect = (id: string) => {
     setSelectedIds((prev) =>
@@ -78,7 +81,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
   };
 
   const handleSelectNeedsReview = () => {
-    setSelectedIds(transactions.filter((t) => t.needsReview || t.confidenceScore < 80).map((t) => t.id));
+    setSelectedIds(needsReviewTransactions.map((t) => t.id));
   };
 
   const handleBulkApprove = async () => {
@@ -199,8 +202,14 @@ export default function BankStatementReviewPage({ params }: PageProps) {
             <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               {statementInfo?.bankName || 'Bank Statement'} Review
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20">
-              {statementInfo?.status || 'REVIEW'}
+            <span
+              className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
+                unapprovedCount === 0 && transactions.length > 0
+                  ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
+                  : 'bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20'
+              }`}
+            >
+              {unapprovedCount === 0 && transactions.length > 0 ? 'COMPLETED' : (statementInfo?.status || 'REVIEW')}
             </span>
           </div>
           <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>

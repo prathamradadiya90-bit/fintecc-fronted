@@ -69,6 +69,8 @@ export const bankStatementsApi = createApi({
       }),
       invalidatesTags: (result, error, { statementId }) => [
         { type: 'BankStatementReview', id: statementId },
+        { type: 'BankStatement', id: statementId },
+        { type: 'BankStatement', id: 'LIST' },
       ],
     }),
 
@@ -88,6 +90,7 @@ export const bankStatementsApi = createApi({
       invalidatesTags: (result, error, { statementId }) => [
         { type: 'BankStatementReview', id: statementId },
         { type: 'BankStatement', id: statementId },
+        { type: 'BankStatement', id: 'LIST' },
       ],
     }),
 
@@ -108,6 +111,7 @@ export const bankStatementsApi = createApi({
       invalidatesTags: (result, error, { statementId }) => [
         { type: 'BankStatementReview', id: statementId },
         { type: 'BankStatement', id: statementId },
+        { type: 'BankStatement', id: 'LIST' },
       ],
     }),
 
