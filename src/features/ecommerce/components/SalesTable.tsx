@@ -10,13 +10,14 @@ interface SalesTableProps {
 }
 
 export function SalesTable({ sales }: SalesTableProps) {
+  const safeSales = sales || [];
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<'ALL' | 'SALE' | 'RETURN'>('ALL');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 15;
 
   const filteredSales = useMemo(() => {
-    return sales.filter((item) => {
+    return safeSales.filter((item) => {
       const matchesSearch =
         !searchTerm ||
         item.orderId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -32,7 +33,7 @@ export function SalesTable({ sales }: SalesTableProps) {
 
       return matchesSearch && matchesType;
     });
-  }, [sales, searchTerm, typeFilter]);
+  }, [safeSales, searchTerm, typeFilter]);
 
   const totalPages = Math.ceil(filteredSales.length / pageSize) || 1;
   const paginatedSales = useMemo(() => {
@@ -57,7 +58,7 @@ export function SalesTable({ sales }: SalesTableProps) {
       <div className="p-4 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-[var(--color-border)]">
         <div>
           <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text-heading)' }}>
-            Standardized Vouchers ({sales.length.toLocaleString('en-IN')})
+            Standardized Vouchers ({safeSales.length.toLocaleString('en-IN')})
           </h3>
           <p className="text-xs text-[var(--color-text-secondary)]">
             Individual sales transactions mapped to Tally Master schema

@@ -26,6 +26,18 @@ const formatCurrency = (val: number = 0) => {
 };
 
 export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsProps) {
+  const safeSummary = summary || ({} as any);
+  const totalOrders = Number(safeSummary.totalOrders ?? safeSummary.rowCount ?? 0);
+  const grossSales = Number(safeSummary.grossSales ?? safeSummary.totalTaxable ?? 0);
+  const returns = Number(safeSummary.returns ?? 0);
+  const netTaxableValue = Number(safeSummary.netTaxableValue ?? safeSummary.totalTaxable ?? (grossSales - returns));
+  const totalIgst = Number(safeSummary.totalIgst ?? 0);
+  const totalCgst = Number(safeSummary.totalCgst ?? 0);
+  const totalSgst = Number(safeSummary.totalSgst ?? 0);
+  const totalTax = Number(safeSummary.totalTax ?? (totalIgst + totalCgst + totalSgst));
+  const totalTcs = Number(safeSummary.totalTcs ?? 0);
+  const grandTotal = Number(safeSummary.grandTotal ?? (netTaxableValue + totalTax));
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -55,7 +67,7 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
           </div>
           <div>
             <p className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
-              {summary.totalOrders.toLocaleString('en-IN')}
+              {totalOrders.toLocaleString('en-IN')}
             </p>
             <p className="text-xs mt-0.5 text-teal-600 dark:text-teal-400 font-medium">
               Vouchers to Generate
@@ -78,7 +90,7 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
           </div>
           <div>
             <p className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
-              {formatCurrency(summary.grossSales)}
+              {formatCurrency(grossSales)}
             </p>
             <p className="text-xs mt-0.5 text-emerald-600 dark:text-emerald-400 font-medium">
               Positive Sales Value
@@ -101,7 +113,7 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
           </div>
           <div>
             <p className="text-xl font-bold text-rose-500">
-              {formatCurrency(summary.returns)}
+              {formatCurrency(returns)}
             </p>
             <p className="text-xs mt-0.5 text-rose-500/80 font-medium">
               Adjusted in GSTR-1
@@ -124,7 +136,7 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
           </div>
           <div>
             <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
-              {formatCurrency(summary.netTaxableValue)}
+              {formatCurrency(netTaxableValue)}
             </p>
             <p className="text-xs mt-0.5 text-[var(--color-text-secondary)]">
               Gross - Returns
@@ -144,42 +156,42 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
         <div>
           <span className="text-xs text-[var(--color-text-secondary)] block">IGST (Inter-State)</span>
           <p className="text-sm font-semibold mt-0.5" style={{ color: 'var(--color-text-primary)' }}>
-            {formatCurrency(summary.totalIgst)}
+            {formatCurrency(totalIgst)}
           </p>
         </div>
 
         <div>
           <span className="text-xs text-[var(--color-text-secondary)] block">CGST (Central)</span>
           <p className="text-sm font-semibold mt-0.5" style={{ color: 'var(--color-text-primary)' }}>
-            {formatCurrency(summary.totalCgst)}
+            {formatCurrency(totalCgst)}
           </p>
         </div>
 
         <div>
           <span className="text-xs text-[var(--color-text-secondary)] block">SGST (State)</span>
           <p className="text-sm font-semibold mt-0.5" style={{ color: 'var(--color-text-primary)' }}>
-            {formatCurrency(summary.totalSgst)}
+            {formatCurrency(totalSgst)}
           </p>
         </div>
 
         <div>
           <span className="text-xs text-[var(--color-text-secondary)] block">Total Tax Liability</span>
           <p className="text-sm font-semibold mt-0.5 text-teal-600 dark:text-teal-400">
-            {formatCurrency(summary.totalTax)}
+            {formatCurrency(totalTax)}
           </p>
         </div>
 
         <div>
           <span className="text-xs text-[var(--color-text-secondary)] block">TCS Deducted</span>
           <p className="text-sm font-semibold mt-0.5 text-amber-600 dark:text-amber-400">
-            {formatCurrency(summary.totalTcs)}
+            {formatCurrency(totalTcs)}
           </p>
         </div>
 
         <div>
           <span className="text-xs text-[var(--color-text-secondary)] block">Invoice Grand Total</span>
           <p className="text-sm font-bold mt-0.5 text-[#00C2B3]">
-            {formatCurrency(summary.grandTotal)}
+            {formatCurrency(grandTotal)}
           </p>
         </div>
       </div>

@@ -51,6 +51,7 @@ export interface ProcessReportResponse {
     totalCount: number;
     summary: EcommerceSalesSummary;
     sales: StandardizedSaleItem[];
+    reportId?: string;
   };
 }
 

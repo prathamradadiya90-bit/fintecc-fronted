@@ -78,6 +78,7 @@ export const ecommerceApi = createApi({
 export const {
   useProcessReportMutation,
   useGetReportQuery,
+  useLazyGetReportQuery,
   useUpdateTcsMutation,
   useBulkUpdateHsnMutation,
   useOverrideTable14Mutation,
