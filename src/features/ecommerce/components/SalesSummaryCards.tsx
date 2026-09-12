@@ -26,7 +26,7 @@ const formatCurrency = (val: number = 0) => {
 };
 
 export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsProps) {
-  const safeSummary = summary || ({} as any);
+  const safeSummary: Partial<EcommerceSalesSummary> = summary || {};
   const totalOrders = Number(safeSummary.totalOrders ?? safeSummary.rowCount ?? 0);
   const grossSales = Number(safeSummary.grossSales ?? safeSummary.totalTaxable ?? 0);
   const returns = Number(safeSummary.returns ?? 0);

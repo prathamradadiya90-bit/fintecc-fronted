@@ -41,6 +41,9 @@ export interface EcommerceSalesSummary {
   totalTax: number;
   totalTcs: number;
   grandTotal: number;
+  rowCount?: number;
+  totalTaxable?: number;
+  platform?: string;
 }
 
 export interface ProcessReportResponse {
