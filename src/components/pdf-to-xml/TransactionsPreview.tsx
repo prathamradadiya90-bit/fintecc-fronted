@@ -70,43 +70,62 @@ export function TransactionsPreview({
     {
       key: 'date',
       header: 'Date',
-      render: (tx) => <span className="font-medium text-xs">{tx.originalDate || tx.date}</span>,
+      render: (tx) => <span className="font-medium text-xs">{tx.originalDate || tx.date || '-'}</span>,
     },
     {
       key: 'description',
       header: 'Description',
-      render: (tx) => (
-        <span className="truncate max-w-xs block text-xs" style={{ color: 'var(--color-text-secondary)' }} title={tx.description}>
-          {tx.description}
-        </span>
-      ),
+      render: (tx) => {
+        const text = tx.description || (tx as any).narration || '-';
+        return (
+          <span className="truncate max-w-xs block text-xs" style={{ color: 'var(--color-text-secondary)' }} title={text}>
+            {text}
+          </span>
+        );
+      },
     },
     {
       key: 'debit',
       header: 'Debit',
-      render: (tx) => (
-        <span className="text-red-600 dark:text-red-400 font-medium text-xs">
-          {tx.debit > 0 ? `₹${tx.debit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}` : '-'}
-        </span>
-      ),
+      render: (tx) => {
+        const val = Number(tx.debit || 0);
+        return (
+          <span className="text-red-600 dark:text-red-400 font-medium text-xs">
+            {val > 0 ? `₹${val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '-'}
+          </span>
+        );
+      },
     },
     {
       key: 'credit',
       header: 'Credit',
-      render: (tx) => (
-        <span className="text-emerald-600 dark:text-emerald-400 font-medium text-xs">
-          {tx.credit > 0 ? `₹${tx.credit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}` : '-'}
-        </span>
-      ),
+      render: (tx) => {
+        const val = Number(tx.credit || 0);
+        return (
+          <span className="text-emerald-600 dark:text-emerald-400 font-medium text-xs">
+            {val > 0 ? `₹${val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '-'}
+          </span>
+        );
+      },
     },
     {
       key: 'balance',
       header: 'Balance',
-      render: (tx) => (
-        <span className="font-semibold text-xs" style={{ color: 'var(--color-text-primary)' }}>
-          ₹{tx.balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-        </span>
-      ),
+      render: (tx) => {
+        if (tx.balance === null || tx.balance === undefined || isNaN(Number(tx.balance))) {
+          return (
+            <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+              -
+            </span>
+          );
+        }
+        const val = Number(tx.balance);
+        return (
+          <span className="font-semibold text-xs" style={{ color: 'var(--color-text-primary)' }}>
+            ₹{val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+        );
+      },
     },
   ];
 

@@ -33,7 +33,7 @@ export interface BankTransaction {
   debit: number;
   credit: number;
   amount?: number;
-  balance: number;
+  balance?: number | null;
 }
 
 export interface BankStatementTransaction {

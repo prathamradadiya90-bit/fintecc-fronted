@@ -156,7 +156,6 @@ export function UploadIntakeModal({
     try {
       const formData = new FormData();
       formData.append('statement', file);
-      formData.append('file', file);
       formData.append('clientId', clientId);
 
       const response = await uploadStatementIntake(formData).unwrap();

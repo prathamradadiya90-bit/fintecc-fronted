@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore, combineReducers, isPlain } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
@@ -77,7 +77,41 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+          'invoicesApi/executeMutation/fulfilled',
+          'invoicesApi/executeMutation/pending',
+          'convertersApi/executeMutation/fulfilled',
+          'convertersApi/executeMutation/pending',
+          'bankStatementsApi/executeMutation/fulfilled',
+          'bankStatementsApi/executeMutation/pending',
+        ],
+        ignoredActionPaths: ['meta.arg', 'meta.baseQueryMeta', 'payload'],
+        ignoredPaths: [
+          'invoicesApi',
+          'convertersApi',
+          'bankStatementsApi',
+          'clientDocumentsApi',
+        ],
+        isSerializable: (value: any) =>
+          isPlain(value) ||
+          (typeof Blob !== 'undefined' && value instanceof Blob) ||
+          (typeof FormData !== 'undefined' && value instanceof FormData) ||
+          (typeof File !== 'undefined' && value instanceof File) ||
+          (typeof Request !== 'undefined' && value instanceof Request) ||
+          (typeof Response !== 'undefined' && value instanceof Response) ||
+          (typeof Headers !== 'undefined' && value instanceof Headers) ||
+          value?.constructor?.name === 'Blob' ||
+          value?.constructor?.name === 'FormData' ||
+          value?.constructor?.name === 'File' ||
+          value?.constructor?.name === 'Request' ||
+          value?.constructor?.name === 'Response' ||
+          value?.constructor?.name === 'Headers',
       },
     }).concat(
       authApi.middleware,

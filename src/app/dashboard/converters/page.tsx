@@ -108,16 +108,16 @@ function ConvertersPageContent() {
   const clients = clientsData?.data || [];
 
   const [uploadBankStatement, { isLoading: isBankUploading }] = useUploadBankStatementMutation();
-  const [downloadBankStatementConvert] = useDownloadBankStatementConvertMutation();
+  const [downloadBankStatementConvert, { reset: resetDownloadBankStatement }] = useDownloadBankStatementConvertMutation();
   const [uploadStatementIntake, { isLoading: isIntakeUploading }] = useUploadStatementIntakeMutation();
 
   const [uploadInvoice, { isLoading: isInvoiceUploading }] = useUploadInvoiceMutation();
-  const [downloadInvoiceConvert] = useDownloadInvoiceConvertMutation();
+  const [downloadInvoiceConvert, { reset: resetDownloadInvoice }] = useDownloadInvoiceConvertMutation();
   const [bulkOcr, { isLoading: isBulkOcrUploading }] = useBulkOcrMutation();
-  const [downloadBulkOcrCsv] = useDownloadBulkOcrCsvMutation();
+  const [downloadBulkOcrCsv, { reset: resetDownloadBulkOcrCsv }] = useDownloadBulkOcrCsvMutation();
 
   const [convertExcelToJson, { isLoading: isExcelConverting }] = useConvertExcelToJsonMutation();
-  const [convertJsonToExcel, { isLoading: isJsonConverting }] = useConvertJsonToExcelMutation();
+  const [convertJsonToExcel, { isLoading: isJsonConverting, reset: resetJsonToExcel }] = useConvertJsonToExcelMutation();
   const [scanReceipt, { isLoading: isReceiptScanning }] = useScanReceiptMutation();
 
   // Reset state on tab switch
@@ -145,7 +145,6 @@ function ConvertersPageContent() {
       try {
         const formData = new FormData();
         formData.append('statement', file);
-        formData.append('file', file);
         formData.append('clientId', selectedClientId);
 
         const response = await uploadStatementIntake(formData).unwrap();
@@ -170,7 +169,6 @@ function ConvertersPageContent() {
     try {
       const formData = new FormData();
       formData.append('statement', file);
-      formData.append('file', file);
 
       const response = await uploadBankStatement(formData).unwrap();
       setBankData(response);
@@ -204,7 +202,6 @@ function ConvertersPageContent() {
     try {
       const formData = new FormData();
       formData.append('statement', bankFile);
-      formData.append('file', bankFile);
 
       const blob = await downloadBankStatementConvert({
         formData,
@@ -226,8 +223,11 @@ function ConvertersPageContent() {
       a.download = filename;
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }, 100);
+      resetDownloadBankStatement();
       showToast(`Downloaded ${format.toUpperCase()} successfully!`, 'success');
     } catch (error: any) {
       console.error(`Bank ${format} download failed:`, error);
@@ -278,8 +278,11 @@ function ConvertersPageContent() {
           : `invoice_${invoiceData?.invoiceNumber || 'extracted'}.csv`;
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }, 100);
+      resetDownloadInvoice();
       showToast(`Downloaded ${format.toUpperCase()} successfully!`, 'success');
     } catch (error: any) {
       console.error(`Invoice ${format} download failed:`, error);
@@ -326,8 +329,11 @@ function ConvertersPageContent() {
       a.download = 'bulk_invoices_report.csv';
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }, 100);
+      resetDownloadBulkOcrCsv();
       showToast('Consolidated CSV downloaded successfully', 'success');
     } catch (err: any) {
       showToast(err?.data?.message || 'Failed to download CSV', 'error');
@@ -366,8 +372,11 @@ function ConvertersPageContent() {
       a.download = 'fintecc_export.xlsx';
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }, 100);
+      resetJsonToExcel();
       showToast('Excel spreadsheet downloaded', 'success');
     } catch (err: any) {
       showToast('Invalid JSON format. Please check syntax.', 'error');
