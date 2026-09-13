@@ -30,7 +30,9 @@ import { mcaApi } from './api/mcaApi';
 import { rocApi } from './api/rocApi';
 import { announcementsApi } from './api/announcementsApi';
 import { clientPortalApi } from './api/clientPortalApi';
+import { aiApi } from './api/aiApi';
 import authReducer from './features/auth/authSlice';
+
 
 const persistConfig = {
   key: 'fintecc_auth',
@@ -68,7 +70,9 @@ const rootReducer = combineReducers({
   [rocApi.reducerPath]: rocApi.reducer,
   [announcementsApi.reducerPath]: announcementsApi.reducer,
   [clientPortalApi.reducerPath]: clientPortalApi.reducer,
+  [aiApi.reducerPath]: aiApi.reducer,
 });
+
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -141,9 +145,11 @@ export const store = configureStore({
       mcaApi.middleware,
       rocApi.middleware,
       announcementsApi.middleware,
-      clientPortalApi.middleware
+      clientPortalApi.middleware,
+      aiApi.middleware
     ),
 });
+
 
 export const persistor = persistStore(store);
 

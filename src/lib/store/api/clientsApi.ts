@@ -1,4 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { baseQueryWithReauth } from './baseQuery';
 import type { 
   Client, 
@@ -6,8 +7,11 @@ import type {
   ClientResponse,
   GetClientsParams,
   CreateClientRequest,
-  UpdateClientRequest
+  UpdateClientRequest,
+  ExportClientsParams
 } from '../../types/client.types';
+
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
 export const clientsApi = createApi({
   reducerPath: 'clientsApi',
@@ -74,6 +78,43 @@ export const clientsApi = createApi({
       }),
       providesTags: ['Client'],
     }),
+    exportClients: builder.mutation<null, ExportClientsParams | void>({
+      queryFn: async (params) => {
+        try {
+          const queryParams = new URLSearchParams();
+          if (params?.search) queryParams.set('search', params.search);
+          if (params?.status) queryParams.set('status', params.status);
+          if (params?.type) queryParams.set('type', params.type);
+          if (params?.hasGst !== undefined) queryParams.set('hasGst', String(params.hasGst));
+          if (params?.hasPan !== undefined) queryParams.set('hasPan', String(params.hasPan));
+
+          const url = `${apiBaseUrl}/clients/export${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+          const response = await fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+          });
+
+          if (!response.ok) {
+            const data = await response.text().catch(() => 'Export failed');
+            return { error: { status: response.status, data } satisfies FetchBaseQueryError };
+          }
+
+          const blob = await response.blob();
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.href = downloadUrl;
+          anchor.download = `Clients_Export_${new Date().toISOString().slice(0, 10)}.xlsx`;
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+          window.URL.revokeObjectURL(downloadUrl);
+
+          return { data: null };
+        } catch (error) {
+          return { error: { status: 'FETCH_ERROR', error: String(error) } satisfies FetchBaseQueryError };
+        }
+      },
+    }),
   }),
 });
 
@@ -84,5 +125,7 @@ export const {
   useUpdateClientMutation,
   useDeleteClientMutation,
   useInviteClientMutation,
-  useSearchClientsQuery
+  useSearchClientsQuery,
+  useExportClientsMutation
 } = clientsApi;
+

@@ -103,3 +103,37 @@ export interface GetClientsParams {
 
 export type CreateClientRequest = Omit<Client, 'id' | 'firmId' | 'createdAt' | 'updatedAt'>;
 export type UpdateClientRequest = Partial<CreateClientRequest>;
+
+export interface ExportClientsParams {
+  search?: string;
+  status?: string;
+  type?: string;
+  hasGst?: boolean | string;
+  hasPan?: boolean | string;
+}
+
+export interface ClientFolder {
+  id: string;
+  name: string;
+  clientId: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ClientFoldersResponse {
+  success: boolean;
+  data: ClientFolder[];
+  message?: string;
+}
+
+export interface CreateFolderRequest {
+  name: string;
+  clientId: string;
+}
+
+export interface CreateFolderResponse {
+  success: boolean;
+  data: ClientFolder;
+  message?: string;
+}
+

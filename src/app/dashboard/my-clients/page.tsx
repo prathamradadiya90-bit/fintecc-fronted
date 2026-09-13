@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, Plus, Filter, Eye, MoreHorizontal, Check, X as XIcon, Trash2, Edit2, Mail, Loader2 } from 'lucide-react';
-import { useGetClientsQuery, useSearchClientsQuery, useInviteClientMutation } from '@/lib/store/api/clientsApi';
+import { Search, Plus, Filter, Eye, Check, X as XIcon, Trash2, Edit2, Mail, Loader2, Download } from 'lucide-react';
+import { useGetClientsQuery, useSearchClientsQuery, useInviteClientMutation, useExportClientsMutation } from '@/lib/store/api/clientsApi';
 import { useToast } from '@/components/ui/Toast';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -16,26 +16,28 @@ import type { Client } from '@/lib/types/client.types';
 
 function MyClientsPageContent() {
   const { showToast } = useToast();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [inviteClient, { isLoading: isInviting }] = useInviteClientMutation();
+  const [exportClients, { isLoading: isExporting }] = useExportClientsMutation();
   const [invitingId, setInvitingId] = useState<string | null>(null);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(() => searchParams.get('action') === 'new');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
   useEffect(() => {
     if (searchParams.get('action') === 'new') {
-      setIsFormModalOpen(true);
       // Remove the query parameter so it doesn't re-open on refresh
       router.replace('/dashboard/my-clients', { scroll: false });
     }
   }, [searchParams, router]);
+
 
   // Debounce search input and reset page
   React.useEffect(() => {
@@ -85,6 +87,26 @@ function MyClientsPageContent() {
     setIsFormModalOpen(true);
   };
 
+  const handleExport = async () => {
+    try {
+      await exportClients({
+        search: debouncedSearchTerm || undefined,
+      }).unwrap();
+      showToast('Clients exported successfully!', 'success');
+    } catch (err: unknown) {
+      let msg = 'Failed to export clients';
+      if (typeof err === 'object' && err !== null && 'data' in err) {
+        const errorData = (err as { data: unknown }).data;
+        if (typeof errorData === 'string') {
+          msg = errorData;
+        } else if (typeof errorData === 'object' && errorData !== null && 'message' in errorData) {
+          msg = String((errorData as { message: unknown }).message);
+        }
+      }
+      showToast(msg, 'error');
+    }
+  };
+
   const handleInvite = async (client: Client) => {
     if (!client.email) {
       showToast('Client does not have an email address. Please edit and add an email.', 'error');
@@ -94,13 +116,20 @@ function MyClientsPageContent() {
     try {
       await inviteClient(client.id).unwrap();
       showToast(`Invitation sent to ${client.name} (${client.email})!`);
-    } catch (err: any) {
-      const msg = err?.data?.message || 'Failed to send invitation';
+    } catch (err: unknown) {
+      let msg = 'Failed to send invitation';
+      if (typeof err === 'object' && err !== null && 'data' in err) {
+        const errorData = (err as { data: unknown }).data;
+        if (typeof errorData === 'object' && errorData !== null && 'message' in errorData) {
+          msg = String((errorData as { message: unknown }).message);
+        }
+      }
       showToast(msg, 'error');
     } finally {
       setInvitingId(null);
     }
   };
+
 
   const columns: Column<Client>[] = [
     {
@@ -219,16 +248,28 @@ function MyClientsPageContent() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold" style={{ color: 'var(--color-text-heading)' }}>My Clients</h2>
-          <p className="mt-0.5 text-[13px]" style={{ color: 'var(--color-text-secondary)' }}>Showing {clients.length} clients</p>
+          <p className="mt-0.5 text-sm" style={{ color: 'var(--color-text-secondary)' }}>Showing {clients.length} clients</p>
         </div>
-        <Button 
-          onClick={handleAddNew}
-          leftIcon={<Plus className="w-4 h-4" />}
-          className="w-full sm:w-auto"
-        >
-          Add Client
-        </Button>
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            onClick={handleExport}
+            disabled={isExporting}
+            leftIcon={isExporting ? <Loader2 className="w-4 h-4 animate-spin text-[#00C2B3]" /> : <Download className="w-4 h-4" />}
+            className="flex-1 sm:flex-initial"
+          >
+            {isExporting ? 'Exporting...' : 'Export Excel'}
+          </Button>
+          <Button 
+            onClick={handleAddNew}
+            leftIcon={<Plus className="w-4 h-4" />}
+            className="flex-1 sm:flex-initial"
+          >
+            Add Client
+          </Button>
+        </div>
       </div>
+
 
       {/* Search and Filters */}
       <div

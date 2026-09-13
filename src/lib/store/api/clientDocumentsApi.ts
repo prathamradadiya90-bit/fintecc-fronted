@@ -1,7 +1,13 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { baseQueryWithReauth } from './baseQuery';
-import type { ClientDocument, ClientDocumentsResponse } from '../../types/client.types';
+import type { 
+  ClientDocument, 
+  ClientDocumentsResponse,
+  ClientFoldersResponse,
+  CreateFolderRequest,
+  CreateFolderResponse
+} from '../../types/client.types';
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
@@ -20,7 +26,8 @@ interface DeleteDocumentResponse {
 export const clientDocumentsApi = createApi({
   reducerPath: 'clientDocumentsApi',
   baseQuery: baseQueryWithReauth('/client-documents'),
-  tagTypes: ['ClientDocument'],
+  tagTypes: ['ClientDocument', 'ClientDocumentFolder'],
+
   endpoints: (builder) => ({
     getDocumentsByClientId: builder.query<ClientDocumentsResponse, string>({
       query: (clientId) => `/client/${clientId}`,
@@ -92,6 +99,31 @@ export const clientDocumentsApi = createApi({
         }
       },
     }),
+
+    getFoldersByClientId: builder.query<ClientFoldersResponse, string>({
+      query: (clientId) => ({
+        url: '/folders',
+        params: { clientId },
+      }),
+      providesTags: (result, _error, clientId) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: 'ClientDocumentFolder' as const, id })),
+              { type: 'ClientDocumentFolder', id: `LIST_${clientId}` },
+            ]
+          : [{ type: 'ClientDocumentFolder', id: `LIST_${clientId}` }],
+    }),
+
+    createFolder: builder.mutation<CreateFolderResponse, CreateFolderRequest>({
+      query: (body) => ({
+        url: '/folders/create',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: (_result, _error, { clientId }) => [
+        { type: 'ClientDocumentFolder', id: `LIST_${clientId}` },
+      ],
+    }),
   }),
 });
 
@@ -100,4 +132,7 @@ export const {
   useUploadDocumentMutation,
   useDeleteDocumentMutation,
   useDownloadDocumentMutation,
+  useGetFoldersByClientIdQuery,
+  useCreateFolderMutation,
 } = clientDocumentsApi;
+

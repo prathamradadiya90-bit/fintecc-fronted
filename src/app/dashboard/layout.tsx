@@ -6,6 +6,8 @@ import { Topbar } from '@/components/layouts/Topbar';
 import { AuthGuard } from '@/components/common/AuthGuard';
 import { SubscriptionGuard } from '@/components/common/SubscriptionGuard';
 import { ThemeProvider } from '@/providers/ThemeProvider';
+import { AiAssistantWidget } from '@/components/common/AiAssistantWidget';
+
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -32,8 +34,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </SubscriptionGuard>
             </main>
           </div>
+          <AiAssistantWidget />
         </div>
       </ThemeProvider>
     </AuthGuard>
+
   );
 }

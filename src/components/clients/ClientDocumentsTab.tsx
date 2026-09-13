@@ -1,11 +1,22 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Plus, Trash2, Download, AlertTriangle, Loader2 } from 'lucide-react';
-import { useGetDocumentsByClientIdQuery, useDeleteDocumentMutation, useDownloadDocumentMutation } from '@/lib/store/api/clientDocumentsApi';
+import React, { useState, useMemo } from 'react';
+
+import { Plus, Trash2, Download, AlertTriangle, Loader2, FolderPlus, FolderOpen, FilterX } from 'lucide-react';
+
+import { 
+  useGetDocumentsByClientIdQuery, 
+  useDeleteDocumentMutation, 
+  useDownloadDocumentMutation,
+  useGetFoldersByClientIdQuery
+} from '@/lib/store/api/clientDocumentsApi';
 import { AddDocumentModal } from './AddDocumentModal';
+import { CreateFolderModal } from './CreateFolderModal';
+import { FolderCard } from './FolderCard';
 import { useToast } from '@/components/ui/Toast';
-import type { ClientDocument } from '@/lib/types/client.types';
+
+import type { ClientDocument, ClientFolder } from '@/lib/types/client.types';
+
 
 interface ClientDocumentsTabProps {
   clientId: string;
@@ -169,7 +180,7 @@ function DeleteConfirmModal({ doc, onConfirm, onCancel, isLoading }: DeleteConfi
           <div>
             <h3 className="text-base font-semibold" style={{ color: 'var(--color-text-primary)' }}>Delete Document</h3>
             <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
-              Are you sure you want to delete <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>"{doc.title}"</span>? This cannot be undone.
+              Are you sure you want to delete <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>&quot;{doc.title}&quot;</span>? This cannot be undone.
             </p>
           </div>
         </div>
@@ -201,13 +212,39 @@ function DeleteConfirmModal({ doc, onConfirm, onCancel, isLoading }: DeleteConfi
 
 export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
+  const [selectedFolder, setSelectedFolder] = useState<ClientFolder | null>(null);
   const [docToDelete, setDocToDelete] = useState<ClientDocument | null>(null);
 
   const { data, isLoading, isError } = useGetDocumentsByClientIdQuery(clientId);
+  const { data: foldersData, isLoading: isFoldersLoading } = useGetFoldersByClientIdQuery(clientId);
   const [deleteDocument, { isLoading: isDeleting }] = useDeleteDocumentMutation();
   const { showToast } = useToast();
 
-  const documents = data?.data ?? [];
+  const documents = useMemo(() => data?.data ?? [], [data?.data]);
+  const folders = useMemo(() => foldersData?.data ?? [], [foldersData?.data]);
+
+
+  // Calculate document count per category matching folder name
+  const folderCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const doc of documents) {
+      if (doc.category) {
+        const catKey = doc.category.toLowerCase().trim();
+        counts[catKey] = (counts[catKey] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [documents]);
+
+  const filteredDocuments = useMemo(() => {
+    if (!selectedFolder) return documents;
+    const targetCategory = selectedFolder.name.toLowerCase().trim();
+    return documents.filter((doc) => {
+      if (!doc.category) return false;
+      return doc.category.toLowerCase().trim() === targetCategory;
+    });
+  }, [documents, selectedFolder]);
 
   const handleDelete = async () => {
     if (!docToDelete) return;
@@ -222,14 +259,89 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
 
   return (
     <>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <h3 className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>Documents</h3>
-          {!isLoading && !isError && (
-            <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
-              Showing {documents.length} document{documents.length !== 1 ? 's' : ''}
+      {/* Vault Folders Section */}
+      <div className="mb-6 space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-bold" style={{ color: 'var(--color-text-heading)' }}>
+              Vault Folders
+            </h3>
+            <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+              Organized categories for client records
             </p>
+          </div>
+          <button
+            onClick={() => setIsCreateFolderOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-colors hover:border-[#00C2B3] hover:text-[#00C2B3]"
+            style={{
+              background: 'var(--color-bg-card)',
+              borderColor: 'var(--color-border)',
+              color: 'var(--color-text-secondary)',
+            }}
+          >
+            <FolderPlus className="w-3.5 h-3.5 text-[#00C2B3]" />
+            New Folder
+          </button>
+        </div>
+
+        {isFoldersLoading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="h-16 rounded-2xl animate-pulse"
+                style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
+              />
+            ))}
+          </div>
+        ) : folders.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {folders.map((f) => {
+              const isSelected = selectedFolder?.id === f.id;
+              const count = folderCounts[f.name.toLowerCase().trim()];
+              return (
+                <FolderCard
+                  key={f.id}
+                  folder={f}
+                  isSelected={isSelected}
+                  docCount={count}
+                  onClick={() => setSelectedFolder(isSelected ? null : f)}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <p className="text-xs italic" style={{ color: 'var(--color-text-muted)' }}>
+            No folders created yet. Click &quot;+ New Folder&quot; to organize your vault.
+          </p>
+        )}
+
+      </div>
+
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2.5">
+          <h3 className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>
+            {selectedFolder ? `${selectedFolder.name}` : 'Documents'}
+          </h3>
+          {!isLoading && !isError && (
+            <span
+              className="text-xs px-2 py-0.5 rounded-full font-medium"
+              style={{
+                background: 'var(--color-bg-skeleton)',
+                color: 'var(--color-text-muted)',
+              }}
+            >
+              {filteredDocuments.length} document{filteredDocuments.length !== 1 ? 's' : ''}
+            </span>
+          )}
+          {selectedFolder && (
+            <button
+              onClick={() => setSelectedFolder(null)}
+              className="text-xs text-rose-500 hover:underline flex items-center gap-1 ml-1"
+            >
+              <FilterX className="w-3 h-3" /> Clear filter
+            </button>
           )}
         </div>
         <button
@@ -253,9 +365,45 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
         <div className="bg-red-50 border border-red-100 text-red-600 rounded-xl p-5 text-sm text-center">
           Failed to load documents. Please try again.
         </div>
+      ) : filteredDocuments.length === 0 && selectedFolder ? (
+        <div
+          className="rounded-2xl p-10 text-center border space-y-3"
+          style={{
+            background: 'var(--color-bg-card)',
+            borderColor: 'var(--color-border)',
+          }}
+        >
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto">
+            <FolderOpen className="w-6 h-6" />
+          </div>
+          <h4 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>
+            No documents in {selectedFolder.name}
+          </h4>
+          <p className="text-xs max-w-sm mx-auto" style={{ color: 'var(--color-text-secondary)' }}>
+            There are currently no files categorized under this folder. You can upload a new document and assign it to this category.
+          </p>
+          <div className="flex items-center justify-center gap-2 pt-1">
+            <button
+              onClick={() => setSelectedFolder(null)}
+              className="px-3 py-1.5 rounded-xl border text-xs font-semibold"
+              style={{
+                borderColor: 'var(--color-border)',
+                color: 'var(--color-text-secondary)',
+              }}
+            >
+              View All Documents
+            </button>
+            <button
+              onClick={() => setIsUploadOpen(true)}
+              className="px-3 py-1.5 bg-[#00C2B3] text-white rounded-xl text-xs font-semibold"
+            >
+              Upload Document
+            </button>
+          </div>
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {documents.map((doc) => (
+          {filteredDocuments.map((doc) => (
             <DocumentCard
               key={doc.id}
               doc={doc}
@@ -281,6 +429,13 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
         clientId={clientId}
       />
 
+      {/* Create Folder Modal */}
+      <CreateFolderModal
+        isOpen={isCreateFolderOpen}
+        onClose={() => setIsCreateFolderOpen(false)}
+        clientId={clientId}
+      />
+
       {/* Delete Confirm Modal */}
       {docToDelete && (
         <DeleteConfirmModal
@@ -293,3 +448,4 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
     </>
   );
 }
+
