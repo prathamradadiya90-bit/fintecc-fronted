@@ -10,6 +10,7 @@ import { SyncStatsCards } from '@/features/tally-sync/components/SyncStatsCards'
 import { SyncJobsFilter } from '@/features/tally-sync/components/SyncJobsFilter';
 import { SyncJobsTable } from '@/features/tally-sync/components/SyncJobsTable';
 import { ConnectorInfoCard } from '@/features/tally-sync/components/ConnectorInfoCard';
+import { PluginDownloadCard } from '@/features/tally-sync/components/PluginDownloadCard';
 import { RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function TallySyncPage() {
@@ -121,6 +122,9 @@ export default function TallySyncPage() {
 
       {/* Desktop Connector Helper Card */}
       <ConnectorInfoCard />
+
+      {/* Tally Plugin Download Card */}
+      <PluginDownloadCard />
 
       {/* Filter & Actions Bar */}
       <SyncJobsFilter
