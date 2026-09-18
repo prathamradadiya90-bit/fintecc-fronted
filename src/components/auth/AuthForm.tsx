@@ -313,27 +313,28 @@ export default function AuthForm() {
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-6 md:p-12">
-        <div className="w-full max-w-[360px]">
+      <div className="flex-1 flex justify-center items-start p-6 md:p-12 pt-10 md:pt-14 lg:pt-18 overflow-y-auto min-h-screen">
+        <div className="w-full max-w-[420px] pb-12 transition-all duration-150">
           {(view === "login" || view === "signup") && (
-            <div className="flex border border-slate-200 rounded-xl overflow-hidden mb-8 bg-white shadow-sm">
+            <div className="p-1 bg-slate-100/90 rounded-xl flex gap-1 mb-7 border border-slate-200/80">
               <button
+                type="button"
                 onClick={() => { setView("login"); setLocalError(""); setLocalSuccess(""); }}
-                className={`flex-1 py-2.5 text-center text-[13px] transition-colors cursor-pointer border-none outline-none ${
+                className={`flex-1 py-2 text-center text-xs transition-all rounded-lg cursor-pointer border-none outline-none ${
                   view === "login"
-                    ? "font-bold text-slate-900 bg-white"
-                    : "font-semibold text-slate-400 bg-slate-50 hover:bg-slate-100/50 border-b border-slate-200"
+                    ? "font-bold text-slate-900 bg-white shadow-xs"
+                    : "font-semibold text-slate-500 hover:text-slate-800 bg-transparent"
                 }`}
               >
                 Sign in
               </button>
-              <div className="w-[1px] bg-slate-200" />
               <button
+                type="button"
                 onClick={() => { setView("signup"); setLocalError(""); setLocalSuccess(""); }}
-                className={`flex-1 py-2.5 text-center text-[13px] transition-colors cursor-pointer border-none outline-none ${
+                className={`flex-1 py-2 text-center text-xs transition-all rounded-lg cursor-pointer border-none outline-none ${
                   view === "signup"
-                    ? "font-bold text-slate-900 bg-white"
-                    : "font-semibold text-slate-400 bg-slate-50 hover:bg-slate-100/50 border-b border-slate-200"
+                    ? "font-bold text-slate-900 bg-white shadow-xs"
+                    : "font-semibold text-slate-500 hover:text-slate-800 bg-transparent"
                 }`}
               >
                 Register
@@ -566,8 +567,8 @@ export default function AuthForm() {
 
           {view === "signup" && (
             <form onSubmit={handleSignupSubmit} className="flex flex-col gap-4">
-              <div className="flex gap-4">
-                <div className="flex-1">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1.5">Firm Name</label>
                   <input
                     type="text"
@@ -578,7 +579,7 @@ export default function AuthForm() {
                     required
                   />
                 </div>
-                <div className="flex-1">
+                <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1.5">User Name</label>
                   <input
                     type="text"
