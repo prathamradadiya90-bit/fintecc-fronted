@@ -171,8 +171,13 @@ export function UploadIntakeModal({
     } catch (err: any) {
       console.error('Upload intake error:', err);
       setIsProcessing(false);
-      setErrorMessage(err?.data?.message || 'Failed to upload document for intake');
-      showToast(err?.data?.message || 'Upload failed', 'error');
+      const errMsg = err?.data?.message || 'Failed to upload document for intake';
+      if (errMsg.includes('ACCESS_DENIED') || errMsg.includes('LIMIT_EXCEEDED') || errMsg.includes('Plan Limit Reached')) {
+        onClose();
+        return;
+      }
+      setErrorMessage(errMsg);
+      showToast(errMsg, 'error');
     }
   };
 

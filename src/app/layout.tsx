@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 import { StoreProvider } from "../lib/store/StoreProvider";
 import { ToastProvider } from "@/components/ui/Toast";
+import { UsageLimitProvider } from "@/providers/UsageLimitProvider";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export default function RootLayout({
@@ -34,9 +35,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <StoreProvider>
           <ToastProvider>
-            <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
-              {children}
-            </GoogleOAuthProvider>
+            <UsageLimitProvider>
+              <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
+                {children}
+              </GoogleOAuthProvider>
+            </UsageLimitProvider>
           </ToastProvider>
         </StoreProvider>
       </body>

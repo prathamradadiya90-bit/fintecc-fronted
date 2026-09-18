@@ -11,8 +11,8 @@ import {
   useUpdateInvoiceMutation,
 } from '@/lib/store/api/invoicesApi';
 import { useToast } from '@/components/ui/Toast';
-import { Plus, Trash2, Calculator, Receipt } from 'lucide-react';
-import type { Invoice, InvoiceLineItem, InvoiceStatus } from '@/lib/types/invoice-management.types';
+import { Plus, Trash2, Calculator, Receipt, Repeat, CreditCard, Link2, Check, Copy } from 'lucide-react';
+import type { Invoice, InvoiceLineItem, InvoiceStatus, RecurringInterval } from '@/lib/types/invoice-management.types';
 
 interface InvoiceFormModalProps {
   isOpen: boolean;
@@ -43,6 +43,9 @@ export function InvoiceFormModal({
   });
   const [status, setStatus] = useState<InvoiceStatus>('DRAFT');
   const [taxRatePercent, setTaxRatePercent] = useState<number>(18);
+  const [generatePaymentLink, setGeneratePaymentLink] = useState(false);
+  const [isRecurring, setIsRecurring] = useState(false);
+  const [recurringInterval, setRecurringInterval] = useState<RecurringInterval>('MONTHLY');
   const [lineItems, setLineItems] = useState<InvoiceLineItem[]>([
     { description: '', quantity: 1, unitPrice: 0, amount: 0 },
   ]);
@@ -64,6 +67,9 @@ export function InvoiceFormModal({
           : ''
       );
       setStatus(invoiceToEdit.status || 'DRAFT');
+      setGeneratePaymentLink(false);
+      setIsRecurring(Boolean(invoiceToEdit.isRecurring));
+      setRecurringInterval((invoiceToEdit.recurringInterval as RecurringInterval) || 'MONTHLY');
       
       const items = invoiceToEdit.lineItems && invoiceToEdit.lineItems.length > 0
         ? invoiceToEdit.lineItems
@@ -87,6 +93,9 @@ export function InvoiceFormModal({
       setDueDate(d.toISOString().split('T')[0]);
       setStatus('DRAFT');
       setTaxRatePercent(18);
+      setGeneratePaymentLink(false);
+      setIsRecurring(false);
+      setRecurringInterval('MONTHLY');
       setLineItems([{ description: '', quantity: 1, unitPrice: 0, amount: 0 }]);
     }
     setErrors({});
@@ -154,6 +163,14 @@ export function InvoiceFormModal({
     return Object.keys(errs).length === 0;
   };
 
+  const [copiedLink, setCopiedLink] = useState(false);
+  const handleCopyExistingLink = (url: string) => {
+    navigator.clipboard.writeText(url);
+    setCopiedLink(true);
+    showToast('Payment link copied to clipboard!', 'success');
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -168,6 +185,9 @@ export function InvoiceFormModal({
         totalAmount,
         taxAmount,
         lineItems,
+        generatePaymentLink,
+        isRecurring,
+        recurringInterval: isRecurring ? recurringInterval : undefined,
       };
 
       if (isEditing && invoiceToEdit) {
@@ -271,6 +291,122 @@ export function InvoiceFormModal({
             onChange={(e) => setDueDate(e.target.value)}
             error={errors.dueDate}
           />
+        </div>
+
+        {/* Row 3: Payment Link & Recurring Invoice Options */}
+        <div
+          className="rounded-xl p-4 space-y-3.5"
+          style={{
+            background: 'var(--color-bg-subtle)',
+            border: '1px solid var(--color-border)',
+          }}
+        >
+          <div className="flex items-center justify-between">
+            <h4 className="text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--color-text-secondary)' }}>
+              <CreditCard className="w-3.5 h-3.5 text-[#00C2B3]" />
+              Automated Billing & Client Payment Options
+            </h4>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            {/* Payment Link Option */}
+            <div
+              className="p-3.5 rounded-xl border transition-all space-y-2.5"
+              style={{
+                background: 'var(--color-bg-card)',
+                borderColor: generatePaymentLink ? '#00C2B3' : 'var(--color-border)',
+              }}
+            >
+              <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={generatePaymentLink}
+                  onChange={(e) => setGeneratePaymentLink(e.target.checked)}
+                  className="mt-0.5 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] w-4 h-4"
+                />
+                <div className="space-y-0.5">
+                  <span className="text-xs font-semibold flex items-center gap-1.5" style={{ color: 'var(--color-text-primary)' }}>
+                    <Link2 className="w-3.5 h-3.5 text-[#00C2B3]" />
+                    Generate & Send Payment Link to Client via SMS/Email
+                  </span>
+                  <p className="text-[11px] leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
+                    Creates a Razorpay payment link and sends SMS/email to the client. Requires client phone or email.
+                  </p>
+                </div>
+              </label>
+
+              {invoiceToEdit?.paymentLinkUrl && (
+                <div className="pt-2 border-t flex items-center justify-between gap-2 text-xs" style={{ borderColor: 'var(--color-border)' }}>
+                  <span className="text-[11px] truncate" style={{ color: 'var(--color-text-secondary)' }}>
+                    Active Link: <span className="font-mono text-[10px] text-[#00C2B3]">{invoiceToEdit.paymentLinkUrl}</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopyExistingLink(invoiceToEdit.paymentLinkUrl!)}
+                    className="p-1 px-2 rounded-lg border text-[11px] flex items-center gap-1 hover:opacity-80 transition-opacity shrink-0"
+                    style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-primary)' }}
+                  >
+                    {copiedLink ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                    {copiedLink ? 'Copied' : 'Copy'}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Recurring Invoice Option */}
+            <div
+              className="p-3.5 rounded-xl border transition-all space-y-2.5"
+              style={{
+                background: 'var(--color-bg-card)',
+                borderColor: isRecurring ? '#00C2B3' : 'var(--color-border)',
+              }}
+            >
+              <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={isRecurring}
+                  onChange={(e) => setIsRecurring(e.target.checked)}
+                  className="mt-0.5 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] w-4 h-4"
+                />
+                <div className="space-y-0.5">
+                  <span className="text-xs font-semibold flex items-center gap-1.5" style={{ color: 'var(--color-text-primary)' }}>
+                    <Repeat className="w-3.5 h-3.5 text-[#00C2B3]" />
+                    Set as Recurring Invoice
+                  </span>
+                  <p className="text-[11px] leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
+                    Automated cron job will duplicate and generate future invoices on schedule.
+                  </p>
+                </div>
+              </label>
+
+              {isRecurring && (
+                <div className="pt-2 border-t space-y-1.5" style={{ borderColor: 'var(--color-border)' }}>
+                  <label className="block text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
+                    Billing Interval *
+                  </label>
+                  <select
+                    value={recurringInterval}
+                    onChange={(e) => setRecurringInterval(e.target.value as RecurringInterval)}
+                    className="w-full h-8 px-2.5 rounded-lg border text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                    style={{
+                      background: 'var(--color-bg-subtle)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-primary)',
+                    }}
+                  >
+                    <option value="MONTHLY">Monthly (Every month)</option>
+                    <option value="QUARTERLY">Quarterly (Every 3 months)</option>
+                    <option value="YEARLY">Yearly (Annual)</option>
+                  </select>
+                  {invoiceToEdit?.nextRecurringDate && (
+                    <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+                      Next recurring date: {new Date(invoiceToEdit.nextRecurringDate).toLocaleDateString('en-IN')}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Line Items Section */}

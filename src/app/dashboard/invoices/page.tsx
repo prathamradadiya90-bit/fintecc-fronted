@@ -17,6 +17,8 @@ import {
   Clock,
   AlertCircle,
   FileSpreadsheet,
+  Link2,
+  Repeat,
 } from 'lucide-react';
 import { useGetInvoicesQuery } from '@/lib/store/api/invoicesApi';
 import { useQueueInvoiceSyncMutation } from '@/lib/store/api/tallyApi';
@@ -130,15 +132,31 @@ export default function InvoicesPage() {
     }
   };
 
+  const handleQuickCopyPaymentLink = (e: React.MouseEvent, url: string) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(url);
+    showToast('Payment link copied to clipboard!', 'success');
+  };
+
   const columns: Column<Invoice>[] = [
     {
       key: 'invoiceNumber',
       header: 'Invoice #',
       render: (inv) => (
-        <div className="flex flex-col">
-          <span className="font-semibold text-xs text-[#00C2B3]">
-            {inv.invoiceNumber}
-          </span>
+        <div className="flex flex-col gap-1 items-start">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="font-semibold text-xs text-[#00C2B3]">
+              {inv.invoiceNumber}
+            </span>
+            {inv.isRecurring && (
+              <span
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20"
+                title={`Recurring billing: ${inv.recurringInterval || 'Monthly'}`}
+              >
+                🔁 {inv.recurringInterval ? inv.recurringInterval.charAt(0) + inv.recurringInterval.slice(1).toLowerCase() : 'Recurring'}
+              </span>
+            )}
+          </div>
           <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
             {inv.date ? new Date(inv.date).toLocaleDateString('en-IN') : '—'}
           </span>
@@ -214,6 +232,17 @@ export default function InvoicesPage() {
           >
             <FileText className="w-4 h-4" />
           </button>
+
+          {/* Quick Copy Payment Link */}
+          {inv.paymentLinkUrl && (
+            <button
+              onClick={(e) => handleQuickCopyPaymentLink(e, inv.paymentLinkUrl!)}
+              className="p-1.5 rounded-lg text-[#00C2B3] hover:bg-[#00C2B3]/10 transition-colors"
+              title="Copy Razorpay Payment Link"
+            >
+              <Link2 className="w-4 h-4" />
+            </button>
+          )}
 
           {/* Quick Tally Sync */}
           <button

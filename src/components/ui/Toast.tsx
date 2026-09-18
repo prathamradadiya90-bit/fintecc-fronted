@@ -21,6 +21,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   const showToast = useCallback((message: string, type: ToastType = 'success') => {
+    // Suppress generic error toast for billing/limit errors since the dedicated modal is displayed
+    if (type === 'error' && typeof message === 'string' && (message.includes('ACCESS_DENIED') || message.includes('LIMIT_EXCEEDED') || message.includes('Plan Limit Reached'))) {
+      return;
+    }
+
     const id = Math.random().toString(36).substring(2, 9);
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {

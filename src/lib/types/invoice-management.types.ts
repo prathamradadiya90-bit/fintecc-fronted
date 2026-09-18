@@ -1,4 +1,5 @@
 export type InvoiceStatus = 'DRAFT' | 'SENT' | 'PAID' | 'PENDING' | 'PENDING_REVIEW' | 'OVERDUE' | 'CANCELLED';
+export type RecurringInterval = 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
 
 export interface InvoiceLineItem {
   description: string;
@@ -18,6 +19,11 @@ export interface Invoice {
   totalAmount: number;
   taxAmount: number;
   lineItems?: InvoiceLineItem[];
+  isRecurring?: boolean;
+  recurringInterval?: RecurringInterval | null;
+  nextRecurringDate?: string | null;
+  paymentLinkId?: string | null;
+  paymentLinkUrl?: string | null;
   createdAt: string;
   updatedAt: string;
   client?: {
@@ -57,6 +63,9 @@ export interface CreateInvoiceRequest {
   totalAmount: number;
   taxAmount: number;
   lineItems?: InvoiceLineItem[];
+  generatePaymentLink?: boolean;
+  isRecurring?: boolean;
+  recurringInterval?: RecurringInterval | null;
 }
 
 export type UpdateInvoiceRequest = Partial<CreateInvoiceRequest>;

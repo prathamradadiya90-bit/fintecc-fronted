@@ -15,6 +15,10 @@ export const invoiceFormSchema = z.object({
   status: z.enum(['DRAFT', 'SENT', 'PAID', 'PENDING', 'PENDING_REVIEW', 'OVERDUE', 'CANCELLED']),
   taxRatePercent: z.number().nonnegative().default(18),
   lineItems: z.array(lineItemSchema).min(1, 'At least one line item is required'),
+  generatePaymentLink: z.boolean().default(false),
+  isRecurring: z.boolean().default(false),
+  recurringInterval: z.enum(['MONTHLY', 'QUARTERLY', 'YEARLY']).optional().nullable(),
 });
 
 export type InvoiceFormData = z.infer<typeof invoiceFormSchema>;
+
