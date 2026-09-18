@@ -1,5 +1,6 @@
 export type ClientType = 'Individual' | 'Company' | 'Partnership' | 'LLP' | 'HUF' | 'Trust';
-export type ClientStatus = 'Active' | 'Inactive' | 'Blocked';
+export type ClientStatus = 'Active' | 'Inactive' | 'Blocked' | 'LEAD';
+export type KycStatus = 'NOT_STARTED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
 
 export interface Address {
   street?: string;
@@ -43,6 +44,7 @@ export interface Client {
   bankDetails?: BankDetail[];
   keyPersons?: KeyPerson[];
   status: ClientStatus;
+  kycStatus?: KycStatus | string;
   notes?: string;
   tags?: string[];
   createdAt: string;

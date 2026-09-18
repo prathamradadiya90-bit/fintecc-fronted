@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, Plus, Filter, Eye, Check, X as XIcon, Trash2, Edit2, Mail, Loader2, Download } from 'lucide-react';
-import { useGetClientsQuery, useSearchClientsQuery, useInviteClientMutation, useExportClientsMutation } from '@/lib/store/api/clientsApi';
+import { Search, Plus, Filter, Eye, Check, X as XIcon, Trash2, Edit2, Mail, Loader2, Download, UserCheck } from 'lucide-react';
+import { useGetClientsQuery, useSearchClientsQuery, useInviteClientMutation, useExportClientsMutation, useOnboardClientMutation } from '@/lib/store/api/clientsApi';
 import { useToast } from '@/components/ui/Toast';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -20,8 +20,10 @@ function MyClientsPageContent() {
   const router = useRouter();
 
   const [inviteClient, { isLoading: isInviting }] = useInviteClientMutation();
+  const [onboardClient, { isLoading: isOnboarding }] = useOnboardClientMutation();
   const [exportClients, { isLoading: isExporting }] = useExportClientsMutation();
   const [invitingId, setInvitingId] = useState<string | null>(null);
+  const [onboardingId, setOnboardingId] = useState<string | null>(null);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
@@ -131,6 +133,27 @@ function MyClientsPageContent() {
   };
 
 
+  const handleOnboard = async (client: Client) => {
+    setOnboardingId(client.id);
+    try {
+      await onboardClient(client.id).unwrap();
+      showToast(`Client ${client.name} onboarded successfully! Status updated to Active and KYC initiated.`, 'success');
+    } catch (err: unknown) {
+      let msg = 'Failed to onboard client';
+      if (typeof err === 'object' && err !== null && 'data' in err) {
+        const errorData = (err as { data: unknown }).data;
+        if (typeof errorData === 'string') {
+          msg = errorData;
+        } else if (typeof errorData === 'object' && errorData !== null && 'message' in errorData) {
+          msg = String((errorData as { message: unknown }).message);
+        }
+      }
+      showToast(msg, 'error');
+    } finally {
+      setOnboardingId(null);
+    }
+  };
+
   const columns: Column<Client>[] = [
     {
       key: 'name',
@@ -161,6 +184,39 @@ function MyClientsPageContent() {
           {client.type}
         </span>
       ),
+    },
+    {
+      key: 'status',
+      header: 'Status & KYC',
+      render: (client) => {
+        const isLead = client.status === 'LEAD';
+        const isInactive = client.status === 'Inactive';
+        const isActive = client.status === 'Active';
+        const isBlocked = client.status === 'Blocked';
+
+        let statusBadgeClass = 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300';
+        if (isActive) statusBadgeClass = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800';
+        else if (isLead) statusBadgeClass = 'bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-400 border border-purple-200 dark:border-purple-800';
+        else if (isInactive) statusBadgeClass = 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800';
+        else if (isBlocked) statusBadgeClass = 'bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200 dark:border-rose-800';
+
+        const kyc = (client.kycStatus || 'NOT_STARTED').toUpperCase();
+        let kycBadgeClass = 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700';
+        if (kyc === 'VERIFIED') kycBadgeClass = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800';
+        else if (kyc === 'PENDING') kycBadgeClass = 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800';
+        else if (kyc === 'REJECTED') kycBadgeClass = 'bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200 dark:border-rose-800';
+
+        return (
+          <div className="flex flex-col gap-1 items-start">
+            <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${statusBadgeClass}`}>
+              {client.status || 'Active'}
+            </span>
+            <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-medium ${kycBadgeClass}`}>
+              KYC: {kyc}
+            </span>
+          </div>
+        );
+      },
     },
     {
       key: 'pan',
@@ -203,6 +259,20 @@ function MyClientsPageContent() {
       header: 'Actions',
       render: (client) => (
         <div className="flex items-center gap-2">
+          {(client.status === 'Inactive' || client.status === 'LEAD') && (
+            <button 
+              className="transition-colors p-1 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded"
+              title="Onboard Client & Initiate KYC"
+              disabled={isOnboarding && onboardingId === client.id}
+              onClick={(e) => { e.stopPropagation(); handleOnboard(client); }}
+            >
+              {isOnboarding && onboardingId === client.id ? (
+                <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+              ) : (
+                <UserCheck className="w-4 h-4" />
+              )}
+            </button>
+          )}
           <button 
             className="transition-colors p-1 text-[#00C2B3] hover:text-[#00a89b]"
             title="Invite to Portal"

@@ -12,8 +12,9 @@ import {
   X as XIcon,
   Mail,
   Loader2,
+  UserCheck,
 } from 'lucide-react';
-import { useGetClientByIdQuery, useInviteClientMutation } from '@/lib/store/api/clientsApi';
+import { useGetClientByIdQuery, useInviteClientMutation, useOnboardClientMutation } from '@/lib/store/api/clientsApi';
 import { useToast } from '@/components/ui/Toast';
 import { ClientFormModal } from '@/components/clients/ClientFormModal';
 import { DeleteClientModal } from '@/components/clients/DeleteClientModal';
@@ -43,6 +44,7 @@ export default function ClientDetailPage() {
 
   const { data: response, isLoading, isError, refetch } = useGetClientByIdQuery(clientId);
   const [inviteClient, { isLoading: isInviting }] = useInviteClientMutation();
+  const [onboardClient, { isLoading: isOnboarding }] = useOnboardClientMutation();
   const client = response?.data ?? null;
 
   const handleInviteClient = async () => {
@@ -56,6 +58,18 @@ export default function ClientDetailPage() {
       showToast('Invitation sent successfully! Login credentials have been emailed to the client.');
     } catch (err: any) {
       const msg = err?.data?.message || 'Failed to send invitation';
+      showToast(msg, 'error');
+    }
+  };
+
+  const handleOnboardClient = async () => {
+    if (!client) return;
+    try {
+      await onboardClient(client.id).unwrap();
+      showToast('Client onboarded successfully! Status updated to Active and KYC initiated.', 'success');
+      refetch();
+    } catch (err: any) {
+      const msg = err?.data?.message || 'Failed to onboard client';
       showToast(msg, 'error');
     }
   };
@@ -162,6 +176,38 @@ export default function ClientDetailPage() {
                 </span>
               </div>
               <div className="flex flex-col">
+                <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>Status</span>
+                <span
+                  className={`mt-1 px-2.5 py-0.5 rounded-full text-xs font-semibold inline-block ${
+                    client.status === 'Active'
+                      ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                      : client.status === 'LEAD'
+                      ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
+                      : client.status === 'Inactive'
+                      ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                      : 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
+                  }`}
+                >
+                  {client.status || 'Active'}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>KYC Status</span>
+                <span
+                  className={`mt-1 px-2.5 py-0.5 rounded-full text-xs font-semibold inline-block font-mono ${
+                    (client.kycStatus || 'NOT_STARTED').toUpperCase() === 'VERIFIED'
+                      ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                      : (client.kycStatus || 'NOT_STARTED').toUpperCase() === 'PENDING'
+                      ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                      : (client.kycStatus || 'NOT_STARTED').toUpperCase() === 'REJECTED'
+                      ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
+                      : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
+                  }`}
+                >
+                  {(client.kycStatus || 'NOT_STARTED').toUpperCase()}
+                </span>
+              </div>
+              <div className="flex flex-col">
                 <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>Added On</span>
                 <span className="text-sm font-semibold mt-1" style={{ color: 'var(--color-text-on-card)' }}>
                   {new Date(client.createdAt).toLocaleDateString('en-GB', {
@@ -196,6 +242,21 @@ export default function ClientDetailPage() {
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
+            {(client.status === 'Inactive' || client.status === 'LEAD') && (
+              <button
+                onClick={handleOnboardClient}
+                disabled={isOnboarding}
+                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-sm"
+                title="Onboard Client to Active & Initiate KYC"
+              >
+                {isOnboarding ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <UserCheck className="w-3.5 h-3.5" />
+                )}
+                <span>{isOnboarding ? 'Onboarding...' : 'Onboard Client'}</span>
+              </button>
+            )}
             <button
               onClick={handleInviteClient}
               disabled={isInviting}

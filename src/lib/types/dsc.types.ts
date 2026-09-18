@@ -49,6 +49,12 @@ export interface UpdateDscRequest {
   assignedToId?: string;
 }
 
+export interface UpdateDscLocationRequest {
+  id: string;
+  storageLocation?: string;
+  assignedToId?: string | null;
+}
+
 export interface DscListResponse {
   items: DscToken[];
   total: number;

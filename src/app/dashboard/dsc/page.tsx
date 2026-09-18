@@ -14,11 +14,14 @@ import {
 import { useGetDscsQuery } from '@/lib/store/api/dscApi';
 import { DscTable } from '@/components/dsc/DscTable';
 import { AddDscModal } from '@/components/dsc/AddDscModal';
+import { UpdateDscLocationModal } from '@/components/dsc/UpdateDscLocationModal';
 import type { DscToken } from '@/lib/types/dsc.types';
 
 export default function DscTrackerPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenToEdit, setTokenToEdit] = useState<DscToken | null>(null);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [locationToken, setLocationToken] = useState<DscToken | null>(null);
 
   const { data: dscResponse, isLoading, refetch, isFetching } = useGetDscsQuery({ limit: 1000 });
   const tokens = useMemo(() => dscResponse?.data || [], [dscResponse]);
@@ -55,6 +58,11 @@ export default function DscTrackerPage() {
   const handleEditToken = (token: DscToken) => {
     setTokenToEdit(token);
     setIsModalOpen(true);
+  };
+
+  const handleUpdateLocation = (token: DscToken) => {
+    setLocationToken(token);
+    setIsLocationModalOpen(true);
   };
 
   return (
@@ -144,6 +152,7 @@ export default function DscTrackerPage() {
         tokens={tokens}
         isLoading={isLoading}
         onEdit={handleEditToken}
+        onUpdateLocation={handleUpdateLocation}
       />
 
       {/* Add / Edit Modal */}
@@ -154,6 +163,16 @@ export default function DscTrackerPage() {
           setTokenToEdit(null);
         }}
         editingToken={tokenToEdit}
+      />
+
+      {/* Update Physical Location Modal */}
+      <UpdateDscLocationModal
+        isOpen={isLocationModalOpen}
+        onClose={() => {
+          setIsLocationModalOpen(false);
+          setLocationToken(null);
+        }}
+        token={locationToken}
       />
     </div>
   );

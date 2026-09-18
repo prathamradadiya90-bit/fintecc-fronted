@@ -15,7 +15,8 @@ import {
   ShieldCheck,
   Building2,
   Search,
-  Filter
+  Filter,
+  User
 } from 'lucide-react';
 import type { DscToken } from '@/lib/types/dsc.types';
 import { useDeleteDscMutation } from '@/lib/store/api/dscApi';
@@ -25,9 +26,10 @@ interface DscTableProps {
   tokens: DscToken[];
   isLoading: boolean;
   onEdit: (token: DscToken) => void;
+  onUpdateLocation?: (token: DscToken) => void;
 }
 
-export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit }) => {
+export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, onUpdateLocation }) => {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [visiblePasswords, setVisiblePasswords] = useState<Record<string, boolean>>({});
@@ -176,9 +178,26 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit })
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-1.5 text-slate-700 text-xs font-medium">
-                        <MapPin className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
-                        <span>{token.storageLocation || 'Not specified'}</span>
+                      <div className="space-y-1">
+                        <button
+                          type="button"
+                          onClick={() => onUpdateLocation?.(token)}
+                          className="flex items-center gap-1.5 text-slate-700 text-xs font-medium hover:text-[#00C2B3] transition group text-left"
+                          title="Click to update physical location"
+                        >
+                          <MapPin className="w-3.5 h-3.5 text-indigo-500 shrink-0 group-hover:scale-110 transition-transform" />
+                          <span className="underline-offset-2 group-hover:underline">
+                            {token.storageLocation || 'Not specified'}
+                          </span>
+                        </button>
+                        {token.assignedTo?.name ? (
+                          <div className="flex items-center gap-1 text-[11px] text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded w-fit">
+                            <User className="w-3 h-3 text-slate-400" />
+                            <span>{token.assignedTo.name}</span>
+                          </div>
+                        ) : (
+                          <div className="text-[10px] text-slate-400">Firm Safe</div>
+                        )}
                       </div>
                     </td>
 
@@ -253,6 +272,14 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit })
 
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => onUpdateLocation?.(token)}
+                          className="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 rounded-lg transition"
+                          title="Update Physical Location & Custodian"
+                        >
+                          <MapPin className="w-4 h-4" />
+                        </button>
                         <button
                           type="button"
                           onClick={() => onEdit(token)}

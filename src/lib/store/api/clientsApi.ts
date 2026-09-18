@@ -71,6 +71,16 @@ export const clientsApi = createApi({
         { type: 'Client', id: 'LIST' }
       ],
     }),
+    onboardClient: builder.mutation<ClientResponse, string>({
+      query: (id) => ({
+        url: `/${id}/onboard`,
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: 'Client', id },
+        { type: 'Client', id: 'LIST' }
+      ],
+    }),
     searchClients: builder.query<{ success: boolean; data: Partial<Client>[] }, string>({
       query: (searchTerm) => ({
         url: '/search',
@@ -125,6 +135,7 @@ export const {
   useUpdateClientMutation,
   useDeleteClientMutation,
   useInviteClientMutation,
+  useOnboardClientMutation,
   useSearchClientsQuery,
   useExportClientsMutation
 } = clientsApi;

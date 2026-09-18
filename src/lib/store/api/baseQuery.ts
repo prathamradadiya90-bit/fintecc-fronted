@@ -1,5 +1,6 @@
 import { fetchBaseQuery, BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { dispatchUsageLimitError } from '@/providers/UsageLimitProvider';
+import { dispatchProductionApiError } from '@/providers/ProductionApiErrorProvider';
 
 // A dynamic base query that can be extended with a specific path
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
@@ -42,6 +43,28 @@ function checkAndDispatchUsageLimit(error: FetchBaseQueryError) {
   }
 }
 
+function checkAndDispatchProductionApiError(error: FetchBaseQueryError) {
+  if (!error) return;
+  const errorData = error.data as any;
+  const rawMessage =
+    typeof errorData === 'string'
+      ? errorData
+      : errorData?.message || errorData?.error || '';
+
+  if (typeof rawMessage === 'string' && rawMessage.trim()) {
+    const lower = rawMessage.toLowerCase();
+    // Intercept missing third-party keys (e.g., Razorpay, Surepass, Sandbox, Twilio, WhatsApp)
+    if (
+      lower.includes('production api key') ||
+      (lower.includes('api key') && (lower.includes('missing') || lower.includes('not configured')))
+    ) {
+      dispatchProductionApiError({
+        message: rawMessage,
+      });
+    }
+  }
+}
+
 export const baseQueryWithReauth = (path: string): BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> => async (args, api, extraOptions) => {
   const baseQuery = createBaseQuery(path);
   let result = await baseQuery(args, api, extraOptions);
@@ -74,6 +97,7 @@ export const baseQueryWithReauth = (path: string): BaseQueryFn<string | FetchArg
   // Intercept usage limit and access denied errors globally
   if (result.error) {
     checkAndDispatchUsageLimit(result.error);
+    checkAndDispatchProductionApiError(result.error);
   }
 
   return result;

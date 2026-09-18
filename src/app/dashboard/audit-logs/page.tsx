@@ -34,6 +34,7 @@ const ACTION_COLORS: Record<string, { bg: string; text: string; border: string }
   DOWNLOAD_PDF: { bg: 'bg-amber-500/10', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-500/20' },
   DOWNLOAD_TALLY_XML: { bg: 'bg-purple-500/10', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-500/20' },
   DOWNLOAD_CSV: { bg: 'bg-slate-500/10', text: 'text-slate-600 dark:text-slate-400', border: 'border-slate-500/20' },
+  DSC_LOCATION_UPDATED: { bg: 'bg-indigo-500/10', text: 'text-indigo-600 dark:text-indigo-400', border: 'border-indigo-500/20' },
 };
 
 export default function AuditLogsPage() {
@@ -233,6 +234,7 @@ export default function AuditLogsPage() {
             <option value="UPLOAD">UPLOAD</option>
             <option value="DOWNLOAD_PDF">DOWNLOAD_PDF</option>
             <option value="DOWNLOAD_TALLY_XML">DOWNLOAD_TALLY_XML</option>
+            <option value="DSC_LOCATION_UPDATED">DSC_LOCATION_UPDATED</option>
           </select>
 
           {/* Entity Type Filter */}
@@ -250,6 +252,7 @@ export default function AuditLogsPage() {
             <option value="Invoice">Invoice</option>
             <option value="Client">Client</option>
             <option value="Task">Task</option>
+            <option value="Dsc">DSC Token</option>
             <option value="Settings">Settings</option>
           </select>
 

@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQueryWithReauth } from './baseQuery';
-import type { DscToken, CreateDscRequest, UpdateDscRequest } from '../../types/dsc.types';
+import type { DscToken, CreateDscRequest, UpdateDscRequest, UpdateDscLocationRequest } from '../../types/dsc.types';
 
 export interface PaginatedDscResponse {
   success: boolean;
@@ -74,6 +74,19 @@ export const dscApi = createApi({
       ],
     }),
 
+    updateDscLocation: builder.mutation<DscResponse, UpdateDscLocationRequest>({
+      query: ({ id, ...body }) => ({
+        url: `/${id}/location`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: 'Dsc', id },
+        { type: 'Dsc', id: 'LIST' },
+        { type: 'ExpiringDsc', id: 'LIST' },
+      ],
+    }),
+
     deleteDsc: builder.mutation<{ success: boolean; message: string }, string>({
       query: (id) => ({
         url: `/${id}`,
@@ -92,5 +105,6 @@ export const {
   useGetExpiringDscsQuery,
   useCreateDscMutation,
   useUpdateDscMutation,
+  useUpdateDscLocationMutation,
   useDeleteDscMutation,
 } = dscApi;
