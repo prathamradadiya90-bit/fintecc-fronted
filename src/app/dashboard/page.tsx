@@ -9,7 +9,7 @@ import { QuickActions } from '@/components/dashboard/QuickActions';
 import { RecentClientsTable } from '@/components/dashboard/RecentClientsTable';
 import { DscExpiringWidget } from '@/components/dsc/DscExpiringWidget';
 import { AnnouncementBanner } from '@/components/common/AnnouncementBanner';
-import { Users, FileText, Briefcase, Sparkles, MessageSquare, ArrowRight, UploadCloud, ShieldCheck } from 'lucide-react';
+import { Users, FileText, UserCheck, Sparkles, MessageSquare, ArrowRight, UploadCloud, ShieldCheck } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store/store';
 
@@ -177,9 +177,9 @@ export default function DashboardPage() {
             trend={{ value: '2 this week', isPositive: true }}
           />
           <StatCard 
-            title="Active GST Clients" 
-            value={stats?.pendingCompliances?.gst || 0} 
-            icon={Briefcase} 
+            title="Staff Count" 
+            value={stats?.staffCount || 0} 
+            icon={UserCheck} 
             colorClass="text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-400" 
           />
           <StatCard 

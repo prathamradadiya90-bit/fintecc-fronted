@@ -25,7 +25,7 @@ export function StatCard({ title, value, icon: Icon, trend, subtitle, colorClass
       <div className="flex items-start justify-between">
         <div>
           <p className="text-[13px] font-medium" style={{ color: 'var(--color-text-secondary)' }}>{title}</p>
-          <h3 className="text-2xl font-bold mt-1" style={{ color: 'var(--color-text-heading)' }}>{value}</h3>
+          <h3 className="text-xl font-bold mt-1" style={{ color: 'var(--color-text-heading)' }}>{value}</h3>
         </div>
         <div className={`p-2.5 rounded-xl ${colorClass}`}>
           <Icon className="w-5 h-5" />

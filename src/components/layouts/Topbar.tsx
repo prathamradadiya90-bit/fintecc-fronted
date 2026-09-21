@@ -2,7 +2,9 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, LogOut, Sun, Moon, User as UserIcon } from 'lucide-react';
+import { Menu, LogOut, Sun, Moon, User as UserIcon, Sparkles, HelpCircle } from 'lucide-react';
+import { ModuleGuideModal } from '@/components/common/ModuleGuideModal';
+import { getModuleGuide } from '@/lib/constants/moduleGuides';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '@/lib/store/store';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
@@ -11,7 +13,13 @@ import { useTheme } from '@/providers/ThemeProvider';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { GlobalSearchBar } from '@/components/common/GlobalSearchBar';
 
-export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
+export function Topbar({ 
+  onMenuClick, 
+  showMenuButton = false 
+}: { 
+  onMenuClick?: () => void;
+  showMenuButton?: boolean;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -20,7 +28,24 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const { theme, toggleTheme } = useTheme();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const activeGuide = getModuleGuide(pathname);
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (
+        e.key === '?' &&
+        !['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName) &&
+        !(e.target as HTMLElement)?.isContentEditable
+      ) {
+        setIsGuideOpen(true);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -80,27 +105,44 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
     : 'GU';
 
   return (
-    <header
+    <>
+      <header
       className="h-16 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30 gap-4"
       style={{
         background: 'var(--color-bg-card)',
         borderBottom: '1px solid var(--color-border-subtle)',
       }}
     >
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-2.5 shrink-0">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-1 -ml-1"
+          className={`p-1.5 -ml-1 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/60 focus:outline-none ${
+            showMenuButton ? 'block' : 'lg:hidden block'
+          }`}
           style={{ color: 'var(--color-text-secondary)' }}
+          title="Open sidebar"
+          aria-label="Open sidebar"
         >
-          <Menu className="w-6 h-6" />
+          <Menu className="w-5 h-5" />
         </button>
-        <h1
-          className="text-lg lg:text-xl font-bold whitespace-nowrap"
-          style={{ color: 'var(--color-text-heading)' }}
-        >
-          {title}
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1
+            className="text-lg lg:text-xl font-bold whitespace-nowrap"
+            style={{ color: 'var(--color-text-heading)' }}
+          >
+            {title}
+          </h1>
+          <button
+            type="button"
+            onClick={() => setIsGuideOpen(true)}
+            className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-semibold text-[#00C2B3] bg-[#00C2B3]/10 hover:bg-[#00C2B3]/20 border border-[#00C2B3]/25 transition-all shadow-xs cursor-pointer focus:outline-none"
+            title={`View ${title} guide & workflow (?)`}
+            aria-label={`View ${title} guide`}
+          >
+            <HelpCircle className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden sm:inline">Guide</span>
+          </button>
+        </div>
       </div>
 
       {/* Global Search */}
@@ -157,6 +199,22 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
                 Profile & Settings
               </button>
 
+              {/* Ask Fintecc AI */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-fintecc-ai'));
+                  }
+                }}
+                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center gap-2 transition-colors cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                style={{ color: 'var(--color-text-secondary)' }}
+              >
+                <Sparkles className="w-4 h-4 text-[#00C2B3]" />
+                Ask Fintecc AI
+              </button>
+
               {/* Theme Toggle Row */}
               <button
                 type="button"
@@ -184,5 +242,11 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
         </div>
       </div>
     </header>
+      <ModuleGuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+        guide={activeGuide}
+      />
+    </>
   );
 }

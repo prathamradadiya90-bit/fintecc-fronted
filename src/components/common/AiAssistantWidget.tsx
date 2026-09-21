@@ -10,7 +10,8 @@ import {
   Copy,
   Check,
   RotateCcw,
-  ChevronDown
+  ChevronDown,
+  X
 } from 'lucide-react';
 import { useSendAiMessageMutation } from '@/lib/store/api/aiApi';
 
@@ -30,8 +31,37 @@ const QUICK_PROMPTS = [
 
 export function AiAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const msgSeqRef = useRef(1);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('fintecc_ai_dismissed') === 'true') {
+      setIsDismissed(true);
+    }
+
+    const handleOpenAi = () => {
+      setIsDismissed(false);
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('fintecc_ai_dismissed');
+      }
+      setIsOpen(true);
+    };
+
+    window.addEventListener('open-fintecc-ai', handleOpenAi);
+    return () => {
+      window.removeEventListener('open-fintecc-ai', handleOpenAi);
+    };
+  }, []);
+
+  const handleDismiss = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsDismissed(true);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('fintecc_ai_dismissed', 'true');
+    }
+  };
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome-msg',
@@ -137,24 +167,42 @@ export function AiAssistantWidget() {
     ]);
   };
 
+  if (isDismissed && !isOpen) {
+    return null;
+  }
+
   return (
     <div className="fixed bottom-6 right-6 z-40 font-sans">
       {/* Floating Action Button */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2.5 px-4 py-3 bg-[#091124] dark:bg-[#00C2B3] text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 border border-teal-500/30"
-          aria-label="Open Fintecc AI Assistant"
-        >
-          <div className="relative">
-            <Sparkles className="w-5 h-5 text-[#00C2B3] dark:text-white group-hover:rotate-12 transition-transform duration-300" />
-            <span className="absolute -top-1 -right-1 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00C2B3] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00C2B3]" />
-            </span>
-          </div>
-          <span className="text-sm font-semibold tracking-wide">Ask Fintecc AI</span>
-        </button>
+        <div className="group relative inline-flex items-center bg-[#091124] dark:bg-[#00C2B3] text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-teal-500/30">
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-2.5 pl-4 pr-3.5 py-3 select-none text-left focus:outline-none"
+            aria-label="Open Fintecc AI Assistant"
+          >
+            <div className="relative">
+              <Sparkles className="w-5 h-5 text-[#00C2B3] dark:text-white group-hover:rotate-12 transition-transform duration-300" />
+              <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00C2B3] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00C2B3]" />
+              </span>
+            </div>
+            <span className="text-sm font-semibold tracking-wide">Ask Fintecc AI</span>
+          </button>
+
+          {/* Close button shown on hover */}
+          <button
+            type="button"
+            onClick={handleDismiss}
+            className="overflow-hidden w-0 group-hover:w-7 opacity-0 group-hover:opacity-100 group-hover:mr-2.5 h-7 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/20 dark:text-white/80 dark:hover:text-white dark:hover:bg-black/20 transition-all duration-200 focus:opacity-100 focus:w-7 focus:mr-2.5 focus:outline-none shrink-0"
+            title="Close"
+            aria-label="Close Ask Fintecc AI"
+          >
+            <X className="w-3.5 h-3.5 shrink-0" />
+          </button>
+        </div>
       )}
 
       {/* Expanded Chat Drawer / Card */}
@@ -196,17 +244,19 @@ export function AiAssistantWidget() {
             <div className="flex items-center gap-1">
               <button
                 onClick={handleResetChat}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 title="Clear Chat"
+                aria-label="Clear Chat"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
-                title="Minimize"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                title="Close"
+                aria-label="Close Chatbot"
               >
-                <ChevronDown className="w-4 h-4" />
+                <X className="w-4 h-4" />
               </button>
             </div>
           </div>
