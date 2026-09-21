@@ -33,6 +33,8 @@ import { clientPortalApi } from './api/clientPortalApi';
 import { aiApi } from './api/aiApi';
 import { helpdeskApi } from './api/helpdeskApi';
 import { rolesApi } from './api/rolesApi';
+import { calendarApi } from './api/calendarApi';
+import { tdsApi } from './api/tdsApi';
 import authReducer from './features/auth/authSlice';
 
 
@@ -75,6 +77,8 @@ const rootReducer = combineReducers({
   [aiApi.reducerPath]: aiApi.reducer,
   [helpdeskApi.reducerPath]: helpdeskApi.reducer,
   [rolesApi.reducerPath]: rolesApi.reducer,
+  [calendarApi.reducerPath]: calendarApi.reducer,
+  [tdsApi.reducerPath]: tdsApi.reducer,
 });
 
 
@@ -152,7 +156,9 @@ export const store = configureStore({
       clientPortalApi.middleware,
       aiApi.middleware,
       helpdeskApi.middleware,
-      rolesApi.middleware
+      rolesApi.middleware,
+      calendarApi.middleware,
+      tdsApi.middleware
     ),
 });
 

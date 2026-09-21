@@ -31,6 +31,7 @@ const navItems: NavItem[] = [
   { name: 'Client Vault', href: '/dashboard/vault', icon: KeyRound },
   { name: 'GST Compliance', href: '/dashboard/gst', icon: Building2 },
   { name: 'ITR Filing', href: '/dashboard/itr', icon: ReceiptText },
+  { name: 'TDS Compliance', href: '/dashboard/tds', icon: Calculator },
   { name: 'E-Commerce', href: '/dashboard/ecommerce', icon: ShoppingBag },
   { name: 'MCA Registry', href: '/dashboard/mca', icon: Building2 },
   { name: 'ROC Filings', href: '/dashboard/roc', icon: FileStack },

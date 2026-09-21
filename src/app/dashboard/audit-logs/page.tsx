@@ -16,15 +16,18 @@ import {
   Eye,
   RefreshCw,
   X,
+  KeyRound,
+  Laptop,
 } from 'lucide-react';
 import { useGetAuditLogsQuery } from '@/lib/store/api/auditApi';
-import { useGetStaffQuery } from '@/lib/store/api/authApi';
+import { useGetStaffQuery, useGetLoginHistoryQuery } from '@/lib/store/api/authApi';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Table, Column } from '@/components/ui/Table';
 import { useToast } from '@/components/ui/Toast';
 import type { RootState } from '@/lib/store/store';
 import type { AuditLogItem } from '@/lib/types/audit.types';
+import type { LoginHistoryItem } from '@/lib/types/auth.types';
 
 const ACTION_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   CREATE: { bg: 'bg-emerald-500/10', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-500/20' },
@@ -49,6 +52,8 @@ export default function AuditLogsPage() {
   const [selectedUserId, setSelectedUserId] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [activeTab, setActiveTab] = useState<'activity' | 'logins'>('activity');
+  const [loginPage, setLoginPage] = useState(1);
 
   // Guard: Only FIRM_OWNER can view audit logs
   useEffect(() => {
@@ -74,11 +79,17 @@ export default function AuditLogsPage() {
     skip: !isAuthenticated || !user || user.role !== 'FIRM_OWNER',
   });
 
+  const { data: loginHistoryResponse, isLoading: isLoadingLogins, refetch: refetchLogins } = useGetLoginHistoryQuery(
+    { page: loginPage, limit: 50 },
+    { skip: !isAuthenticated || !user || user.role !== 'FIRM_OWNER' || activeTab !== 'logins' }
+  );
+
   if (!isAuthenticated || !user || user.role !== 'FIRM_OWNER') {
     return null;
   }
 
   const logs = response?.data || [];
+  const loginLogs = loginHistoryResponse?.data || [];
 
   const filteredLogs = useMemo(() => {
     return logs.filter((log) => {
@@ -179,6 +190,88 @@ export default function AuditLogsPage() {
     },
   ];
 
+  const loginColumns: Column<LoginHistoryItem>[] = [
+    {
+      key: 'user',
+      header: 'User / Account',
+      render: (item) => (
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-full bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold text-xs shrink-0">
+            {item.user?.name ? item.user.name.substring(0, 2).toUpperCase() : 'U'}
+          </div>
+          <div>
+            <p className="font-semibold text-xs" style={{ color: 'var(--color-text-primary)' }}>
+              {item.user?.name || 'Unknown User'}
+            </p>
+            <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+              {item.user?.email || '—'}
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (item) => {
+        const isSuccess = item.status === 'SUCCESS' || !item.failureReason;
+        return (
+          <span
+            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border ${
+              isSuccess
+                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
+                : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20'
+            }`}
+          >
+            {isSuccess ? 'Success' : 'Failed'}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'ipAddress',
+      header: 'IP Address',
+      render: (item) => (
+        <span className="font-mono text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+          {item.ipAddress || '—'}
+        </span>
+      ),
+    },
+    {
+      key: 'deviceType',
+      header: 'Device & Client',
+      render: (item) => (
+        <div className="flex items-center gap-1.5 text-xs max-w-xs truncate" style={{ color: 'var(--color-text-secondary)' }}>
+          <Laptop className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+          <span className="truncate">{item.userAgent || item.deviceType || 'Web Session'}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'failureReason',
+      header: 'Notes / Reason',
+      render: (item) => (
+        <span className="text-xs text-rose-500">
+          {item.failureReason || '—'}
+        </span>
+      ),
+    },
+    {
+      key: 'createdAt',
+      header: 'Timestamp',
+      render: (item) => (
+        <div className="flex flex-col text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+          <span className="font-medium">
+            {new Date(item.createdAt).toLocaleDateString('en-IN')}
+          </span>
+          <span className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+            {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+          </span>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
@@ -199,133 +292,169 @@ export default function AuditLogsPage() {
 
         <Button
           variant="outline"
-          onClick={() => refetch()}
+          onClick={() => (activeTab === 'activity' ? refetch() : refetchLogins())}
           leftIcon={<RefreshCw className="w-4 h-4" />}
         >
-          Refresh Logs
+          {activeTab === 'activity' ? 'Refresh Logs' : 'Refresh Logins'}
         </Button>
       </div>
 
-      {/* Filter Bar */}
-      <div
-        className="rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3"
-        style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
-      >
-        <div className="w-full md:w-80">
-          <Input
-            placeholder="Search by action, user, or metadata..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            leftIcon={<Search className="w-4 h-4 text-slate-400" />}
-          />
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-          {/* Action Filter */}
-          <select
-            value={selectedAction}
-            onChange={(e) => setSelectedAction(e.target.value)}
-            className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
-            style={{
-              background: 'var(--color-bg-subtle)',
-              borderColor: 'var(--color-border)',
-              color: 'var(--color-text-primary)',
-            }}
-          >
-            <option value="ALL">All Actions</option>
-            <option value="CREATE">CREATE</option>
-            <option value="UPDATE">UPDATE</option>
-            <option value="DELETE">DELETE</option>
-            <option value="UPLOAD">UPLOAD</option>
-            <option value="DOWNLOAD_PDF">DOWNLOAD_PDF</option>
-            <option value="DOWNLOAD_TALLY_XML">DOWNLOAD_TALLY_XML</option>
-            <option value="DSC_LOCATION_UPDATED">DSC_LOCATION_UPDATED</option>
-          </select>
-
-          {/* Entity Type Filter */}
-          <select
-            value={selectedEntity}
-            onChange={(e) => setSelectedEntity(e.target.value)}
-            className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
-            style={{
-              background: 'var(--color-bg-subtle)',
-              borderColor: 'var(--color-border)',
-              color: 'var(--color-text-primary)',
-            }}
-          >
-            <option value="ALL">All Entities</option>
-            <option value="Invoice">Invoice</option>
-            <option value="Client">Client</option>
-            <option value="Task">Task</option>
-            <option value="Dsc">DSC Token</option>
-            <option value="Settings">Settings</option>
-          </select>
-
-          {/* Staff Actor Filter */}
-          <select
-            value={selectedUserId}
-            onChange={(e) => setSelectedUserId(e.target.value)}
-            className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
-            style={{
-              background: 'var(--color-bg-subtle)',
-              borderColor: 'var(--color-border)',
-              color: 'var(--color-text-primary)',
-            }}
-          >
-            <option value="">All Actors / Staff</option>
-            {(staffData?.data || []).map((st) => (
-              <option key={st.id} value={st.id}>
-                {st.name}
-              </option>
-            ))}
-          </select>
-
-          {/* Date Range Filters */}
-          <div className="flex items-center gap-1.5 h-10 px-2.5 rounded-xl border text-xs font-medium"
-            style={{
-              background: 'var(--color-bg-subtle)',
-              borderColor: 'var(--color-border)',
-            }}
-          >
-            <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <span className="text-[11px] text-slate-400 font-normal">From:</span>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className="bg-transparent text-xs focus:outline-none cursor-pointer"
-              style={{ color: 'var(--color-text-primary)' }}
-            />
-            <span className="text-[11px] text-slate-400 font-normal ml-1">To:</span>
-            <input
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              className="bg-transparent text-xs focus:outline-none cursor-pointer"
-              style={{ color: 'var(--color-text-primary)' }}
-            />
-            {(startDate || endDate) && (
-              <button
-                type="button"
-                onClick={() => { setStartDate(''); setEndDate(''); }}
-                className="p-1 rounded-full hover:bg-slate-500/20 text-slate-400 hover:text-slate-200 transition-colors ml-0.5"
-                title="Clear date filter"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            )}
-          </div>
-        </div>
+      {/* Tabs */}
+      <div className="flex items-center gap-2 border-b overflow-x-auto" style={{ borderColor: 'var(--color-border)' }}>
+        <button
+          onClick={() => setActiveTab('activity')}
+          className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
+            activeTab === 'activity'
+              ? 'border-[#00C2B3] text-[#00C2B3]'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <FileText className="w-4 h-4" />
+          <span>Activity Audit Trail</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('logins')}
+          className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
+            activeTab === 'logins'
+              ? 'border-[#00C2B3] text-[#00C2B3]'
+              : 'border-transparent text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <KeyRound className="w-4 h-4" />
+          <span>Login Security History</span>
+        </button>
       </div>
 
-      {/* Table */}
-      <Table
-        data={filteredLogs}
-        columns={columns}
-        keyExtractor={(log) => log.id}
-        isLoading={isLoading}
-        emptyMessage="No audit logs matching your current filters."
-      />
+      {activeTab === 'activity' ? (
+        <>
+          {/* Filter Bar */}
+          <div
+            className="rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3"
+            style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
+          >
+            <div className="w-full md:w-80">
+              <Input
+                placeholder="Search by action, user, or metadata..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                leftIcon={<Search className="w-4 h-4 text-slate-400" />}
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+              {/* Action Filter */}
+              <select
+                value={selectedAction}
+                onChange={(e) => setSelectedAction(e.target.value)}
+                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                style={{
+                  background: 'var(--color-bg-subtle)',
+                  borderColor: 'var(--color-border)',
+                  color: 'var(--color-text-primary)',
+                }}
+              >
+                <option value="ALL">All Actions</option>
+                {Object.keys(ACTION_COLORS).map((act) => (
+                  <option key={act} value={act}>
+                    {act}
+                  </option>
+                ))}
+              </select>
+
+              {/* Entity Type Filter */}
+              <select
+                value={selectedEntity}
+                onChange={(e) => setSelectedEntity(e.target.value)}
+                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                style={{
+                  background: 'var(--color-bg-subtle)',
+                  borderColor: 'var(--color-border)',
+                  color: 'var(--color-text-primary)',
+                }}
+              >
+                <option value="ALL">All Entities</option>
+                <option value="Invoice">Invoice</option>
+                <option value="Client">Client</option>
+                <option value="Task">Task</option>
+                <option value="Dsc">DSC Token</option>
+                <option value="Settings">Settings</option>
+              </select>
+
+              {/* Staff Actor Filter */}
+              <select
+                value={selectedUserId}
+                onChange={(e) => setSelectedUserId(e.target.value)}
+                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                style={{
+                  background: 'var(--color-bg-subtle)',
+                  borderColor: 'var(--color-border)',
+                  color: 'var(--color-text-primary)',
+                }}
+              >
+                <option value="">All Actors / Staff</option>
+                {(staffData?.data || []).map((st) => (
+                  <option key={st.id} value={st.id}>
+                    {st.name}
+                  </option>
+                ))}
+              </select>
+
+              {/* Date Range Filters */}
+              <div className="flex items-center gap-1.5 h-10 px-2.5 rounded-xl border text-xs font-medium"
+                style={{
+                  background: 'var(--color-bg-subtle)',
+                  borderColor: 'var(--color-border)',
+                }}
+              >
+                <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <span className="text-[11px] text-slate-400 font-normal">From:</span>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="bg-transparent text-xs focus:outline-none cursor-pointer"
+                  style={{ color: 'var(--color-text-primary)' }}
+                />
+                <span className="text-[11px] text-slate-400 font-normal ml-1">To:</span>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="bg-transparent text-xs focus:outline-none cursor-pointer"
+                  style={{ color: 'var(--color-text-primary)' }}
+                />
+                {(startDate || endDate) && (
+                  <button
+                    type="button"
+                    onClick={() => { setStartDate(''); setEndDate(''); }}
+                    className="p-1 rounded-full hover:bg-slate-500/20 text-slate-400 hover:text-slate-200 transition-colors ml-0.5"
+                    title="Clear date filter"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Table */}
+          <Table
+            data={filteredLogs}
+            columns={columns}
+            keyExtractor={(log) => log.id}
+            isLoading={isLoading}
+            emptyMessage="No audit logs matching your current filters."
+          />
+        </>
+      ) : (
+        <Table
+          data={loginLogs}
+          columns={loginColumns}
+          keyExtractor={(item) => item.id}
+          isLoading={isLoadingLogins}
+          emptyMessage="No login history entries recorded yet."
+        />
+      )}
     </div>
   );
 }

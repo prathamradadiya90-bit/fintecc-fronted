@@ -8,6 +8,7 @@ export interface User {
   customRoleId?: string;
   branchId?: string;
   phone?: string;
+  profilePic?: string;
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -70,3 +71,36 @@ export interface UpdateStaffRequest {
 export interface GoogleLoginRequest {
   token: string;
 }
+
+export interface MagicLinkRequest {
+  email: string;
+}
+
+export interface LoginHistoryItem {
+  id: string;
+  ipAddress?: string;
+  userAgent?: string;
+  deviceType?: string;
+  status?: string;
+  failureReason?: string;
+  createdAt: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+}
+
+export interface PaginatedLoginHistoryResponse {
+  success: boolean;
+  message?: string;
+  data: LoginHistoryItem[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+

@@ -70,3 +70,53 @@ export interface UpdateContactStatusRequest {
   id: string;
   status: ContactStatus;
 }
+
+// ─── Super Admin Module Types ────────────────────────────────────────────────
+
+export interface SuperAdminFirm {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  isActive: boolean;
+  isSuspended: boolean;
+  suspensionReason?: string;
+  verificationStatus?: 'PENDING' | 'VERIFIED' | 'REJECTED';
+  rejectionReason?: string;
+  plan?: string;
+  userLimit?: number;
+  clientLimit?: number;
+  storageLimitGB?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SuperAdminAnalytics {
+  totalCAs: number;
+  activeCAs: number;
+  inactiveCAs: number;
+  totalClients: number;
+  totalEmployees: number;
+  totalStorageGB: string | number;
+  totalDocuments: number;
+  revenueThisMonth: number;
+  newSignupsThisMonth: number;
+}
+
+export interface SuperAdminConfig {
+  [key: string]: any;
+}
+
+export interface SuperAdminSubscription {
+  id: string;
+  firmId: string;
+  firmName?: string;
+  planId: string;
+  planName?: string;
+  status: string;
+  billingCycle: string;
+  startDate: string;
+  endDate?: string;
+}
+

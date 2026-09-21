@@ -9,6 +9,9 @@ import type {
   GetContactMessagesParams,
   ToggleFirmOwnerStatusRequest,
   UpdateContactStatusRequest,
+  SuperAdminFirm,
+  SuperAdminAnalytics,
+  SuperAdminSubscription,
 } from '../../types/superAdmin.types';
 import type { AuthResponse, LoginRequest, User } from '../../types/auth.types';
 
@@ -49,7 +52,7 @@ const superAdminBaseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 export const superAdminApi = createApi({
   reducerPath: 'superAdminApi',
   baseQuery: superAdminBaseQuery,
-  tagTypes: ['FirmOwners', 'FirmOwner', 'ContactMessages'],
+  tagTypes: ['FirmOwners', 'FirmOwner', 'ContactMessages', 'Firms', 'Analytics', 'Subscriptions'],
   endpoints: (builder) => ({
 
     // ── Super Admin Login ──────────────────────────────────────────────────────
@@ -142,6 +145,85 @@ export const superAdminApi = createApi({
         { type: 'ContactMessages', id },
       ],
     }),
+
+    // ── Super Admin Firms Management ──────────────────────────────────────────
+    getAllFirms: builder.query<SingleResponse<SuperAdminFirm[]>, { search?: string; status?: string } | void>({
+      query: (params) => {
+        const qs = new URLSearchParams();
+        if (params?.search) qs.set('search', params.search);
+        if (params?.status) qs.set('status', params.status);
+        return `/superadmin/firms?${qs.toString()}`;
+      },
+      providesTags: ['Firms'],
+    }),
+
+    getFirmDetail: builder.query<SingleResponse<SuperAdminFirm>, string>({
+      query: (id) => `/superadmin/firms/${id}`,
+      providesTags: (_res, _err, id) => [{ type: 'Firms', id }],
+    }),
+
+    suspendFirm: builder.mutation<SingleResponse<SuperAdminFirm>, { id: string; reason: string }>({
+      query: ({ id, reason }) => ({
+        url: `/superadmin/firms/${id}/suspend`,
+        method: 'PATCH',
+        body: { reason },
+      }),
+      invalidatesTags: ['Firms'],
+    }),
+
+    activateFirm: builder.mutation<SingleResponse<SuperAdminFirm>, string>({
+      query: (id) => ({
+        url: `/superadmin/firms/${id}/activate`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['Firms'],
+    }),
+
+    verifyFirm: builder.mutation<SingleResponse<SuperAdminFirm>, { id: string; status: 'VERIFIED' | 'REJECTED'; reason?: string }>({
+      query: ({ id, ...body }) => ({
+        url: `/superadmin/firms/${id}/verify`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Firms'],
+    }),
+
+    deleteFirm: builder.mutation<SingleResponse<null>, string>({
+      query: (id) => ({
+        url: `/superadmin/firms/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Firms'],
+    }),
+
+    // ── Super Admin Analytics ─────────────────────────────────────────────────
+    getAnalyticsDashboard: builder.query<SingleResponse<SuperAdminAnalytics>, void>({
+      query: () => '/superadmin/analytics/dashboard',
+      providesTags: ['Analytics'],
+    }),
+
+    // ── Super Admin Subscriptions / Billing ───────────────────────────────────
+    getAllSubscriptions: builder.query<SingleResponse<SuperAdminSubscription[]>, void>({
+      query: () => '/superadmin/billing/subscriptions',
+      providesTags: ['Subscriptions'],
+    }),
+
+    // ── Super Admin Global Users ──────────────────────────────────────────────
+    getSuperAdminClients: builder.query<SingleResponse<{ data: any[]; total: number }>, { search?: string } | void>({
+      query: (params) => {
+        const qs = new URLSearchParams();
+        if (params?.search) qs.set('search', params.search);
+        return `/superadmin/users/clients?${qs.toString()}`;
+      },
+    }),
+
+    getSuperAdminEmployees: builder.query<SingleResponse<{ data: any[]; total: number }>, { search?: string } | void>({
+      query: (params) => {
+        const qs = new URLSearchParams();
+        if (params?.search) qs.set('search', params.search);
+        return `/superadmin/users/employees?${qs.toString()}`;
+      },
+    }),
   }),
 });
 
@@ -152,4 +234,15 @@ export const {
   useToggleFirmOwnerStatusMutation,
   useGetContactMessagesQuery,
   useUpdateContactStatusMutation,
+  useGetAllFirmsQuery,
+  useGetFirmDetailQuery,
+  useSuspendFirmMutation,
+  useActivateFirmMutation,
+  useVerifyFirmMutation,
+  useDeleteFirmMutation,
+  useGetAnalyticsDashboardQuery,
+  useGetAllSubscriptionsQuery,
+  useGetSuperAdminClientsQuery,
+  useGetSuperAdminEmployeesQuery,
 } = superAdminApi;
+

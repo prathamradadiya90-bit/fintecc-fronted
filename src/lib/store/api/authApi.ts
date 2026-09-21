@@ -10,7 +10,9 @@ import type {
   ResendOtpRequest,
   InviteStaffRequest,
   UpdateStaffRequest,
-  GoogleLoginRequest
+  GoogleLoginRequest,
+  MagicLinkRequest,
+  PaginatedLoginHistoryResponse
 } from '../../types/auth.types';
 import { setCredentials } from '../features/auth/authSlice';
 
@@ -158,6 +160,53 @@ export const authApi = createApi({
       }),
       invalidatesTags: [{ type: 'Staff', id: 'LIST' }],
     }),
+    updateMe: builder.mutation<AuthResponse<User>, FormData>({
+      query: (formData) => ({
+        url: '/me',
+        method: 'PATCH',
+        body: formData,
+      }),
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.data) {
+            dispatch(setCredentials({ user: data.data }));
+          }
+        } catch {
+          // Handled by caller
+        }
+      },
+    }),
+    getLoginHistory: builder.query<PaginatedLoginHistoryResponse, { page?: number; limit?: number } | void>({
+      query: (params) => ({
+        url: '/security/login-history',
+        params: params || {},
+      }),
+    }),
+    requestMagicLink: builder.mutation<AuthResponse<null>, MagicLinkRequest>({
+      query: (body) => ({
+        url: '/magic-link/request',
+        method: 'POST',
+        body,
+      }),
+    }),
+    verifyMagicLink: builder.mutation<AuthResponse<{ user: User }>, VerifyOTPRequest>({
+      query: (credentials) => ({
+        url: '/magic-link/verify',
+        method: 'POST',
+        body: credentials,
+      }),
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.data?.user) {
+            dispatch(setCredentials({ user: data.data.user }));
+          }
+        } catch {
+          // Handled by caller
+        }
+      },
+    }),
   }),
 });
 
@@ -175,4 +224,9 @@ export const {
   useInviteStaffMutation,
   useUpdateStaffMutation,
   useDeleteStaffMutation,
+  useUpdateMeMutation,
+  useGetLoginHistoryQuery,
+  useRequestMagicLinkMutation,
+  useVerifyMagicLinkMutation,
 } = authApi;
+

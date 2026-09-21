@@ -17,6 +17,8 @@ import {
   CheckCircle2,
   Brain,
   Shield,
+  User as UserIcon,
+  Database,
 } from 'lucide-react';
 import {
   useGetSettingsQuery,
@@ -29,8 +31,11 @@ import type { RootState } from '@/lib/store/store';
 import type { TaxRate, InvoiceSettings, EmailSettings, FirmBranch } from '@/lib/types/settings.types';
 import { LedgerMappingRulesSettings } from '@/components/settings/LedgerMappingRulesSettings';
 import { RolesManagement } from '@/components/settings/RolesManagement';
+import { ProfileSettings } from '@/components/settings/ProfileSettings';
+import { DataExportSettings } from '@/components/settings/DataExportSettings';
 
-type SettingsTab = 'invoice' | 'tax' | 'email' | 'branches' | 'ledger-rules' | 'roles';
+type SettingsTab = 'profile' | 'invoice' | 'tax' | 'email' | 'branches' | 'ledger-rules' | 'roles' | 'export';
+
 
 export default function SettingsPage() {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -145,7 +150,7 @@ export default function SettingsPage() {
           </p>
         </div>
 
-        {activeTab !== 'ledger-rules' && activeTab !== 'roles' && (
+        {activeTab !== 'profile' && activeTab !== 'ledger-rules' && activeTab !== 'roles' && activeTab !== 'export' && (
           <Button
             type="submit"
             form="settings-form"
@@ -160,11 +165,13 @@ export default function SettingsPage() {
       {/* Tabs */}
       <div className="flex items-center gap-2 border-b overflow-x-auto" style={{ borderColor: 'var(--color-border)' }}>
         {[
+          { id: 'profile', label: 'My Profile', icon: UserIcon },
           { id: 'invoice', label: 'Invoice & Billing', icon: Receipt },
           { id: 'tax', label: 'Tax Rates & Slabs', icon: Percent },
           { id: 'email', label: 'Email & SMTP', icon: Mail },
           { id: 'branches', label: 'Branches & Offices', icon: Building2 },
           ...(isFirmOwner ? [{ id: 'roles', label: 'Custom Roles', icon: Shield }] : []),
+          ...(isFirmOwner ? [{ id: 'export', label: 'Data Export', icon: Database }] : []),
           { id: 'ledger-rules', label: 'Ledger Mapping Rules', icon: Brain },
         ].map((tab) => {
           const Icon = tab.icon;
@@ -486,8 +493,14 @@ export default function SettingsPage() {
         {activeTab === 'ledger-rules' && <LedgerMappingRulesSettings />}
       </form>
 
-      {/* TAB 6: Custom Roles */}
+      {/* TAB: My Profile */}
+      {activeTab === 'profile' && <ProfileSettings />}
+
+      {/* TAB: Custom Roles */}
       {activeTab === 'roles' && <RolesManagement />}
+
+      {/* TAB: Data Export */}
+      {activeTab === 'export' && <DataExportSettings />}
     </div>
   );
 }

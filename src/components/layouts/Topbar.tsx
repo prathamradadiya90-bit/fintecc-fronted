@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, LogOut, Sun, Moon } from 'lucide-react';
+import { Menu, LogOut, Sun, Moon, User as UserIcon } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '@/lib/store/store';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
@@ -57,6 +57,7 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
   else if (pathname.includes('/documents')) title = 'My Documents';
   else if (pathname.includes('/gst')) title = 'GST Compliance';
   else if (pathname.includes('/itr')) title = 'ITR Filing';
+  else if (pathname.includes('/tds')) title = 'TDS Compliance & TRACES';
   else if (pathname.includes('/ecommerce')) title = 'E-Commerce Sales';
   else if (pathname.includes('/mca')) title = 'MCA Company Registry';
   else if (pathname.includes('/roc')) title = 'ROC Annual Filings';
@@ -115,8 +116,12 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center gap-2.5 focus:outline-none"
           >
-            <div className="w-8 h-8 rounded-full bg-[#091124] text-white flex items-center justify-center font-semibold text-xs">
-              {initials}
+            <div className="w-8 h-8 rounded-full bg-[#091124] text-white flex items-center justify-center font-semibold text-xs overflow-hidden border border-slate-700/50">
+              {user?.profilePic ? (
+                <img src={user.profilePic} alt={userName} className="w-full h-full object-cover" />
+              ) : (
+                initials
+              )}
             </div>
             <div className="hidden md:block text-left">
               <p className="text-[13px] font-semibold" style={{ color: 'var(--color-text-on-card)' }}>{displayName}</p>
@@ -138,11 +143,25 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
                  <p className="text-[13px] font-semibold" style={{ color: 'var(--color-text-on-card)' }}>{displayName}</p>
               </div>
 
+              {/* Profile Link */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  router.push('/dashboard/settings');
+                }}
+                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center gap-2 transition-colors cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                style={{ color: 'var(--color-text-secondary)' }}
+              >
+                <UserIcon className="w-4 h-4" />
+                Profile & Settings
+              </button>
+
               {/* Theme Toggle Row */}
               <button
                 type="button"
                 onClick={(e) => { e.preventDefault(); toggleTheme(); }}
-                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center gap-2 transition-colors cursor-pointer"
+                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center gap-2 transition-colors cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60"
                 style={{ color: 'var(--color-text-secondary)' }}
               >
                 {theme === 'light' ? (
