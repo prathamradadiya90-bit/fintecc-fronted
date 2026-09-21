@@ -15,6 +15,7 @@ import {
   Calendar,
   Eye,
   RefreshCw,
+  X,
 } from 'lucide-react';
 import { useGetAuditLogsQuery } from '@/lib/store/api/auditApi';
 import { useGetStaffQuery } from '@/lib/store/api/authApi';
@@ -46,6 +47,8 @@ export default function AuditLogsPage() {
   const [selectedAction, setSelectedAction] = useState('ALL');
   const [selectedEntity, setSelectedEntity] = useState('ALL');
   const [selectedUserId, setSelectedUserId] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   // Guard: Only FIRM_OWNER can view audit logs
   useEffect(() => {
@@ -60,6 +63,8 @@ export default function AuditLogsPage() {
       action: selectedAction !== 'ALL' ? selectedAction : undefined,
       entityType: selectedEntity !== 'ALL' ? selectedEntity : undefined,
       userId: selectedUserId || undefined,
+      startDate: startDate ? new Date(startDate).toISOString() : undefined,
+      endDate: endDate ? new Date(`${endDate}T23:59:59.999Z`).toISOString() : undefined,
       limit: 100,
     },
     { skip: !isAuthenticated || !user || user.role !== 'FIRM_OWNER' }
@@ -274,6 +279,42 @@ export default function AuditLogsPage() {
               </option>
             ))}
           </select>
+
+          {/* Date Range Filters */}
+          <div className="flex items-center gap-1.5 h-10 px-2.5 rounded-xl border text-xs font-medium"
+            style={{
+              background: 'var(--color-bg-subtle)',
+              borderColor: 'var(--color-border)',
+            }}
+          >
+            <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="text-[11px] text-slate-400 font-normal">From:</span>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="bg-transparent text-xs focus:outline-none cursor-pointer"
+              style={{ color: 'var(--color-text-primary)' }}
+            />
+            <span className="text-[11px] text-slate-400 font-normal ml-1">To:</span>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="bg-transparent text-xs focus:outline-none cursor-pointer"
+              style={{ color: 'var(--color-text-primary)' }}
+            />
+            {(startDate || endDate) && (
+              <button
+                type="button"
+                onClick={() => { setStartDate(''); setEndDate(''); }}
+                className="p-1 rounded-full hover:bg-slate-500/20 text-slate-400 hover:text-slate-200 transition-colors ml-0.5"
+                title="Clear date filter"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

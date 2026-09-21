@@ -6,8 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { SlideOver } from '@/components/ui/SlideOver';
 import { useInviteStaffMutation, useUpdateStaffMutation } from '@/lib/store/api/authApi';
+import { useGetRolesQuery } from '@/lib/store/api/rolesApi';
+import { useGetSettingsQuery } from '@/lib/store/api/settingsApi';
 import { useToast } from '@/components/ui/Toast';
 import type { User } from '@/lib/types/auth.types';
+import type { FirmBranch } from '@/lib/types/settings.types';
 
 const ROLES_LIST = [
   { value: 'PARTNER', label: 'Partner' },
@@ -21,6 +24,8 @@ const staffSchema = z.object({
   name: z.string().min(2, 'Name is required'),
   email: z.string().email('Invalid email address'),
   role: z.enum(['PARTNER', 'EMPLOYEE', 'AUDITOR', 'ACCOUNTANT', 'TAX_CONSULTANT']),
+  customRoleId: z.string().optional(),
+  branchId: z.string().optional(),
   isActive: z.boolean(),
 });
 
@@ -44,7 +49,12 @@ const SectionHeader = ({ letter, title }: { letter: string; title: string }) => 
 export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) {
   const [inviteStaff, { isLoading: isInviting }] = useInviteStaffMutation();
   const [updateStaff, { isLoading: isUpdating }] = useUpdateStaffMutation();
+  const { data: rolesResponse } = useGetRolesQuery(undefined, { skip: !isOpen });
+  const { data: settingsResponse } = useGetSettingsQuery(undefined, { skip: !isOpen });
   const { showToast } = useToast();
+
+  const customRoles = rolesResponse?.data || [];
+  const branches = settingsResponse?.data?.branches || [];
 
   const {
     register,
@@ -57,6 +67,8 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
       name: '',
       email: '',
       role: 'EMPLOYEE',
+      customRoleId: '',
+      branchId: '',
       isActive: true,
     },
   });
@@ -66,7 +78,9 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
       reset({
         name: staff.name,
         email: staff.email,
-        role: staff.role as any || 'EMPLOYEE',
+        role: (staff.role as any) || 'EMPLOYEE',
+        customRoleId: staff.customRoleId || '',
+        branchId: staff.branchId || '',
         isActive: staff.isActive !== false,
       });
     } else if (!isOpen) {
@@ -74,6 +88,8 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
         name: '',
         email: '',
         role: 'EMPLOYEE',
+        customRoleId: '',
+        branchId: '',
         isActive: true,
       });
     }
@@ -85,6 +101,8 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
         await updateStaff({
           id: staff.id,
           role: data.role,
+          customRoleId: data.customRoleId || null,
+          branchId: data.branchId || null,
           isActive: data.isActive,
         }).unwrap();
         showToast('Staff member updated successfully');
@@ -93,6 +111,8 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
           name: data.name,
           email: data.email,
           role: data.role,
+          customRoleId: data.customRoleId || undefined,
+          branchId: data.branchId || undefined,
         }).unwrap();
         showToast(`Invitation sent to ${data.email}`);
       }
@@ -165,7 +185,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
 
           <div>
             <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
-              Role <span className="text-red-500">*</span>
+              Base Role <span className="text-red-500">*</span>
             </label>
             <select
               {...register('role')}
@@ -178,6 +198,43 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
               ))}
             </select>
             {errors.role && <p className="text-red-500 text-xs mt-1">{errors.role.message}</p>}
+          </div>
+
+          <div>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
+              Custom Role & Permission Preset (Optional)
+            </label>
+            <select
+              {...register('customRoleId')}
+              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
+            >
+              <option value="">Standard Base Role Permissions (Default)</option>
+              {customRoles.map((cr) => (
+                <option key={cr.id} value={cr.id}>
+                  {cr.name} ({cr.permissions?.length || 0} permissions)
+                </option>
+              ))}
+            </select>
+            <p className="text-[11px] dark:text-slate-500 text-slate-400 mt-1">
+              Assign an advanced custom permission template configured in Settings.
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-[13px] font-semibold dark:text-slate-200 text-slate-800 mb-1.5">
+              Branch Office Assignment (Optional)
+            </label>
+            <select
+              {...register('branchId')}
+              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
+            >
+              <option value="">Head Office / Unassigned</option>
+              {branches.map((b: FirmBranch, idx: number) => (
+                <option key={b.branchName || idx} value={b.branchName}>
+                  {b.branchName} {b.address ? `— ${b.address}` : ''}
+                </option>
+              ))}
+            </select>
           </div>
 
           {staff && (

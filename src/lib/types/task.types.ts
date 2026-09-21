@@ -33,6 +33,7 @@ export interface Task {
   id: string;
   firmId: string;
   clientId: string;
+  branchId?: string | null;
   assigneeId?: string | null;
   title: string;
   description?: string | null;
@@ -86,6 +87,7 @@ export interface GetTasksParams {
   status?: string;
   priority?: string;
   clientId?: string;
+  branchId?: string;
   assigneeId?: string;
   complianceType?: string;
   search?: string;
@@ -94,6 +96,7 @@ export interface GetTasksParams {
 
 export interface CreateTaskRequest {
   clientId: string;
+  branchId?: string | null;
   assigneeId?: string | null;
   title: string;
   description?: string | null;
@@ -107,6 +110,7 @@ export interface CreateTaskRequest {
 
 export interface UpdateTaskRequest {
   clientId?: string;
+  branchId?: string | null;
   assigneeId?: string | null;
   title?: string;
   description?: string | null;
@@ -121,6 +125,7 @@ export interface UpdateTaskRequest {
 export interface BulkUpdateTasksRequest {
   taskIds: string[];
   updates: {
+    branchId?: string | null;
     assigneeId?: string | null;
     status?: TaskStatus;
     priority?: TaskPriority;

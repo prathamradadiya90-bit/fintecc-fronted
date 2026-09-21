@@ -45,6 +45,7 @@ export interface Client {
   keyPersons?: KeyPerson[];
   status: ClientStatus;
   kycStatus?: KycStatus | string;
+  branchId?: string;
   notes?: string;
   tags?: string[];
   createdAt: string;
@@ -101,6 +102,7 @@ export interface GetClientsParams {
   search?: string;
   status?: ClientStatus;
   type?: ClientType;
+  branchId?: string;
 }
 
 export type CreateClientRequest = Omit<Client, 'id' | 'firmId' | 'createdAt' | 'updatedAt'>;

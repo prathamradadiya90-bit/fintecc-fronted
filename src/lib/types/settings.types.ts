@@ -48,6 +48,7 @@ export interface FirmSettings {
   emailSettings: EmailSettings;
   smsSettings: SmsSettings;
   themeSettings: ThemeSettings;
+  branches?: FirmBranch[];
 }
 
 export interface SettingsResponse {
@@ -62,4 +63,5 @@ export interface UpdateSettingsRequest {
   emailSettings?: EmailSettings;
   smsSettings?: SmsSettings;
   themeSettings?: ThemeSettings;
+  branches?: FirmBranch[];
 }

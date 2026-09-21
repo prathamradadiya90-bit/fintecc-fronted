@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Building2,
   Receipt,
@@ -15,6 +16,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   Brain,
+  Shield,
 } from 'lucide-react';
 import {
   useGetSettingsQuery,
@@ -23,12 +25,16 @@ import {
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useToast } from '@/components/ui/Toast';
+import type { RootState } from '@/lib/store/store';
 import type { TaxRate, InvoiceSettings, EmailSettings, FirmBranch } from '@/lib/types/settings.types';
 import { LedgerMappingRulesSettings } from '@/components/settings/LedgerMappingRulesSettings';
+import { RolesManagement } from '@/components/settings/RolesManagement';
 
-type SettingsTab = 'invoice' | 'tax' | 'email' | 'branches' | 'ledger-rules';
+type SettingsTab = 'invoice' | 'tax' | 'email' | 'branches' | 'ledger-rules' | 'roles';
 
 export default function SettingsPage() {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const isFirmOwner = user?.role === 'FIRM_OWNER';
   const { showToast } = useToast();
   const { data: response, isLoading } = useGetSettingsQuery();
   const [updateSettings, { isLoading: isUpdating }] = useUpdateSettingsMutation();
@@ -139,7 +145,7 @@ export default function SettingsPage() {
           </p>
         </div>
 
-        {activeTab !== 'ledger-rules' && (
+        {activeTab !== 'ledger-rules' && activeTab !== 'roles' && (
           <Button
             type="submit"
             form="settings-form"
@@ -152,12 +158,13 @@ export default function SettingsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b" style={{ borderColor: 'var(--color-border)' }}>
+      <div className="flex items-center gap-2 border-b overflow-x-auto" style={{ borderColor: 'var(--color-border)' }}>
         {[
           { id: 'invoice', label: 'Invoice & Billing', icon: Receipt },
           { id: 'tax', label: 'Tax Rates & Slabs', icon: Percent },
           { id: 'email', label: 'Email & SMTP', icon: Mail },
           { id: 'branches', label: 'Branches & Offices', icon: Building2 },
+          ...(isFirmOwner ? [{ id: 'roles', label: 'Custom Roles', icon: Shield }] : []),
           { id: 'ledger-rules', label: 'Ledger Mapping Rules', icon: Brain },
         ].map((tab) => {
           const Icon = tab.icon;
@@ -166,7 +173,7 @@ export default function SettingsPage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as SettingsTab)}
-              className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
                 isActive
                   ? 'border-[#00C2B3] text-[#00C2B3]'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -478,6 +485,9 @@ export default function SettingsPage() {
         {/* TAB 5: Ledger Mapping Rules */}
         {activeTab === 'ledger-rules' && <LedgerMappingRulesSettings />}
       </form>
+
+      {/* TAB 6: Custom Roles */}
+      {activeTab === 'roles' && <RolesManagement />}
     </div>
   );
 }

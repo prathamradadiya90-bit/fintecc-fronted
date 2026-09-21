@@ -119,8 +119,11 @@ export const authApi = createApi({
         }
       }
     }),
-    getStaff: builder.query<AuthResponse<User[]>, void>({
-      query: () => '/staff',
+    getStaff: builder.query<AuthResponse<User[]>, { branchId?: string } | void>({
+      query: (params) => ({
+        url: '/staff',
+        params: params || {},
+      }),
       providesTags: (result) =>
         result?.data
           ? [

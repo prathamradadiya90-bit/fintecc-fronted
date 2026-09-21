@@ -5,6 +5,8 @@ export interface User {
   name: string;
   email: string;
   role: string;
+  customRoleId?: string;
+  branchId?: string;
   phone?: string;
   isActive?: boolean;
   createdAt?: string;
@@ -53,11 +55,15 @@ export interface InviteStaffRequest {
   name: string;
   email: string;
   role: string;
+  customRoleId?: string;
+  branchId?: string;
 }
 
 export interface UpdateStaffRequest {
   id: string;
   role?: string;
+  customRoleId?: string | null;
+  branchId?: string | null;
   isActive?: boolean;
 }
 

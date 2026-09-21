@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, FileStack, Clock } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, Sun, Moon, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, FileStack, Clock, LifeBuoy } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
 import { useGetTasksQuery } from '@/lib/store/api/tasksApi';
@@ -38,6 +38,7 @@ const navItems: NavItem[] = [
   { name: 'Converters', href: '/dashboard/converters', icon: FileText },
   { name: 'Calculators', href: '/dashboard/calculators', icon: Calculator },
   { name: 'Compliance Calendar', href: '/dashboard/compliance', icon: Calendar },
+  { name: 'Helpdesk', href: '/dashboard/helpdesk', icon: LifeBuoy },
   { name: 'Subscription', href: '/dashboard/subscription', icon: CreditCard },
 ];
 
@@ -66,6 +67,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
   const clientNavItems: NavItem[] = [
     { name: 'My Invoices', href: '/dashboard/portal', icon: Receipt },
     { name: 'Chat', href: '/dashboard/chat', icon: MessageSquare },
+    { name: 'Helpdesk', href: '/dashboard/helpdesk', icon: LifeBuoy },
     { name: 'Documents', href: '/dashboard/documents', icon: FileText },
   ];
 

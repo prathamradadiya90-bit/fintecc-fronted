@@ -31,6 +31,8 @@ import { rocApi } from './api/rocApi';
 import { announcementsApi } from './api/announcementsApi';
 import { clientPortalApi } from './api/clientPortalApi';
 import { aiApi } from './api/aiApi';
+import { helpdeskApi } from './api/helpdeskApi';
+import { rolesApi } from './api/rolesApi';
 import authReducer from './features/auth/authSlice';
 
 
@@ -71,6 +73,8 @@ const rootReducer = combineReducers({
   [announcementsApi.reducerPath]: announcementsApi.reducer,
   [clientPortalApi.reducerPath]: clientPortalApi.reducer,
   [aiApi.reducerPath]: aiApi.reducer,
+  [helpdeskApi.reducerPath]: helpdeskApi.reducer,
+  [rolesApi.reducerPath]: rolesApi.reducer,
 });
 
 
@@ -146,7 +150,9 @@ export const store = configureStore({
       rocApi.middleware,
       announcementsApi.middleware,
       clientPortalApi.middleware,
-      aiApi.middleware
+      aiApi.middleware,
+      helpdeskApi.middleware,
+      rolesApi.middleware
     ),
 });
 
