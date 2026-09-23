@@ -25,14 +25,6 @@ import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
 import type { CalendarEvent, CalendarEventType, CalendarPriority } from '@/lib/types/calendar.types';
 
-// Standard fallback compliance dates for Indian statutory tax tracking
-const standardStatutoryEvents = [
-  { id: 'stat-1', day: 7, title: 'TDS/TCS Monthly Deposit', type: 'TDS', color: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20' },
-  { id: 'stat-2', day: 11, title: 'GSTR-1 Monthly Return', type: 'GST', color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' },
-  { id: 'stat-3', day: 15, title: 'PF & ESI Monthly Payment', type: 'Labour', color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' },
-  { id: 'stat-4', day: 20, title: 'GSTR-3B Summary Return', type: 'GST', color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' },
-  { id: 'stat-5', day: 31, title: 'Quarterly TDS Return Filing', type: 'TDS', color: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20' },
-];
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -150,8 +142,6 @@ export default function ComplianceCalendarPage() {
         return d.getDate() === day && d.getMonth() === currentMonth && d.getFullYear() === currentYear;
       });
 
-      // Statutory fallback events
-      const dayStatutory = standardStatutoryEvents.filter((s) => s.day === day);
 
       days.push(
         <div
@@ -206,16 +196,6 @@ export default function ComplianceCalendarPage() {
               );
             })}
 
-            {/* Standard statutory reminders */}
-            {dayStatutory.map((stat) => (
-              <div
-                key={`stat-${day}-${stat.id}`}
-                className={`text-[10px] font-semibold px-1.5 py-0.5 rounded truncate border ${stat.color} opacity-85`}
-                title={`Statutory: ${stat.title}`}
-              >
-                {stat.title}
-              </div>
-            ))}
           </div>
         </div>
       );
