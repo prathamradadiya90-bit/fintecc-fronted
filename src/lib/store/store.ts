@@ -35,7 +35,9 @@ import { helpdeskApi } from './api/helpdeskApi';
 import { rolesApi } from './api/rolesApi';
 import { calendarApi } from './api/calendarApi';
 import { tdsApi } from './api/tdsApi';
+import { shortcutsApi } from './api/shortcutsApi';
 import authReducer from './features/auth/authSlice';
+import shortcutsReducer from './features/shortcuts/shortcutsSlice';
 
 
 const persistConfig = {
@@ -79,6 +81,8 @@ const rootReducer = combineReducers({
   [rolesApi.reducerPath]: rolesApi.reducer,
   [calendarApi.reducerPath]: calendarApi.reducer,
   [tdsApi.reducerPath]: tdsApi.reducer,
+  shortcuts: shortcutsReducer,
+  [shortcutsApi.reducerPath]: shortcutsApi.reducer,
 });
 
 
@@ -158,7 +162,8 @@ export const store = configureStore({
       helpdeskApi.middleware,
       rolesApi.middleware,
       calendarApi.middleware,
-      tdsApi.middleware
+      tdsApi.middleware,
+      shortcutsApi.middleware
     ),
 });
 

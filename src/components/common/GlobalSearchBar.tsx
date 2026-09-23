@@ -33,8 +33,17 @@ export function GlobalSearchBar() {
         inputRef.current?.blur();
       }
     };
+    const handleShortcutSearch = () => {
+      inputRef.current?.focus();
+      setIsOpen(true);
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('fintecc:shortcut:search', handleShortcutSearch);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('fintecc:shortcut:search', handleShortcutSearch);
+    };
   }, []);
 
   // Click outside to dismiss

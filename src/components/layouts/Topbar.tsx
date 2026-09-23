@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, LogOut, Sun, Moon, User as UserIcon, Sparkles, HelpCircle } from 'lucide-react';
+import { Menu, LogOut, Sun, Moon, User as UserIcon, Sparkles, HelpCircle, Keyboard } from 'lucide-react';
 import { ModuleGuideModal } from '@/components/common/ModuleGuideModal';
 import { getModuleGuide } from '@/lib/constants/moduleGuides';
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,19 +33,7 @@ export function Topbar({
 
   const activeGuide = getModuleGuide(pathname);
 
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (
-        e.key === '?' &&
-        !['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName) &&
-        !(e.target as HTMLElement)?.isContentEditable
-      ) {
-        setIsGuideOpen(true);
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -136,11 +124,26 @@ export function Topbar({
             type="button"
             onClick={() => setIsGuideOpen(true)}
             className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-semibold text-[#00C2B3] bg-[#00C2B3]/10 hover:bg-[#00C2B3]/20 border border-[#00C2B3]/25 transition-all shadow-xs cursor-pointer focus:outline-none"
-            title={`View ${title} guide & workflow (?)`}
+            title={`View ${title} guide & workflow`}
             aria-label={`View ${title} guide`}
           >
             <HelpCircle className="w-3.5 h-3.5 shrink-0" />
             <span className="hidden sm:inline">Guide</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(new CustomEvent('open-keyboard-shortcuts'));
+              }
+            }}
+            className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700/80 transition-all shadow-xs cursor-pointer focus:outline-none"
+            title="Keyboard Shortcuts (Shift + ?)"
+            aria-label="View Keyboard Shortcuts"
+          >
+            <Keyboard className="w-3.5 h-3.5 shrink-0 text-slate-500 dark:text-slate-400" />
+            <span className="hidden md:inline">Shortcuts</span>
+            <kbd className="text-[10px] px-1 py-0.2 rounded bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-mono">?</kbd>
           </button>
         </div>
       </div>
@@ -213,6 +216,25 @@ export function Topbar({
               >
                 <Sparkles className="w-4 h-4 text-[#00C2B3]" />
                 Ask Fintecc AI
+              </button>
+
+              {/* Keyboard Shortcuts */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-keyboard-shortcuts'));
+                  }
+                }}
+                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center justify-between transition-colors cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                style={{ color: 'var(--color-text-secondary)' }}
+              >
+                <div className="flex items-center gap-2">
+                  <Keyboard className="w-4 h-4 text-slate-500" />
+                  <span>Keyboard Shortcuts</span>
+                </div>
+                <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 font-mono">Shift+?</kbd>
               </button>
 
               {/* Theme Toggle Row */}
