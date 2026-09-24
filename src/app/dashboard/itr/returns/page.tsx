@@ -67,7 +67,7 @@ export default function ItrReturnsPage() {
       header: 'ITR Form',
       render: (item) => (
         <div className="flex items-center gap-2">
-          <span className="font-bold text-xs px-2.5 py-1 rounded-lg bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+          <span className="font-bold text-xs px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
             {item.itrForm || item.form || 'ITR-1'}
           </span>
         </div>
@@ -92,7 +92,7 @@ export default function ItrReturnsPage() {
       header: 'Assessment Year',
       render: (item) => (
         <div className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-          <Calendar className="w-3.5 h-3.5 text-[#00C2B3]" />
+          <Calendar className="w-3.5 h-3.5 text-emerald-500" />
           <span>AY {item.assessmentYear}</span>
           {item.financialYear && (
             <span className="text-[10px] text-slate-400 font-normal">
@@ -183,7 +183,7 @@ export default function ItrReturnsPage() {
             <select
               value={ayFilter}
               onChange={(e) => setAyFilter(e.target.value)}
-              className="px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-input)',
                 border: '1px solid var(--color-border)',
@@ -200,7 +200,7 @@ export default function ItrReturnsPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-input)',
                 border: '1px solid var(--color-border)',
@@ -218,7 +218,7 @@ export default function ItrReturnsPage() {
             <select
               value={formFilter}
               onChange={(e) => setFormFilter(e.target.value)}
-              className="px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-input)',
                 border: '1px solid var(--color-border)',

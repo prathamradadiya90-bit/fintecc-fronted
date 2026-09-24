@@ -89,7 +89,7 @@ export default function TallySyncPage() {
             <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               Direct Tally Sync Queue
             </h1>
-            <span className="px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider font-semibold bg-teal-500/10 text-[#00C2B3]">
+            <span className="px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               Cloud &harr; Desktop Bridge
             </span>
           </div>
@@ -104,12 +104,12 @@ export default function TallySyncPage() {
         <div
           className={`p-3.5 rounded-xl border flex items-center gap-2 text-xs font-medium animate-fadeIn ${
             toastMessage.type === 'success'
-              ? 'bg-teal-50 dark:bg-teal-950/40 text-teal-800 dark:text-teal-200 border-teal-200 dark:border-teal-900'
+              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-900'
               : 'bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-200 border-rose-200 dark:border-rose-900'
           }`}
         >
           {toastMessage.type === 'success' ? (
-            <CheckCircle2 className="w-4 h-4 text-[#00C2B3] shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
           ) : (
             <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
           )}

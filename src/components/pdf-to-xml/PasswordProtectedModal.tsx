@@ -91,7 +91,7 @@ export function PasswordProtectedModal({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="e.g. ABCDE1234F or 01011990"
-                  className="w-full text-xs pl-9 pr-10 py-2.5 rounded-xl border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                  className="w-full text-xs pl-9 pr-10 py-2.5 rounded-xl border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
                   autoFocus
                 />
                 <button

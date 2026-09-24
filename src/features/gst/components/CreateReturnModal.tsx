@@ -100,7 +100,7 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
                 type="radio"
                 value="GSTR1"
                 {...register('returnType')}
-                className="text-[#00C2B3] focus:ring-[#00C2B3]"
+                className="text-emerald-600 focus:ring-emerald-500"
               />
               <div>
                 <p className="font-bold text-xs" style={{ color: 'var(--color-text-primary)' }}>
@@ -120,7 +120,7 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
                 type="radio"
                 value="GSTR3B"
                 {...register('returnType')}
-                className="text-[#00C2B3] focus:ring-[#00C2B3]"
+                className="text-emerald-600 focus:ring-emerald-500"
               />
               <div>
                 <p className="font-bold text-xs" style={{ color: 'var(--color-text-primary)' }}>

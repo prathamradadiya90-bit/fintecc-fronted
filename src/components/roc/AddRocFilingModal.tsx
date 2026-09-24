@@ -95,7 +95,7 @@ export const AddRocFilingModal: React.FC<AddRocFilingModalProps> = ({
             value={mcaCompanyId}
             onChange={(e) => setMcaCompanyId(e.target.value)}
             required
-            className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+            className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
           >
             <option value="">Select an MCA Registered Company...</option>
             {companies.map((c) => (
@@ -120,7 +120,7 @@ export const AddRocFilingModal: React.FC<AddRocFilingModalProps> = ({
             <select
               value={formName}
               onChange={(e) => setFormName(e.target.value)}
-              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             >
               {COMMON_FORMS.map((f) => (
                 <option key={f.name} value={f.name}>
@@ -137,7 +137,7 @@ export const AddRocFilingModal: React.FC<AddRocFilingModalProps> = ({
             <select
               value={financialYear}
               onChange={(e) => setFinancialYear(e.target.value)}
-              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             >
               <option value="2026-27">2026-27</option>
               <option value="2025-26">2025-26</option>
@@ -182,7 +182,7 @@ export const AddRocFilingModal: React.FC<AddRocFilingModalProps> = ({
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as RocFilingStatus)}
-            className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           >
             <option value="Pending">Pending</option>
             <option value="Prepared">Prepared</option>

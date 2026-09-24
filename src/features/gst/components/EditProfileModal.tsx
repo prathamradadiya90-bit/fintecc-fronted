@@ -104,7 +104,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             </label>
             <select
               {...register('registrationType')}
-              className="w-full px-2.5 py-1.5 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full px-2.5 py-1.5 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-input)',
                 border: '1px solid var(--color-border)',
@@ -122,7 +122,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             </label>
             <select
               {...register('filingFrequency')}
-              className="w-full px-2.5 py-1.5 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full px-2.5 py-1.5 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-input)',
                 border: '1px solid var(--color-border)',

@@ -31,7 +31,7 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
         <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase mb-2">
           MONTHLY EMI — {loanType.toUpperCase()}
         </h3>
-        <div className="text-5xl font-bold text-[#00C2B3] mb-5">
+        <div className="text-5xl font-bold text-emerald-400 mb-5">
           {formatCurrencyExact(emi)}
         </div>
         
@@ -42,7 +42,7 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
           </div>
           <div>
             <p className="text-slate-400 text-xs mb-1">Total Interest</p>
-            <p className="text-lg font-semibold text-[#00C2B3]">{formatCurrency(totalInterest)}</p>
+            <p className="text-lg font-semibold text-emerald-400">{formatCurrency(totalInterest)}</p>
           </div>
           <div>
             <p className="text-slate-400 text-xs mb-1">Total Payable</p>
@@ -83,7 +83,7 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
               cy="80"
               r={radius}
               fill="transparent"
-              stroke="#00C2B3"
+              stroke="#10B981"
               strokeWidth="24"
               strokeDasharray={`${principalDash} ${circumference}`}
               className="transition-all duration-300 cursor-pointer hover:opacity-80"
@@ -111,7 +111,7 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
 
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#00C2B3]" />
+            <div className="w-3 h-3 rounded-full bg-emerald-500" />
             <span className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>Principal</span>
           </div>
           <div className="flex items-center gap-2">

@@ -56,7 +56,7 @@ export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTyp
       }}
     >
       <div className="flex items-center gap-3 mb-5">
-        <div className="w-7 h-7 rounded-full bg-[#00C2B3] text-white flex items-center justify-center font-semibold text-xs">
+        <div className="w-7 h-7 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white flex items-center justify-center font-semibold text-xs shadow-sm">
           1
         </div>
         <h2 className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>Select Conversion Type</h2>
@@ -75,22 +75,22 @@ export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTyp
               className={`
                 relative flex items-start gap-3.5 p-4 rounded-xl text-left transition-all
                 ${isSelected 
-                  ? 'border-[#00C2B3] bg-[#00C2B3]/5 shadow-sm' 
+                  ? 'border-emerald-500 bg-emerald-500/10 shadow-sm dark:shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                   : ''
                 }
                 ${option.disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
               `}
               style={{
-                border: `1px solid ${isSelected ? '#00C2B3' : 'var(--color-border)'}`,
+                border: `1px solid ${isSelected ? '#10B981' : 'var(--color-border)'}`,
               }}
               onMouseEnter={(e) => { if (!isSelected && !option.disabled) e.currentTarget.style.background = 'var(--color-bg-card-hover)'; }}
               onMouseLeave={(e) => { if (!isSelected) e.currentTarget.style.background = 'transparent'; }}
             >
-              <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-[#00C2B3]/10 text-[#00C2B3]' : ''}`} style={isSelected ? {} : { background: 'var(--color-bg-skeleton)', color: 'var(--color-text-secondary)' }}>
+              <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : ''}`} style={isSelected ? {} : { background: 'var(--color-bg-skeleton)', color: 'var(--color-text-secondary)' }}>
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-semibold text-[14px]" style={{ color: isSelected ? '#00C2B3' : 'var(--color-text-on-card)' }}>
+                <h3 className="font-semibold text-[14px]" style={{ color: isSelected ? '#10B981' : 'var(--color-text-on-card)' }}>
                   {option.title}
                 </h3>
                 <p className="text-[12px] mt-0.5 leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
@@ -99,8 +99,8 @@ export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTyp
               </div>
 
               {isSelected && (
-                <div className="absolute top-2.5 right-2.5 text-[#00C2B3]">
-                  <CheckCircle2 className="w-4 h-4 fill-[#00C2B3] text-white" />
+                <div className="absolute top-2.5 right-2.5 text-emerald-500">
+                  <CheckCircle2 className="w-4 h-4 fill-emerald-500 text-white" />
                 </div>
               )}
             </button>

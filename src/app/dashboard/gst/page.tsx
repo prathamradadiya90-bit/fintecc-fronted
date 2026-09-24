@@ -42,10 +42,10 @@ export default function GstOverviewPage() {
   return (
     <div className="space-y-6">
       {/* Top Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl border bg-gradient-to-r from-teal-500/10 via-transparent to-indigo-500/10 border-[var(--color-border)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl border bg-gradient-to-r from-emerald-500/10 via-transparent to-indigo-500/10 border-[var(--color-border)]">
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>
-            <Sparkles className="w-5 h-5 text-[#00C2B3]" />
+            <Sparkles className="w-5 h-5 text-emerald-500" />
             GST Overview & Quick Actions
           </h2>
           <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
@@ -59,7 +59,7 @@ export default function GstOverviewPage() {
           <Button
             variant="outline"
             onClick={() => setIsStandaloneVerifyOpen(true)}
-            leftIcon={<ShieldCheck className="w-4 h-4 text-teal-600" />}
+            leftIcon={<ShieldCheck className="w-4 h-4 text-emerald-500" />}
           >
             Verify GSTIN
           </Button>
@@ -86,11 +86,11 @@ export default function GstOverviewPage() {
       {/* Quick Action Feature Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div
-          className="p-5 rounded-2xl border transition-all hover:border-[#00C2B3] flex flex-col justify-between"
+          className="p-5 rounded-2xl border transition-all hover:border-emerald-500/40 flex flex-col justify-between"
           style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
         >
           <div>
-            <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/40 text-[#00C2B3] flex items-center justify-center mb-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3">
               <Building2 className="w-5 h-5" />
             </div>
             <h3 className="font-semibold text-sm" style={{ color: 'var(--color-text-primary)' }}>
@@ -102,14 +102,14 @@ export default function GstOverviewPage() {
           </div>
           <Link
             href="/dashboard/gst/profiles"
-            className="inline-flex items-center text-xs font-semibold text-[#00C2B3] hover:underline mt-4 gap-1"
+            className="inline-flex items-center text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline mt-4 gap-1"
           >
             Manage Profiles <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         <div
-          className="p-5 rounded-2xl border transition-all hover:border-[#00C2B3] flex flex-col justify-between"
+          className="p-5 rounded-2xl border transition-all hover:border-indigo-500/40 flex flex-col justify-between"
           style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
         >
           <div>
@@ -132,7 +132,7 @@ export default function GstOverviewPage() {
         </div>
 
         <div
-          className="p-5 rounded-2xl border transition-all hover:border-[#00C2B3] flex flex-col justify-between"
+          className="p-5 rounded-2xl border transition-all hover:border-amber-500/40 flex flex-col justify-between"
           style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
         >
           <div>
@@ -172,7 +172,7 @@ export default function GstOverviewPage() {
 
           <Link
             href="/dashboard/gst/profiles"
-            className="text-xs font-semibold text-[#00C2B3] hover:underline flex items-center gap-1"
+            className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
           >
             View All <ArrowRight className="w-3.5 h-3.5" />
           </Link>

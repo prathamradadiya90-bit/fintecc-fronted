@@ -117,7 +117,7 @@ export function CreateTicketModal({ isOpen, onClose }: CreateTicketModalProps) {
             <select
               {...register('clientId')}
               disabled={isLoadingClients}
-              className="w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
               style={{
                 background: 'var(--color-bg-subtle)',
                 borderColor: 'var(--color-border)',
@@ -149,7 +149,7 @@ export function CreateTicketModal({ isOpen, onClose }: CreateTicketModalProps) {
             type="text"
             placeholder="e.g. Discrepancy in GSTR-2B Input Tax Credit"
             {...register('subject')}
-            className="w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="w-full px-3.5 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             style={{
               background: 'var(--color-bg-subtle)',
               borderColor: 'var(--color-border)',
@@ -184,7 +184,7 @@ export function CreateTicketModal({ isOpen, onClose }: CreateTicketModalProps) {
                   type="radio"
                   value={p.value}
                   {...register('priority')}
-                  className="text-[#00C2B3] focus:ring-[#00C2B3]"
+                  className="text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500"
                 />
                 <span>{p.label}</span>
               </label>
@@ -204,7 +204,7 @@ export function CreateTicketModal({ isOpen, onClose }: CreateTicketModalProps) {
             rows={5}
             placeholder="Provide all relevant details, invoice dates, return periods, or error notices to expedite resolution..."
             {...register('description')}
-            className="w-full p-3.5 rounded-xl border text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="w-full p-3.5 rounded-xl border text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-500"
             style={{
               background: 'var(--color-bg-subtle)',
               borderColor: 'var(--color-border)',

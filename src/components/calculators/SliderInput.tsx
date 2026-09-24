@@ -86,7 +86,7 @@ export function SliderInput({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="text-right text-base font-bold bg-transparent outline-none border border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#00C2B3] focus:bg-[var(--color-bg-skeleton)] rounded px-2 py-0.5 w-32 transition-all cursor-pointer focus:cursor-text"
+          className="text-right text-base font-bold bg-transparent outline-none border border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-emerald-500 focus:bg-[var(--color-bg-skeleton)] rounded px-2 py-0.5 w-32 transition-all cursor-pointer focus:cursor-text"
           style={{ color: 'var(--color-text-primary)' }}
         />
       </div>
@@ -96,7 +96,7 @@ export function SliderInput({
         <div className="absolute w-full h-1.5 rounded-full" style={{ background: 'var(--color-bg-skeleton)', border: '1px solid var(--color-border)' }} />
         {/* Custom Track Fill */}
         <div 
-          className="absolute h-1.5 bg-[#00C2B3] rounded-full pointer-events-none"
+          className="absolute h-1.5 bg-emerald-500 rounded-full pointer-events-none"
           style={{ width: `${percentage}%` }}
         />
         {/* Native Range Input (Transparent) */}
@@ -111,23 +111,23 @@ export function SliderInput({
                      [&::-webkit-slider-thumb]:appearance-none 
                      [&::-webkit-slider-thumb]:w-4 
                      [&::-webkit-slider-thumb]:h-4 
-                     [&::-webkit-slider-thumb]:bg-slate-500 
+                     [&::-webkit-slider-thumb]:bg-emerald-600 
                      [&::-webkit-slider-thumb]:border-2
                      [&::-webkit-slider-thumb]:border-white
                      [&::-webkit-slider-thumb]:rounded-full
                      [&::-webkit-slider-thumb]:shadow-md
                      [&::-webkit-slider-thumb]:transition-colors
-                     active:[&::-webkit-slider-thumb]:bg-slate-700
+                     active:[&::-webkit-slider-thumb]:bg-emerald-700
                      
                      [&::-moz-range-thumb]:w-4 
                      [&::-moz-range-thumb]:h-4 
-                     [&::-moz-range-thumb]:bg-slate-500 
+                     [&::-moz-range-thumb]:bg-emerald-600 
                      [&::-moz-range-thumb]:border-2
                      [&::-moz-range-thumb]:border-white
                      [&::-moz-range-thumb]:rounded-full
                      [&::-moz-range-thumb]:shadow-md
                      [&::-moz-range-thumb]:transition-colors
-                     active:[&::-moz-range-thumb]:bg-slate-700"
+                     active:[&::-moz-range-thumb]:bg-emerald-700"
         />
       </div>
 

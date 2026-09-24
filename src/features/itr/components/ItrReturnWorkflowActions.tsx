@@ -165,9 +165,9 @@ export const ItrReturnWorkflowActions: React.FC<ItrReturnWorkflowActionsProps> =
           disabled={isFetchingPrefill}
           leftIcon={
             isFetchingPrefill ? (
-              <Loader2 className="w-4 h-4 animate-spin text-[#00C2B3]" />
+              <Loader2 className="w-4 h-4 animate-spin text-emerald-500" />
             ) : (
-              <Database className="w-4 h-4 text-[#00C2B3]" />
+              <Database className="w-4 h-4 text-emerald-500" />
             )
           }
         >
@@ -232,7 +232,7 @@ export const ItrReturnWorkflowActions: React.FC<ItrReturnWorkflowActionsProps> =
               isFetchingAck ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                <Download className="w-4 h-4 text-teal-600" />
+                <Download className="w-4 h-4 text-emerald-500" />
               )
             }
           >

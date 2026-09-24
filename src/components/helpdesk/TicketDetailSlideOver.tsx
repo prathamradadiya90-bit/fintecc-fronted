@@ -136,7 +136,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
     >
       {isLoadingTicket && !ticket ? (
         <div className="py-12 flex flex-col items-center justify-center space-y-3">
-          <div className="w-8 h-8 rounded-full border-2 border-[#00C2B3] border-t-transparent animate-spin" />
+          <div className="w-8 h-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
           <p className="text-xs text-slate-400">Loading conversation history...</p>
         </div>
       ) : ticket ? (
@@ -166,7 +166,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
                     value={ticket.priority}
                     disabled={isUpdating}
                     onChange={(e) => handlePriorityChange(e.target.value as TicketPriority)}
-                    className="px-2 py-1 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                    className="px-2 py-1 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -192,7 +192,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
                     value={ticket.status}
                     disabled={isUpdating}
                     onChange={(e) => handleStatusChange(e.target.value as TicketStatus)}
-                    className="px-2 py-1 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                    className="px-2 py-1 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -245,7 +245,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
                     value={ticket.assignedToId || ''}
                     disabled={isUpdating}
                     onChange={(e) => handleAssigneeChange(e.target.value)}
-                    className="w-full px-2 py-1 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                    className="w-full px-2 py-1 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -279,7 +279,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
               className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
               style={{ color: 'var(--color-text-secondary)' }}
             >
-              <LifeBuoy className="w-3.5 h-3.5 text-[#00C2B3]" />
+              <LifeBuoy className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               Conversation Thread ({replies.length})
             </h4>
 
@@ -304,7 +304,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
                       key={reply.id}
                       className={`p-3.5 rounded-2xl border text-xs leading-relaxed space-y-1.5 ${
                         isStaffReply
-                          ? 'border-[#00C2B3]/30 bg-[#00C2B3]/5 ml-4'
+                          ? 'border-emerald-500/30 bg-emerald-500/5 ml-4'
                           : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 mr-4'
                       }`}
                     >
@@ -313,7 +313,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
                           <span
                             className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
                               isStaffReply
-                                ? 'bg-[#00C2B3]/20 text-[#00C2B3]'
+                                ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
                                 : 'bg-slate-500/20 text-slate-400'
                             }`}
                           >
@@ -341,7 +341,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
                             href={reply.attachmentUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[11px] text-[#00C2B3] hover:underline"
+                            className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 hover:underline"
                           >
                             <Paperclip className="w-3 h-3" /> View Attachment
                           </a>
@@ -368,7 +368,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
                 placeholder="Type your response or update message..."
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
-                className="w-full p-3 rounded-xl border text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                className="w-full p-3 rounded-xl border text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 style={{
                   background: 'var(--color-bg-subtle)',
                   borderColor: 'var(--color-border)',
@@ -383,7 +383,7 @@ export function TicketDetailSlideOver({ ticketId, onClose }: TicketDetailSlideOv
                 placeholder="Optional attachment URL (e.g. cloud document / receipt)"
                 value={attachmentUrl}
                 onChange={(e) => setAttachmentUrl(e.target.value)}
-                className="w-full sm:flex-1 px-3 py-2 rounded-xl border text-xs focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                className="w-full sm:flex-1 px-3 py-2 rounded-xl border text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 style={{
                   background: 'var(--color-bg-subtle)',
                   borderColor: 'var(--color-border)',

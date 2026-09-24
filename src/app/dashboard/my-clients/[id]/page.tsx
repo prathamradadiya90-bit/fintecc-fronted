@@ -80,7 +80,7 @@ export default function ClientDetailPage() {
     return (
       <div className="flex items-center justify-center py-24">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-9 h-9 border-4 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+          <div className="w-9 h-9 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Loading client...</p>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function ClientDetailPage() {
     return (
       <div className="max-w-lg mx-auto mt-20 text-center">
         <p className="mb-4" style={{ color: 'var(--color-text-secondary)' }}>Client not found or failed to load.</p>
-        <Link href="/dashboard/my-clients" className="text-[#00C2B3] font-semibold text-sm hover:underline">
+        <Link href="/dashboard/my-clients" className="text-emerald-600 dark:text-emerald-400 font-semibold text-sm hover:underline">
           ← Back to My Clients
         </Link>
       </div>
@@ -109,7 +109,7 @@ export default function ClientDetailPage() {
     <div className="max-w-6xl mx-auto space-y-5">
       {/* ─── Breadcrumb ──────────────────────────────────────────────────── */}
       <nav className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-text-muted)' }}>
-        <Link href="/dashboard/my-clients" className="hover:text-[#00C2B3] transition-colors font-medium">
+        <Link href="/dashboard/my-clients" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium">
           My Clients
         </Link>
         <ChevronRight className="w-3.5 h-3.5" />
@@ -227,7 +227,7 @@ export default function ClientDetailPage() {
                 <a
                   href={`tel:${client.phone}`}
                   title="Call client"
-                  className="p-2 rounded-xl transition-all text-[#00C2B3]"
+                  className="p-2 rounded-xl transition-all text-emerald-600 dark:text-emerald-400"
                   style={{ border: '1px solid var(--color-border)' }}
                 >
                   <Phone className="w-4 h-4" />
@@ -260,7 +260,7 @@ export default function ClientDetailPage() {
             <button
               onClick={handleInviteClient}
               disabled={isInviting}
-              className="flex items-center gap-1.5 px-4 py-2 bg-[#00C2B3] hover:bg-[#00a89b] text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-sm"
+              className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-sm"
               title="Send Portal Invite to Client"
             >
               {isInviting ? (
@@ -299,7 +299,7 @@ export default function ClientDetailPage() {
                 className={`
                   relative px-4 py-4 text-sm font-semibold transition-colors duration-150
                   ${activeTab === tab.key
-                    ? 'text-[#00C2B3]'
+                    ? 'text-emerald-600 dark:text-emerald-400 font-bold'
                     : ''
                   }
                 `}
@@ -307,7 +307,7 @@ export default function ClientDetailPage() {
               >
                 {tab.label}
                 {activeTab === tab.key && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00C2B3] rounded-t-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 rounded-t-full" />
                 )}
               </button>
             ))}

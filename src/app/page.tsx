@@ -9,24 +9,30 @@ import { ContactForm } from "@/components/landing/ContactForm";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-emerald-500 selection:text-white">
+    <div className="dark bg-[#070A11] text-slate-200 antialiased font-sans selection:bg-emerald-500 selection:text-white relative overflow-x-hidden min-h-screen">
+      {/* Ambient background glow elements */}
+      <div className="fixed inset-0 pointer-events-none z-0 hero-glow-radial" />
+      <div className="fixed -top-40 right-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+
       {/* NAV */}
       <PublicNavbar />
 
-      {/* HERO */}
-      <Hero />
+      <main className="relative z-10">
+        {/* HERO */}
+        <Hero />
 
-      {/* PRODUCTS SECTION */}
-      <Products />
+        {/* PRODUCTS SECTION */}
+        <Products />
 
-      {/* ABOUT */}
-      <About />
+        {/* ABOUT / TRUST METRICS */}
+        <About />
 
-      {/* PRICING */}
-      <Pricing />
+        {/* PRICING */}
+        <Pricing />
 
-      {/* CONTACT */}
-      <ContactForm />
+        {/* CONTACT */}
+        <ContactForm />
+      </main>
 
       {/* FOOTER */}
       <PublicFooter />

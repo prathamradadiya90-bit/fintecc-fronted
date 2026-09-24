@@ -98,11 +98,11 @@ export const AddItrClientModal: React.FC<AddItrClientModalProps> = ({
           />
         </div>
 
-        <div className="p-3 rounded-xl bg-teal-50/50 dark:bg-teal-950/20 border border-teal-100 dark:border-teal-900/30 text-xs space-y-1">
-          <p className="font-semibold text-teal-800 dark:text-teal-300">
+        <div className="p-3 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 text-xs space-y-1">
+          <p className="font-semibold text-emerald-800 dark:text-emerald-300">
             Income Tax Portal Integration:
           </p>
-          <p className="text-teal-700 dark:text-teal-400 text-[11px]">
+          <p className="text-emerald-700 dark:text-emerald-400 text-[11px]">
             Once registered, you can request taxpayer consent to automatically fetch 26AS/AIS prefill data and submit ITR filings directly.
           </p>
         </div>

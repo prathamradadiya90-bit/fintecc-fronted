@@ -27,12 +27,12 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
       {/* Breadcrumb Navigation & Quick Search */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <nav className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-          <Link href="/" className="flex items-center gap-1 hover:text-[#00C2B3] transition-colors">
+          <Link href="/" className="flex items-center gap-1 hover:text-emerald-500 transition-colors">
             <Home className="w-4 h-4" />
             <span>Home</span>
           </Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/calculators" className="hover:text-[#00C2B3] transition-colors">
+          <Link href="/calculators" className="hover:text-emerald-500 transition-colors">
             Calculators
           </Link>
           <ChevronRight className="w-3.5 h-3.5" />
@@ -51,7 +51,7 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
             border: '1px solid var(--color-border)',
           }}
         >
-          <Search className="w-3.5 h-3.5 text-[#00C2B3]" />
+          <Search className="w-3.5 h-3.5 text-emerald-500" />
           <span>Switch calculator (Ctrl+K)</span>
         </button>
       </div>
@@ -64,7 +64,7 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
               className="w-10 h-10 rounded-xl flex items-center justify-center"
               style={{
                 background: 'var(--color-bg-subtle)',
-                color: '#00C2B3',
+                color: '#10B981',
                 border: '1px solid var(--color-border)',
               }}
             >
@@ -123,14 +123,14 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#00C2B3]" />
+              <Sparkles className="w-4 h-4 text-emerald-500" />
               <h2 className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>
                 More {calculator.category} Calculators
               </h2>
             </div>
             <Link
               href="/calculators"
-              className="text-xs font-semibold text-[#00C2B3] hover:underline"
+              className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
             >
               View all 27 calculators &rarr;
             </Link>
@@ -152,14 +152,14 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                     style={{
                       background: 'var(--color-bg-card)',
-                      color: '#00C2B3',
+                      color: '#10B981',
                     }}
                   >
                     <CalculatorIcon name={rel.iconName} className="w-4 h-4" />
                   </div>
                   <div>
                     <h3
-                      className="text-xs font-bold group-hover:text-[#00C2B3] transition-colors line-clamp-1"
+                      className="text-xs font-bold group-hover:text-emerald-500 transition-colors line-clamp-1"
                       style={{ color: 'var(--color-text-primary)' }}
                     >
                       {rel.shortName || rel.name}

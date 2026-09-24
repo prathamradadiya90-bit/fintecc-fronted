@@ -40,7 +40,7 @@ export function PostOfficeMisCalculator() {
           }}
           className={`px-5 py-2 rounded-lg text-xs font-bold transition-all ${
             accountType === 'single'
-              ? 'bg-[#00C2B3] text-white shadow-sm'
+              ? 'bg-[#10B981] text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
@@ -51,7 +51,7 @@ export function PostOfficeMisCalculator() {
           onClick={() => setAccountType('joint')}
           className={`px-5 py-2 rounded-lg text-xs font-bold transition-all ${
             accountType === 'joint'
-              ? 'bg-[#00C2B3] text-white shadow-sm'
+              ? 'bg-[#10B981] text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
@@ -107,7 +107,7 @@ export function PostOfficeMisCalculator() {
             <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase mb-2">
               GUARANTEED MONTHLY INCOME
             </h3>
-            <div className="text-4xl font-extrabold text-[#00C2B3] mb-6">
+            <div className="text-2xl font-bold text-[#10B981] mb-6">
               {formatCurrencyExact(monthlyInterestIncome)}
               <span className="text-sm text-slate-400 font-normal ml-2">/ month</span>
             </div>

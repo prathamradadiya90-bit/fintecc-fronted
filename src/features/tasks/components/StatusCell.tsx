@@ -105,7 +105,7 @@ export const StatusCell: React.FC<StatusCellProps> = ({
   if (isUpdating) {
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 animate-pulse">
-        <Loader2 className="w-3 h-3 animate-spin text-[#00C2B3]" />
+        <Loader2 className="w-3 h-3 animate-spin text-emerald-500" />
         Saving...
       </span>
     );
@@ -120,7 +120,7 @@ export const StatusCell: React.FC<StatusCellProps> = ({
           onChange={handleChange}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="text-xs font-semibold rounded-lg px-2.5 py-1 border shadow-md focus:outline-none focus:ring-2 focus:ring-[#00C2B3] cursor-pointer"
+          className="text-xs font-semibold rounded-lg px-2.5 py-1 border shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
           style={{
             background: 'var(--color-bg-card)',
             color: 'var(--color-text-primary)',

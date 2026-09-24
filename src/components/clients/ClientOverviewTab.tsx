@@ -93,7 +93,7 @@ export function ClientOverviewTab({ client }: ClientOverviewTabProps) {
             {client.tags.map((tag, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 text-teal-700 border border-teal-100 rounded-lg text-xs font-semibold"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-lg text-xs font-semibold"
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 {tag}

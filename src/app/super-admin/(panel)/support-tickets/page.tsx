@@ -84,7 +84,7 @@ function StatusSelector({
         e.stopPropagation();
         onUpdate(ticket.id, e.target.value as ContactStatus);
       }}
-      className="text-[12px] border border-slate-200 rounded-lg px-2 py-1 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]/40 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      className="text-[12px] border border-slate-200 rounded-lg px-2 py-1 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {ALL_STATUSES.map((s) => (
         <option key={s} value={s}>
@@ -170,7 +170,7 @@ function TicketDetail({
               value={ticket.status}
               disabled={isPending}
               onChange={(e) => onStatusUpdate(ticket.id, e.target.value as ContactStatus)}
-              className="flex-1 text-[13px] border border-slate-200 rounded-xl px-3 py-2 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]/40 cursor-pointer disabled:opacity-50"
+              className="flex-1 text-[13px] border border-slate-200 rounded-xl px-3 py-2 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 cursor-pointer disabled:opacity-50"
             >
               {ALL_STATUSES.map((s) => (
                 <option key={s} value={s}>
@@ -348,7 +348,7 @@ function SupportTicketsContent() {
             router.push(`${pathname}?${params.toString()}`);
           }}
           id="support-tickets-status-filter"
-          className="px-3 py-1.5 border border-slate-200 rounded-xl text-[13px] text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#00C2B3]/40 cursor-pointer"
+          className="px-3 py-1.5 border border-slate-200 rounded-xl text-[13px] text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/40 cursor-pointer"
         >
           <option value="">All Statuses</option>
           {ALL_STATUSES.map((s) => (

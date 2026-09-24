@@ -43,7 +43,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               onClose={handleCloseSidebar} 
             />
             
-            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${isDesktopOpen ? 'lg:ml-56' : 'lg:ml-0'}`}>
+            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${isDesktopOpen ? 'lg:ml-64' : 'lg:ml-0'}`}>
               <Topbar 
                 onMenuClick={handleOpenSidebar}
                 showMenuButton={!isDesktopOpen}

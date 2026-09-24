@@ -230,7 +230,7 @@ export function KeyboardShortcutsModal({
           }}
         >
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20">
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
               <Keyboard className="w-5 h-5" />
             </div>
             <div>
@@ -239,7 +239,7 @@ export function KeyboardShortcutsModal({
                 style={{ color: 'var(--color-text-heading)' }}
               >
                 Keyboard Shortcuts
-                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#00C2B3]/15 text-[#00C2B3]">
+                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
                   Quick Actions
                 </span>
               </h2>
@@ -272,7 +272,7 @@ export function KeyboardShortcutsModal({
               placeholder="Search shortcuts or actions (e.g., Vault, Tally, Ctrl+S)..."
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
-              className="w-full pl-9 pr-4 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]/30 focus:border-[#00C2B3] transition-all"
+              className="w-full pl-9 pr-4 py-1.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all"
               style={{ color: 'var(--color-text-primary)' }}
               autoFocus
             />
@@ -305,7 +305,7 @@ export function KeyboardShortcutsModal({
               {globalItems.length > 0 && (
                 <section>
                   <div className="flex items-center gap-2 mb-2">
-                    <Globe className="w-4 h-4 text-[#00C2B3]" />
+                    <Globe className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     <h3
                       className="text-xs font-bold uppercase tracking-wider"
                       style={{ color: 'var(--color-text-secondary)' }}

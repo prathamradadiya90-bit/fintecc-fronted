@@ -80,9 +80,15 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
   });
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+    <div
+      className="rounded-2xl shadow-sm border overflow-hidden"
+      style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+    >
       {/* Controls */}
-      <div className="p-4 border-b border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div
+        className="p-4 border-b flex flex-col sm:flex-row gap-3 items-center justify-between"
+        style={{ borderColor: 'var(--color-border)', background: 'var(--color-bg-subtle)' }}
+      >
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
@@ -90,16 +96,26 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
             placeholder="Search by owner, client, provider, location..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full pl-9 pr-4 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+            style={{
+              background: 'var(--color-bg-input)',
+              borderColor: 'var(--color-border)',
+              color: 'var(--color-text-primary)',
+            }}
           />
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Filter className="w-4 h-4 text-slate-500" />
+          <Filter className="w-4 h-4 text-slate-400" />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="px-3 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
+            style={{
+              background: 'var(--color-bg-input)',
+              borderColor: 'var(--color-border)',
+              color: 'var(--color-text-primary)',
+            }}
           >
             <option value="ALL">All Statuses</option>
             <option value="ACTIVE">Active</option>
@@ -112,10 +128,17 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse text-xs">
           <thead>
-            <tr className="bg-slate-100/75 border-b border-slate-200 text-xs font-semibold text-slate-600 uppercase tracking-wider">
-              <th className="py-3.5 px-4">Owner & Client</th>
+            <tr
+              className="border-b text-[11px] font-semibold uppercase tracking-wider"
+              style={{
+                background: 'var(--color-bg-elevated)',
+                borderColor: 'var(--color-border)',
+                color: 'var(--color-text-secondary)',
+              }}
+            >
+              <th className="py-3.5 px-4">Owner &amp; Client</th>
               <th className="py-3.5 px-4">Provider</th>
               <th className="py-3.5 px-4">Storage Location</th>
               <th className="py-3.5 px-4">PIN / Password</th>
@@ -124,12 +147,12 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
               <th className="py-3.5 px-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 text-sm">
+          <tbody className="divide-y divide-[var(--color-border)] text-xs">
             {isLoading ? (
               <tr>
                 <td colSpan={7} className="text-center py-12 text-slate-500">
                   <div className="flex items-center justify-center gap-2">
-                    <div className="w-5 h-5 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
                     <span>Loading DSC tokens...</span>
                   </div>
                 </td>
@@ -137,8 +160,8 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
             ) : filteredTokens.length === 0 ? (
               <tr>
                 <td colSpan={7} className="text-center py-12 text-slate-500">
-                  <Key className="w-10 h-10 mx-auto text-slate-300 mb-2" />
-                  <p className="font-medium text-slate-700">No DSC tokens found</p>
+                  <Key className="w-10 h-10 mx-auto text-slate-300 dark:text-slate-600 mb-2" />
+                  <p className="font-medium" style={{ color: 'var(--color-text-primary)' }}>No DSC tokens found</p>
                   <p className="text-xs text-slate-400 mt-1">Add a new DSC token or adjust your filters.</p>
                 </td>
               </tr>
@@ -148,31 +171,38 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
                 const isPasswordVisible = !!visiblePasswords[token.id];
                 const isCopied = copiedId === token.id;
 
-                let expiryBadgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                let expiryBadgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800';
                 let expiryText = `${daysRemaining} days left`;
                 if (daysRemaining < 0) {
-                  expiryBadgeClass = 'bg-rose-50 text-rose-700 border-rose-200';
+                  expiryBadgeClass = 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800';
                   expiryText = `Expired ${Math.abs(daysRemaining)} days ago`;
                 } else if (daysRemaining <= 7) {
-                  expiryBadgeClass = 'bg-rose-50 text-rose-700 border-rose-200';
+                  expiryBadgeClass = 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800';
                   expiryText = `${daysRemaining}d left (Critical)`;
                 } else if (daysRemaining <= 30) {
-                  expiryBadgeClass = 'bg-amber-50 text-amber-700 border-amber-200';
+                  expiryBadgeClass = 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800';
                   expiryText = `${daysRemaining}d left (Expiring)`;
                 }
 
                 return (
-                  <tr key={token.id} className="hover:bg-slate-50/75 transition-colors">
+                  <tr key={token.id} className="hover:bg-slate-500/5 transition-colors">
                     <td className="py-3.5 px-4">
-                      <div className="font-medium text-slate-900">{token.ownerName}</div>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
+                      <div className="font-medium" style={{ color: 'var(--color-text-primary)' }}>{token.ownerName}</div>
+                      <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
                         <Building2 className="w-3.5 h-3.5 text-slate-400" />
                         <span>{token.client?.name || 'Unassigned Client'}</span>
                       </div>
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800 border border-slate-200">
+                      <span
+                        className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border"
+                        style={{
+                          background: 'var(--color-bg-subtle)',
+                          borderColor: 'var(--color-border)',
+                          color: 'var(--color-text-primary)',
+                        }}
+                      >
                         {token.provider}
                       </span>
                     </td>
@@ -182,7 +212,8 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
                         <button
                           type="button"
                           onClick={() => onUpdateLocation?.(token)}
-                          className="flex items-center gap-1.5 text-slate-700 text-xs font-medium hover:text-[#00C2B3] transition group text-left"
+                          className="flex items-center gap-1.5 text-xs font-medium hover:text-emerald-500 transition group text-left"
+                          style={{ color: 'var(--color-text-primary)' }}
                           title="Click to update physical location"
                         >
                           <MapPin className="w-3.5 h-3.5 text-indigo-500 shrink-0 group-hover:scale-110 transition-transform" />
@@ -204,13 +235,20 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
                     <td className="py-3.5 px-4">
                       {token.password ? (
                         <div className="flex items-center gap-1.5">
-                          <code className="bg-slate-100 px-2 py-0.5 rounded text-xs font-mono text-slate-800 border border-slate-200">
+                          <code
+                            className="px-2 py-0.5 rounded text-xs font-mono border"
+                            style={{
+                              background: 'var(--color-bg-subtle)',
+                              borderColor: 'var(--color-border)',
+                              color: 'var(--color-text-primary)',
+                            }}
+                          >
                             {isPasswordVisible ? token.password : '••••••••'}
                           </code>
                           <button
                             type="button"
                             onClick={() => togglePassword(token.id)}
-                            className="p-1 text-slate-400 hover:text-slate-600 transition"
+                            className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
                             title={isPasswordVisible ? 'Hide password' : 'Show password'}
                           >
                             {isPasswordVisible ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -218,10 +256,10 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
                           <button
                             type="button"
                             onClick={() => copyPassword(token.id, token.password)}
-                            className="p-1 text-slate-400 hover:text-slate-600 transition"
+                            className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
                             title="Copy password"
                           >
-                            {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                            {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                           </button>
                         </div>
                       ) : (
@@ -230,7 +268,7 @@ export const DscTable: React.FC<DscTableProps> = ({ tokens, isLoading, onEdit, o
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-1.5 text-xs text-slate-800 font-medium">
+                      <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: 'var(--color-text-primary)' }}>
                         <Calendar className="w-3.5 h-3.5 text-slate-400" />
                         {new Date(token.expiryDate).toLocaleDateString('en-GB', {
                           day: '2-digit',

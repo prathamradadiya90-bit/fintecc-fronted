@@ -182,8 +182,8 @@ export default function SettingsPage() {
               onClick={() => setActiveTab(tab.id as SettingsTab)}
               className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
                 isActive
-                  ? 'border-[#00C2B3] text-[#00C2B3]'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold'
+                  : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -245,7 +245,7 @@ export default function SettingsPage() {
                 onChange={(e) =>
                   setInvoiceSettings((prev) => ({ ...prev, terms: e.target.value }))
                 }
-                className="w-full p-3 rounded-xl border text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                className="w-full p-3 rounded-xl border text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                 style={{
                   background: 'var(--color-bg-subtle)',
                   borderColor: 'var(--color-border)',
@@ -296,7 +296,7 @@ export default function SettingsPage() {
                       placeholder="Slab Name (e.g. GST 18%)"
                       value={tax.name}
                       onChange={(e) => handleTaxRateChange(index, 'name', e.target.value)}
-                      className="w-full px-3 py-1.5 rounded-lg border text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                      className="w-full px-3 py-1.5 rounded-lg border text-xs font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500"
                       style={{
                         background: 'var(--color-bg-card)',
                         borderColor: 'var(--color-border)',
@@ -314,7 +314,7 @@ export default function SettingsPage() {
                       placeholder="Rate"
                       value={tax.rate}
                       onChange={(e) => handleTaxRateChange(index, 'rate', e.target.value)}
-                      className="w-full px-3 py-1.5 rounded-lg border text-xs text-right font-medium focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                      className="w-full px-3 py-1.5 rounded-lg border text-xs text-right font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500"
                       style={{
                         background: 'var(--color-bg-card)',
                         borderColor: 'var(--color-border)',
@@ -440,7 +440,7 @@ export default function SettingsPage() {
                   style={{ background: 'var(--color-bg-subtle)', borderColor: 'var(--color-border)' }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 text-[#00C2B3]">
+                    <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                       <Building2 className="w-3.5 h-3.5" />
                       {branch.branchName || `Branch #${index + 1}`}
                     </span>

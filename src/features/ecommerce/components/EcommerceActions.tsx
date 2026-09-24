@@ -199,13 +199,13 @@ export function EcommerceActions({
         <div
           className={`p-3.5 rounded-xl border flex items-center justify-between text-xs font-medium animate-fadeIn ${
             statusMessage.type === 'success'
-              ? 'bg-teal-50 dark:bg-teal-950/40 text-teal-800 dark:text-teal-200 border-teal-200 dark:border-teal-900'
+              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-900'
               : 'bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-200 border-rose-200 dark:border-rose-900'
           }`}
         >
           <div className="flex items-center gap-2">
             {statusMessage.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-[#00C2B3] shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
             ) : (
               <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
             )}
@@ -215,7 +215,7 @@ export function EcommerceActions({
           {tallyJobId && (
             <Link
               href="/dashboard/tally-sync"
-              className="inline-flex items-center gap-1 font-semibold text-[#00C2B3] hover:underline shrink-0 ml-3"
+              className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:underline shrink-0 ml-3"
             >
               View Sync Queue <ExternalLink className="w-3.5 h-3.5" />
             </Link>

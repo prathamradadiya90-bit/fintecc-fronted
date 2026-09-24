@@ -39,10 +39,10 @@ interface StaffFormModalProps {
 
 const SectionHeader = ({ letter, title }: { letter: string; title: string }) => (
   <div className="flex items-center gap-2.5 mt-6 mb-4">
-    <div className="w-5 h-5 rounded-full bg-[#00C2B3] flex items-center justify-center text-white text-[10px] font-bold">
+    <div className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-white text-[10px] font-bold">
       {letter}
     </div>
-    <h4 className="text-[11px] font-bold text-[#4B637D] uppercase tracking-[0.1em]">{title}</h4>
+    <h4 className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.1em]">{title}</h4>
   </div>
 );
 
@@ -144,7 +144,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
           <button
             onClick={handleSubmit(onSubmit)}
             disabled={isLoading}
-            className="flex-1 md:flex-none px-6 py-2.5 bg-[#00C2B3] hover:bg-[#00a89b] text-[13px] text-white font-bold rounded-xl transition-colors disabled:opacity-50"
+            className="flex-1 md:flex-none px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-[13px] text-white font-bold rounded-xl transition-colors disabled:opacity-50"
           >
             {isLoading ? 'Saving...' : staff ? 'Save Changes' : 'Send Invite'}
           </button>
@@ -164,7 +164,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
               placeholder="Jane Doe"
               {...register('name')}
               disabled={!!staff}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all disabled:dark:bg-slate-800/50 bg-slate-50 disabled:dark:text-slate-500 text-slate-400"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all disabled:dark:bg-slate-800/50 bg-slate-50 disabled:dark:text-slate-500 text-slate-400"
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
           </div>
@@ -178,7 +178,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
               placeholder="jane@example.com"
               {...register('email')}
               disabled={!!staff}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all disabled:dark:bg-slate-800/50 bg-slate-50 disabled:dark:text-slate-500 text-slate-400"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all disabled:dark:bg-slate-800/50 bg-slate-50 disabled:dark:text-slate-500 text-slate-400"
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
           </div>
@@ -189,7 +189,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
             </label>
             <select
               {...register('role')}
-              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
+              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
             >
               {ROLES_LIST.map((roleOpt) => (
                 <option key={roleOpt.value} value={roleOpt.value}>
@@ -206,7 +206,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
             </label>
             <select
               {...register('customRoleId')}
-              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
+              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
             >
               <option value="">Standard Base Role Permissions (Default)</option>
               {customRoles.map((cr) => (
@@ -226,7 +226,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
             </label>
             <select
               {...register('branchId')}
-              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
+              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
             >
               <option value="">Head Office / Unassigned</option>
               {branches.map((b: FirmBranch, idx: number) => (
@@ -243,7 +243,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
                 <div className="relative flex items-center justify-center w-5 h-5">
                   <input 
                     type="checkbox" 
-                    className="peer appearance-none w-5 h-5 border border-slate-300 rounded cursor-pointer checked:bg-teal-500 checked:border-teal-500 transition-all"
+                    className="peer appearance-none w-5 h-5 border border-slate-300 rounded cursor-pointer checked:bg-emerald-600 checked:border-emerald-600 transition-all"
                     {...register('isActive')}
                   />
                   <svg className="absolute w-3.5 h-3.5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">

@@ -37,12 +37,12 @@ export function IncomeTaxCalculator() {
       <div
         className="p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
         style={{
-          background: results.betterRegime === 'NEW' ? 'rgba(0, 194, 179, 0.1)' : 'rgba(99, 102, 241, 0.1)',
-          border: `1px solid ${results.betterRegime === 'NEW' ? '#00C2B3' : '#6366f1'}`,
+          background: results.betterRegime === 'NEW' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(99, 102, 241, 0.1)',
+          border: `1px solid ${results.betterRegime === 'NEW' ? '#10B981' : '#6366f1'}`,
         }}
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#00C2B3] text-white flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
             <Zap className="w-5 h-5" />
           </div>
           <div>
@@ -56,7 +56,7 @@ export function IncomeTaxCalculator() {
           </div>
         </div>
 
-        <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-[#00C2B3] text-white">
+        <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white">
           Budget 2024-25 Updated
         </span>
       </div>
@@ -145,7 +145,7 @@ export function IncomeTaxCalculator() {
               <div
                 className={`p-5 rounded-2xl flex flex-col justify-between transition-all ${
                   results.betterRegime === 'NEW'
-                    ? 'ring-2 ring-[#00C2B3] bg-gradient-to-b from-[#00C2B3]/5 to-transparent'
+                    ? 'ring-2 ring-emerald-500 bg-gradient-to-b from-emerald-500/5 to-transparent'
                     : ''
                 }`}
                 style={{
@@ -162,7 +162,7 @@ export function IncomeTaxCalculator() {
                       </span>
                     )}
                   </div>
-                  <div className="text-2xl font-extrabold text-[#00C2B3] mb-4">
+                  <div className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mb-4">
                     {formatCurrencyExact(results.totalTaxNew)}
                   </div>
 

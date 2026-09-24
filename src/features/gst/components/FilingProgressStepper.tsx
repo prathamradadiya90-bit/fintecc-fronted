@@ -62,9 +62,9 @@ export const FilingProgressStepper: React.FC<FilingProgressStepperProps> = ({
                 <div
                   className={`flex-1 h-1 transition-colors mx-2 ${
                     state === 'completed'
-                      ? 'bg-[#00C2B3]'
+                      ? 'bg-emerald-500'
                       : state === 'current'
-                      ? 'bg-teal-200 dark:bg-teal-900'
+                      ? 'bg-emerald-200 dark:bg-emerald-900'
                       : 'bg-slate-200 dark:bg-slate-800'
                   }`}
                 />
@@ -75,9 +75,9 @@ export const FilingProgressStepper: React.FC<FilingProgressStepperProps> = ({
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                     state === 'completed'
-                      ? 'bg-[#00C2B3] text-white shadow-md'
+                      ? 'bg-emerald-600 text-white shadow-md'
                       : state === 'current'
-                      ? 'border-2 border-[#00C2B3] text-[#00C2B3] bg-teal-50 dark:bg-teal-950/40'
+                      ? 'border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
                   }`}
                 >
@@ -89,7 +89,7 @@ export const FilingProgressStepper: React.FC<FilingProgressStepperProps> = ({
                     state === 'completed'
                       ? 'text-[var(--color-text-primary)]'
                       : state === 'current'
-                      ? 'text-[#00C2B3]'
+                      ? 'text-emerald-600 dark:text-emerald-400 font-bold'
                       : 'text-[var(--color-text-muted)]'
                   }`}
                 >

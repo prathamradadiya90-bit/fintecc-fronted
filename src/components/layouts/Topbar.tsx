@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, LogOut, Sun, Moon, User as UserIcon, Sparkles, HelpCircle, Keyboard } from 'lucide-react';
+import { Menu, LogOut, Sun, Moon, User as UserIcon, Sparkles, HelpCircle, Keyboard, ShieldCheck, Zap } from 'lucide-react';
 import { ModuleGuideModal } from '@/components/common/ModuleGuideModal';
 import { getModuleGuide } from '@/lib/constants/moduleGuides';
 import { useSelector, useDispatch } from 'react-redux';
@@ -95,175 +95,273 @@ export function Topbar({
   return (
     <>
       <header
-      className="h-16 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30 gap-4"
-      style={{
-        background: 'var(--color-bg-card)',
-        borderBottom: '1px solid var(--color-border-subtle)',
-      }}
-    >
-      <div className="flex items-center gap-2.5 shrink-0">
-        <button
-          onClick={onMenuClick}
-          className={`p-1.5 -ml-1 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/60 focus:outline-none ${
-            showMenuButton ? 'block' : 'lg:hidden block'
-          }`}
-          style={{ color: 'var(--color-text-secondary)' }}
-          title="Open sidebar"
-          aria-label="Open sidebar"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
-        <div className="flex items-center gap-2">
-          <h1
-            className="text-lg lg:text-xl font-bold whitespace-nowrap"
-            style={{ color: 'var(--color-text-heading)' }}
-          >
-            {title}
-          </h1>
+        className="h-16 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30 gap-4 backdrop-blur-md"
+        style={{
+          background: 'color-mix(in srgb, var(--color-bg-page) 80%, transparent)',
+          borderBottom: '1px solid var(--color-border)',
+        }}
+      >
+        <div className="flex items-center gap-2.5 shrink-0">
           <button
-            type="button"
-            onClick={() => setIsGuideOpen(true)}
-            className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-semibold text-[#00C2B3] bg-[#00C2B3]/10 hover:bg-[#00C2B3]/20 border border-[#00C2B3]/25 transition-all shadow-xs cursor-pointer focus:outline-none"
-            title={`View ${title} guide & workflow`}
-            aria-label={`View ${title} guide`}
+            onClick={onMenuClick}
+            className={`p-1.5 -ml-1 rounded-lg transition-colors focus:outline-none ${
+              showMenuButton ? 'block' : 'lg:hidden block'
+            }`}
+            style={{ color: 'var(--color-text-secondary)' }}
+            title="Open sidebar"
+            aria-label="Open sidebar"
           >
-            <HelpCircle className="w-3.5 h-3.5 shrink-0" />
-            <span className="hidden sm:inline">Guide</span>
+            <Menu className="w-5 h-5" />
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (typeof window !== 'undefined') {
-                window.dispatchEvent(new CustomEvent('open-keyboard-shortcuts'));
-              }
-            }}
-            className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700/80 transition-all shadow-xs cursor-pointer focus:outline-none"
-            title="Keyboard Shortcuts (Shift + ?)"
-            aria-label="View Keyboard Shortcuts"
-          >
-            <Keyboard className="w-3.5 h-3.5 shrink-0 text-slate-500 dark:text-slate-400" />
-            <span className="hidden md:inline">Shortcuts</span>
-            <kbd className="text-[10px] px-1 py-0.2 rounded bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-mono">?</kbd>
-          </button>
-        </div>
-      </div>
-
-      {/* Global Search */}
-      <div className="hidden sm:flex flex-1 justify-center max-w-lg mx-auto">
-        <GlobalSearchBar />
-      </div>
-
-      <div className="flex items-center gap-4 shrink-0">
-        <NotificationBell />
-
-        <div className="relative pl-4" style={{ borderLeft: '1px solid var(--color-border)' }} ref={dropdownRef}>
-          <button 
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center gap-2.5 focus:outline-none"
-          >
-            <div className="w-8 h-8 rounded-full bg-[#091124] text-white flex items-center justify-center font-semibold text-xs overflow-hidden border border-slate-700/50">
-              {user?.profilePic ? (
-                <img src={user.profilePic} alt={userName} className="w-full h-full object-cover" />
-              ) : (
-                initials
-              )}
-            </div>
-            <div className="hidden md:block text-left">
-              <p className="text-[13px] font-semibold" style={{ color: 'var(--color-text-on-card)' }}>{displayName}</p>
-            </div>
-          </button>
-
-          {isDropdownOpen && (
-            <div
-              className="absolute right-0 mt-3 w-48 rounded-xl shadow-lg py-1 z-50"
+          <div className="flex items-center gap-2">
+            <h1
+              className="text-base lg:text-lg font-bold whitespace-nowrap tracking-tight"
+              style={{ color: 'var(--color-text-primary)' }}
+            >
+              {title}
+            </h1>
+            <button
+              type="button"
+              onClick={() => setIsGuideOpen(true)}
+              className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-semibold text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all shadow-xs cursor-pointer focus:outline-none"
+              title={`View ${title} guide & workflow`}
+              aria-label={`View ${title} guide`}
+            >
+              <HelpCircle className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden sm:inline">Guide</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-keyboard-shortcuts'));
+                }
+              }}
+              className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-medium transition-all shadow-xs cursor-pointer focus:outline-none"
               style={{
-                background: 'var(--color-bg-elevated)',
+                color: 'var(--color-text-secondary)',
+                background: 'var(--color-bg-card)',
                 border: '1px solid var(--color-border)',
               }}
+              title="Keyboard Shortcuts (Shift + ?)"
+              aria-label="View Keyboard Shortcuts"
             >
-              <div
-                className="px-4 py-2.5 mb-1 lg:hidden"
-                style={{ borderBottom: '1px solid var(--color-border-subtle)' }}
-              >
-                 <p className="text-[13px] font-semibold" style={{ color: 'var(--color-text-on-card)' }}>{displayName}</p>
-              </div>
-
-              {/* Profile Link */}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsDropdownOpen(false);
-                  router.push('/dashboard/settings');
+              <Keyboard className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--color-text-muted)' }} />
+              <span className="hidden md:inline">Shortcuts</span>
+              <kbd
+                className="text-[10px] px-1 py-0.2 rounded font-mono"
+                style={{
+                  background: 'var(--color-bg-card-hover)',
+                  color: 'var(--color-text-secondary)',
                 }}
-                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center gap-2 transition-colors cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60"
-                style={{ color: 'var(--color-text-secondary)' }}
               >
-                <UserIcon className="w-4 h-4" />
-                Profile & Settings
-              </button>
-
-              {/* Ask Fintecc AI */}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsDropdownOpen(false);
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new CustomEvent('open-fintecc-ai'));
-                  }
-                }}
-                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center gap-2 transition-colors cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60"
-                style={{ color: 'var(--color-text-secondary)' }}
-              >
-                <Sparkles className="w-4 h-4 text-[#00C2B3]" />
-                Ask Fintecc AI
-              </button>
-
-              {/* Keyboard Shortcuts */}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsDropdownOpen(false);
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new CustomEvent('open-keyboard-shortcuts'));
-                  }
-                }}
-                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center justify-between transition-colors cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60"
-                style={{ color: 'var(--color-text-secondary)' }}
-              >
-                <div className="flex items-center gap-2">
-                  <Keyboard className="w-4 h-4 text-slate-500" />
-                  <span>Keyboard Shortcuts</span>
-                </div>
-                <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 font-mono">Shift+?</kbd>
-              </button>
-
-              {/* Theme Toggle Row */}
-              <button
-                type="button"
-                onClick={(e) => { e.preventDefault(); toggleTheme(); }}
-                className="w-full text-left px-4 py-2 text-[13px] font-medium flex items-center gap-2 transition-colors cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60"
-                style={{ color: 'var(--color-text-secondary)' }}
-              >
-                {theme === 'light' ? (
-                  <Moon className="w-4 h-4" />
-                ) : (
-                  <Sun className="w-4 h-4" />
-                )}
-                {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-              </button>
-
-              <button 
-                onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-[13px] font-medium text-red-600 hover:bg-red-50 hover:text-red-700 flex items-center gap-2 transition-colors cursor-pointer dark:hover:bg-red-950/30"
-              >
-                <LogOut className="w-4 h-4" />
-                Sign out
-              </button>
-            </div>
-          )}
+                ?
+              </kbd>
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+
+        {/* Global Search */}
+        <div className="hidden sm:flex flex-1 justify-center max-w-lg mx-auto">
+          <GlobalSearchBar />
+        </div>
+
+        <div className="flex items-center gap-3 shrink-0">
+          {/* ICAI Verified Trust Badge */}
+          <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>ICAI Verified</span>
+          </div>
+
+          {/* Quick Convert Button */}
+          <button
+            type="button"
+            onClick={() => router.push('/dashboard/converters')}
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-[#003824] text-xs font-bold shadow-[0_0_15px_rgba(16,185,129,0.25)] active:scale-95 transition-all"
+          >
+            <Zap className="w-3.5 h-3.5" />
+            <span>Quick Convert</span>
+          </button>
+
+          <NotificationBell />
+
+          <div
+            className="relative pl-3"
+            style={{ borderLeft: '1px solid var(--color-border)' }}
+            ref={dropdownRef}
+          >
+            <button 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-2.5 focus:outline-none"
+            >
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-950 to-emerald-500/40 border border-emerald-500/40 text-emerald-300 flex items-center justify-center font-bold text-xs overflow-hidden">
+                {user?.profilePic ? (
+                  <img src={user.profilePic} alt={userName} className="w-full h-full object-cover" />
+                ) : (
+                  initials
+                )}
+              </div>
+              <div className="hidden md:block text-left">
+                <p
+                  className="text-xs font-semibold"
+                  style={{ color: 'var(--color-text-primary)' }}
+                >
+                  {displayName}
+                </p>
+                <p
+                  className="text-[10px] font-mono leading-tight"
+                  style={{ color: 'var(--color-text-muted)' }}
+                >
+                  {user?.role || 'Chartered Accountant'}
+                </p>
+              </div>
+            </button>
+
+            {isDropdownOpen && (
+              <div
+                className="absolute right-0 mt-3 w-52 rounded-xl shadow-2xl py-1 z-50"
+                style={{
+                  background: 'var(--color-bg-card)',
+                  border: '1px solid var(--color-border)',
+                }}
+              >
+                <div
+                  className="px-4 py-2 mb-1 lg:hidden"
+                  style={{ borderBottom: '1px solid var(--color-border)' }}
+                >
+                  <p
+                    className="text-xs font-semibold"
+                    style={{ color: 'var(--color-text-primary)' }}
+                  >
+                    {displayName}
+                  </p>
+                  <p
+                    className="text-[10px] font-mono"
+                    style={{ color: 'var(--color-text-muted)' }}
+                  >
+                    {user?.role || 'Chartered Accountant'}
+                  </p>
+                </div>
+
+                {/* Profile Link */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    router.push('/dashboard/settings');
+                  }}
+                  className="w-full text-left px-4 py-2 text-xs font-medium flex items-center gap-2 transition-colors cursor-pointer"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-primary)';
+                    e.currentTarget.style.background = 'var(--color-bg-card-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-secondary)';
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <UserIcon className="w-4 h-4" />
+                  Profile & Settings
+                </button>
+
+                {/* Ask Fintecc AI */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(new CustomEvent('open-fintecc-ai'));
+                    }
+                  }}
+                  className="w-full text-left px-4 py-2 text-xs font-medium flex items-center gap-2 transition-colors cursor-pointer"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-primary)';
+                    e.currentTarget.style.background = 'var(--color-bg-card-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-secondary)';
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <Sparkles className="w-4 h-4 text-emerald-400" />
+                  Ask Fintecc AI
+                </button>
+
+                {/* Keyboard Shortcuts */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(new CustomEvent('open-keyboard-shortcuts'));
+                    }
+                  }}
+                  className="w-full text-left px-4 py-2 text-xs font-medium flex items-center justify-between transition-colors cursor-pointer"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-primary)';
+                    e.currentTarget.style.background = 'var(--color-bg-card-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-secondary)';
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Keyboard className="w-4 h-4" style={{ color: 'var(--color-text-muted)' }} />
+                    <span>Keyboard Shortcuts</span>
+                  </div>
+                  <kbd
+                    className="text-[10px] px-1.5 py-0.5 rounded font-mono"
+                    style={{
+                      background: 'var(--color-bg-card-hover)',
+                      color: 'var(--color-text-secondary)',
+                    }}
+                  >
+                    Shift+?
+                  </kbd>
+                </button>
+
+                {/* Theme Toggle Row */}
+                <button
+                  type="button"
+                  onClick={(e) => { e.preventDefault(); toggleTheme(); }}
+                  className="w-full text-left px-4 py-2 text-xs font-medium flex items-center gap-2 transition-colors cursor-pointer"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-primary)';
+                    e.currentTarget.style.background = 'var(--color-bg-card-hover)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--color-text-secondary)';
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  {theme === 'light' ? (
+                    <Moon className="w-4 h-4" />
+                  ) : (
+                    <Sun className="w-4 h-4" />
+                  )}
+                  {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+                </button>
+
+                <div className="my-1" style={{ borderTop: '1px solid var(--color-border)' }} />
+
+                <button 
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-xs font-medium text-rose-400 hover:bg-rose-950/20 hover:text-rose-300 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign out
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
       <ModuleGuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}

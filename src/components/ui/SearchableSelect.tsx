@@ -127,7 +127,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           disabled={disabled || isLoading}
           onClick={() => setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-[13px] text-left transition-all border focus:outline-none focus:ring-2 focus:ring-[#00C2B3] ${
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-[13px] text-left transition-all border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 ${
             error ? 'border-red-500 ring-1 ring-red-500' : 'border-[var(--color-border)]'
           } ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
           style={{
@@ -140,7 +140,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
               <div className="flex items-center gap-2 truncate">
                 <span className="font-medium truncate">{selectedOption.label}</span>
                 {selectedOption.badge && (
-                  <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300 border border-teal-200 dark:border-teal-800 shrink-0">
+                  <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
                     {selectedOption.badge}
                   </span>
                 )}
@@ -170,7 +170,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                 <X className="w-3.5 h-3.5" />
               </span>
             )}
-            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-[#00C2B3]' : ''}`} />
+            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-emerald-500' : ''}`} />
           </div>
         </button>
 
@@ -197,7 +197,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                   }}
                   onKeyDown={handleKeyDown}
                   placeholder={searchPlaceholder}
-                  className="w-full pl-8 pr-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                  className="w-full pl-8 pr-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                   style={{
                     background: 'var(--color-bg-input)',
                     border: '1px solid var(--color-border)',
@@ -232,7 +232,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                       onMouseEnter={() => setHighlightedIndex(index)}
                       className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer transition-all ${
                         isSelected
-                          ? 'bg-[#00C2B3]/15 text-[#00C2B3] font-semibold'
+                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-semibold'
                           : isHighlighted
                           ? 'bg-[var(--color-bg-subtle)] text-[var(--color-text-primary)]'
                           : 'text-[var(--color-text-primary)] hover:bg-[var(--color-bg-subtle)]'
@@ -242,7 +242,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                         <div className="flex items-center gap-2 truncate">
                           <span className="truncate">{option.label}</span>
                           {option.badge && (
-                            <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300 border border-teal-200 dark:border-teal-800 shrink-0">
+                            <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
                               {option.badge}
                             </span>
                           )}
@@ -254,7 +254,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                         )}
                       </div>
 
-                      {isSelected && <Check className="w-4 h-4 text-[#00C2B3] shrink-0" />}
+                      {isSelected && <Check className="w-4 h-4 text-emerald-500 shrink-0" />}
                     </div>
                   );
                 })

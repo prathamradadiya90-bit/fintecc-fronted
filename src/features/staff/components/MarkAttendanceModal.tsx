@@ -187,7 +187,7 @@ export function MarkAttendanceModal({
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as AttendanceStatus)}
-              className="w-full h-10 px-3 rounded-xl border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full h-10 px-3 rounded-xl border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-card)',
                 borderColor: 'var(--color-border)',

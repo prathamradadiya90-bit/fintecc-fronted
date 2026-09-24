@@ -43,7 +43,7 @@ export const ItrClientsTable: React.FC<ItrClientsTableProps> = ({
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <span
-              className="font-mono font-bold text-xs tracking-wider px-2 py-0.5 rounded bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300 border border-teal-200 dark:border-teal-800"
+              className="font-mono font-bold text-xs tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800"
             >
               {item.pan}
             </span>
@@ -109,7 +109,7 @@ export const ItrClientsTable: React.FC<ItrClientsTableProps> = ({
       header: 'ITD Portal Status',
       render: (item) => (
         <div className="flex items-center gap-1.5 text-xs">
-          <UserCheck className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
+          <UserCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
           <span className="text-[11px]" style={{ color: 'var(--color-text-secondary)' }}>
             {item.eriStatus || 'Active Taxpayer'}
           </span>
@@ -130,9 +130,9 @@ export const ItrClientsTable: React.FC<ItrClientsTableProps> = ({
               disabled={isClientConsentLoading}
               leftIcon={
                 isClientConsentLoading ? (
-                  <Loader2 className="w-3 h-3 animate-spin text-[#00C2B3]" />
+                  <Loader2 className="w-3 h-3 animate-spin text-emerald-500" />
                 ) : (
-                  <ShieldCheck className="w-3 h-3 text-[#00C2B3]" />
+                  <ShieldCheck className="w-3 h-3 text-emerald-500" />
                 )
               }
             >

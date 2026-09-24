@@ -90,7 +90,7 @@ export function WhiteBooksAuthModal({
       <div className="space-y-4">
         {step === 'CREDENTIALS' && (
           <form onSubmit={handleRequestOtp} className="space-y-4">
-            <div className="p-3 rounded-xl bg-teal-50/50 dark:bg-teal-950/30 border border-teal-100 dark:border-teal-900 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            <div className="p-3 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               Connect to GSTN directly via WhiteBooks GSP to enable instant GSTR-2B ITC pulls and automated return validations.
             </div>
 

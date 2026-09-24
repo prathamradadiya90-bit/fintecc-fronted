@@ -145,7 +145,7 @@ export default function InvoicesPage() {
       render: (inv) => (
         <div className="flex flex-col gap-1 items-start">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="font-semibold text-xs text-[#00C2B3]">
+            <span className="font-semibold text-xs text-emerald-600 dark:text-emerald-400">
               {inv.invoiceNumber}
             </span>
             {inv.isRecurring && (
@@ -237,7 +237,7 @@ export default function InvoicesPage() {
           {inv.paymentLinkUrl && (
             <button
               onClick={(e) => handleQuickCopyPaymentLink(e, inv.paymentLinkUrl!)}
-              className="p-1.5 rounded-lg text-[#00C2B3] hover:bg-[#00C2B3]/10 transition-colors"
+              className="p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
               title="Copy Razorpay Payment Link"
             >
               <Link2 className="w-4 h-4" />
@@ -248,7 +248,7 @@ export default function InvoicesPage() {
           <button
             onClick={(e) => handleQuickSync(e, inv)}
             disabled={syncingId === inv.id}
-            className="p-1.5 rounded-lg text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950/40 transition-colors disabled:opacity-50"
+            className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors disabled:opacity-50"
             title="Direct Sync to Tally"
           >
             <RefreshCw className={`w-4 h-4 ${syncingId === inv.id ? 'animate-spin' : ''}`} />
@@ -335,11 +335,11 @@ export default function InvoicesPage() {
             <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>
               Total Billed
             </span>
-            <div className="p-2 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3]">
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-xl font-bold text-[#00C2B3]">
+          <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
             ₹{stats.totalValue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </p>
         </div>
@@ -398,7 +398,7 @@ export default function InvoicesPage() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="w-full sm:w-48 h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="w-full sm:w-48 h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
             style={{
               background: 'var(--color-bg-subtle)',
               borderColor: 'var(--color-border)',

@@ -184,7 +184,7 @@ export function ChatTab({ clientId }: ChatTabProps) {
     return (
       <div className="flex items-center justify-center py-20">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-4 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Loading messages...</p>
         </div>
       </div>
@@ -208,7 +208,7 @@ export function ChatTab({ clientId }: ChatTabProps) {
         </div>
         <button
           onClick={() => refetch()}
-          className="text-xs font-semibold text-[#00C2B3] hover:underline"
+          className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
         >
           Retry
         </button>

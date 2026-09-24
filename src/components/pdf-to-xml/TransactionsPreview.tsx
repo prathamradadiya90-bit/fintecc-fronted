@@ -201,7 +201,7 @@ export function TransactionsPreview({
             variant="ghost"
             size="sm"
             onClick={() => setShowConfig(!showConfig)}
-            className="text-xs text-[#00C2B3]"
+            className="text-xs text-emerald-600 dark:text-emerald-400"
           >
             {showConfig ? 'Hide Config' : 'Export Settings'}
           </Button>
@@ -234,7 +234,7 @@ export function TransactionsPreview({
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               placeholder="e.g. Acme Corp Pvt Ltd"
-              className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+              className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
             />
           </div>
           <div>
@@ -246,7 +246,7 @@ export function TransactionsPreview({
               value={bankLedger}
               onChange={(e) => setBankLedger(e.target.value)}
               placeholder="e.g. HDFC Current A/c"
-              className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+              className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
             />
           </div>
           <div>
@@ -258,7 +258,7 @@ export function TransactionsPreview({
               value={filingPeriod}
               onChange={(e) => setFilingPeriod(e.target.value)}
               placeholder="e.g. 072026"
-              className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+              className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
             />
           </div>
         </div>
@@ -269,13 +269,13 @@ export function TransactionsPreview({
         <div
           className={`p-3 rounded-xl border flex items-center justify-between text-xs font-medium animate-fadeIn ${
             syncStatus.type === 'success'
-              ? 'bg-teal-50 dark:bg-teal-950/40 text-teal-800 dark:text-teal-200 border-teal-200 dark:border-teal-900'
+              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-900'
               : 'bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-200 border-rose-200 dark:border-rose-900'
           }`}
         >
           <div className="flex items-center gap-2">
             {syncStatus.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-[#00C2B3] shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
             ) : (
               <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
             )}
@@ -285,7 +285,7 @@ export function TransactionsPreview({
           {tallyJobId && (
             <Link
               href="/dashboard/tally-sync"
-              className="inline-flex items-center gap-1 font-semibold text-[#00C2B3] hover:underline shrink-0 ml-3"
+              className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400 hover:underline shrink-0 ml-3"
             >
               View Sync Queue <ExternalLink className="w-3.5 h-3.5" />
             </Link>

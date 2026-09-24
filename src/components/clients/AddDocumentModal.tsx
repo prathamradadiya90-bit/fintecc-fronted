@@ -121,9 +121,9 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
             className={`
               relative border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all duration-200
               ${isDragging
-                ? 'border-[#00C2B3] bg-teal-50'
+                ? 'border-emerald-500 bg-emerald-50'
                 : selectedFile
-                  ? 'border-teal-300 bg-teal-50/50'
+                  ? 'border-emerald-300 bg-emerald-50/50'
                   : 'dark:border-slate-700 border-slate-200 hover:border-slate-300 hover:dark:bg-slate-800/50 bg-slate-50'
               }
             `}
@@ -137,8 +137,8 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
             />
             {selectedFile ? (
               <>
-                <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-teal-600" />
+                <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                  <FileText className="w-6 h-6 text-emerald-600" />
                 </div>
                 <div className="text-center">
                   <p className="text-sm font-semibold dark:text-slate-200 text-slate-800 break-all">{selectedFile.name}</p>
@@ -175,7 +175,7 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. PAN Card, Aadhaar, Bank Statement..."
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-sm dark:text-slate-300 text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-sm dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
 
@@ -195,7 +195,7 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-sm dark:text-slate-300 text-slate-700 transition-all appearance-none dark:bg-slate-900 bg-white"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-sm dark:text-slate-300 text-slate-700 transition-all appearance-none dark:bg-slate-900 bg-white"
               >
                 <option value="">Select a category (optional)</option>
                 <option value="Identity Proof">Identity Proof</option>
@@ -223,7 +223,7 @@ export function AddDocumentModal({ isOpen, onClose, clientId }: AddDocumentModal
             type="button"
             onClick={handleSubmit}
             disabled={isLoading || !selectedFile || !title.trim()}
-            className="px-5 py-2 bg-[#00C2B3] hover:bg-[#00a89b] text-xs font-bold text-white rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {isLoading ? (
               <>

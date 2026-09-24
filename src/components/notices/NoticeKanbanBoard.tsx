@@ -34,8 +34,8 @@ const COLUMNS: ColumnConfig[] = [
     statusTarget: 'OPEN',
     matchStatuses: ['OPEN', 'RECEIVED', 'NEW'],
     icon: Inbox,
-    badgeClass: 'bg-amber-100 text-amber-800 border-amber-200',
-    columnClass: 'border-amber-200/60 bg-slate-50/70',
+    badgeClass: 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800',
+    columnClass: 'border-amber-500/20 bg-amber-500/5',
   },
   {
     id: 'in_progress',
@@ -43,8 +43,8 @@ const COLUMNS: ColumnConfig[] = [
     statusTarget: 'IN_PROGRESS',
     matchStatuses: ['IN_PROGRESS', 'PENDING_REPLY', 'DRAFTING', 'UNDER_REVIEW', 'SCRUTINY'],
     icon: Clock,
-    badgeClass: 'bg-blue-100 text-blue-800 border-blue-200',
-    columnClass: 'border-blue-200/60 bg-slate-50/70',
+    badgeClass: 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800',
+    columnClass: 'border-blue-500/20 bg-blue-500/5',
   },
   {
     id: 'closed',
@@ -52,8 +52,8 @@ const COLUMNS: ColumnConfig[] = [
     statusTarget: 'CLOSED',
     matchStatuses: ['CLOSED', 'RESOLVED', 'RESPONDED', 'APPEALED'],
     icon: CheckCircle2,
-    badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-    columnClass: 'border-emerald-200/60 bg-slate-50/70',
+    badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800',
+    columnClass: 'border-emerald-500/20 bg-emerald-500/5',
   },
 ];
 
@@ -143,10 +143,10 @@ export const NoticeKanbanBoard: React.FC<NoticeKanbanBoardProps> = ({
             } ${isOver ? 'ring-2 ring-primary-500 bg-primary-50/20 border-primary-300' : ''}`}
           >
             {/* Column Header */}
-            <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-200/80">
+            <div className="flex items-center justify-between pb-3 mb-3 border-b border-[var(--color-border)]">
               <div className="flex items-center gap-2">
-                <Icon className="w-4 h-4 text-slate-600" />
-                <h3 className="font-bold text-sm text-slate-800">{column.title}</h3>
+                <Icon className="w-4 h-4 text-[var(--color-text-secondary)]" />
+                <h3 className="font-bold text-sm" style={{ color: 'var(--color-text-primary)' }}>{column.title}</h3>
               </div>
               <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${column.badgeClass}`}>
                 {columnNotices.length}
@@ -156,7 +156,7 @@ export const NoticeKanbanBoard: React.FC<NoticeKanbanBoardProps> = ({
             {/* Notice Cards List */}
             <div className="space-y-3 flex-1 overflow-y-auto max-h-[calc(100vh-280px)] pr-1">
               {columnNotices.length === 0 ? (
-                <div className="h-40 border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-400 p-4 text-center">
+                <div className="h-40 border-2 border-dashed border-[var(--color-border)] rounded-xl flex flex-col items-center justify-center text-slate-400 p-4 text-center">
                   <p className="text-xs font-medium">No notices in this stage</p>
                   <p className="text-[11px] text-slate-400 mt-1">Drag notices here to update status</p>
                 </div>

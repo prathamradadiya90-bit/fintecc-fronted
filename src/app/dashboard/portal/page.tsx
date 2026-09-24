@@ -46,8 +46,8 @@ export default function ClientPortalPage() {
           onClick={() => setActiveTab('invoices')}
           className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
             activeTab === 'invoices'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Receipt className="w-4 h-4" />
@@ -59,8 +59,8 @@ export default function ClientPortalPage() {
           onClick={() => setActiveTab('documents')}
           className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
             activeTab === 'documents'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <FileText className="w-4 h-4" />
@@ -132,7 +132,7 @@ export default function ClientPortalPage() {
                             href={inv.pdfUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-xs text-[#00C2B3] hover:underline font-semibold"
+                            className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
                           >
                             <Download className="w-3.5 h-3.5" />
                             Download
@@ -202,7 +202,7 @@ export default function ClientPortalPage() {
                           href={doc.fileUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs text-[#00C2B3] hover:underline font-semibold"
+                          className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                           View File

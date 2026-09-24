@@ -85,12 +85,12 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
         style={{ borderColor: 'var(--color-border-subtle)' }}
       >
         <div className="flex items-center gap-2">
-          <Bell className="w-4 h-4 text-[#00C2B3]" />
+          <Bell className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-heading)' }}>
             Notifications
           </span>
           {unreadCount > 0 && (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00C2B3]/15 text-[#00C2B3]">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
               {unreadCount} new
             </span>
           )}
@@ -99,7 +99,7 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
         {unreadCount > 0 && (
           <button
             onClick={handleMarkAllRead}
-            className="text-[11px] font-medium text-[#00C2B3] hover:underline flex items-center gap-1"
+            className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
           >
             <CheckCheck className="w-3.5 h-3.5" />
             Mark all read
@@ -111,7 +111,7 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
       <div className="max-h-[380px] overflow-y-auto divide-y" style={{ borderColor: 'var(--color-border-subtle)' }}>
         {isLoading ? (
           <div className="p-6 text-center space-y-2">
-            <div className="w-6 h-6 border-2 border-[#00C2B3] border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
             <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
               Loading notifications...
             </p>
@@ -135,13 +135,13 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
               onClick={() => handleMarkAsRead(notification)}
               className={`p-3.5 flex items-start justify-between gap-3 transition-colors cursor-pointer group ${
                 !notification.isRead
-                  ? 'bg-[#00C2B3]/5 hover:bg-[#00C2B3]/10'
+                  ? 'bg-emerald-500/5 hover:bg-emerald-500/10'
                   : 'hover:bg-slate-50 dark:hover:bg-slate-850'
               }`}
             >
               <div className="flex items-start gap-2.5 flex-1 min-w-0">
                 {!notification.isRead ? (
-                  <span className="w-2 h-2 rounded-full bg-[#00C2B3] mt-1.5 shrink-0" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 mt-1.5 shrink-0" />
                 ) : (
                   <span className="w-2 h-2 shrink-0" />
                 )}

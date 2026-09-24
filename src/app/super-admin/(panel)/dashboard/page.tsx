@@ -17,7 +17,7 @@ interface StatCardProps {
   isLoading?: boolean;
 }
 
-function StatCard({ title, value, icon: Icon, colorClass = "text-[#00C2B3] bg-[#00C2B3]/10", isLoading }: StatCardProps) {
+function StatCard({ title, value, icon: Icon, colorClass = "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10", isLoading }: StatCardProps) {
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex items-start gap-4">
       <div className={`p-3 rounded-xl shrink-0 ${colorClass}`}>
@@ -125,7 +125,7 @@ export default function SuperAdminDashboardPage() {
             <h3 className="text-[14px] font-bold text-slate-800">Firm Admins Overview</h3>
             <a
               href="/super-admin/firm-admins"
-              className="text-[12px] text-[#00C2B3] hover:underline font-medium"
+              className="text-[12px] text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
             >
               View all →
             </a>
@@ -162,7 +162,7 @@ export default function SuperAdminDashboardPage() {
             <h3 className="text-[14px] font-bold text-slate-800">Support Tickets Overview</h3>
             <a
               href="/super-admin/support-tickets"
-              className="text-[12px] text-[#00C2B3] hover:underline font-medium"
+              className="text-[12px] text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
             >
               View all →
             </a>

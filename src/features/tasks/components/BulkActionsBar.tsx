@@ -72,7 +72,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
     >
       {/* Count Badge */}
       <div className="flex items-center gap-2 pr-3 border-r border-[var(--color-border)]">
-        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#00C2B3] text-white text-xs font-bold">
+        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white text-xs font-bold">
           {selectedCount}
         </span>
         <span className="text-xs font-semibold" style={{ color: 'var(--color-text-primary)' }}>
@@ -81,7 +81,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
       </div>
 
       {isSubmitting ? (
-        <div className="flex items-center gap-2 text-xs font-medium text-[#00C2B3] px-4 py-1">
+        <div className="flex items-center gap-2 text-xs font-medium text-emerald-500 px-4 py-1">
           <Loader2 className="w-4 h-4 animate-spin" />
           <span>Applying changes...</span>
         </div>
@@ -92,7 +92,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
             <select
               value={selectedStatus}
               onChange={handleStatusChange}
-              className="text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-[#00C2B3] cursor-pointer"
+              className="text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -113,7 +113,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
             <select
               value={selectedAssignee}
               onChange={handleAssigneeChange}
-              className="text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-[#00C2B3] cursor-pointer"
+              className="text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -134,7 +134,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
             <select
               value={selectedPriority}
               onChange={handlePriorityChange}
-              className="text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-[#00C2B3] cursor-pointer"
+              className="text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',

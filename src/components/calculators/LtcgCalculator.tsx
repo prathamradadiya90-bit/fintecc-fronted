@@ -34,7 +34,7 @@ export function LtcgCalculator() {
           onClick={() => setAssetType('equity')}
           className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
             assetType === 'equity'
-              ? 'bg-[#00C2B3] text-white shadow-sm'
+              ? 'bg-[#10B981] text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
@@ -45,7 +45,7 @@ export function LtcgCalculator() {
           onClick={() => setAssetType('real_estate')}
           className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
             assetType === 'real_estate'
-              ? 'bg-[#00C2B3] text-white shadow-sm'
+              ? 'bg-[#10B981] text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
@@ -56,7 +56,7 @@ export function LtcgCalculator() {
           onClick={() => setAssetType('debt')}
           className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
             assetType === 'debt'
-              ? 'bg-[#00C2B3] text-white shadow-sm'
+              ? 'bg-[#10B981] text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
@@ -120,7 +120,7 @@ export function LtcgCalculator() {
             <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase mb-2">
               LTCG TAX PAYABLE (INCL. 4% CESS)
             </h3>
-            <div className="text-4xl font-extrabold text-[#00C2B3] mb-6">
+            <div className="text-2xl font-bold text-[#10B981] mb-6">
               {formatCurrencyExact(ltcgTaxAmount)}
             </div>
 
@@ -139,7 +139,7 @@ export function LtcgCalculator() {
               </div>
               <div className="flex justify-between items-center text-sm">
                 <span className="text-slate-400">Net Profit in Hand (Post Tax)</span>
-                <span className="font-bold text-[#00C2B3]">{formatCurrencyExact(totalGain - ltcgTaxAmount)}</span>
+                <span className="font-bold text-[#10B981]">{formatCurrencyExact(totalGain - ltcgTaxAmount)}</span>
               </div>
             </div>
           </div>

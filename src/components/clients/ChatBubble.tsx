@@ -50,7 +50,7 @@ export function ChatBubble({ message, isOwn }: ChatBubbleProps) {
         className={`
           max-w-[75%] sm:max-w-[65%] rounded-2xl px-4 py-2.5 shadow-sm
           ${isOwn
-            ? 'bg-[#00C2B3] text-white rounded-br-md'
+            ? 'bg-emerald-600 text-white rounded-br-md'
             : 'rounded-bl-md'
           }
         `}

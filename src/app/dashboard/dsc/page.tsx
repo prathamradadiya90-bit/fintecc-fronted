@@ -71,14 +71,14 @@ export default function DscTrackerPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-primary-50 text-primary-600">
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <Key className="w-5 h-5" />
             </div>
-            <h1 className="text-xl font-bold text-slate-900">
-              DSC Token Tracker & Vault
+            <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
+              DSC Token Tracker &amp; Vault
             </h1>
           </div>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
             Securely track client digital signature tokens, PINs, physical locations, and upcoming expirations.
           </p>
         </div>
@@ -88,7 +88,12 @@ export default function DscTrackerPage() {
             type="button"
             onClick={() => refetch()}
             disabled={isFetching}
-            className="p-2 text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-xs transition"
+            className="p-2 border rounded-xl shadow-xs transition"
+            style={{
+              background: 'var(--color-bg-card)',
+              borderColor: 'var(--color-border)',
+              color: 'var(--color-text-primary)',
+            }}
             title="Refresh list"
           >
             <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
@@ -96,7 +101,7 @@ export default function DscTrackerPage() {
           <button
             type="button"
             onClick={handleOpenAddModal}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm font-semibold shadow-sm transition"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold shadow-sm transition"
           >
             <Plus className="w-4 h-4" />
             Register New DSC
@@ -106,43 +111,55 @@ export default function DscTrackerPage() {
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 bg-slate-100 text-slate-700 rounded-xl">
+        <div
+          className="p-4 rounded-2xl border shadow-xs flex items-center gap-3"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div className="p-3 bg-slate-500/10 text-slate-400 rounded-xl">
             <Lock className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500">Total Tokens</p>
-            <h3 className="text-xl font-bold text-slate-900">{metrics.total}</h3>
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>Total Tokens</p>
+            <h3 className="text-xl font-bold" style={{ color: 'var(--color-text-primary)' }}>{metrics.total}</h3>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+        <div
+          className="p-4 rounded-2xl border shadow-xs flex items-center gap-3"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div className="p-3 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500">Active & Valid</p>
-            <h3 className="text-xl font-bold text-emerald-600">{metrics.active}</h3>
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>Active &amp; Valid</p>
+            <h3 className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{metrics.active}</h3>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 bg-amber-50 text-amber-600 rounded-xl">
+        <div
+          className="p-4 rounded-2xl border shadow-xs flex items-center gap-3"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div className="p-3 bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-xl">
             <Clock className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500">Expiring in 30 Days</p>
-            <h3 className="text-xl font-bold text-amber-600">{metrics.expiringSoon}</h3>
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>Expiring in 30 Days</p>
+            <h3 className="text-xl font-bold text-amber-600 dark:text-amber-400">{metrics.expiringSoon}</h3>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 bg-rose-50 text-rose-600 rounded-xl">
+        <div
+          className="p-4 rounded-2xl border shadow-xs flex items-center gap-3"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div className="p-3 bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-xl">
             <AlertTriangle className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500">Expired / Critical</p>
-            <h3 className="text-xl font-bold text-rose-600">{metrics.expired}</h3>
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>Expired / Critical</p>
+            <h3 className="text-xl font-bold text-rose-600 dark:text-rose-400">{metrics.expired}</h3>
           </div>
         </div>
       </div>

@@ -151,7 +151,7 @@ export const AddMcaCompanyModal: React.FC<AddMcaCompanyModalProps> = ({
           <select
             value={clientId}
             onChange={(e) => setClientId(e.target.value)}
-            className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+            className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
           >
             <option value="">No Client Linked</option>
             {clients.map((c) => (
@@ -252,7 +252,7 @@ export const AddMcaCompanyModal: React.FC<AddMcaCompanyModalProps> = ({
             onChange={(e) => setRegisteredAddress(e.target.value)}
             placeholder="Enter registered address as per MCA master data..."
             rows={2}
-            className="w-full px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="w-full px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
         </div>
 

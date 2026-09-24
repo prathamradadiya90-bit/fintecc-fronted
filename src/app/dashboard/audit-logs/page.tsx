@@ -33,7 +33,7 @@ const ACTION_COLORS: Record<string, { bg: string; text: string; border: string }
   CREATE: { bg: 'bg-emerald-500/10', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-500/20' },
   UPDATE: { bg: 'bg-blue-500/10', text: 'text-blue-600 dark:text-blue-400', border: 'border-blue-500/20' },
   DELETE: { bg: 'bg-rose-500/10', text: 'text-rose-600 dark:text-rose-400', border: 'border-rose-500/20' },
-  UPLOAD: { bg: 'bg-teal-500/10', text: 'text-teal-600 dark:text-teal-400', border: 'border-teal-500/20' },
+  UPLOAD: { bg: 'bg-emerald-500/10', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-500/20' },
   UPLOAD_BULK: { bg: 'bg-indigo-500/10', text: 'text-indigo-600 dark:text-indigo-400', border: 'border-indigo-500/20' },
   DOWNLOAD_PDF: { bg: 'bg-amber-500/10', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-500/20' },
   DOWNLOAD_TALLY_XML: { bg: 'bg-purple-500/10', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-500/20' },
@@ -112,7 +112,7 @@ export default function AuditLogsPage() {
       header: 'Actor / User',
       render: (log) => (
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center font-bold text-xs shrink-0">
+          <div className="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">
             {log.user?.name ? log.user.name.substring(0, 2).toUpperCase() : 'SYS'}
           </div>
           <div>
@@ -305,8 +305,8 @@ export default function AuditLogsPage() {
           onClick={() => setActiveTab('activity')}
           className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'activity'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <FileText className="w-4 h-4" />
@@ -316,8 +316,8 @@ export default function AuditLogsPage() {
           onClick={() => setActiveTab('logins')}
           className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
             activeTab === 'logins'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <KeyRound className="w-4 h-4" />
@@ -346,7 +346,7 @@ export default function AuditLogsPage() {
               <select
                 value={selectedAction}
                 onChange={(e) => setSelectedAction(e.target.value)}
-                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                 style={{
                   background: 'var(--color-bg-subtle)',
                   borderColor: 'var(--color-border)',
@@ -365,7 +365,7 @@ export default function AuditLogsPage() {
               <select
                 value={selectedEntity}
                 onChange={(e) => setSelectedEntity(e.target.value)}
-                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                 style={{
                   background: 'var(--color-bg-subtle)',
                   borderColor: 'var(--color-border)',
@@ -384,7 +384,7 @@ export default function AuditLogsPage() {
               <select
                 value={selectedUserId}
                 onChange={(e) => setSelectedUserId(e.target.value)}
-                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                 style={{
                   background: 'var(--color-bg-subtle)',
                   borderColor: 'var(--color-border)',

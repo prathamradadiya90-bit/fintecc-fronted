@@ -76,8 +76,8 @@ export function ChatInput({ onSend, isSending, isUploading }: ChatInputProps) {
             border: '1px solid var(--color-border)',
           }}
         >
-          <div className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center shrink-0">
-            <FileText className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+          <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center shrink-0">
+            <FileText className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold truncate" style={{ color: 'var(--color-text-primary)' }}>
@@ -106,7 +106,7 @@ export function ChatInput({ onSend, isSending, isUploading }: ChatInputProps) {
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={isDisabled}
-          className="p-2.5 rounded-xl transition-colors hover:bg-teal-50 dark:hover:bg-teal-900/20 disabled:opacity-50 shrink-0"
+          className="p-2.5 rounded-xl transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-900/20 disabled:opacity-50 shrink-0"
           style={{ color: 'var(--color-text-secondary)' }}
           title="Attach file"
         >
@@ -149,7 +149,7 @@ export function ChatInput({ onSend, isSending, isUploading }: ChatInputProps) {
           type="button"
           onClick={handleSend}
           disabled={!canSend}
-          className="p-2.5 rounded-xl bg-[#00C2B3] hover:bg-[#00a89b] text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 shadow-sm"
+          className="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 shadow-sm"
           title="Send message"
         >
           {isSending || isUploading ? (

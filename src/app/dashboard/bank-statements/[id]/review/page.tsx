@@ -151,7 +151,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto py-24 flex flex-col items-center justify-center space-y-3">
-        <div className="w-10 h-10 border-4 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
         <p className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>
           Loading statement review dataset and AI mappings...
         </p>
@@ -191,7 +191,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
           <div className="flex items-center gap-2">
             <Link
               href="/dashboard/bank-statements"
-              className="text-xs font-semibold flex items-center gap-1 text-[#00C2B3] hover:underline"
+              className="text-xs font-semibold flex items-center gap-1 text-emerald-600 dark:text-emerald-400 hover:underline"
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back to Statements
             </Link>
@@ -206,7 +206,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
               className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
                 unapprovedCount === 0 && transactions.length > 0
                   ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
-                  : 'bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20'
+                  : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
               }`}
             >
               {unapprovedCount === 0 && transactions.length > 0 ? 'COMPLETED' : (statementInfo?.status || 'REVIEW')}
@@ -330,7 +330,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
         style={{ background: 'var(--color-bg-subtle)', borderColor: 'var(--color-border)' }}
       >
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-teal-500/10 text-[#00C2B3] shrink-0">
+          <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
             <Brain className="w-4 h-4" />
           </div>
           <div className="space-y-0.5">
@@ -355,7 +355,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
             onClick={() => setActiveFilter('ALL')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
               activeFilter === 'ALL'
-                ? 'bg-[#00C2B3] text-white'
+                ? 'bg-emerald-600 text-white'
                 : 'text-slate-500 hover:bg-slate-500/10'
             }`}
           >
@@ -397,7 +397,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
         <div className="flex flex-wrap items-center gap-2">
           {selectedIds.length > 0 ? (
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-[#00C2B3]">
+              <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                 {selectedIds.length} Selected
               </span>
 

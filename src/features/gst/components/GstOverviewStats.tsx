@@ -37,7 +37,7 @@ export const GstOverviewStats: React.FC<GstOverviewStatsProps> = ({
         title="Active GST Profiles"
         value={totalProfiles}
         icon={Building2}
-        colorClass="text-teal-600 bg-teal-50 dark:bg-teal-900/30 dark:text-teal-400"
+        colorClass="text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-400"
       />
       <StatCard
         title="Total Returns Tracked"

@@ -166,8 +166,8 @@ export function NpsCalculator() {
               className="pt-3 flex justify-between items-center"
               style={{ borderTop: '1px solid var(--color-border)' }}
             >
-              <span className="font-bold text-sm text-[#00C2B3]">Estimated Monthly Pension:</span>
-              <span className="font-extrabold text-xl text-[#00C2B3]">
+              <span className="font-bold text-sm text-[#10B981]">Estimated Monthly Pension:</span>
+              <span className="font-extrabold text-xl text-[#10B981]">
                 {formatCurrencyExact(expectedMonthlyPension)}/mo
               </span>
             </div>

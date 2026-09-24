@@ -33,7 +33,7 @@ export function SuperAdminGuard({ children }: { children: React.ReactNode }) {
   if (isLoading || isFetching) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-[#060E1E]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00C2B3]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
       </div>
     );
   }

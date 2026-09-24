@@ -74,13 +74,13 @@ export const TaskRow: React.FC<TaskRowProps> = ({
     if (type.includes('TDS')) return 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800';
     if (type.includes('Audit')) return 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800';
     if (type.includes('ROC')) return 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800';
-    return 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-300 dark:border-teal-800';
+    return 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800';
   };
 
   return (
     <tr
       className={`group transition-colors border-b select-none ${
-        isSelected ? 'bg-[#00C2B3]/5 dark:bg-[#00C2B3]/10' : ''
+        isSelected ? 'bg-emerald-500/5 dark:bg-emerald-500/10' : ''
       }`}
       style={{
         borderColor: 'var(--color-border-subtle)',
@@ -98,7 +98,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
           type="checkbox"
           checked={isSelected}
           onChange={(e) => onSelect(task.id, e.target.checked)}
-          className="w-4 h-4 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] cursor-pointer"
+          className="w-4 h-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500/50 cursor-pointer"
         />
       </td>
 
@@ -106,7 +106,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       <td className="px-4 py-3 max-w-[180px]">
         <div className="flex flex-col">
           <span
-            className="text-xs font-semibold truncate hover:text-[#00C2B3] cursor-pointer transition-colors"
+            className="text-xs font-semibold truncate hover:text-emerald-500 cursor-pointer transition-colors"
             style={{ color: 'var(--color-text-primary)' }}
             onClick={() => onEdit(task)}
             title={displayClientName}
@@ -135,7 +135,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
             </span>
             {task.isRecurring && (
               <span title={`Recurring: ${task.recurrencePattern || 'Pattern'}`}>
-                <Repeat className="w-3 h-3 text-teal-600 shrink-0" />
+                <Repeat className="w-3 h-3 text-emerald-600 shrink-0" />
               </span>
             )}
           </div>

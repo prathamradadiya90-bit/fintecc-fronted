@@ -86,7 +86,7 @@ export function LedgerMappingRulesSettings() {
         style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
       >
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-xl bg-teal-500/10 text-[#00C2B3]">
+          <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
             <Brain className="w-5 h-5" />
           </div>
           <div>
@@ -123,7 +123,7 @@ export function LedgerMappingRulesSettings() {
             placeholder="Search pattern, keyword, or ledger..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full text-xs pl-8 pr-3 py-1.5 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+            className="w-full text-xs pl-8 pr-3 py-1.5 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
           />
         </div>
         <span className="text-xs text-slate-400 whitespace-nowrap">
@@ -134,7 +134,7 @@ export function LedgerMappingRulesSettings() {
       {/* Rules Table */}
       {isLoading ? (
         <div className="py-12 text-center space-y-2">
-          <Loader2 className="w-6 h-6 animate-spin text-[#00C2B3] mx-auto" />
+          <Loader2 className="w-6 h-6 animate-spin text-emerald-500 mx-auto" />
           <p className="text-xs text-slate-400">Loading firm rules...</p>
         </div>
       ) : filteredRules.length === 0 ? (
@@ -142,7 +142,7 @@ export function LedgerMappingRulesSettings() {
           className="rounded-2xl p-10 text-center border shadow-xs space-y-3"
           style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
         >
-          <div className="w-12 h-12 rounded-2xl bg-teal-500/10 text-[#00C2B3] mx-auto flex items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
             <Brain className="w-6 h-6" />
           </div>
           <div>
@@ -197,7 +197,7 @@ export function LedgerMappingRulesSettings() {
                     </td>
 
                     {/* Ledger */}
-                    <td className="py-3 px-4 font-semibold text-xs text-[#00C2B3]">
+                    <td className="py-3 px-4 font-semibold text-xs text-emerald-600 dark:text-emerald-400">
                       {rule.suggestedLedger}
                     </td>
 
@@ -206,7 +206,7 @@ export function LedgerMappingRulesSettings() {
                       <span
                         className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
                           rule.matchType === 'EXACT'
-                            ? 'bg-teal-500/15 text-teal-600 dark:text-teal-400 border border-teal-500/20'
+                            ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
                             : 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/20'
                         }`}
                       >
@@ -250,7 +250,7 @@ export function LedgerMappingRulesSettings() {
           >
             <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: 'var(--color-border)' }}>
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-teal-500/10 text-[#00C2B3]">
+                <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                   <Brain className="w-4 h-4" />
                 </div>
                 <h4 className="text-sm font-bold" style={{ color: 'var(--color-text-primary)' }}>
@@ -277,7 +277,7 @@ export function LedgerMappingRulesSettings() {
                   value={narrationPattern}
                   onChange={(e) => setNarrationPattern(e.target.value)}
                   placeholder="e.g. AWS, Zomato, Rent, Uber"
-                  className="w-full text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                  className="w-full text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                 />
               </div>
 
@@ -288,7 +288,7 @@ export function LedgerMappingRulesSettings() {
                 <select
                   value={matchType}
                   onChange={(e) => setMatchType(e.target.value as any)}
-                  className="w-full text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                  className="w-full text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                 >
                   <option value="CONTAINS">Contains (Sub-string search)</option>
                   <option value="EXACT">Exact (Full Narration match)</option>
@@ -306,7 +306,7 @@ export function LedgerMappingRulesSettings() {
                     setSuggestedLedger(e.target.value);
                     setCustomLedger('');
                   }}
-                  className="w-full text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                  className="w-full text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                 >
                   {STANDARD_TALLY_LEDGERS.map((l) => (
                     <option key={l} value={l}>
@@ -325,7 +325,7 @@ export function LedgerMappingRulesSettings() {
                   value={customLedger}
                   onChange={(e) => setCustomLedger(e.target.value)}
                   placeholder="e.g. AWS Cloud Infrastructure Expense"
-                  className="w-full text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                  className="w-full text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                 />
               </div>
 

@@ -45,7 +45,7 @@ export function KvpCalculator() {
             style={{ background: 'var(--color-bg-subtle)', border: '1px solid var(--color-border)' }}
           >
             <span style={{ color: 'var(--color-text-secondary)' }}>Guaranteed Doubling Tenure:</span>
-            <span className="font-bold text-base text-[#00C2B3]">{doublingPeriodYears} ({doublingPeriodMonths} mo)</span>
+            <span className="font-bold text-base text-[#10B981]">{doublingPeriodYears} ({doublingPeriodMonths} mo)</span>
           </div>
 
           <div

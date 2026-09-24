@@ -106,7 +106,7 @@ export function CalculatorSearchModal({ isOpen, onClose }: CalculatorSearchModal
           className="flex items-center px-4 py-3.5 gap-3"
           style={{ borderBottom: '1px solid var(--color-border)' }}
         >
-          <Search className="w-5 h-5 text-[#00C2B3] shrink-0" />
+          <Search className="w-5 h-5 text-emerald-500 shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -156,7 +156,7 @@ export function CalculatorSearchModal({ isOpen, onClose }: CalculatorSearchModal
                 }}
                 className={`px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
                   activeCategory === cat
-                    ? 'bg-[#00C2B3] text-white shadow-sm'
+                    ? 'bg-emerald-600 text-white shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
@@ -195,7 +195,7 @@ export function CalculatorSearchModal({ isOpen, onClose }: CalculatorSearchModal
                   onMouseEnter={() => setSelectedIndex(index)}
                   className={`w-full flex items-center justify-between p-3 rounded-xl text-left transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#00C2B3]/10 ring-1 ring-[#00C2B3]/30'
+                      ? 'bg-emerald-500/10 ring-1 ring-emerald-500/30'
                       : 'hover:bg-slate-100 dark:hover:bg-slate-800/60'
                   }`}
                 >
@@ -203,8 +203,8 @@ export function CalculatorSearchModal({ isOpen, onClose }: CalculatorSearchModal
                     <div
                       className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                         isSelected
-                          ? 'bg-[#00C2B3] text-white'
-                          : 'bg-slate-100 dark:bg-slate-800 text-[#00C2B3]'
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-slate-100 dark:bg-slate-800 text-emerald-500'
                       }`}
                     >
                       <CalculatorIcon name={calc.iconName} className="w-4 h-4" />
@@ -214,7 +214,7 @@ export function CalculatorSearchModal({ isOpen, onClose }: CalculatorSearchModal
                       <div className="flex items-center gap-2">
                         <span
                           className={`text-sm font-bold truncate ${
-                            isSelected ? 'text-[#00C2B3]' : ''
+                            isSelected ? 'text-emerald-600 dark:text-emerald-400' : ''
                           }`}
                           style={!isSelected ? { color: 'var(--color-text-primary)' } : {}}
                         >
@@ -247,7 +247,7 @@ export function CalculatorSearchModal({ isOpen, onClose }: CalculatorSearchModal
                     </span>
                     <ArrowRight
                       className={`w-4 h-4 transition-transform ${
-                        isSelected ? 'text-[#00C2B3] translate-x-0.5' : 'text-slate-400'
+                        isSelected ? 'text-emerald-500 translate-x-0.5' : 'text-slate-400'
                       }`}
                     />
                   </div>

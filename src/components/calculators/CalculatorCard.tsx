@@ -22,10 +22,10 @@ export function CalculatorCard({ calculator }: CalculatorCardProps) {
         {/* Top bar: Icon and Badge */}
         <div className="flex items-start justify-between gap-2 mb-4">
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center transition-colors group-hover:bg-[#00C2B3]/20"
+            className="w-12 h-12 rounded-xl flex items-center justify-center transition-colors group-hover:bg-emerald-500/20"
             style={{
               background: 'var(--color-bg-subtle)',
-              color: '#00C2B3',
+              color: '#10B981',
               border: '1px solid var(--color-border)',
             }}
           >
@@ -43,7 +43,7 @@ export function CalculatorCard({ calculator }: CalculatorCardProps) {
 
         {/* Title */}
         <h3
-          className="text-base font-bold mb-2 group-hover:text-[#00C2B3] transition-colors line-clamp-1"
+          className="text-base font-bold mb-2 group-hover:text-emerald-500 transition-colors line-clamp-1"
           style={{ color: 'var(--color-text-primary)' }}
         >
           {calculator.name}
@@ -74,7 +74,7 @@ export function CalculatorCard({ calculator }: CalculatorCardProps) {
         className="flex items-center justify-between pt-4 mt-4 text-sm font-semibold transition-colors"
         style={{
           borderTop: '1px solid var(--color-border)',
-          color: '#00C2B3',
+          color: '#10B981',
         }}
       >
         <span>Calculate now</span>

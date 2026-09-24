@@ -84,13 +84,13 @@ export function GratuityCalculator() {
         <div className="flex flex-col gap-6">
           <div className="bg-[#0f172a] rounded-2xl p-6 text-white shadow-md">
             <div className="flex items-center gap-2 mb-2">
-              <Award className="w-5 h-5 text-[#00C2B3]" />
+              <Award className="w-5 h-5 text-[#10B981]" />
               <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase">
                 ESTIMATED GRATUITY PAYOUT
               </h3>
             </div>
 
-            <div className="text-4xl font-extrabold text-[#00C2B3] mb-6">
+            <div className="text-2xl font-bold text-[#10B981] mb-6">
               {formatCurrencyExact(gratuityAmount)}
             </div>
 

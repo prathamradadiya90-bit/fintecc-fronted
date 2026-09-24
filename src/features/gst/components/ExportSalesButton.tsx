@@ -51,7 +51,7 @@ export const ExportSalesButton: React.FC<ExportSalesButtonProps> = ({
       variant="outline"
       onClick={handleExport}
       isLoading={loading}
-      leftIcon={<Download className="w-4 h-4 text-[#00C2B3]" />}
+      leftIcon={<Download className="w-4 h-4 text-emerald-500" />}
       className={className}
     >
       Export Sales Excel ({year})

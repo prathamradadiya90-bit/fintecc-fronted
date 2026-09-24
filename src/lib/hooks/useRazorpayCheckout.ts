@@ -66,7 +66,7 @@ export function useRazorpayCheckout() {
             'background:#fff;padding:30px;border-radius:12px;width:420px;box-shadow:0 8px 32px rgba(0,0,0,0.25);text-align:center;font-family:sans-serif;';
 
           modal.innerHTML = `
-            <div style="background:#00C2B3;color:white;padding:16px;border-radius:8px 8px 0 0;margin:-30px -30px 20px -30px;font-weight:bold;font-size:16px;">
+            <div style="background:#10B981;color:white;padding:16px;border-radius:8px 8px 0 0;margin:-30px -30px 20px -30px;font-weight:bold;font-size:16px;">
               Mock Payment Gateway (Test Mode)
             </div>
             <h2 style="margin:0 0 8px 0;color:#333;font-size:18px;">${options.name || 'Fintecc'}</h2>
@@ -89,7 +89,7 @@ export function useRazorpayCheckout() {
           const payBtn = document.createElement('button');
           payBtn.innerText = 'Pay Now (Success)';
           payBtn.style.cssText =
-            'flex:1;padding:12px;border:none;background:#00C2B3;color:white;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px;';
+            'flex:1;padding:12px;border:none;background:#10B981;color:white;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px;';
           payBtn.onclick = () => {
             document.body.removeChild(overlay);
             resolve({
@@ -124,7 +124,7 @@ export function useRazorpayCheckout() {
           },
           prefill: options.prefill,
           theme: {
-            color: '#00C2B3',
+            color: '#10B981',
           },
           modal: {
             ondismiss: function () {

@@ -100,7 +100,7 @@ export const AnnouncementFormModal: React.FC<AnnouncementFormModalProps> = ({
             <select
               value={type}
               onChange={(e) => setType(e.target.value as AnnouncementType)}
-              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
             >
               <option value="UPDATE">UPDATE (Feature updates / release notes)</option>
               <option value="MAINTENANCE">MAINTENANCE (Scheduled server downtime)</option>
@@ -115,7 +115,7 @@ export const AnnouncementFormModal: React.FC<AnnouncementFormModalProps> = ({
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="w-4 h-4 rounded text-[#00C2B3] focus:ring-[#00C2B3] border-slate-300"
+                className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300"
               />
               <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                 Active & Visible to Users
@@ -134,7 +134,7 @@ export const AnnouncementFormModal: React.FC<AnnouncementFormModalProps> = ({
             placeholder="Write the announcement message text..."
             rows={4}
             required
-            className="w-full px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="w-full px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
         </div>
 

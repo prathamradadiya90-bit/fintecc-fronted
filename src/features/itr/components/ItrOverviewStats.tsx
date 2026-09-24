@@ -24,9 +24,9 @@ export const ItrOverviewStats: React.FC<ItrOverviewStatsProps> = ({
       value: totalClients,
       subtitle: 'Active PAN accounts',
       icon: Users,
-      color: 'text-teal-600 dark:text-teal-400',
-      bgColor: 'bg-teal-50 dark:bg-teal-950/40',
-      borderColor: 'border-teal-100 dark:border-teal-900/40',
+      color: 'text-emerald-600 dark:text-emerald-400',
+      bgColor: 'bg-emerald-50 dark:bg-emerald-950/40',
+      borderColor: 'border-emerald-100 dark:border-emerald-900/40',
     },
     {
       title: 'Total Filings',

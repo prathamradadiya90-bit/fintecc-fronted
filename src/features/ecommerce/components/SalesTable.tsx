@@ -73,7 +73,7 @@ export function SalesTable({ sales }: SalesTableProps) {
               onClick={() => { setTypeFilter('ALL'); setCurrentPage(1); }}
               className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
                 typeFilter === 'ALL'
-                  ? 'bg-[#00C2B3] text-white shadow-xs'
+                  ? 'bg-emerald-600 text-white shadow-xs'
                   : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
               }`}
             >
@@ -111,7 +111,7 @@ export function SalesTable({ sales }: SalesTableProps) {
               placeholder="Search order, SKU, state..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+              className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
             />
           </div>
         </div>
@@ -198,7 +198,7 @@ export function SalesTable({ sales }: SalesTableProps) {
                         className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${
                           isReturn
                             ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
-                            : 'bg-teal-100 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300'
+                            : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
                         }`}
                       >
                         {isReturn ? 'Return' : 'Sales'}

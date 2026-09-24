@@ -48,7 +48,7 @@ export default function ItrClientsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>
-            <Users className="w-5 h-5 text-teal-600 dark:text-teal-400" />
+            <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             ITR Taxpayers & Master Accounts
           </h2>
           <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
@@ -85,7 +85,7 @@ export default function ItrClientsPage() {
             <select
               value={consentFilter}
               onChange={(e) => setConsentFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="px-3 py-2 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-input)',
                 border: '1px solid var(--color-border)',

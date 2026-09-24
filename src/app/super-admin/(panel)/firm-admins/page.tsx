@@ -268,7 +268,7 @@ function FirmAdminsContent() {
               setSelectedOwnerId(owner.id);
             }}
             title="View details"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-[#00C2B3] hover:bg-[#00C2B3]/10 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
           >
             <ChevronRight className="w-4 h-4" />
           </button>

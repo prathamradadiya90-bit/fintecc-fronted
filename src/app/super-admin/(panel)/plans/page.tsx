@@ -255,7 +255,7 @@ function PlansContent() {
               <select
                 value={billingCycle}
                 onChange={(e) => setBillingCycle(e.target.value as "MONTHLY" | "ANNUALLY")}
-                className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+                className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
               >
                 <option value="ANNUALLY">Annually (1 Year)</option>
                 <option value="MONTHLY">Monthly (1 Month)</option>
@@ -267,7 +267,7 @@ function PlansContent() {
               Features (comma separated)
             </label>
             <textarea
-              className="w-full px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+              className="w-full px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
               rows={3}
               placeholder="e.g. Unlimited Clients, GST Tracking, Priority Support"
               value={featuresText}
@@ -280,7 +280,7 @@ function PlansContent() {
               id="isActive"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="rounded text-[#00C2B3] focus:ring-[#00C2B3]"
+              className="rounded text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500"
             />
             <label htmlFor="isActive" className="text-sm font-medium text-slate-700 dark:text-slate-300">
               Active (Visible to users)

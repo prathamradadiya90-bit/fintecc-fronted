@@ -127,13 +127,13 @@ export function RetirementPlanningCalculator() {
         <div className="flex flex-col gap-6">
           <div className="bg-[#0f172a] rounded-2xl p-6 text-white shadow-md">
             <div className="flex items-center gap-2 mb-2">
-              <Target className="w-5 h-5 text-[#00C2B3]" />
+              <Target className="w-5 h-5 text-[#10B981]" />
               <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase">
                 TARGET RETIREMENT CORPUS
               </h3>
             </div>
 
-            <div className="text-4xl font-extrabold text-[#00C2B3] mb-6">
+            <div className="text-2xl font-bold text-[#10B981] mb-6">
               {formatCurrencyExact(targetRetirementCorpus)}
             </div>
 
@@ -157,7 +157,7 @@ export function RetirementPlanningCalculator() {
             className="p-6 rounded-2xl flex flex-col gap-2"
             style={{ background: 'var(--color-bg-subtle)', border: '1px solid var(--color-border)' }}
           >
-            <div className="flex items-center gap-2 text-[#00C2B3]">
+            <div className="flex items-center gap-2 text-[#10B981]">
               <TrendingUp className="w-5 h-5" />
               <span className="text-xs font-bold uppercase tracking-wider">Required Monthly SIP</span>
             </div>

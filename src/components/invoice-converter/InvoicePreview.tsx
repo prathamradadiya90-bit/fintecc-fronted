@@ -49,7 +49,7 @@ function SectionCard({
       }}
     >
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-6 h-6 rounded-md bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center">
+        <div className="w-6 h-6 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
           <Icon className="w-3.5 h-3.5" />
         </div>
         <h3 className="text-[12px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>{title}</h3>
@@ -86,7 +86,7 @@ export function InvoicePreview({
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>Invoice Preview</h2>
             {invoice.processingTimeMs ? (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                 <Sparkles className="w-3 h-3" /> Parsed in {invoice.processingTimeMs}ms
               </span>
             ) : null}
@@ -135,25 +135,25 @@ export function InvoicePreview({
       </div>
 
       {/* Financial Summary */}
-      <div className="bg-gradient-to-br from-[#00C2B3]/5 to-[#00C2B3]/10 rounded-xl border border-[#00C2B3]/20 p-5">
+      <div className="bg-gradient-to-br from-[#10B981]/5 to-[#10B981]/10 rounded-xl border border-emerald-500/20 p-5">
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-6 h-6 rounded-md bg-[#00C2B3]/20 text-[#00C2B3] flex items-center justify-center">
+          <div className="w-6 h-6 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
             <BadgeIndianRupee className="w-3.5 h-3.5" />
           </div>
           <h3 className="text-[12px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>Financial Summary</h3>
         </div>
         <div className="space-y-2">
-          <div className="flex items-center justify-between py-2 border-b border-[#00C2B3]/10">
+          <div className="flex items-center justify-between py-2 border-b border-emerald-500/10">
             <span className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>Sub Total</span>
             <span className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>{formatCurrency(invoice.subTotal)}</span>
           </div>
-          <div className="flex items-center justify-between py-2 border-b border-[#00C2B3]/10">
+          <div className="flex items-center justify-between py-2 border-b border-emerald-500/10">
             <span className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>Tax Amount</span>
             <span className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>{formatCurrency(invoice.taxAmount)}</span>
           </div>
           <div className="flex items-center justify-between pt-2">
             <span className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>Total</span>
-            <span className="text-xl font-bold text-[#00C2B3]">{formatCurrency(invoice.total)}</span>
+            <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(invoice.total)}</span>
           </div>
         </div>
       </div>

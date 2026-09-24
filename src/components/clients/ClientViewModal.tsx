@@ -23,7 +23,7 @@ const DetailRow = ({ label, value, icon: Icon }: { label: string; value?: string
 
 const SectionHeader = ({ letter, title }: { letter: string; title: string }) => (
   <div className="flex items-center gap-2.5 mt-8 mb-5 pb-3" style={{ borderBottom: '1px solid var(--color-border)' }}>
-    <div className="w-6 h-6 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600 text-[11px] font-bold">
+    <div className="w-6 h-6 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 text-[11px] font-bold">
       {letter}
     </div>
     <h4 className="text-[12px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--color-text-primary)' }}>{title}</h4>
@@ -133,7 +133,7 @@ export function ClientViewModal({ isOpen, onClose, client }: ClientViewModalProp
             <SectionHeader letter="E" title="SERVICES ASSIGNED" />
             <div className="flex flex-wrap gap-2">
               {client.tags.map((tag, idx) => (
-                <div key={idx} className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 text-teal-700 border border-teal-100 rounded-lg text-[12px] font-semibold">
+                <div key={idx} className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-lg text-[12px] font-semibold">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   {tag}
                 </div>

@@ -70,7 +70,7 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({
               onClick={handleSubmit}
               disabled={!file}
               isLoading={isUploading}
-              className="bg-[#00C2B3] hover:bg-[#00A89B] text-white"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white"
             >
               Upload & Import
             </Button>
@@ -119,8 +119,8 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({
             <div
               className="border-2 border-dashed rounded-2xl p-6 text-center transition-colors cursor-pointer"
               style={{
-                borderColor: file ? '#00C2B3' : 'var(--color-border)',
-                background: file ? 'rgba(0, 194, 179, 0.04)' : 'var(--color-bg-subtle)',
+                borderColor: file ? '#10B981' : 'var(--color-border)',
+                background: file ? 'rgba(16, 185, 129, 0.05)' : 'var(--color-bg-subtle)',
               }}
               onClick={() => document.getElementById('excel-file-input')?.click()}
             >
@@ -131,10 +131,10 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({
                 onChange={handleFileChange}
                 className="hidden"
               />
-              <FileSpreadsheet className="w-10 h-10 mx-auto text-[#00C2B3] mb-2" />
+              <FileSpreadsheet className="w-10 h-10 mx-auto text-emerald-500 mb-2" />
               {file ? (
                 <div>
-                  <p className="text-xs font-semibold text-[#00C2B3]">{file.name}</p>
+                  <p className="text-xs font-semibold text-emerald-500">{file.name}</p>
                   <p className="text-[11px] text-[var(--color-text-muted)]">
                     {(file.size / 1024).toFixed(1)} KB • Click to change file
                   </p>

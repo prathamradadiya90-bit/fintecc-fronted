@@ -61,7 +61,7 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
             <span className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>
               Total Orders
             </span>
-            <div className="w-8 h-8 rounded-lg bg-teal-500/10 text-[#00C2B3] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
               <ShoppingBag className="w-4 h-4" />
             </div>
           </div>
@@ -69,7 +69,7 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
             <p className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               {totalOrders.toLocaleString('en-IN')}
             </p>
-            <p className="text-xs mt-0.5 text-teal-600 dark:text-teal-400 font-medium">
+            <p className="text-xs mt-0.5 text-emerald-600 dark:text-emerald-400 font-medium">
               Vouchers to Generate
             </p>
           </div>
@@ -176,7 +176,7 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
 
         <div>
           <span className="text-xs text-[var(--color-text-secondary)] block">Total Tax Liability</span>
-          <p className="text-sm font-semibold mt-0.5 text-teal-600 dark:text-teal-400">
+          <p className="text-sm font-semibold mt-0.5 text-emerald-600 dark:text-emerald-400">
             {formatCurrency(totalTax)}
           </p>
         </div>
@@ -190,7 +190,7 @@ export function SalesSummaryCards({ summary, platformName }: SalesSummaryCardsPr
 
         <div>
           <span className="text-xs text-[var(--color-text-secondary)] block">Invoice Grand Total</span>
-          <p className="text-sm font-bold mt-0.5 text-[#00C2B3]">
+          <p className="text-sm font-bold mt-0.5 text-emerald-600 dark:text-emerald-400">
             {formatCurrency(grandTotal)}
           </p>
         </div>

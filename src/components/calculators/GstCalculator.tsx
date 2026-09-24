@@ -35,7 +35,7 @@ export function GstCalculator() {
             onClick={() => setCalculationType('exclusive')}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
               calculationType === 'exclusive'
-                ? 'bg-[#00C2B3] text-white shadow-sm'
+                ? 'bg-emerald-600 text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
             }`}
           >
@@ -46,7 +46,7 @@ export function GstCalculator() {
             onClick={() => setCalculationType('inclusive')}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
               calculationType === 'inclusive'
-                ? 'bg-[#00C2B3] text-white shadow-sm'
+                ? 'bg-emerald-600 text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
             }`}
           >
@@ -59,7 +59,7 @@ export function GstCalculator() {
             type="checkbox"
             checked={isInterState}
             onChange={(e) => setIsInterState(e.target.checked)}
-            className="w-4 h-4 rounded text-[#00C2B3] focus:ring-[#00C2B3]"
+            className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500"
           />
           <span>Inter-State Supply (IGST only)</span>
         </label>
@@ -93,7 +93,7 @@ export function GstCalculator() {
                   onClick={() => setGstRate(rate)}
                   className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border ${
                     gstRate === rate
-                      ? 'bg-[#00C2B3] text-white border-[#00C2B3]'
+                      ? 'bg-emerald-600 text-white border-emerald-600'
                       : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >
@@ -123,7 +123,7 @@ export function GstCalculator() {
             <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase mb-2">
               TOTAL INVOICE AMOUNT
             </h3>
-            <div className="text-4xl font-extrabold text-[#00C2B3] mb-6">
+            <div className="text-2xl font-bold text-emerald-400 mb-6">
               {formatCurrencyExact(totalAmount)}
             </div>
 

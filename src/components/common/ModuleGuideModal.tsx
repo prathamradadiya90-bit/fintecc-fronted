@@ -84,7 +84,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
           }}
         >
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center shrink-0 mt-0.5 border border-[#00C2B3]/20">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 border border-emerald-500/20">
               <HelpCircle className="w-5 h-5" />
             </div>
             <div>
@@ -96,7 +96,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
                 >
                   {guide.title} Guide
                 </h2>
-                <span className="px-2 py-0.5 rounded-md text-xs font-semibold bg-[#00C2B3]/10 text-[#00C2B3]">
+                <span className="px-2 py-0.5 rounded-md text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                   {guide.category}
                 </span>
               </div>
@@ -133,7 +133,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
             onClick={() => setActiveTab('workflow')}
             className={`pb-2.5 px-3 text-xs sm:text-sm font-semibold border-b-2 transition-all flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'workflow'
-                ? 'border-[#00C2B3] text-[#00C2B3]'
+                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
                 : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
             }`}
           >
@@ -146,7 +146,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
             onClick={() => setActiveTab('features')}
             className={`pb-2.5 px-3 text-xs sm:text-sm font-semibold border-b-2 transition-all flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'features'
-                ? 'border-[#00C2B3] text-[#00C2B3]'
+                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
                 : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
             }`}
           >
@@ -159,7 +159,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
             onClick={() => setActiveTab('tips')}
             className={`pb-2.5 px-3 text-xs sm:text-sm font-semibold border-b-2 transition-all flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'tips'
-                ? 'border-[#00C2B3] text-[#00C2B3]'
+                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
                 : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
             }`}
           >
@@ -179,7 +179,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
               color: 'var(--color-text-secondary)',
             }}
           >
-            <span className="font-semibold text-[#00C2B3] block mb-0.5">Summary</span>
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400 block mb-0.5">Summary</span>
             {guide.overview}
           </div>
 
@@ -195,13 +195,13 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
                 {guide.whereToStart.map((step) => (
                   <div
                     key={step.step}
-                    className="p-3.5 rounded-xl border flex items-start gap-3 transition-all hover:border-[#00C2B3]/40"
+                    className="p-3.5 rounded-xl border flex items-start gap-3 transition-all hover:border-emerald-500/40"
                     style={{
                       background: 'var(--color-bg-elevated)',
                       borderColor: 'var(--color-border)',
                     }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-[#00C2B3] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-sm">
+                    <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-sm">
                       {step.step}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -329,7 +329,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
                           className="text-xs sm:text-sm font-bold flex items-center gap-1.5"
                           style={{ color: 'var(--color-text-heading)' }}
                         >
-                          <ChevronRight className="w-3.5 h-3.5 text-[#00C2B3]" />
+                          <ChevronRight className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                           {faq.question}
                         </h4>
                         <p
@@ -358,7 +358,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
           <button
             type="button"
             onClick={handleOpenAi}
-            className="flex items-center gap-1.5 text-xs font-semibold text-[#00C2B3] hover:text-[#00A89B] transition-colors focus:outline-none"
+            className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors focus:outline-none"
           >
             <Sparkles className="w-3.5 h-3.5" />
             <span>Have specific questions? Ask Fintecc AI</span>
@@ -367,7 +367,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-[#00C2B3] hover:bg-[#00A89B] text-white transition-all shadow-md active:scale-95 flex items-center gap-1.5"
+            className="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md active:scale-95 flex items-center gap-1.5"
           >
             <span>Got It, Let's Start</span>
             <ArrowRight className="w-4 h-4" />

@@ -64,7 +64,7 @@ export function SubscriptionGuard({ children }: { children: React.ReactNode }) {
   if ((isLoading || isFetching) && !hasAccess && !isSubscriptionPage) {
     return (
       <div className="flex h-[80vh] w-full flex-col items-center justify-center gap-4">
-        <div className="w-10 h-10 border-4 border-[#00C2B3]/20 border-t-[#00C2B3] rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
         <p className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>
           Verifying subscription access...
         </p>

@@ -165,7 +165,7 @@ export default function AttendancePage() {
               setSelectedAttendance(rec);
               setIsModalOpen(true);
             }}
-            className="p-1 text-slate-400 hover:text-[#00C2B3] transition-colors"
+            className="p-1 text-slate-400 hover:text-emerald-500 transition-colors"
             title="Edit Entry"
           >
             <Edit2 className="w-3.5 h-3.5" />
@@ -187,7 +187,7 @@ export default function AttendancePage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-teal-50 dark:bg-teal-950/50 text-[#00C2B3] border border-teal-100 dark:border-teal-900">
+          <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
             <Clock className="w-6 h-6" />
           </div>
           <div>

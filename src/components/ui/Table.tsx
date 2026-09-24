@@ -27,7 +27,7 @@ export function Table<T>({
 }: TableProps<T>) {
   return (
     <div
-      className="w-full overflow-x-auto rounded-2xl shadow-sm"
+      className="w-full overflow-x-auto rounded-xl shadow-sm custom-scrollbar"
       style={{
         background: 'var(--color-bg-card)',
         border: '1px solid var(--color-border)',

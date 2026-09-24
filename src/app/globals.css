@@ -3,55 +3,55 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* ─── Page / Layout ─── */
-  --color-bg-page: #F7F9FC;
-  --color-bg-card: #ffffff;
-  --color-bg-card-hover: #f8fafc;
-  --color-bg-elevated: #ffffff;
-  --color-bg-input: #ffffff;
-  --color-bg-skeleton: #f1f5f9;
-  --color-bg-subtle: #f8fafc;
+  /* ─── Page / Layout (Emerald Ledger Light) ─── */
+  --color-bg-page: #F8FAFC;
+  --color-bg-card: #FFFFFF;
+  --color-bg-card-hover: #F1F5F9;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-input: #FFFFFF;
+  --color-bg-skeleton: #E2E8F0;
+  --color-bg-subtle: #F1F5F9;
 
   /* ─── Borders ─── */
-  --color-border: #e2e8f0;
-  --color-border-subtle: #f1f5f9;
+  --color-border: #E2E8F0;
+  --color-border-subtle: #F1F5F9;
 
   /* ─── Text ─── */
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #64748b;
-  --color-text-muted: #94a3b8;
-  --color-text-on-card: #1e293b;
-  --color-text-heading: #091124;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #94A3B8;
+  --color-text-on-card: #0F172A;
+  --color-text-heading: #0F172A;
 
   /* ─── Next.js defaults ─── */
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
 }
 
 .dark {
-  /* ─── Page / Layout ─── */
-  --color-bg-page: #0B1120;
-  --color-bg-card: #111827;
-  --color-bg-card-hover: #1a2332;
-  --color-bg-elevated: #1e293b;
-  --color-bg-input: #1e293b;
-  --color-bg-skeleton: #1e293b;
-  --color-bg-subtle: #162032;
+  /* ─── Page / Layout (Emerald Ledger Dark) ─── */
+  --color-bg-page: #0A0F1D;
+  --color-bg-card: #0F172A;
+  --color-bg-card-hover: #1E293B;
+  --color-bg-elevated: #161F33;
+  --color-bg-input: #0A0F1D;
+  --color-bg-skeleton: #1E293B;
+  --color-bg-subtle: #0E1321;
 
   /* ─── Borders ─── */
-  --color-border: #1e293b;
-  --color-border-subtle: #162032;
+  --color-border: #1E293B;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
 
   /* ─── Text ─── */
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #94a3b8;
-  --color-text-muted: #64748b;
-  --color-text-on-card: #e2e8f0;
-  --color-text-heading: #f1f5f9;
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-text-on-card: #F8FAFC;
+  --color-text-heading: #F8FAFC;
 
   /* ─── Next.js defaults ─── */
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #0A0F1D;
+  --foreground: #F8FAFC;
 }
 
 @theme inline {
@@ -74,3 +74,51 @@ button {
 html {
   scroll-behavior: smooth;
 }
+
+/* ─── Homepage Redesign Glassmorphism & Accents ─── */
+.glass-card {
+  background: rgba(16, 24, 40, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card:hover {
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.hero-glow-radial {
+  background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, rgba(7, 10, 17, 0) 70%);
+}
+
+.accent-gradient-text {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 60%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.shadow-glow-emerald {
+  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.3);
+}
+
+.shadow-glow-card {
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px -2px rgba(16, 185, 129, 0.08);
+}
+
+/* ─── Dashboard Custom Scrollbar ─── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-bg-page);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+

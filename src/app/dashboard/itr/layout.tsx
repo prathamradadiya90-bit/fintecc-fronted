@@ -26,7 +26,7 @@ export default function ItrLayout({ children }: ItrLayoutProps) {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/40 text-[#00C2B3]">
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <Landmark className="w-5 h-5" />
             </div>
             <div>
@@ -73,7 +73,7 @@ export default function ItrLayout({ children }: ItrLayoutProps) {
                 flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap
                 ${
                   isActive
-                    ? 'bg-[#00C2B3] text-white shadow-sm'
+                    ? 'bg-emerald-600 text-white shadow-sm'
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-[var(--color-bg-subtle)]'
                 }
               `}

@@ -89,7 +89,7 @@ export default function SuperAdminAnnouncementsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-teal-50 dark:bg-teal-950/50 text-[#00C2B3] border border-teal-100 dark:border-teal-900">
+          <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900">
             <Megaphone className="w-6 h-6" />
           </div>
           <div>
@@ -132,7 +132,7 @@ export default function SuperAdminAnnouncementsPage() {
                 <tr>
                   <td colSpan={5} className="text-center py-12 text-slate-500">
                     <div className="flex items-center justify-center gap-2">
-                      <div className="w-5 h-5 border-2 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+                      <div className="w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
                       <span>Loading announcements...</span>
                     </div>
                   </td>
@@ -208,7 +208,7 @@ export default function SuperAdminAnnouncementsPage() {
                               setAnnouncementToEdit(item);
                               setIsModalOpen(true);
                             }}
-                            className="p-1.5 text-slate-500 hover:text-[#00C2B3] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                            className="p-1.5 text-slate-500 hover:text-emerald-600 dark:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                             title="Edit Announcement"
                           >
                             <Edit2 className="w-4 h-4" />

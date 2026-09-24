@@ -60,7 +60,7 @@ export const VerifyGstinModal: React.FC<VerifyGstinModalProps> = ({
       maxWidth="md"
     >
       <form onSubmit={handleVerify} className="space-y-4">
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-teal-50 dark:bg-teal-950/30 text-teal-700 dark:text-teal-300 text-xs">
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 text-xs">
           <ShieldCheck className="w-5 h-5 shrink-0" />
           <span>
             Instantly validate GST Identification Numbers directly against the government GSTN system.

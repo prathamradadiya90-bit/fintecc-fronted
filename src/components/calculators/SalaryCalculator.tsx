@@ -87,13 +87,13 @@ export function SalaryCalculator() {
         <div className="flex flex-col gap-4">
           <div className="bg-[#0f172a] rounded-2xl p-6 text-white shadow-md">
             <div className="flex items-center gap-2 mb-2">
-              <Wallet className="w-5 h-5 text-[#00C2B3]" />
+              <Wallet className="w-5 h-5 text-[#10B981]" />
               <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase">
                 ESTIMATED MONTHLY IN-HAND (TAKE HOME)
               </h3>
             </div>
 
-            <div className="text-4xl font-extrabold text-[#00C2B3] mb-6">
+            <div className="text-2xl font-bold text-[#10B981] mb-6">
               {formatCurrencyExact(results.netInHandMonthly)}
               <span className="text-sm text-slate-400 font-normal ml-2">/ month</span>
             </div>

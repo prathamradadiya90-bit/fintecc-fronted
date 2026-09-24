@@ -77,7 +77,7 @@ export const DirectorsModal: React.FC<DirectorsModalProps> = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <Users className="w-4 h-4 text-[#00C2B3]" />
+            <Users className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">
               {directors.length} Registered {directors.length === 1 ? 'Director' : 'Directors'}
             </span>
@@ -102,7 +102,7 @@ export const DirectorsModal: React.FC<DirectorsModalProps> = ({
             onSubmit={handleAddSubmit}
             className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-3"
           >
-            <div className="flex items-center gap-1.5 font-medium text-xs text-[#00C2B3] uppercase tracking-wider">
+            <div className="flex items-center gap-1.5 font-medium text-xs text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
               <UserPlus className="w-4 h-4" />
               New Director Details
             </div>

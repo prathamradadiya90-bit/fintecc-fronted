@@ -76,7 +76,7 @@ export function ReportUploader({ onFileSelect, isLoading = false }: ReportUpload
       }}
     >
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-7 h-7 rounded-full bg-[#00C2B3] text-white flex items-center justify-center font-semibold text-xs">
+        <div className="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-semibold text-xs">
           2
         </div>
         <h2 className="text-base font-semibold" style={{ color: 'var(--color-text-primary)' }}>
@@ -86,8 +86,8 @@ export function ReportUploader({ onFileSelect, isLoading = false }: ReportUpload
 
       <div
         className={`relative border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center transition-all text-center
-          ${dragActive ? 'border-[#00C2B3] bg-[#00C2B3]/5' : ''}
-          ${selectedFile ? 'border-[#00C2B3]/30 bg-[#00C2B3]/5' : ''}
+          ${dragActive ? 'border-emerald-500 bg-emerald-500/5' : ''}
+          ${selectedFile ? 'border-emerald-500/30 bg-emerald-500/5' : ''}
         `}
         style={{
           borderColor: !dragActive && !selectedFile ? 'var(--color-border)' : undefined,
@@ -108,7 +108,7 @@ export function ReportUploader({ onFileSelect, isLoading = false }: ReportUpload
 
         {isLoading ? (
           <div className="flex flex-col items-center gap-3 py-4">
-            <Loader2 className="w-9 h-9 text-[#00C2B3] animate-spin" />
+            <Loader2 className="w-9 h-9 text-emerald-500 animate-spin" />
             <p className="font-medium text-sm" style={{ color: 'var(--color-text-primary)' }}>
               Standardizing sales records and aggregating tax values...
             </p>
@@ -125,7 +125,7 @@ export function ReportUploader({ onFileSelect, isLoading = false }: ReportUpload
             }}
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 bg-teal-500/10 text-[#00C2B3] rounded-xl flex items-center justify-center shrink-0">
+              <div className="w-11 h-11 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center shrink-0">
                 <FileSpreadsheet className="w-5 h-5" />
               </div>
               <div className="text-left">
@@ -160,7 +160,7 @@ export function ReportUploader({ onFileSelect, isLoading = false }: ReportUpload
             <label htmlFor="ecommerce-upload" className="cursor-pointer">
               <h3 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>
                 Drag & drop your Excel / CSV report here or{' '}
-                <span className="text-[#00C2B3] hover:underline">browse files</span>
+                <span className="text-emerald-600 dark:text-emerald-400 hover:underline">browse files</span>
               </h3>
               <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
                 Supports .xlsx, .xls, and .csv &middot; Max 50MB

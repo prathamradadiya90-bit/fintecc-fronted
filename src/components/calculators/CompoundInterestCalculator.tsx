@@ -87,7 +87,7 @@ export function CompoundInterestCalculator() {
                   onClick={() => setFrequency(item.val)}
                   className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border ${
                     frequency === item.val
-                      ? 'bg-[#00C2B3] text-white border-[#00C2B3]'
+                      ? 'bg-[#10B981] text-white border-[#10B981]'
                       : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >

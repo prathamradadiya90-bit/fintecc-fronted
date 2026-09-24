@@ -60,7 +60,7 @@ export default function ReturnDetailPage() {
       <div className="flex items-center justify-between">
         <button
           onClick={() => router.push('/dashboard/gst/returns')}
-          className="flex items-center gap-1.5 text-xs font-semibold text-[#00C2B3] hover:underline"
+          className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Returns List
         </button>
@@ -77,7 +77,7 @@ export default function ReturnDetailPage() {
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="p-3 rounded-2xl bg-teal-50 dark:bg-teal-950/40 text-[#00C2B3]">
+            <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
               <Receipt className="w-6 h-6" />
             </div>
             <div>
@@ -88,7 +88,7 @@ export default function ReturnDetailPage() {
               </div>
               <p className="text-xs mt-1 flex items-center gap-3" style={{ color: 'var(--color-text-secondary)' }}>
                 <span className="flex items-center gap-1 font-mono font-semibold">
-                  <Building2 className="w-3.5 h-3.5 text-[#00C2B3]" />
+                  <Building2 className="w-3.5 h-3.5 text-emerald-500" />
                   {profile?.gstin || 'GSTIN N/A'}
                 </span>
                 <span>•</span>
@@ -128,7 +128,7 @@ export default function ReturnDetailPage() {
             <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
               Acknowledgement Reference (ARN)
             </span>
-            <p className="text-xs font-mono font-bold mt-1 text-[#00C2B3] truncate">
+            <p className="text-xs font-mono font-bold mt-1 text-emerald-600 dark:text-emerald-400 truncate">
               {gstReturn.arn || 'Not Filed Yet'}
             </p>
           </div>
@@ -156,7 +156,7 @@ export default function ReturnDetailPage() {
           onClick={() => setActiveTab('gsp')}
           className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
             activeTab === 'gsp'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
               : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
@@ -167,7 +167,7 @@ export default function ReturnDetailPage() {
           onClick={() => setActiveTab('itc')}
           className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
             activeTab === 'itc'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
               : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
@@ -178,7 +178,7 @@ export default function ReturnDetailPage() {
           onClick={() => setActiveTab('breakup')}
           className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
             activeTab === 'breakup'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
               : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
@@ -227,7 +227,7 @@ export default function ReturnDetailPage() {
                     <td className="p-3 font-mono">₹9,000.00</td>
                     <td className="p-3 font-mono">₹9,000.00</td>
                     <td className="p-3 font-mono">₹0.00</td>
-                    <td className="p-3 font-mono font-bold text-teal-600">₹18,000.00</td>
+                    <td className="p-3 font-mono font-bold text-emerald-600">₹18,000.00</td>
                   </tr>
                   <tr style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
                     <td className="p-3 font-medium">Eligible Input Tax Credit (ITC)</td>
@@ -243,7 +243,7 @@ export default function ReturnDetailPage() {
                     <td className="p-3 font-mono">₹3,600.00</td>
                     <td className="p-3 font-mono">₹3,600.00</td>
                     <td className="p-3 font-mono">₹0.00</td>
-                    <td className="p-3 font-mono text-teal-600">₹7,200.00</td>
+                    <td className="p-3 font-mono text-emerald-600">₹7,200.00</td>
                   </tr>
                 </tbody>
               </table>

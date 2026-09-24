@@ -89,7 +89,7 @@ export function RoiCalculator() {
               <div className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
                 Annualized ROI (CAGR)
               </div>
-              <div className={`text-xl font-bold mt-1 ${annualizedRoiPercentage >= 0 ? 'text-[#00C2B3]' : 'text-rose-500'}`}>
+              <div className={`text-xl font-bold mt-1 ${annualizedRoiPercentage >= 0 ? 'text-[#10B981]' : 'text-rose-500'}`}>
                 {annualizedRoiPercentage >= 0 ? `+${annualizedRoiPercentage}%` : `${annualizedRoiPercentage}%`}
               </div>
             </div>

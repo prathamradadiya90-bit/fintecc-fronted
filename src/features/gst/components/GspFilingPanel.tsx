@@ -91,7 +91,7 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3]">
+          <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
             <Cpu className="w-5 h-5" />
           </div>
           <div>
@@ -104,7 +104,7 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
           </div>
         </div>
 
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
           GSP API ONLINE
         </span>
       </div>

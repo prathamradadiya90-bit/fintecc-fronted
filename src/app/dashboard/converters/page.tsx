@@ -421,7 +421,7 @@ function ConvertersPageContent() {
             style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
           >
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3]">
+              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
@@ -445,7 +445,7 @@ function ConvertersPageContent() {
                 }}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                   bankMode === 'direct'
-                    ? 'bg-[#00C2B3] text-white shadow-sm'
+                    ? 'bg-emerald-600 dark:bg-emerald-500 text-white shadow-sm'
                     : 'border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-slate-500/10'
                 }`}
               >
@@ -459,7 +459,7 @@ function ConvertersPageContent() {
                 }}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                   bankMode === 'async'
-                    ? 'bg-[#00C2B3] text-white shadow-sm'
+                    ? 'bg-emerald-600 dark:bg-emerald-500 text-white shadow-sm'
                     : 'border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-slate-500/10'
                 }`}
               >
@@ -475,7 +475,7 @@ function ConvertersPageContent() {
               style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
             >
               <div className="flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-[#00C2B3]" />
+                <Building2 className="w-4 h-4 text-emerald-500" />
                 <label className="text-xs font-semibold" style={{ color: 'var(--color-text-primary)' }}>
                   Select Client Entity <span className="text-red-500">*</span>
                 </label>
@@ -484,7 +484,7 @@ function ConvertersPageContent() {
                 value={selectedClientId}
                 onChange={(e) => setSelectedClientId(e.target.value)}
                 disabled={isLoadingClients}
-                className="w-full text-xs px-3 py-2.5 rounded-xl border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                className="w-full text-xs px-3 py-2.5 rounded-xl border bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
               >
                 <option value="">-- Choose a Client to link this statement --</option>
                 {clients.map((c) => (
@@ -522,7 +522,7 @@ function ConvertersPageContent() {
               <div className="flex items-center gap-2 pt-1">
                 <Link
                   href={`/dashboard/bank-statements/${asyncUploadStatus.statementId}/review`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#00C2B3] text-white text-xs font-semibold hover:bg-[#00a89b] transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors"
                 >
                   Open CA Review Grid <ExternalLink className="w-3.5 h-3.5" />
                 </Link>
@@ -597,7 +597,7 @@ function ConvertersPageContent() {
               className="hidden"
             />
             <label htmlFor="bulk-pdf-input" className="cursor-pointer space-y-2 flex flex-col items-center">
-              <div className="p-3 rounded-full bg-[#00C2B3]/10 text-[#00C2B3]">
+              <div className="p-3 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                 <UploadCloud className="w-6 h-6" />
               </div>
               <p className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>
@@ -661,7 +661,7 @@ function ConvertersPageContent() {
           >
             <div>
               <h3 className="text-sm font-bold flex items-center gap-2" style={{ color: 'var(--color-text-primary)' }}>
-                <FileSpreadsheet className="w-4 h-4 text-[#00C2B3]" /> Excel / CSV to JSON
+                <FileSpreadsheet className="w-4 h-4 text-emerald-500" /> Excel / CSV to JSON
               </h3>
               <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                 Convert any spreadsheet into structured JSON with multi-sheet support.
@@ -677,7 +677,7 @@ function ConvertersPageContent() {
             />
             <label
               htmlFor="excel-upload"
-              className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer flex flex-col items-center gap-2 hover:border-[#00C2B3] transition-colors"
+              className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer flex flex-col items-center gap-2 hover:border-emerald-500 transition-colors"
               style={{ borderColor: 'var(--color-border)' }}
             >
               <UploadCloud className="w-5 h-5 text-slate-400" />
@@ -699,7 +699,7 @@ function ConvertersPageContent() {
                       showToast('JSON copied to clipboard!', 'success');
                       setTimeout(() => setIsCopiedJson(false), 2000);
                     }}
-                    className="text-xs flex items-center gap-1 text-[#00C2B3] hover:underline"
+                    className="text-xs flex items-center gap-1 text-emerald-600 dark:text-emerald-400 hover:underline"
                   >
                     {isCopiedJson ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                     Copy JSON
@@ -722,7 +722,7 @@ function ConvertersPageContent() {
           >
             <div>
               <h3 className="text-sm font-bold flex items-center gap-2" style={{ color: 'var(--color-text-primary)' }}>
-                <FileCode2 className="w-4 h-4 text-[#00C2B3]" /> JSON to Excel (.xlsx)
+                <FileCode2 className="w-4 h-4 text-emerald-500" /> JSON to Excel (.xlsx)
               </h3>
               <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                 Paste JSON array of objects to generate and download an Excel spreadsheet.
@@ -733,7 +733,7 @@ function ConvertersPageContent() {
               rows={8}
               value={jsonInput}
               onChange={(e) => setJsonInput(e.target.value)}
-              className="w-full p-3 rounded-xl border font-mono text-xs focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full p-3 rounded-xl border font-mono text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
               style={{
                 background: 'var(--color-bg-subtle)',
                 borderColor: 'var(--color-border)',
@@ -777,7 +777,7 @@ function ConvertersPageContent() {
           />
           <label
             htmlFor="receipt-photo-upload"
-            className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer flex flex-col items-center gap-2 hover:border-[#00C2B3] transition-colors"
+            className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer flex flex-col items-center gap-2 hover:border-emerald-500 transition-colors"
             style={{ borderColor: 'var(--color-border)' }}
           >
             <UploadCloud className="w-6 h-6 text-slate-400" />
@@ -791,7 +791,7 @@ function ConvertersPageContent() {
 
           {isReceiptScanning && (
             <div className="p-6 text-center space-y-2">
-              <div className="w-6 h-6 border-2 border-[#00C2B3] border-t-transparent rounded-full animate-spin mx-auto" />
+              <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
               <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
                 Gemini AI is analyzing receipt layout and extracting values...
               </p>
@@ -816,7 +816,7 @@ function ConvertersPageContent() {
                   <span className="text-xs uppercase font-semibold" style={{ color: 'var(--color-text-muted)' }}>
                     Total
                   </span>
-                  <p className="text-base font-bold text-[#00C2B3]">
+                  <p className="text-base font-bold text-emerald-500">
                     ₹{Number(receiptResult.extractedData?.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                   </p>
                 </div>

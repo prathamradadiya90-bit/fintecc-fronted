@@ -25,7 +25,7 @@ export const ItrStatusBadge: React.FC<ItrStatusBadgeProps> = ({
     },
     FILED: {
       label: 'Filed',
-      classNames: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/50 dark:text-teal-300 dark:border-teal-800',
+      classNames: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800',
     },
     E_VERIFIED: {
       label: 'e-Verified',

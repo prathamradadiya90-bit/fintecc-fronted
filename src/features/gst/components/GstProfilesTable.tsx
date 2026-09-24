@@ -61,7 +61,7 @@ export const GstProfilesTable: React.FC<GstProfilesTableProps> = ({
           </span>
           {item.tradeName && (
             <span className="text-[11px] flex items-center gap-1" style={{ color: 'var(--color-text-secondary)' }}>
-              <Building className="w-3 h-3 text-[#00C2B3]" />
+              <Building className="w-3 h-3 text-emerald-500" />
               Trade: {item.tradeName}
             </span>
           )}
@@ -73,7 +73,7 @@ export const GstProfilesTable: React.FC<GstProfilesTableProps> = ({
       header: 'Associated Client',
       render: (item) => (
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold bg-[#00C2B3]/10 text-[#00C2B3]">
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
             <User className="w-3.5 h-3.5" />
           </div>
           <div className="flex flex-col">
@@ -118,7 +118,7 @@ export const GstProfilesTable: React.FC<GstProfilesTableProps> = ({
             variant="outline"
             size="sm"
             onClick={() => onVerify(item)}
-            leftIcon={<ShieldCheck className="w-3.5 h-3.5 text-teal-600" />}
+            leftIcon={<ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />}
           >
             Verify
           </Button>
@@ -155,7 +155,7 @@ export const GstProfilesTable: React.FC<GstProfilesTableProps> = ({
           <select
             value={regFilter}
             onChange={(e) => setRegFilter(e.target.value)}
-            className="px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
             style={{
               background: 'var(--color-bg-input)',
               border: '1px solid var(--color-border)',

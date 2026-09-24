@@ -1,117 +1,179 @@
 "use client";
 
 import React from "react";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useGetPublicPlansQuery } from "@/lib/store/api/plansApi";
 import { formatPlanBillingPeriod, cleanPlanFeature } from "@/lib/utils/subscriptionUtils";
 
 export function Pricing() {
   const router = useRouter();
-  const { data, isLoading, isError } = useGetPublicPlansQuery();
+  const { data, isLoading } = useGetPublicPlansQuery();
   const plans = data?.data || [];
 
   const handleGetStarted = () => {
-    // If we want to take the user to the subscription page, we route them through login first if needed.
-    // Assuming they are logged in, /dashboard/subscription. If not, /auth will handle redirect.
-    // For simplicity, we just push to dashboard subscription which has an AuthGuard,
-    // so it will redirect to /auth if they aren't logged in.
     router.push('/dashboard/subscription');
   };
 
+  // Default featured Prime Plan fallback matching the redesign design
+  const defaultPrimePlan = {
+    id: "prime-plan-default",
+    name: "Prime Plan",
+    tagline: "All services, automated updates, & priority processing",
+    price: 11999,
+    billingPeriod: "year",
+    badge: "Most Popular • CA Firm Pass",
+    discountBadge: "Save 40% annually",
+    features: [
+      "Unlimited bank statement conversions",
+      "Unlimited tax invoice parsing & splits",
+      "Team access for up to 5 article assistants/staff",
+      "All upcoming modules included at no extra cost",
+      "Priority WhatsApp & phone support from CA team",
+    ],
+  };
+
   return (
-    <section id="pricing" className="py-24 px-6 md:px-12 bg-[#0A1628] border-t border-slate-800/50 relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -z-10"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -z-10"></div>
-      
-      <div className="max-w-6xl mx-auto z-10 relative">
-        <div className="text-center mb-20">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4 tracking-tight">
+    <section className="py-20 relative bg-[#090E19] border-t border-white/5" data-purpose="pricing-plan" id="pricing">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-3">
+            Pricing
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
             Simple, transparent pricing
           </h2>
-          <p className="text-sm text-slate-400 max-w-xl mx-auto">
+          <p className="text-slate-400 text-sm sm:text-base">
             Choose the plan that best fits your firm&apos;s needs. Scale as you grow.
           </p>
         </div>
 
         {isLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6 justify-center">
-             {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-3xl h-[450px] animate-pulse bg-slate-800/50" />
-             ))}
-          </div>
-        ) : isError ? (
-          <div className="text-center text-red-400 p-8">
-            Failed to load pricing plans. Please try again later.
-          </div>
-        ) : plans.length === 0 ? (
-          <div className="text-center text-slate-400 p-8">
-            No plans available at the moment.
-          </div>
-        ) : (
+          <div className="max-w-lg mx-auto rounded-2xl h-[520px] animate-pulse bg-white/5 border border-white/10" />
+        ) : plans.length > 1 ? (
           <div className="flex flex-wrap justify-center gap-8 lg:gap-6">
             {plans.map((plan, index) => {
-              // Highlight the middle plan or second plan as popular for visual flair
-              const isPopular = plans.length > 1 && index === 1;
-
+              const isPopular = index === 1 || plans.length === 1;
               return (
-                <div 
+                <div
                   key={plan.id}
-                  className={`flex flex-col p-8 rounded-3xl w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)] xl:w-[280px] transition-all duration-300 ${
-                    isPopular 
-                      ? 'bg-[#132342] border-2 border-indigo-500 relative transform lg:-translate-y-4 shadow-2xl shadow-indigo-500/20' 
-                      : 'bg-[#0F1E36] border border-slate-800/60 hover:border-slate-700'
+                  className={`flex flex-col p-8 rounded-2xl w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)] xl:w-[320px] transition-all duration-300 relative ${
+                    isPopular
+                      ? 'bg-[#101828] border-2 border-emerald-500/60 shadow-2xl shadow-emerald-500/20'
+                      : 'glass-card'
                   }`}
                 >
                   {isPopular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                      <span className="bg-emerald-500 text-white text-[11px] uppercase tracking-wider font-bold px-4 py-1.5 rounded-full shadow-lg">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-emerald-400 text-slate-950">
                         Most Popular
                       </span>
                     </div>
                   )}
 
-                  <h3 className={`text-base font-bold text-white mb-2 text-center ${isPopular ? 'mt-2' : ''}`}>
-                    {plan.name}
-                  </h3>
-                  <p className="text-sm text-slate-400 mb-8 text-center h-10 line-clamp-2">
+                  <h3 className="text-xl font-bold text-white mb-1">{plan.name}</h3>
+                  <p className="text-xs text-slate-400 mb-6 h-8 line-clamp-2">
                     {plan.description}
                   </p>
-                  
-                  <div className="flex items-end justify-center gap-1 mb-10">
-                    <span className="text-2xl font-black text-white tracking-tighter">
+
+                  <div className="flex items-baseline gap-2 mb-6 pb-6 border-b border-white/10">
+                    <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                       ₹{Number(plan.price).toLocaleString()}
                     </span>
-                    <span className="text-xs text-slate-400 mb-1 font-medium">
-                      {formatPlanBillingPeriod(plan)}
+                    <span className="text-slate-400 text-xs font-medium">
+                      /{formatPlanBillingPeriod(plan)}
                     </span>
                   </div>
-                  
-                  <div className="flex flex-col gap-4 mt-auto mb-8">
-                    {plan.features?.map((feature, i) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-300 leading-tight">{cleanPlanFeature(feature)}</span>
-                      </div>
-                    ))}
-                  </div>
 
-                  <button 
+                  <ul className="space-y-3.5 mb-8 text-sm text-slate-300 flex-1">
+                    {plan.features?.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0 mt-0.5">
+                          <Check className="w-3.5 h-3.5" />
+                        </div>
+                        <span className="text-xs sm:text-sm text-slate-300">{cleanPlanFeature(feature)}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
                     onClick={handleGetStarted}
-                    className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
+                    className={`w-full py-3.5 px-6 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${
                       isPopular
-                        ? 'bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/25'
-                        : plan.price === 0
-                          ? 'bg-white/10 hover:bg-white/20 text-white'
-                          : 'bg-[#00C2B3] hover:bg-[#00a89b] text-white'
+                        ? 'bg-emerald-400 hover:bg-emerald-300 text-slate-950 shadow-glow-emerald'
+                        : 'bg-white/10 hover:bg-white/20 text-white'
                     }`}
                   >
-                    {plan.price === 0 ? 'Start Free' : 'Subscribe Now'}
+                    <span>Subscribe Now</span>
+                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               );
             })}
+          </div>
+        ) : (
+          /* Single Featured Plan (Redesign Match from Backend) */
+          <div className="max-w-lg mx-auto relative">
+            {/* Subtle glow ring */}
+            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-b from-emerald-500 via-emerald-600 to-transparent opacity-30 blur-lg pointer-events-none" />
+            <div className="relative rounded-2xl bg-[#101828] border-2 border-emerald-500/50 p-8 sm:p-10 shadow-2xl">
+              {/* Pill badge */}
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-emerald-400 text-slate-950">
+                    {defaultPrimePlan.badge}
+                  </span>
+                </div>
+                <span className="text-xs text-emerald-400 font-semibold">
+                  {defaultPrimePlan.discountBadge}
+                </span>
+              </div>
+
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-white">{plans[0]?.name || defaultPrimePlan.name}</h3>
+                <p className="text-sm text-slate-400 mt-1">
+                  {plans[0]?.description || defaultPrimePlan.tagline}
+                </p>
+              </div>
+
+              {/* Price Display */}
+              <div className="flex items-baseline gap-2 mb-6 pb-6 border-b border-white/10">
+                <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+                  ₹{Number(plans[0]?.price ?? defaultPrimePlan.price).toLocaleString()}
+                </span>
+                <span className="text-slate-400 text-sm font-medium">
+                  {plans[0] ? `/${formatPlanBillingPeriod(plans[0])}` : '/ year'}
+                </span>
+              </div>
+
+              {/* Features Checklist */}
+              <ul className="space-y-4 mb-8 text-sm text-slate-300">
+                {(plans[0]?.features?.length && plans[0].features[0] !== "Unlimited services"
+                  ? plans[0].features.map(cleanPlanFeature)
+                  : defaultPrimePlan.features
+                ).map((feat, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
+                      <Check className="w-3.5 h-3.5" />
+                    </div>
+                    <span>{feat}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              <button
+                onClick={handleGetStarted}
+                className="w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 transition-colors shadow-glow-emerald cursor-pointer"
+              >
+                <span>Subscribe Now</span>
+                <ArrowRight className="w-4 h-4 text-slate-950" />
+              </button>
+
+              <p className="text-center text-xs text-slate-400 mt-4 leading-relaxed">
+                14-day money-back guarantee • No questions asked • Instant tax invoice with GST credit
+              </p>
+            </div>
           </div>
         )}
       </div>

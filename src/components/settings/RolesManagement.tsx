@@ -174,13 +174,13 @@ export function RolesManagement() {
           {roles.map((role) => (
             <div
               key={role.id}
-              className="p-5 rounded-2xl border shadow-sm flex flex-col justify-between space-y-4 transition-all hover:border-[#00C2B3]/50"
+              className="p-5 rounded-2xl border shadow-sm flex flex-col justify-between space-y-4 transition-all hover:border-emerald-500/40"
               style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
             >
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center font-bold">
+                    <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
                       <Shield className="w-4 h-4" />
                     </div>
                     <div>
@@ -197,7 +197,7 @@ export function RolesManagement() {
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => handleOpenEdit(role)}
-                        className="p-1.5 rounded-lg hover:bg-slate-500/10 text-slate-400 hover:text-[#00C2B3] transition-colors"
+                        className="p-1.5 rounded-lg hover:bg-slate-500/10 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                         title="Edit Role"
                       >
                         <Edit2 className="w-3.5 h-3.5" />
@@ -230,7 +230,7 @@ export function RolesManagement() {
                     </span>
                   ))}
                   {(role.permissions?.length || 0) > 5 && (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#00C2B3]/10 text-[#00C2B3]">
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                       +{(role.permissions?.length || 0) - 5} more
                     </span>
                   )}
@@ -279,7 +279,7 @@ export function RolesManagement() {
               placeholder="Summary of responsibilities and intended staff tier..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full p-3 rounded-xl border text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full p-3 rounded-xl border text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-subtle)',
                 borderColor: 'var(--color-border)',
@@ -320,7 +320,7 @@ export function RolesManagement() {
                       <button
                         type="button"
                         onClick={() => toggleGroupPermissions(groupPermIds)}
-                        className="text-[11px] font-semibold text-[#00C2B3] hover:underline"
+                        className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
                       >
                         {allSelected ? 'Deselect All' : 'Select All'}
                       </button>
@@ -334,7 +334,7 @@ export function RolesManagement() {
                             key={perm.id}
                             className={`flex items-start gap-2.5 p-2 rounded-lg border text-xs cursor-pointer transition-all ${
                               isChecked
-                                ? 'border-[#00C2B3]/40 bg-[#00C2B3]/5'
+                                ? 'border-emerald-500/40 bg-emerald-500/10'
                                 : 'border-transparent hover:bg-slate-500/5'
                             }`}
                           >
@@ -342,7 +342,7 @@ export function RolesManagement() {
                               type="checkbox"
                               checked={isChecked}
                               onChange={() => togglePermission(perm.id)}
-                              className="mt-0.5 rounded text-[#00C2B3] focus:ring-[#00C2B3]"
+                              className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500"
                             />
                             <div>
                               <span className="font-semibold block" style={{ color: 'var(--color-text-primary)' }}>

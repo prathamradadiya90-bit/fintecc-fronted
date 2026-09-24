@@ -461,7 +461,7 @@ export default function TdsCompliancePage() {
             <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               TDS Compliance & TRACES Hub
             </h1>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
               Tax Deducted at Source
             </span>
           </div>
@@ -510,8 +510,8 @@ export default function TdsCompliancePage() {
               onClick={() => setActiveTab(tab.id as TdsTab)}
               className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
                 isActive
-                  ? 'border-[#00C2B3] text-[#00C2B3]'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold'
+                  : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               <Icon className="w-4 h-4" />

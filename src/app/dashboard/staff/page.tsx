@@ -38,7 +38,7 @@ import type { AttendanceRecord, AttendanceStatus } from '@/lib/types/attendance.
 
 const ROLE_STYLES: Record<string, { bg: string; text: string; label: string }> = {
   PARTNER: { bg: 'bg-blue-50 text-blue-700 border-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800', text: 'text-blue-700', label: 'Partner' },
-  EMPLOYEE: { bg: 'bg-teal-50 text-teal-700 border-teal-100 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-800', text: 'text-teal-700', label: 'Employee' },
+  EMPLOYEE: { bg: 'bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800', text: 'text-emerald-700', label: 'Employee' },
   AUDITOR: { bg: 'bg-purple-50 text-purple-700 border-purple-100 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800', text: 'text-purple-700', label: 'Auditor' },
   ACCOUNTANT: { bg: 'bg-amber-50 text-amber-700 border-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800', text: 'text-amber-700', label: 'Accountant' },
   TAX_CONSULTANT: { bg: 'bg-rose-50 text-rose-700 border-rose-100 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800', text: 'text-rose-700', label: 'Tax Consultant' },
@@ -160,7 +160,7 @@ function StaffPageContent() {
         const initials = member.name.substring(0, 2).toUpperCase();
         return (
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center font-bold text-xs shrink-0">
+            <div className="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">
               {initials}
             </div>
             <div>
@@ -362,8 +362,8 @@ function StaffPageContent() {
           onClick={() => setActiveTab('roster')}
           className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
             activeTab === 'roster'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Users className="w-4 h-4" />
@@ -374,8 +374,8 @@ function StaffPageContent() {
           onClick={() => setActiveTab('attendance')}
           className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
             activeTab === 'attendance'
-              ? 'border-[#00C2B3] text-[#00C2B3]'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Calendar className="w-4 h-4" />

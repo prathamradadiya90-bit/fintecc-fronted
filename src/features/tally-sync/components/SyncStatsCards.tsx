@@ -25,7 +25,7 @@ export function SyncStatsCards({ jobs, totalCount }: SyncStatsCardsProps) {
           <span className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>
             Total Sync Jobs
           </span>
-          <div className="w-8 h-8 rounded-lg bg-teal-500/10 text-[#00C2B3] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
             <RefreshCw className="w-4 h-4" />
           </div>
         </div>

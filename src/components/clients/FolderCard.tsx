@@ -25,18 +25,18 @@ export function FolderCard({ folder, isSelected, docCount, onClick }: FolderCard
       }}
       className={`p-3.5 rounded-2xl cursor-pointer transition-all duration-200 border flex items-center gap-3 select-none ${
         isSelected
-          ? 'border-[#00C2B3] bg-teal-500/10 shadow-sm'
-          : 'hover:border-[#00C2B3]/50 hover:shadow-sm'
+          ? 'border-emerald-500 bg-emerald-500/10 shadow-sm'
+          : 'hover:border-emerald-500/50 hover:shadow-sm'
       }`}
       style={{
         background: isSelected ? undefined : 'var(--color-bg-card)',
-        borderColor: isSelected ? '#00C2B3' : 'var(--color-border)',
+        borderColor: isSelected ? '#10B981' : 'var(--color-border)',
       }}
     >
       <div
         className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
           isSelected
-            ? 'bg-[#00C2B3] text-white'
+            ? 'bg-emerald-600 text-white'
             : 'bg-amber-500/10 text-amber-500 dark:bg-amber-500/20'
         }`}
       >
@@ -46,7 +46,7 @@ export function FolderCard({ folder, isSelected, docCount, onClick }: FolderCard
       <div className="flex-1 min-w-0">
         <h4
           className="text-sm font-semibold truncate leading-tight"
-          style={{ color: isSelected ? '#00C2B3' : 'var(--color-text-primary)' }}
+          style={{ color: isSelected ? '#10B981' : 'var(--color-text-primary)' }}
         >
           {folder.name}
         </h4>

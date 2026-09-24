@@ -67,7 +67,7 @@ export default function ItrReturnDetailPage() {
   if (isLoadingReturn && isLoadingClient) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-3">
-        <div className="w-8 h-8 border-2 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
         <p className="text-xs text-[var(--color-text-secondary)]">Loading ITR Return details...</p>
       </div>
     );
@@ -111,7 +111,7 @@ export default function ItrReturnDetailPage() {
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-sm px-2.5 py-0.5 rounded-lg bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+              <span className="font-bold text-sm px-2.5 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                 {resolvedReturn.itrForm || resolvedReturn.form || 'ITR-1'}
               </span>
               <h2 className="text-base font-bold" style={{ color: 'var(--color-text-heading)' }}>
@@ -143,7 +143,7 @@ export default function ItrReturnDetailPage() {
           style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
         >
           <div className="flex items-center gap-2 pb-2 border-b border-[var(--color-border)]">
-            <User className="w-4 h-4 text-[#00C2B3]" />
+            <User className="w-4 h-4 text-emerald-500" />
             <h3 className="font-semibold text-xs uppercase tracking-wider" style={{ color: 'var(--color-text-heading)' }}>
               Taxpayer Master Data
             </h3>
@@ -154,7 +154,7 @@ export default function ItrReturnDetailPage() {
               <span className="text-[11px] block" style={{ color: 'var(--color-text-muted)' }}>
                 Permanent Account Number (PAN)
               </span>
-              <span className="font-mono font-bold text-sm tracking-wider text-[#00C2B3]">
+              <span className="font-mono font-bold text-sm tracking-wider text-emerald-600 dark:text-emerald-400">
                 {resolvedReturn.pan || resolvedReturn.client?.pan}
               </span>
             </div>

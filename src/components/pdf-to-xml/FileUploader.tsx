@@ -69,7 +69,7 @@ export function FileUploader({ onFileSelect, isLoading = false }: FileUploaderPr
       }}
     >
       <div className="flex items-center gap-3 mb-5">
-        <div className="w-7 h-7 rounded-full bg-[#00C2B3] text-white flex items-center justify-center font-semibold text-xs">
+        <div className="w-7 h-7 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white flex items-center justify-center font-semibold text-xs shadow-sm">
           2
         </div>
         <h2 className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>Upload PDF File</h2>
@@ -77,8 +77,8 @@ export function FileUploader({ onFileSelect, isLoading = false }: FileUploaderPr
 
       <div 
         className={`relative border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center transition-all text-center
-          ${dragActive ? 'border-[#00C2B3] bg-[#00C2B3]/5' : ''}
-          ${selectedFile ? 'border-[#00C2B3]/30 bg-[#00C2B3]/5' : ''}
+          ${dragActive ? 'border-emerald-500 bg-emerald-500/5' : ''}
+          ${selectedFile ? 'border-emerald-500/30 bg-emerald-500/5' : ''}
         `}
         style={{
           borderColor: (!dragActive && !selectedFile) ? 'var(--color-border)' : undefined,
@@ -99,7 +99,7 @@ export function FileUploader({ onFileSelect, isLoading = false }: FileUploaderPr
 
         {isLoading ? (
           <div className="flex flex-col items-center gap-4 py-4">
-            <Loader2 className="w-10 h-10 text-[#00C2B3] animate-spin" />
+            <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
             <p className="font-medium" style={{ color: 'var(--color-text-secondary)' }}>Processing your document...</p>
           </div>
         ) : selectedFile ? (
@@ -111,7 +111,7 @@ export function FileUploader({ onFileSelect, isLoading = false }: FileUploaderPr
             }}
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-[#00C2B3]/10 text-[#00C2B3] rounded-full flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center shrink-0">
                 <FileIcon className="w-6 h-6" />
               </div>
               <div className="text-left">
@@ -138,7 +138,7 @@ export function FileUploader({ onFileSelect, isLoading = false }: FileUploaderPr
             </div>
             <label htmlFor="pdf-upload" className="cursor-pointer">
               <h3 className="text-[15px] font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>
-                Drag & drop your PDF here or <span className="text-[#00C2B3] hover:text-[#00a89b]">browse files</span>
+                Drag & drop your PDF here or <span className="text-emerald-600 dark:text-emerald-400 hover:underline">browse files</span>
               </h3>
               <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
                 PDF only &middot; Max 20MB

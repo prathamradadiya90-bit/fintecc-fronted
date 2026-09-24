@@ -26,7 +26,7 @@ export function LoanTabs({ activeTab, onTabChange }: LoanTabsProps) {
             className={`
               whitespace-nowrap px-4 py-3 text-sm font-medium transition-colors border-b-2
               ${isActive 
-                ? 'border-[#00C2B3] text-[#00C2B3]' 
+                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400' 
                 : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'}
             `}
           >

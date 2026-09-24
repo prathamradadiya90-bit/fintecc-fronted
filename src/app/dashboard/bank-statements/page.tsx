@@ -58,8 +58,8 @@ export default function BankStatementsHubPage() {
     }
     if (status === 'REVIEW') {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20">
-          <CheckCircle2 className="w-3 h-3" /> Ready for Review
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+          <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Ready for Review
         </span>
       );
     }
@@ -95,7 +95,7 @@ export default function BankStatementsHubPage() {
         }}
       >
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center font-bold shrink-0 shadow-sm">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold shrink-0 shadow-sm">
             <FileSpreadsheet className="w-6 h-6" />
           </div>
           <div>
@@ -144,7 +144,7 @@ export default function BankStatementsHubPage() {
             placeholder="Search by bank name, client, or ID..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full text-xs pl-9 pr-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+            className="w-full text-xs pl-9 pr-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
           />
         </div>
 
@@ -153,7 +153,7 @@ export default function BankStatementsHubPage() {
           <select
             value={selectedClientId}
             onChange={(e) => setSelectedClientId(e.target.value)}
-            className="text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3] cursor-pointer w-full md:w-60"
+            className="text-xs px-3 py-2 rounded-xl border bg-[var(--color-bg-subtle)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500 cursor-pointer w-full md:w-60"
           >
             <option value="">All Clients</option>
             {clients.map((c) => (
@@ -168,7 +168,7 @@ export default function BankStatementsHubPage() {
       {/* Statements Table / List */}
       {isLoading ? (
         <div className="py-20 text-center space-y-3">
-          <div className="w-8 h-8 border-4 border-[#00C2B3] border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
             Loading statements...
           </p>
@@ -248,7 +248,7 @@ export default function BankStatementsHubPage() {
                     {/* Parser Engine */}
                     <td className="py-3.5 px-4">
                       <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500">
-                        <Sparkles className="w-3 h-3 text-[#00C2B3]" />
+                        <Sparkles className="w-3 h-3 text-emerald-500" />
                         {stmt.parserUsed || 'Intake Auto-detect'}
                       </span>
                     </td>

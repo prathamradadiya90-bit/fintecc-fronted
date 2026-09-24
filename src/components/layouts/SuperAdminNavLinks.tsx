@@ -49,7 +49,7 @@ export function SuperAdminNavLinks({ onClose }: SuperAdminNavLinksProps) {
               flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group relative text-[13px]
               ${
                 isActive
-                  ? "text-[#00C2B3] bg-[#00C2B3]/10 font-medium"
+                  ? "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-medium"
                   : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
               }
             `}
@@ -57,13 +57,13 @@ export function SuperAdminNavLinks({ onClose }: SuperAdminNavLinksProps) {
             <Icon
               className={`w-[18px] h-[18px] ${
                 isActive
-                  ? "text-[#00C2B3]"
+                  ? "text-emerald-600 dark:text-emerald-400"
                   : "text-slate-400 group-hover:text-slate-300"
               }`}
             />
             <span>{item.name}</span>
             {isActive && (
-              <div className="absolute right-4 w-1.5 h-1.5 rounded-full bg-[#00C2B3]" />
+              <div className="absolute right-4 w-1.5 h-1.5 rounded-full bg-emerald-600" />
             )}
           </Link>
         );

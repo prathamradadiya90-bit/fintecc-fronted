@@ -70,15 +70,15 @@ export default function NoticeManagementPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-purple-50 text-purple-600">
+            <div className="p-2 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
               <FileCheck2 className="w-5 h-5" />
             </div>
-            <h1 className="text-xl font-bold text-slate-900">
+            <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               Notice Management Kanban
             </h1>
           </div>
-          <p className="mt-1 text-sm text-slate-500">
-            Combined tracker for GST & Income Tax Department notices with visual workflow stages.
+          <p className="mt-1 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+            Combined tracker for GST &amp; Income Tax Department notices with visual workflow stages.
           </p>
         </div>
 
@@ -87,7 +87,12 @@ export default function NoticeManagementPage() {
             type="button"
             onClick={() => refetch()}
             disabled={isFetching}
-            className="p-2 text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-xs transition flex items-center gap-2 text-xs font-semibold"
+            className="p-2 border rounded-xl shadow-xs transition flex items-center gap-2 text-xs font-semibold"
+            style={{
+              background: 'var(--color-bg-card)',
+              borderColor: 'var(--color-border)',
+              color: 'var(--color-text-primary)',
+            }}
             title="Refresh notices"
           >
             <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
@@ -98,43 +103,55 @@ export default function NoticeManagementPage() {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 bg-purple-50 text-purple-700 rounded-xl">
+        <div
+          className="p-4 rounded-2xl border shadow-xs flex items-center gap-3"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div className="p-3 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-xl">
             <Layers className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500">Total Notices</p>
-            <h3 className="text-xl font-bold text-slate-900">{metrics.total}</h3>
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>Total Notices</p>
+            <h3 className="text-xl font-bold" style={{ color: 'var(--color-text-primary)' }}>{metrics.total}</h3>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 bg-amber-50 text-amber-600 rounded-xl">
+        <div
+          className="p-4 rounded-2xl border shadow-xs flex items-center gap-3"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div className="p-3 bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-xl">
             <AlertCircle className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500">Action Required / Open</p>
-            <h3 className="text-xl font-bold text-amber-600">{metrics.openCount}</h3>
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>Action Required / Open</p>
+            <h3 className="text-xl font-bold text-amber-600 dark:text-amber-400">{metrics.openCount}</h3>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
+        <div
+          className="p-4 rounded-2xl border shadow-xs flex items-center gap-3"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div className="p-3 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl">
             <Clock className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500">In Progress</p>
-            <h3 className="text-xl font-bold text-blue-600">{metrics.inProgressCount}</h3>
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>In Progress</p>
+            <h3 className="text-xl font-bold text-blue-600 dark:text-blue-400">{metrics.inProgressCount}</h3>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-          <div className="p-3 bg-rose-50 text-rose-600 rounded-xl">
+        <div
+          className="p-4 rounded-2xl border shadow-xs flex items-center gap-3"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div className="p-3 bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-xl">
             <IndianRupee className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500">Total Disputed Demand</p>
-            <h3 className="text-xl font-bold text-rose-600">
+            <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>Total Disputed Demand</p>
+            <h3 className="text-xl font-bold text-rose-600 dark:text-rose-400">
               ₹{metrics.totalDemand.toLocaleString('en-IN')}
             </h3>
           </div>
@@ -142,7 +159,10 @@ export default function NoticeManagementPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div
+        className="p-4 rounded-2xl border shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between"
+        style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+      >
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
@@ -150,19 +170,27 @@ export default function NoticeManagementPage() {
             placeholder="Search client, notice #, section..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full pl-9 pr-4 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+            style={{
+              background: 'var(--color-bg-input)',
+              borderColor: 'var(--color-border)',
+              color: 'var(--color-text-primary)',
+            }}
           />
         </div>
 
         {/* Type Tabs */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-lg w-full sm:w-auto">
+        <div
+          className="flex items-center p-1 rounded-xl w-full sm:w-auto border"
+          style={{ background: 'var(--color-bg-subtle)', borderColor: 'var(--color-border)' }}
+        >
           <button
             type="button"
             onClick={() => setTypeFilter('ALL')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
               typeFilter === 'ALL'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
             }`}
           >
             All Notices ({allNotices.length})
@@ -170,10 +198,10 @@ export default function NoticeManagementPage() {
           <button
             type="button"
             onClick={() => setTypeFilter('GST')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
               typeFilter === 'GST'
-                ? 'bg-white text-purple-800 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-purple-600 text-white shadow-xs'
+                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
             }`}
           >
             GST ({allNotices.filter((n) => n.type === 'GST').length})
@@ -181,10 +209,10 @@ export default function NoticeManagementPage() {
           <button
             type="button"
             onClick={() => setTypeFilter('ITR')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
               typeFilter === 'ITR'
-                ? 'bg-white text-emerald-800 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
             }`}
           >
             ITR ({allNotices.filter((n) => n.type === 'ITR').length})

@@ -120,7 +120,7 @@ function DocumentCard({ doc, onDelete, onPreview, isDeleting }: DocumentCardProp
             title="Download"
             disabled={isDownloading}
             onClick={(e) => { e.stopPropagation(); handleDownload(); }}
-            className="p-1.5 rounded-lg hover:text-[#00C2B3] hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors disabled:opacity-50"
+            className="p-1.5 rounded-lg hover:text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors disabled:opacity-50"
             style={{ color: 'var(--color-text-secondary)' }}
           >
             {isDownloading
@@ -148,10 +148,10 @@ function AddDocumentCard({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="border-2 border-dashed rounded-2xl p-4 flex flex-col items-center justify-center gap-2 min-h-[108px] hover:border-[#00C2B3] hover:text-[#00C2B3] hover:bg-teal-50/30 dark:hover:bg-teal-900/20 transition-all duration-200 group"
+      className="border-2 border-dashed rounded-2xl p-4 flex flex-col items-center justify-center gap-2 min-h-[108px] hover:border-emerald-500 hover:text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition-all duration-200 group"
       style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)', color: 'var(--color-text-muted)' }}
     >
-      <div className="w-9 h-9 rounded-full group-hover:bg-teal-100 dark:group-hover:bg-teal-900/50 flex items-center justify-center transition-colors" style={{ background: 'var(--color-bg-skeleton)' }}>
+      <div className="w-9 h-9 rounded-full group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 flex items-center justify-center transition-colors" style={{ background: 'var(--color-bg-skeleton)' }}>
         <Plus className="w-4 h-4" />
       </div>
       <span className="text-xs font-semibold">Add Document</span>
@@ -272,14 +272,14 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
           </div>
           <button
             onClick={() => setIsCreateFolderOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-colors hover:border-[#00C2B3] hover:text-[#00C2B3]"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-colors hover:border-emerald-500 hover:text-emerald-600 dark:text-emerald-400"
             style={{
               background: 'var(--color-bg-card)',
               borderColor: 'var(--color-border)',
               color: 'var(--color-text-secondary)',
             }}
           >
-            <FolderPlus className="w-3.5 h-3.5 text-[#00C2B3]" />
+            <FolderPlus className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             New Folder
           </button>
         </div>
@@ -346,7 +346,7 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
         </div>
         <button
           onClick={() => setIsUploadOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#00C2B3] hover:bg-[#00a89b] text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
         >
           <Plus className="w-3.5 h-3.5" />
           Add Document
@@ -357,7 +357,7 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
           <div className="flex flex-col items-center gap-3">
-            <div className="w-8 h-8 border-4 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
             <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Loading documents...</p>
           </div>
         </div>
@@ -395,7 +395,7 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
             </button>
             <button
               onClick={() => setIsUploadOpen(true)}
-              className="px-3 py-1.5 bg-[#00C2B3] text-white rounded-xl text-xs font-semibold"
+              className="px-3 py-1.5 bg-emerald-600 text-white rounded-xl text-xs font-semibold"
             >
               Upload Document
             </button>

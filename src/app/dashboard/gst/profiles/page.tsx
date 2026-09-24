@@ -25,7 +25,7 @@ export default function GstProfilesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>
-            <Building2 className="w-5 h-5 text-[#00C2B3]" />
+            <Building2 className="w-5 h-5 text-emerald-500" />
             GST Profiles Directory
           </h2>
           <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
@@ -37,7 +37,7 @@ export default function GstProfilesPage() {
           <Button
             variant="outline"
             onClick={() => setIsStandaloneVerifyOpen(true)}
-            leftIcon={<ShieldCheck className="w-4 h-4 text-teal-600" />}
+            leftIcon={<ShieldCheck className="w-4 h-4 text-emerald-500" />}
           >
             Verify GSTIN
           </Button>

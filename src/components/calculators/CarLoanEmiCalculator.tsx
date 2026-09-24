@@ -80,7 +80,7 @@ export function CarLoanEmiCalculator() {
               style={{ background: 'var(--color-bg-subtle)', border: '1px solid var(--color-border)' }}
             >
               <span style={{ color: 'var(--color-text-secondary)' }}>Net Loan Amount:</span>
-              <span className="font-bold text-base text-[#00C2B3]">{formatPrice(loanPrincipal)}</span>
+              <span className="font-bold text-base text-[#10B981]">{formatPrice(loanPrincipal)}</span>
             </div>
 
             <SliderInput

@@ -82,7 +82,7 @@ export const RocFilingTable: React.FC<RocFilingTableProps> = ({
             placeholder="Search form, company, SRN..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+            className="w-full pl-9 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
           />
         </div>
 
@@ -91,7 +91,7 @@ export const RocFilingTable: React.FC<RocFilingTableProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           >
             <option value="ALL">All Statuses</option>
             <option value="Pending">Pending</option>
@@ -122,7 +122,7 @@ export const RocFilingTable: React.FC<RocFilingTableProps> = ({
               <tr>
                 <td colSpan={7} className="text-center py-12 text-slate-500">
                   <div className="flex items-center justify-center gap-2">
-                    <div className="w-5 h-5 border-2 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
                     <span>Loading ROC filings...</span>
                   </div>
                 </td>
@@ -152,7 +152,7 @@ export const RocFilingTable: React.FC<RocFilingTableProps> = ({
                   >
                     <td className="py-3.5 px-4">
                       <div className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
-                        <FileText className="w-4 h-4 text-[#00C2B3]" />
+                        <FileText className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                         {filing.formName}
                       </div>
                       <div className="text-xs text-slate-500 mt-0.5">
@@ -227,7 +227,7 @@ export const RocFilingTable: React.FC<RocFilingTableProps> = ({
                               href={filing.challanReceiptUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[11px] text-[#00C2B3] hover:underline flex items-center gap-0.5 mt-0.5"
+                              className="text-[11px] text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-0.5 mt-0.5"
                             >
                               <ExternalLink className="w-2.5 h-2.5" />
                               View receipt
@@ -246,7 +246,7 @@ export const RocFilingTable: React.FC<RocFilingTableProps> = ({
                         className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition"
                         title="Record Challan Payment"
                       >
-                        <Receipt className="w-3.5 h-3.5 text-[#00C2B3]" />
+                        <Receipt className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                         Challan
                       </button>
                     </td>

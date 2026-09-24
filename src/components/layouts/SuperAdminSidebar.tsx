@@ -34,9 +34,9 @@ export function SuperAdminSidebar({ isOpen, onClose }: SuperAdminSidebarProps) {
       </div>
 
       {/* Super Admin Badge */}
-      <div className="mx-3 mb-3 px-3 py-2 rounded-xl bg-[#00C2B3]/10 border border-[#00C2B3]/20 flex items-center gap-2">
-        <Shield className="w-3.5 h-3.5 text-[#00C2B3] shrink-0" />
-        <span className="text-[11px] font-semibold text-[#00C2B3] uppercase tracking-widest">
+      <div className="mx-3 mb-3 px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-2">
+        <Shield className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+        <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
           Super Admin
         </span>
       </div>

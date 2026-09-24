@@ -93,7 +93,7 @@ export function Gstr3bInterestCalculator() {
             <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase mb-2">
               INTEREST PAYABLE UNDER SECTION 50
             </h3>
-            <div className="text-4xl font-extrabold text-amber-400 mb-6">
+            <div className="text-2xl font-bold text-amber-400 mb-6">
               {formatCurrencyExact(interestAmount)}
             </div>
 
@@ -112,7 +112,7 @@ export function Gstr3bInterestCalculator() {
               </div>
               <div className="flex justify-between items-center text-sm pt-2 border-t border-slate-800">
                 <span className="text-slate-300 font-semibold">Total Amount Due</span>
-                <span className="font-bold text-[#00C2B3] text-lg">{formatCurrencyExact(totalPayableWithInterest)}</span>
+                <span className="font-bold text-[#10B981] text-lg">{formatCurrencyExact(totalPayableWithInterest)}</span>
               </div>
             </div>
           </div>

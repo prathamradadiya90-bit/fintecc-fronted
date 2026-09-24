@@ -4,7 +4,12 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, Shield, MessageSquare, CreditCard, Building2, ReceiptText, ClipboardList, ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, FileStack, Clock, LifeBuoy } from 'lucide-react';
+import { 
+  LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, 
+  Shield, MessageSquare, CreditCard, Building2, ReceiptText, ClipboardList, 
+  ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, 
+  FileStack, Clock, LifeBuoy, ChevronsUpDown, Plus, ShieldCheck 
+} from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
 import { useGetTasksQuery } from '@/lib/store/api/tasksApi';
@@ -103,7 +108,6 @@ export function Sidebar({
     return item;
   });
 
-
   const handleLogout = async () => {
     try {
       await logoutApi().unwrap();
@@ -115,32 +119,105 @@ export function Sidebar({
     }
   };
 
+  const firmName = (user as any)?.firmName || user?.name || 'Fintecc Practice';
+  const firmInitials = firmName.slice(0, 2).toUpperCase();
+  const firmCode = `CA-${user?.id ? user.id.slice(-5).toUpperCase() : '98421'}`;
+
   return (
     <aside
-      className={`w-56 h-screen bg-[#091124] flex flex-col fixed left-0 top-0 border-r border-[#1a2333] z-50 transition-transform duration-300 ${
+      className={`w-64 h-screen flex flex-col fixed left-0 top-0 z-50 transition-transform duration-300 ${
         isDesktopOpen ? 'lg:translate-x-0' : 'lg:-translate-x-full'
       } ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      style={{
+        background: 'var(--color-bg-page)',
+        borderRight: '1px solid var(--color-border)',
+      }}
     >
-      {/* Logo & Close Area */}
-      <div className="h-16 px-3 flex items-center justify-between border-b border-[#1a2333]/60 shrink-0">
-        <Link href="/dashboard" className="flex items-center gap-1.5 min-w-0">
-          <Logo width={38} height={38} className="rounded-md shrink-0" />
-          <span className="text-white text-xl font-bold italic tracking-wide truncate">FinTecc</span>
-        </Link>
-        {onClose && (
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 transition-colors focus:outline-none shrink-0"
-            title="Close sidebar"
-            aria-label="Close sidebar"
+      {/* Brand Logo Header */}
+      <div
+        className="h-16 px-4 flex items-center justify-between shrink-0"
+        style={{ borderBottom: '1px solid var(--color-border)' }}
+      >
+        <Link href="/dashboard" className="flex items-center gap-2 min-w-0">
+          <Logo width={32} height={32} className="rounded-md shrink-0" />
+          <span
+            className="text-base font-bold tracking-tight"
+            style={{ color: 'var(--color-text-primary)' }}
           >
-            <X className="w-5 h-5" />
-          </button>
-        )}
+            Fintecc OS
+          </span>
+        </Link>
+        <div className="flex items-center gap-1.5 shrink-0">
+          <span className="text-[10px] tracking-wider uppercase font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            PRO
+          </span>
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg transition-colors focus:outline-none hover:bg-slate-500/10 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] cursor-pointer"
+              title="Close sidebar"
+              aria-label="Close sidebar"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 pt-2 pb-6 flex flex-col gap-1.5 px-3 overflow-y-auto">
+      {/* Active Practice Switcher */}
+      <div
+        className="rounded-xl p-2.5 flex items-center justify-between transition-colors cursor-pointer mx-3 mt-3 mb-2 shrink-0"
+        style={{
+          background: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
+        }}
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold shrink-0"
+            style={{
+              background: 'var(--color-bg-card-hover)',
+              border: '1px solid var(--color-border)',
+              color: 'var(--color-text-primary)',
+            }}
+          >
+            {firmInitials}
+          </div>
+          <div className="min-w-0">
+            <div
+              className="text-[12px] font-semibold truncate leading-tight"
+              style={{ color: 'var(--color-text-primary)' }}
+            >
+              {firmName}
+            </div>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span
+                className="text-[10px] font-mono truncate"
+                style={{ color: 'var(--color-text-muted)' }}
+              >
+                {firmCode}
+              </span>
+            </div>
+          </div>
+        </div>
+        <ChevronsUpDown className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--color-text-muted)' }} />
+      </div>
+
+      {/* Primary CTA: New Conversion */}
+      <Link
+        href="/dashboard/converters"
+        onClick={() => {
+          if (window.innerWidth < 1024 && onClose) onClose();
+        }}
+        className="mx-3 mb-2 bg-emerald-500 hover:bg-emerald-400 text-[#003824] text-xs font-bold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.25)] active:scale-95 transition-all duration-150 shrink-0"
+      >
+        <Plus className="w-4 h-4" />
+        <span>New Conversion</span>
+      </Link>
+
+      {/* Navigation Links */}
+      <nav className="flex-1 pt-1 pb-4 flex flex-col gap-1 px-3 overflow-y-auto custom-scrollbar">
         {items.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           const isSubscriptionItem = item.href === '/dashboard/subscription';
@@ -157,34 +234,60 @@ export function Sidebar({
                 if (window.innerWidth < 1024 && onClose) onClose();
               }}
               className={`
-                flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group relative text-[13px]
+                flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 group relative text-xs
                 ${isActive
-                  ? 'text-[#00C2B3] bg-[#00C2B3]/10 font-medium'
+                  ? 'text-emerald-400 border border-emerald-500/25 shadow-[0_0_15px_rgba(16,185,129,0.12)] font-medium'
                   : isLocked
-                  ? 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  ? 'border border-transparent'
+                  : 'border border-transparent'
                 }
               `}
+              style={{
+                ...(isActive
+                  ? { background: 'var(--color-bg-card)' }
+                  : {}),
+                ...(!isActive && !isLocked
+                  ? { color: 'var(--color-text-secondary)' }
+                  : {}),
+                ...(isLocked && !isActive
+                  ? { color: 'var(--color-text-muted)' }
+                  : {}),
+              }}
             >
-              <Icon className={`w-[18px] h-[18px] ${isActive ? 'text-[#00C2B3]' : isLocked ? 'text-slate-600' : 'text-slate-400 group-hover:text-slate-300'}`} />
-              <span className={isLocked ? 'text-slate-400' : ''}>{item.name}</span>
+              <Icon
+                className={`w-4 h-4 shrink-0 ${isActive ? 'text-emerald-400' : ''}`}
+                style={!isActive ? { color: 'inherit' } : {}}
+              />
+              <span className="truncate">{item.name}</span>
 
               {isActive && (
-                <div className="absolute right-3.5 w-1.5 h-1.5 rounded-full bg-[#00C2B3]" />
+                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] shrink-0" />
               )}
 
               {isLocked && !isActive && (
-                <Lock className="w-3.5 h-3.5 ml-auto text-slate-500 shrink-0" />
+                <Lock className="w-3.5 h-3.5 ml-auto shrink-0" style={{ color: 'var(--color-text-muted)' }} />
+              )}
+
+              {item.name === 'Converters' && !isActive && (
+                <span className="ml-auto px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+                  LIVE
+                </span>
+              )}
+
+              {item.name === 'GST Compliance' && !isActive && (
+                <span className="ml-auto px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shrink-0">
+                  2B Beta
+                </span>
               )}
 
               {isSubscriptionItem && !hasActivePlan && (
-                <span className="ml-auto text-[10px] uppercase tracking-wider font-semibold bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">
+                <span className="ml-auto text-[10px] uppercase tracking-wider font-semibold bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded shrink-0">
                   Action
                 </span>
               )}
 
-              {item.badge && hasActivePlan && (
-                <span className="ml-auto text-[10px] uppercase tracking-wider font-semibold bg-amber-500/20 text-amber-500 px-2 py-0.5 rounded-md">
+              {item.badge && hasActivePlan && !isActive && (
+                <span className="ml-auto text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.2 rounded-full shrink-0">
                   {item.badge}
                 </span>
               )}
@@ -193,30 +296,58 @@ export function Sidebar({
         })}
       </nav>
 
-      {/* Bottom Actions */}
-      <div className="p-3 border-t border-[#1a2333] flex flex-col gap-1.5">
-        <Link
-          href="/dashboard/settings"
-          onClick={() => {
-            if (window.innerWidth < 1024 && onClose) onClose();
-          }}
-          className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all text-[13px] ${
-            pathname.startsWith('/dashboard/settings')
-              ? 'text-[#00C2B3] bg-[#00C2B3]/10 font-medium'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-          }`}
+      {/* Footer Section: Storage Quota & Compliance */}
+      <div
+        className="p-3 flex flex-col gap-2 shrink-0"
+        style={{
+          borderTop: '1px solid var(--color-border)',
+          background: 'var(--color-bg-page)',
+        }}
+      >
+        {/* ICAI Compliant Badge */}
+        <div className="flex items-center gap-2 px-1 py-0.5">
+          <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span
+            className="font-medium text-xs"
+            style={{ color: 'var(--color-text-primary)' }}
+          >
+            ICAI Compliant
+          </span>
+        </div>
+
+        {/* Settings & Logout */}
+        <div
+          className="flex flex-col gap-1 pt-1"
+          style={{ borderTop: '1px solid color-mix(in srgb, var(--color-border) 60%, transparent)' }}
         >
-          <Settings className="w-[18px] h-[18px]" />
-          <span>Settings</span>
-        </Link>
-        <button
-          onClick={handleLogout}
-          disabled={isLoading}
-          className="flex items-center gap-3 px-3.5 py-2.5 text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-xl transition-all disabled:opacity-50 text-[13px]"
-        >
-          <LogOut className="w-[18px] h-[18px]" />
-          <span>{isLoading ? 'Logging Out...' : 'Log Out'}</span>
-        </button>
+          <Link
+            href="/dashboard/settings"
+            onClick={() => {
+              if (window.innerWidth < 1024 && onClose) onClose();
+            }}
+            className={`flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-all text-xs ${
+              pathname.startsWith('/dashboard/settings')
+                ? 'text-emerald-400 border border-emerald-500/25 font-medium'
+                : ''
+            }`}
+            style={{
+              ...(pathname.startsWith('/dashboard/settings')
+                ? { background: 'var(--color-bg-card)' }
+                : { color: 'var(--color-text-secondary)' }),
+            }}
+          >
+            <Settings className="w-4 h-4" />
+            <span>Settings</span>
+          </Link>
+          <button
+            onClick={handleLogout}
+            disabled={isLoading}
+            className="flex items-center gap-2.5 px-3 py-1.5 text-rose-400 hover:text-rose-300 hover:bg-rose-950/20 rounded-lg transition-all disabled:opacity-50 text-xs text-left"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>{isLoading ? 'Logging Out...' : 'Log Out'}</span>
+          </button>
+        </div>
       </div>
     </aside>
   );

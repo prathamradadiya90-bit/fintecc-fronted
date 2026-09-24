@@ -83,7 +83,7 @@ interface ClientFormModalProps {
 
 const SectionHeader = ({ letter, title }: { letter: string; title: string }) => (
   <div className="flex items-center gap-2.5 mt-6 mb-4">
-    <div className="w-5 h-5 rounded-full bg-[#00C2B3] flex items-center justify-center text-white text-[10px] font-bold">
+    <div className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-white text-[10px] font-bold">
       {letter}
     </div>
     <h4 className="text-[11px] font-bold text-[#4B637D] uppercase tracking-[0.1em]">{title}</h4>
@@ -214,7 +214,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
           <button
             onClick={handleSubmit(onSubmit)}
             disabled={isLoading}
-            className="flex-1 md:flex-none px-6 py-2.5 bg-[#00C2B3] hover:bg-[#00a89b] text-[13px] text-white font-bold rounded-xl transition-colors disabled:opacity-50"
+            className="flex-1 md:flex-none px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-[13px] text-white font-bold rounded-xl transition-colors disabled:opacity-50"
           >
             {isLoading ? 'Saving...' : 'Save Client'}
           </button>
@@ -233,7 +233,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               type="text"
               placeholder="Rajesh Kumar Mehta"
               {...register('name')}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
           </div>
@@ -254,7 +254,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.toUpperCase();
                 register('pan').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
             />
             {errors.pan && <p className="text-red-500 text-xs mt-1">{errors.pan.message}</p>}
           </div>
@@ -272,7 +272,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.replace(/\D/g, '');
                 register('aadhaar').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 font-mono transition-all"
             />
             {errors.aadhaar && <p className="text-red-500 text-xs mt-1">{errors.aadhaar.message}</p>}
           </div>
@@ -298,7 +298,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                   e.target.value = e.target.value.replace(/\D/g, '');
                   register('phone').onChange(e);
                 }}
-                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-r-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-r-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
               />
             </div>
             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
@@ -310,7 +310,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               type="email"
               placeholder="contact@example.com"
               {...register('email')}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
           </div>
@@ -326,7 +326,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.replace(/\D/g, '');
                 register('secondaryPhone').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
             {errors.secondaryPhone && <p className="text-red-500 text-xs mt-1">{errors.secondaryPhone.message}</p>}
           </div>
@@ -338,7 +338,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 id="sendInviteCheckbox"
                 checked={sendInvite}
                 onChange={(e) => setSendInvite(e.target.checked)}
-                className="w-4 h-4 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] cursor-pointer"
+                className="w-4 h-4 rounded border-slate-300 text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500 cursor-pointer"
               />
               <label htmlFor="sendInviteCheckbox" className="text-xs font-medium dark:text-slate-300 text-slate-700 cursor-pointer">
                 Send portal invitation email with login credentials immediately
@@ -356,7 +356,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               type="text"
               placeholder="123 Main St"
               {...register('address.street')}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -366,7 +366,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 type="text"
                 placeholder="Mumbai"
                 {...register('address.city')}
-                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
               />
             </div>
             <div>
@@ -375,7 +375,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 type="text"
                 placeholder="MH"
                 {...register('address.state')}
-                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
               />
             </div>
             <div>
@@ -389,7 +389,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                   e.target.value = e.target.value.replace(/\D/g, '');
                   register('address.zip').onChange(e);
                 }}
-                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
               />
               {errors.address?.zip && <p className="text-red-500 text-xs mt-1">{errors.address.zip.message}</p>}
             </div>
@@ -405,7 +405,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             </label>
             <select
               {...register('type')}
-              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
+              className="w-full px-3.5 py-2.5 dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all appearance-none"
             >
               <option value="Individual">Individual</option>
               <option value="Company">Company</option>
@@ -422,7 +422,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               type="text"
               placeholder="Company Ltd"
               {...register('companyName')}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
 
@@ -430,7 +430,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
             <div className="relative flex items-center justify-center w-5 h-5">
               <input 
                 type="checkbox" 
-                className="peer appearance-none w-5 h-5 border border-slate-300 rounded cursor-pointer checked:bg-teal-500 checked:border-teal-500 transition-all"
+                className="peer appearance-none w-5 h-5 border border-slate-300 rounded cursor-pointer checked:bg-emerald-500 checked:border-emerald-500 transition-all"
                 {...register('isGstRegistered')}
               />
               <svg className="absolute w-3.5 h-3.5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -454,7 +454,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                   e.target.value = e.target.value.toUpperCase();
                   register('gstin').onChange(e);
                 }}
-                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
+                className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
               />
               {errors.gstin && <p className="text-red-500 text-xs mt-1">{errors.gstin.message}</p>}
             </div>
@@ -471,7 +471,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.toUpperCase();
                 register('tan').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
             />
             {errors.tan && <p className="text-red-500 text-xs mt-1">{errors.tan.message}</p>}
           </div>
@@ -486,7 +486,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               type="text"
               placeholder="HDFC Bank"
               {...register('bankDetails.0.bankName')}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
           <div>
@@ -495,7 +495,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               type="text"
               placeholder="John Doe"
               {...register('bankDetails.0.accountName')}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 transition-all"
             />
           </div>
           <div>
@@ -504,7 +504,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
               type="text"
               placeholder="50100012345678"
               {...register('bankDetails.0.accountNumber')}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 font-mono transition-all"
             />
             {errors.bankDetails?.[0]?.accountNumber && <p className="text-red-500 text-xs mt-1">{errors.bankDetails[0].accountNumber.message}</p>}
           </div>
@@ -519,7 +519,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                 e.target.value = e.target.value.toUpperCase();
                 register('bankDetails.0.ifsc').onChange(e);
               }}
-              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-teal-900/30 focus:ring-teal-100 focus:border-[#00C2B3] text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
+              className="w-full px-3.5 py-2.5 border dark:border-slate-700 border-slate-200 rounded-lg focus:outline-none focus:ring-2 dark:focus:ring-emerald-500/20 focus:border-emerald-500 text-[13px] dark:text-slate-300 text-slate-700 font-mono uppercase transition-all"
             />
             {errors.bankDetails?.[0]?.ifsc && <p className="text-red-500 text-xs mt-1">{errors.bankDetails[0].ifsc.message}</p>}
           </div>
@@ -538,7 +538,7 @@ export function ClientFormModal({ isOpen, onClose, client }: ClientFormModalProp
                     <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
                       <input 
                         type="checkbox" 
-                        className="peer appearance-none w-5 h-5 border border-slate-300 rounded cursor-pointer checked:bg-teal-500 checked:border-teal-500 transition-all"
+                        className="peer appearance-none w-5 h-5 border border-slate-300 rounded cursor-pointer checked:bg-emerald-500 checked:border-emerald-500 transition-all"
                         checked={field.value.includes(service)}
                         onChange={(e) => {
                           const updated = e.target.checked 

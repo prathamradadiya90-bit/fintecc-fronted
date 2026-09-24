@@ -251,7 +251,7 @@ export function InvoiceFormModal({
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as InvoiceStatus)}
-              className="w-full h-10 px-3 rounded-xl border text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full h-10 px-3 rounded-xl border text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-card)',
                 borderColor: 'var(--color-border)',
@@ -303,7 +303,7 @@ export function InvoiceFormModal({
         >
           <div className="flex items-center justify-between">
             <h4 className="text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--color-text-secondary)' }}>
-              <CreditCard className="w-3.5 h-3.5 text-[#00C2B3]" />
+              <CreditCard className="w-3.5 h-3.5 text-emerald-500" />
               Automated Billing & Client Payment Options
             </h4>
           </div>
@@ -314,7 +314,7 @@ export function InvoiceFormModal({
               className="p-3.5 rounded-xl border transition-all space-y-2.5"
               style={{
                 background: 'var(--color-bg-card)',
-                borderColor: generatePaymentLink ? '#00C2B3' : 'var(--color-border)',
+                borderColor: generatePaymentLink ? '#10B981' : 'var(--color-border)',
               }}
             >
               <label className="flex items-start gap-2.5 cursor-pointer select-none">
@@ -322,11 +322,11 @@ export function InvoiceFormModal({
                   type="checkbox"
                   checked={generatePaymentLink}
                   onChange={(e) => setGeneratePaymentLink(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] w-4 h-4"
+                  className="mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
                 />
                 <div className="space-y-0.5">
                   <span className="text-xs font-semibold flex items-center gap-1.5" style={{ color: 'var(--color-text-primary)' }}>
-                    <Link2 className="w-3.5 h-3.5 text-[#00C2B3]" />
+                    <Link2 className="w-3.5 h-3.5 text-emerald-500" />
                     Generate & Send Payment Link to Client via SMS/Email
                   </span>
                   <p className="text-[11px] leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
@@ -338,7 +338,7 @@ export function InvoiceFormModal({
               {invoiceToEdit?.paymentLinkUrl && (
                 <div className="pt-2 border-t flex items-center justify-between gap-2 text-xs" style={{ borderColor: 'var(--color-border)' }}>
                   <span className="text-[11px] truncate" style={{ color: 'var(--color-text-secondary)' }}>
-                    Active Link: <span className="font-mono text-[10px] text-[#00C2B3]">{invoiceToEdit.paymentLinkUrl}</span>
+                    Active Link: <span className="font-mono text-[10px] text-emerald-500">{invoiceToEdit.paymentLinkUrl}</span>
                   </span>
                   <button
                     type="button"
@@ -358,7 +358,7 @@ export function InvoiceFormModal({
               className="p-3.5 rounded-xl border transition-all space-y-2.5"
               style={{
                 background: 'var(--color-bg-card)',
-                borderColor: isRecurring ? '#00C2B3' : 'var(--color-border)',
+                borderColor: isRecurring ? '#10B981' : 'var(--color-border)',
               }}
             >
               <label className="flex items-start gap-2.5 cursor-pointer select-none">
@@ -366,11 +366,11 @@ export function InvoiceFormModal({
                   type="checkbox"
                   checked={isRecurring}
                   onChange={(e) => setIsRecurring(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] w-4 h-4"
+                  className="mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
                 />
                 <div className="space-y-0.5">
                   <span className="text-xs font-semibold flex items-center gap-1.5" style={{ color: 'var(--color-text-primary)' }}>
-                    <Repeat className="w-3.5 h-3.5 text-[#00C2B3]" />
+                    <Repeat className="w-3.5 h-3.5 text-emerald-500" />
                     Set as Recurring Invoice
                   </span>
                   <p className="text-[11px] leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
@@ -387,7 +387,7 @@ export function InvoiceFormModal({
                   <select
                     value={recurringInterval}
                     onChange={(e) => setRecurringInterval(e.target.value as RecurringInterval)}
-                    className="w-full h-8 px-2.5 rounded-lg border text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                    className="w-full h-8 px-2.5 rounded-lg border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -449,7 +449,7 @@ export function InvoiceFormModal({
                     placeholder="Description (e.g. Audit Consultation)"
                     value={item.description}
                     onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -464,7 +464,7 @@ export function InvoiceFormModal({
                     placeholder="Qty"
                     value={item.quantity || ''}
                     onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs text-center focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs text-center focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -480,7 +480,7 @@ export function InvoiceFormModal({
                     placeholder="Rate (₹)"
                     value={item.unitPrice || ''}
                     onChange={(e) => handleItemChange(index, 'unitPrice', e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs text-right focus:outline-none focus:ring-1 focus:ring-[#00C2B3]"
+                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs text-right focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -543,7 +543,7 @@ export function InvoiceFormModal({
               </div>
               <div className="flex justify-between pt-1 border-t font-bold text-sm" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-primary)' }}>
                 <span>Total:</span>
-                <span className="text-[#00C2B3]">
+                <span className="text-emerald-600 dark:text-emerald-400">
                   ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </span>
               </div>

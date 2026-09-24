@@ -91,14 +91,14 @@ export function GlobalSearchBar() {
           }}
           onFocus={() => setIsOpen(true)}
           placeholder="Search clients, tasks, docs... (⌘K)"
-          className="w-full h-9 pl-9 pr-8 text-sm rounded-xl transition-all outline-none"
+          className="w-full h-9 pl-9 pr-14 text-xs rounded-xl transition-all outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20"
           style={{
-            background: 'var(--color-bg-subtle)',
+            background: 'var(--color-bg-input)',
             border: '1px solid var(--color-border)',
             color: 'var(--color-text-primary)',
           }}
         />
-        {searchTerm && (
+        {searchTerm ? (
           <button
             type="button"
             onClick={() => {
@@ -106,10 +106,21 @@ export function GlobalSearchBar() {
               setDebouncedQuery('');
             }}
             className="absolute right-2.5 p-0.5 rounded-md hover:opacity-75"
-            style={{ color: 'var(--color-text-muted)' }}
+            style={{ color: 'var(--color-text-secondary)' }}
           >
             <X className="w-3.5 h-3.5" />
           </button>
+        ) : (
+          <kbd
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-mono px-1.5 py-0.5 rounded pointer-events-none"
+            style={{
+              background: 'var(--color-bg-card-hover)',
+              border: '1px solid var(--color-border)',
+              color: 'var(--color-text-secondary)',
+            }}
+          >
+            ⌘K
+          </kbd>
         )}
       </div>
 

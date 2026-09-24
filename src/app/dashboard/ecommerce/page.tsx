@@ -133,7 +133,7 @@ export default function EcommercePage() {
             <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               E-Commerce Sales & GSTR-1 Automation
             </h1>
-            <span className="px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider font-semibold bg-[#00C2B3]/10 text-[#00C2B3]">
+            <span className="px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
               11 Platforms
             </span>
           </div>
@@ -182,14 +182,14 @@ export default function EcommercePage() {
               style={{ background: 'var(--color-bg-subtle)', borderColor: 'var(--color-border)' }}
             >
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#00C2B3] animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span style={{ color: 'var(--color-text-secondary)' }}>
                   Report saved as <strong style={{ color: 'var(--color-text-primary)' }}>#{reportData.reportId.slice(0, 8)}</strong> ({reportData.totalCount} records parsed).
                 </span>
               </div>
               <Link
                 href={`/dashboard/ecommerce/${reportData.reportId}`}
-                className="inline-flex items-center gap-1.5 font-semibold text-[#00C2B3] hover:underline shrink-0"
+                className="inline-flex items-center gap-1.5 font-semibold text-emerald-600 dark:text-emerald-400 hover:underline shrink-0"
               >
                 Open TCS & Reconciliation Workspace <ExternalLink className="w-3.5 h-3.5" />
               </Link>

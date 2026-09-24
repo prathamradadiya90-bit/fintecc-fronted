@@ -50,7 +50,7 @@ export function SyncJobsFilter({
               onClick={() => onStatusChange(opt.value)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
                 isSelected
-                  ? 'bg-[#00C2B3] text-white shadow-xs'
+                  ? 'bg-emerald-600 text-white shadow-xs'
                   : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-card-hover)]'
               }`}
             >

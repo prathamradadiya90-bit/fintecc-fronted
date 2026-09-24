@@ -123,7 +123,7 @@ export function ExportModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b pb-4" style={{ borderColor: 'var(--color-border)' }}>
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3]">
+            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <Download className="w-5 h-5" />
             </div>
             <div>
@@ -175,11 +175,11 @@ export function ExportModal({
               onClick={() => setSelectedFormat('xml')}
               className={`p-3 rounded-xl border text-left flex items-start gap-2.5 transition-all ${
                 selectedFormat === 'xml'
-                  ? 'border-[#00C2B3] bg-[#00C2B3]/10 ring-1 ring-[#00C2B3]'
+                  ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500'
                   : 'border-[var(--color-border)] hover:bg-slate-500/5'
               }`}
             >
-              <FileCode2 className={`w-4 h-4 mt-0.5 ${selectedFormat === 'xml' ? 'text-[#00C2B3]' : 'text-slate-400'}`} />
+              <FileCode2 className={`w-4 h-4 mt-0.5 ${selectedFormat === 'xml' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
               <div>
                 <div className="text-xs font-bold" style={{ color: 'var(--color-text-primary)' }}>
                   Tally Prime XML
@@ -195,11 +195,11 @@ export function ExportModal({
               onClick={() => setSelectedFormat('gst-json')}
               className={`p-3 rounded-xl border text-left flex items-start gap-2.5 transition-all ${
                 selectedFormat === 'gst-json'
-                  ? 'border-[#00C2B3] bg-[#00C2B3]/10 ring-1 ring-[#00C2B3]'
+                  ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500'
                   : 'border-[var(--color-border)] hover:bg-slate-500/5'
               }`}
             >
-              <Building2 className={`w-4 h-4 mt-0.5 ${selectedFormat === 'gst-json' ? 'text-[#00C2B3]' : 'text-slate-400'}`} />
+              <Building2 className={`w-4 h-4 mt-0.5 ${selectedFormat === 'gst-json' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
               <div>
                 <div className="text-xs font-bold" style={{ color: 'var(--color-text-primary)' }}>
                   GST Offline JSON
@@ -215,11 +215,11 @@ export function ExportModal({
               onClick={() => setSelectedFormat('excel')}
               className={`p-3 rounded-xl border text-left flex items-start gap-2.5 transition-all ${
                 selectedFormat === 'excel'
-                  ? 'border-[#00C2B3] bg-[#00C2B3]/10 ring-1 ring-[#00C2B3]'
+                  ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500'
                   : 'border-[var(--color-border)] hover:bg-slate-500/5'
               }`}
             >
-              <FileSpreadsheet className={`w-4 h-4 mt-0.5 ${selectedFormat === 'excel' ? 'text-[#00C2B3]' : 'text-slate-400'}`} />
+              <FileSpreadsheet className={`w-4 h-4 mt-0.5 ${selectedFormat === 'excel' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
               <div>
                 <div className="text-xs font-bold" style={{ color: 'var(--color-text-primary)' }}>
                   Excel Sheet (.xlsx)
@@ -235,11 +235,11 @@ export function ExportModal({
               onClick={() => setSelectedFormat('csv')}
               className={`p-3 rounded-xl border text-left flex items-start gap-2.5 transition-all ${
                 selectedFormat === 'csv'
-                  ? 'border-[#00C2B3] bg-[#00C2B3]/10 ring-1 ring-[#00C2B3]'
+                  ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500'
                   : 'border-[var(--color-border)] hover:bg-slate-500/5'
               }`}
             >
-              <FileText className={`w-4 h-4 mt-0.5 ${selectedFormat === 'csv' ? 'text-[#00C2B3]' : 'text-slate-400'}`} />
+              <FileText className={`w-4 h-4 mt-0.5 ${selectedFormat === 'csv' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
               <div>
                 <div className="text-xs font-bold" style={{ color: 'var(--color-text-primary)' }}>
                   Clean CSV
@@ -255,7 +255,7 @@ export function ExportModal({
         {/* Dynamic Config Fields based on selected format */}
         {selectedFormat === 'xml' && (
           <div className="space-y-3 p-3.5 rounded-xl border" style={{ background: 'var(--color-bg-subtle)', borderColor: 'var(--color-border)' }}>
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-[#00C2B3]">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
               Tally XML Configurations
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -268,7 +268,7 @@ export function ExportModal({
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
                   placeholder="e.g. Acme Corp Pvt Ltd"
-                  className="w-full text-xs px-3 py-2 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                  className="w-full text-xs px-3 py-2 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div>
@@ -280,7 +280,7 @@ export function ExportModal({
                   value={bankLedger}
                   onChange={(e) => setBankLedger(e.target.value)}
                   placeholder="e.g. HDFC Current A/c"
-                  className="w-full text-xs px-3 py-2 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                  className="w-full text-xs px-3 py-2 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
@@ -289,7 +289,7 @@ export function ExportModal({
 
         {selectedFormat === 'gst-json' && (
           <div className="space-y-3 p-3.5 rounded-xl border" style={{ background: 'var(--color-bg-subtle)', borderColor: 'var(--color-border)' }}>
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-[#00C2B3]">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
               GST Return Filing Period (fp)
             </div>
             <div>
@@ -301,7 +301,7 @@ export function ExportModal({
                 value={filingPeriod}
                 onChange={(e) => setFilingPeriod(e.target.value)}
                 placeholder="e.g. 042024 for April 2024"
-                className="w-full text-xs px-3 py-2 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3]"
+                className="w-full text-xs px-3 py-2 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500"
               />
               <p className="text-[10px] mt-1 text-slate-400">
                 Format required by GST Offline Tool (e.g. 042024 for April 2024, 052024 for May 2024).

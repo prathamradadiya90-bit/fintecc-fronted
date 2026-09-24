@@ -80,7 +80,7 @@ export function GstComplianceCalendar() {
       {/* Header & Filter */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/50 text-[#00C2B3]">
+          <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
             <CalendarIcon className="w-5 h-5" />
           </div>
           <div>
@@ -99,7 +99,7 @@ export function GstComplianceCalendar() {
               onClick={() => setFilter(cat)}
               className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
                 filter === cat
-                  ? 'bg-[#00C2B3] text-white'
+                  ? 'bg-emerald-600 text-white shadow-xs'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
               }`}
             >
@@ -120,7 +120,7 @@ export function GstComplianceCalendar() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#00C2B3]">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                     {ev.category}
                   </span>
                   <span

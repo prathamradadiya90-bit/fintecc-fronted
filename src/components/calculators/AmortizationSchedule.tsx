@@ -34,7 +34,7 @@ export function AmortizationSchedule({ schedule }: AmortizationScheduleProps) {
     {
       key: 'principal',
       header: 'Principal',
-      render: (row) => <span className="font-semibold text-[#00C2B3]">{formatCurrencyExact(row.principal)}</span>,
+      render: (row) => <span className="font-semibold text-emerald-600 dark:text-emerald-400">{formatCurrencyExact(row.principal)}</span>,
     },
     {
       key: 'interest',

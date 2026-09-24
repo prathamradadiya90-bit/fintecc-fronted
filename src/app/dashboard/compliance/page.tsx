@@ -158,7 +158,7 @@ export default function ComplianceCalendarPage() {
           <div className="flex items-center justify-between mb-1 shrink-0">
             <span
               className={`text-xs font-semibold w-6 h-6 flex items-center justify-center rounded-full ${
-                isToday ? 'bg-[#00C2B3] text-white' : ''
+                isToday ? 'bg-emerald-600 text-white shadow-xs' : ''
               }`}
               style={isToday ? {} : { color: 'var(--color-text-on-card)' }}
             >
@@ -168,7 +168,7 @@ export default function ComplianceCalendarPage() {
             <button
               type="button"
               onClick={() => handleOpenCreateForDay(day)}
-              className="opacity-0 group-hover:opacity-100 p-0.5 rounded text-slate-400 hover:text-[#00C2B3] transition-opacity"
+              className="opacity-0 group-hover:opacity-100 p-0.5 rounded text-slate-400 hover:text-emerald-500 transition-opacity"
               title="Add event on this day"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -182,7 +182,7 @@ export default function ComplianceCalendarPage() {
               const isTask = event.type === 'TASK';
               const badgeColor = isTask
                 ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20'
-                : 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20';
+                : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
 
               return (
                 <div
@@ -227,10 +227,10 @@ export default function ComplianceCalendarPage() {
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>
-              <CalendarIcon className="w-5 h-5 text-[#00C2B3]" />
+              <CalendarIcon className="w-5 h-5 text-emerald-500" />
               Unified Compliance & Operations Calendar
             </h2>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00C2B3]/10 text-[#00C2B3] border border-[#00C2B3]/20">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
               Live Synced
             </span>
           </div>
@@ -296,7 +296,7 @@ export default function ComplianceCalendarPage() {
             Work Board Tasks
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-teal-500" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
             Custom Meetings & Hearings
           </span>
         </div>
@@ -405,7 +405,7 @@ export default function ComplianceCalendarPage() {
                     value={p}
                     checked={priority === p}
                     onChange={() => setPriority(p)}
-                    className="accent-[#00C2B3]"
+                    className="accent-emerald-500"
                   />
                   <span>{p}</span>
                 </label>
@@ -451,7 +451,7 @@ export default function ComplianceCalendarPage() {
         >
           <div className="space-y-4 text-xs">
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold border bg-[#00C2B3]/10 text-[#00C2B3] border-[#00C2B3]/20">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">
                 {selectedEvent.type}
               </span>
               {selectedEvent.priority && (

@@ -52,7 +52,7 @@ export function GstinLinkingSection({ clientId, clientName }: GstinLinkingSectio
     <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-5 space-y-4">
       <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/50 text-[#00C2B3]">
+          <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
             <Building2 className="w-5 h-5" />
           </div>
           <div>
@@ -145,7 +145,7 @@ export function GstinLinkingSection({ clientId, clientName }: GstinLinkingSectio
                   onClick={() => setAuthModalGstin(item.gstin)}
                   className="flex items-center gap-1.5 text-xs"
                 >
-                  <Key className="w-3.5 h-3.5 text-[#00C2B3]" />
+                  <Key className="w-3.5 h-3.5 text-emerald-500" />
                   GSP Connect
                 </Button>
               </div>

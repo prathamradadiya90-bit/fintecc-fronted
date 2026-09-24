@@ -80,7 +80,7 @@ export function ProfileSettings() {
         }}
       >
         <div className="flex items-center gap-3 mb-6 pb-4 border-b" style={{ borderColor: 'var(--color-border-subtle)' }}>
-          <div className="w-10 h-10 rounded-xl bg-[#00C2B3]/10 flex items-center justify-center text-[#00C2B3]">
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
             <UserIcon className="w-5 h-5" />
           </div>
           <div>
@@ -117,7 +117,7 @@ export function ProfileSettings() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-lg bg-[#00C2B3] text-white flex items-center justify-center shadow-md hover:bg-[#00a89b] transition-colors"
+                className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center shadow-md transition-colors"
                 title="Change Avatar"
               >
                 <Camera className="w-3.5 h-3.5" />
@@ -139,7 +139,7 @@ export function ProfileSettings() {
                 Supports JPG, PNG, or WebP up to 5MB.
               </p>
               {selectedFile && (
-                <span className="inline-flex items-center gap-1 text-[11px] text-[#00C2B3] mt-1 font-medium">
+                <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-medium">
                   <CheckCircle2 className="w-3 h-3" /> New picture selected: {selectedFile.name}
                 </span>
               )}
@@ -185,7 +185,7 @@ export function ProfileSettings() {
                   Assigned System Role
                 </label>
                 <div className="flex items-center gap-2 p-2.5 rounded-xl border bg-slate-50/50 dark:bg-slate-900/20 text-xs font-medium" style={{ borderColor: 'var(--color-border-subtle)', color: 'var(--color-text-heading)' }}>
-                  <Shield className="w-4 h-4 text-[#00C2B3]" />
+                  <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   <span>{user?.role?.replace('_', ' ') || 'User'}</span>
                 </div>
               </div>

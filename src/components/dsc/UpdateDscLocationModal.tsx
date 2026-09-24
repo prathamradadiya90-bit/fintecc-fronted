@@ -71,7 +71,7 @@ export const UpdateDscLocationModal: React.FC<UpdateDscLocationModalProps> = ({
         {/* Token Info Card */}
         <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/60 space-y-1">
           <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-medium text-sm">
-            <Key className="w-4 h-4 text-[#00C2B3]" />
+            <Key className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             <span>{token.ownerName}</span>
             <span className="text-xs px-2 py-0.5 rounded bg-slate-200/70 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
               {token.provider}
@@ -107,7 +107,7 @@ export const UpdateDscLocationModal: React.FC<UpdateDscLocationModalProps> = ({
               value={assignedToId}
               onChange={(e) => setAssignedToId(e.target.value)}
               disabled={isLoadingStaff}
-              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
             >
               <option value="">-- No Custodian Assigned (In Safe) --</option>
               {staffList.map((member) => (

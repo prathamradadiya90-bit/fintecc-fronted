@@ -168,7 +168,7 @@ export function CAReviewTable({
                   type="checkbox"
                   checked={allFilteredSelected}
                   onChange={allFilteredSelected ? onDeselectAll : onSelectAll}
-                  className="rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] cursor-pointer"
+                  className="rounded border-slate-300 text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500 cursor-pointer"
                   title={allFilteredSelected ? 'Deselect all' : 'Select all'}
                 />
               </th>
@@ -224,7 +224,7 @@ export function CAReviewTable({
                 return (
                   <tr
                     key={tx.id}
-                    className={`transition-colors hover:bg-slate-500/5 ${rowBgClass} ${isSelected ? 'ring-1 ring-inset ring-[#00C2B3]/40' : ''}`}
+                    className={`transition-colors hover:bg-slate-500/5 ${rowBgClass} ${isSelected ? 'ring-1 ring-inset ring-emerald-500/40' : ''}`}
                   >
                     {/* Checkbox */}
                     <td className="py-3 px-4 text-center">
@@ -232,7 +232,7 @@ export function CAReviewTable({
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => onToggleSelect(tx.id)}
-                        className="rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] cursor-pointer"
+                        className="rounded border-slate-300 text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500 cursor-pointer"
                       />
                     </td>
 
@@ -252,7 +252,7 @@ export function CAReviewTable({
                           onBlur={() => {
                             if (hasEdits) handleSaveRow(tx, false);
                           }}
-                          className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3] transition-colors"
+                          className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500 transition-colors"
                           placeholder="Transaction narration..."
                         />
                       </div>
@@ -301,7 +301,7 @@ export function CAReviewTable({
                               handleSaveRow({ ...tx, suggestedLedger: e.target.value }, false);
                             }, 50);
                           }}
-                          className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[#00C2B3] cursor-pointer"
+                          className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500 cursor-pointer"
                         >
                           <option value="" disabled>Select Ledger...</option>
                           {!STANDARD_TALLY_LEDGERS.includes(currentLedger) && currentLedger && (
@@ -395,7 +395,7 @@ export function CAReviewTable({
                     <td className="py-3 px-3 text-center whitespace-nowrap">
                       <div className="flex items-center justify-center gap-1">
                         {isSaving ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-[#00C2B3]" />
+                          <Loader2 className="w-4 h-4 animate-spin text-emerald-600 dark:text-emerald-400" />
                         ) : isSaved ? (
                           <Check className="w-4 h-4 text-emerald-500 font-bold" />
                         ) : tx.status !== 'APPROVED' ? (
@@ -413,7 +413,7 @@ export function CAReviewTable({
                             onClick={() => handleSaveRow(tx, false)}
                             className={`p-1 rounded text-xs transition-colors ${
                               hasEdits
-                                ? 'text-[#00C2B3] hover:bg-teal-500/10'
+                                ? 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10'
                                 : 'text-slate-300 dark:text-slate-600'
                             }`}
                           >

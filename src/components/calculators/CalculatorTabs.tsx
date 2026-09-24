@@ -20,7 +20,7 @@ export function CalculatorTabs({ activeCalculator, onChange }: CalculatorTabsPro
           onClick={() => onChange(tab.id as 'EMI' | 'SIP' | 'SWP')}
           className={`px-4 py-2 rounded-xl text-[13px] font-medium transition-all flex items-center gap-2 ${
             activeCalculator === tab.id
-              ? 'text-[#00C2B3] bg-[#00C2B3]/10'
+              ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20'
               : ''
           }`}
           style={activeCalculator !== tab.id ? { color: 'var(--color-text-secondary)', background: 'var(--color-bg-card)' } : {}}

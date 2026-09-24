@@ -110,7 +110,7 @@ export const AddDscModal: React.FC<AddDscModalProps> = ({ isOpen, onClose, editi
             value={clientId}
             onChange={(e) => setClientId(e.target.value)}
             required
-            className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+            className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
           >
             <option value="">Select a Client...</option>
             {clients.map((c) => (
@@ -140,7 +140,7 @@ export const AddDscModal: React.FC<AddDscModalProps> = ({ isOpen, onClose, editi
               value={provider}
               onChange={(e) => setProvider(e.target.value)}
               required
-              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
             >
               {PROVIDERS.map((p) => (
                 <option key={p} value={p}>
@@ -187,7 +187,7 @@ export const AddDscModal: React.FC<AddDscModalProps> = ({ isOpen, onClose, editi
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as DscStatus)}
-              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00C2B3] text-slate-800 dark:text-slate-100"
+              className="w-full h-[42px] px-3 py-2 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100"
             >
               <option value="ACTIVE">Active</option>
               <option value="EXPIRING_SOON">Expiring Soon</option>

@@ -144,7 +144,7 @@ export function InvoiceViewModal({
               size="sm"
               onClick={handleSyncToTally}
               isLoading={isSyncing}
-              leftIcon={<RefreshCw className="w-3.5 h-3.5 text-[#00C2B3]" />}
+              leftIcon={<RefreshCw className="w-3.5 h-3.5 text-emerald-500" />}
             >
               Sync to Tally
             </Button>
@@ -153,7 +153,7 @@ export function InvoiceViewModal({
                 variant="outline"
                 size="sm"
                 onClick={handleCopyPaymentLink}
-                leftIcon={copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Link2 className="w-3.5 h-3.5 text-[#00C2B3]" />}
+                leftIcon={copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Link2 className="w-3.5 h-3.5 text-emerald-500" />}
               >
                 {copiedLink ? 'Link Copied' : 'Copy Payment Link'}
               </Button>
@@ -214,7 +214,7 @@ export function InvoiceViewModal({
               )}
             </div>
             <p className="text-xs flex items-center gap-1.5" style={{ color: 'var(--color-text-secondary)' }}>
-              <Building2 className="w-3.5 h-3.5 text-[#00C2B3]" />
+              <Building2 className="w-3.5 h-3.5 text-emerald-500" />
               {clientName} {invoice.client?.gstin ? `(${invoice.client.gstin})` : ''}
             </p>
           </div>
@@ -223,7 +223,7 @@ export function InvoiceViewModal({
             <p className="text-xs uppercase tracking-wider font-medium" style={{ color: 'var(--color-text-muted)' }}>
               Total Amount
             </p>
-            <p className="text-xl font-bold text-[#00C2B3]">
+            <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
               ₹{Number(invoice.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </p>
           </div>
@@ -234,12 +234,12 @@ export function InvoiceViewModal({
           <div
             className="p-3.5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
             style={{
-              background: 'rgba(0, 194, 179, 0.05)',
-              borderColor: 'rgba(0, 194, 179, 0.25)',
+              background: 'rgba(16, 185, 129, 0.05)',
+              borderColor: 'rgba(16, 185, 129, 0.25)',
             }}
           >
             <div className="space-y-1 min-w-0 flex-1">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-[#00C2B3]">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                 <Link2 className="w-3.5 h-3.5" />
                 Razorpay Payment Link
               </div>

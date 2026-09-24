@@ -107,7 +107,7 @@ export function UsageLimitModal({
           }}
         >
           <div className="flex items-center gap-2 font-medium" style={{ color: 'var(--color-text-primary)' }}>
-            <Crown className="w-3.5 h-3.5 text-[#00C2B3]" />
+            <Crown className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>Why Upgrade?</span>
           </div>
           <ul className="space-y-1.5 pl-5 list-disc" style={{ color: 'var(--color-text-secondary)' }}>

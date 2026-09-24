@@ -109,7 +109,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             type="submit"
             form="create-task-form"
             isLoading={isSubmitting}
-            className="bg-[#00C2B3] hover:bg-[#00A89B] text-white"
+            className="bg-emerald-600 hover:bg-emerald-500 text-white"
           >
             Create Task
           </Button>
@@ -151,7 +151,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             type="text"
             {...register('title')}
             placeholder="e.g. File GSTR-3B for March 2026"
-            className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: errors.title ? '#ef4444' : 'var(--color-border)',
@@ -171,7 +171,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             </label>
             <select
               {...register('complianceType')}
-              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -192,7 +192,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             </label>
             <select
               {...register('assigneeId')}
-              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -218,7 +218,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             <input
               type="date"
               {...register('dueDate')}
-              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -233,7 +233,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             </label>
             <select
               {...register('priority')}
-              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -257,7 +257,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             {...register('description')}
             rows={3}
             placeholder="Add any specific instructions, ledger references, or notes..."
-            className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',
@@ -270,7 +270,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
         <div className="pt-2 border-t border-[var(--color-border)]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Repeat className="w-4 h-4 text-teal-600" />
+              <Repeat className="w-4 h-4 text-emerald-600" />
               <div>
                 <p className="text-xs font-medium" style={{ color: 'var(--color-text-primary)' }}>
                   Recurring Task
@@ -283,7 +283,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             <input
               type="checkbox"
               {...register('isRecurring')}
-              className="w-4 h-4 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] cursor-pointer"
+              className="w-4 h-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500/50 cursor-pointer"
             />
           </div>
 
@@ -294,7 +294,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               </label>
               <select
                 {...register('recurrencePattern')}
-                className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+                className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                 style={{
                   background: 'var(--color-bg-input)',
                   borderColor: 'var(--color-border)',

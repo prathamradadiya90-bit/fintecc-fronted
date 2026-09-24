@@ -51,7 +51,7 @@ export default async function CalculatorDetailPage({ params }: PageProps) {
   const faqs = CALCULATOR_FAQS[slug] || [];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 font-sans selection:bg-[#00C2B3] selection:text-white flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 font-sans selection:bg-[#10B981] selection:text-white flex flex-col">
       <PublicNavbar />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-6 md:px-12 py-10">

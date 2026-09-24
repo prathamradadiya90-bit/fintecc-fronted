@@ -50,7 +50,7 @@ export function TaxSavingCalculator() {
                   onClick={() => setTaxBracket(bracket)}
                   className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border ${
                     taxBracket === bracket
-                      ? 'bg-[#00C2B3] text-white border-[#00C2B3]'
+                      ? 'bg-emerald-600 text-white border-emerald-600'
                       : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >
@@ -113,13 +113,13 @@ export function TaxSavingCalculator() {
         <div className="flex flex-col gap-4">
           <div className="bg-[#0f172a] rounded-2xl p-6 text-white shadow-md">
             <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck className="w-5 h-5 text-[#00C2B3]" />
+              <ShieldCheck className="w-5 h-5 text-emerald-400" />
               <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase">
                 TOTAL TAX SAVED (INCL. 4% CESS)
               </h3>
             </div>
 
-            <div className="text-4xl font-extrabold text-[#00C2B3] mb-6">
+            <div className="text-2xl font-bold text-emerald-400 mb-6">
               {formatCurrencyExact(totalTaxSaved)}
             </div>
 

@@ -192,7 +192,7 @@ export default function HelpdeskPage() {
             <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               Helpdesk & Support Queries
             </h1>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00C2B3]/10 text-[#00C2B3] flex items-center gap-1 border border-[#00C2B3]/20">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center gap-1 border border-emerald-500/20">
               <LifeBuoy className="w-3 h-3" /> Real-time Ticketing
             </span>
           </div>
@@ -302,7 +302,7 @@ export default function HelpdeskPage() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
             style={{
               background: 'var(--color-bg-subtle)',
               borderColor: 'var(--color-border)',
@@ -320,7 +320,7 @@ export default function HelpdeskPage() {
           <select
             value={selectedPriority}
             onChange={(e) => setSelectedPriority(e.target.value)}
-            className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+            className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
             style={{
               background: 'var(--color-bg-subtle)',
               borderColor: 'var(--color-border)',
@@ -339,7 +339,7 @@ export default function HelpdeskPage() {
             <select
               value={selectedAssignedTo}
               onChange={(e) => setSelectedAssignedTo(e.target.value)}
-              className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#00C2B3]"
+              className="h-10 px-3 rounded-xl border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
               style={{
                 background: 'var(--color-bg-subtle)',
                 borderColor: 'var(--color-border)',

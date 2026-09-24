@@ -174,7 +174,7 @@ export default function SubscriptionPage() {
   return (
     <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-[#00C2B3]/10 to-transparent p-6 rounded-2xl border border-[#00C2B3]/20">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-emerald-500/10 to-transparent p-6 rounded-2xl border border-emerald-500/20">
         <div>
           <h1 className="text-xl font-bold" style={{ color: "var(--color-text-primary)" }}>
             Subscription &amp; Plans
@@ -340,7 +340,7 @@ export default function SubscriptionPage() {
               buttonLabel = "Current Plan";
               isButtonDisabled = true;
             } else if (isFreeUsed && isFree) {
-              buttonLabel = "Free Trial Used";
+              buttonLabel = "Free Plan Used";
               isButtonDisabled = true;
             } else if (hasActivePlan) {
               // Allow plan switching — backend handles proration
@@ -349,17 +349,17 @@ export default function SubscriptionPage() {
                 : "Switch Plan";
               isButtonDisabled = anyProcessing;
             } else {
-              buttonLabel = isFree ? "Start Free" : "Subscribe Now";
+              buttonLabel = isFree ? "Activate Plan" : "Subscribe Now";
               isButtonDisabled = anyProcessing;
             }
 
             return (
               <div
                 key={plan.id}
-                className={`flex flex-col p-6 rounded-3xl transition-all duration-300 hover:shadow-xl group bg-white dark:bg-[#111827] border relative overflow-hidden ${
+                className={`flex flex-col p-6 rounded-3xl transition-all duration-300 hover:shadow-xl group bg-[var(--color-bg-card)] border relative overflow-hidden ${
                   isCurrentActivePlan
                     ? "border-emerald-500 shadow-md ring-2 ring-emerald-500/20"
-                    : "border-slate-200 dark:border-slate-800 hover:border-[#00C2B3]/30 dark:hover:border-[#00C2B3]/30"
+                    : "border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-emerald-500/40"
                 }`}
               >
                 {/* Current plan badge */}
@@ -371,7 +371,7 @@ export default function SubscriptionPage() {
 
                 {/* Upgrade badge */}
                 {!isCurrentActivePlan && hasActivePlan && Number(plan.price) > Number(activePlan?.price ?? 0) && (
-                  <div className="absolute top-0 right-0 bg-[#00C2B3] text-white text-[11px] font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider flex items-center gap-1">
+                  <div className="absolute top-0 right-0 bg-emerald-600 text-white text-[11px] font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider flex items-center gap-1">
                     <ArrowUpRight className="w-3 h-3" /> Upgrade
                   </div>
                 )}

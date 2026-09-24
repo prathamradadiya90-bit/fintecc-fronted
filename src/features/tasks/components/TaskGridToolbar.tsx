@@ -38,7 +38,7 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-teal-500/10 text-[#00C2B3] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
               <LayoutGrid className="w-4 h-4" />
             </div>
             <div>
@@ -88,7 +88,7 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
             }}
             title="Refresh tasks"
           >
-            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-[#00C2B3]' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-emerald-500' : ''}`} />
           </button>
 
           {/* Export CSV */}
@@ -108,7 +108,7 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
               onClick={onOpenImportModal}
               className="text-xs h-9 px-3 border-[var(--color-border)]"
             >
-              <FileSpreadsheet className="w-3.5 h-3.5 mr-1.5 text-teal-600" />
+              <FileSpreadsheet className="w-3.5 h-3.5 mr-1.5 text-emerald-600" />
               Import Excel
             </Button>
           )}
@@ -116,7 +116,7 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
           {/* New Task Button */}
           <Button
             onClick={onOpenCreateModal}
-            className="text-xs h-9 px-3.5 bg-[#00C2B3] hover:bg-[#00A89B] text-white shadow-sm"
+            className="text-xs h-9 px-3.5 bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm"
           >
             <Plus className="w-3.5 h-3.5 mr-1" />
             New Task
@@ -131,13 +131,13 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
           onClick={() => onViewModeChange('all')}
           className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
             viewMode === 'all'
-              ? 'bg-[#00C2B3]/10 text-[#00C2B3]'
+              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
               : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-subtle)]'
           }`}
         >
           All Firm Tasks
           {viewMode === 'all' && (
-            <span className="ml-1.5 px-1.5 py-0.2 rounded-full bg-[#00C2B3] text-white text-[10px]">
+            <span className="ml-1.5 px-1.5 py-0.2 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white text-[10px]">
               {totalTasks}
             </span>
           )}
@@ -148,7 +148,7 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
           onClick={() => onViewModeChange('my')}
           className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
             viewMode === 'my'
-              ? 'bg-[#00C2B3]/10 text-[#00C2B3]'
+              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
               : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-subtle)]'
           }`}
         >

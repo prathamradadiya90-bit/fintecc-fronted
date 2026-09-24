@@ -65,9 +65,9 @@ export function SuperAdminTopbar({ onMenuClick }: { onMenuClick?: () => void }) 
 
       <div className="flex items-center gap-5">
         {/* Super Admin indicator badge */}
-        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#00C2B3]/10 border border-[#00C2B3]/20">
-          <Shield className="w-3.5 h-3.5 text-[#00C2B3]" />
-          <span className="text-[11px] font-semibold text-[#00C2B3] uppercase tracking-widest">
+        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+          <Shield className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+          <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
             Super Admin
           </span>
         </div>

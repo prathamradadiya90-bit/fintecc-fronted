@@ -131,7 +131,7 @@ export default function VaultPage() {
             <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               Client Password Vault
             </h1>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center gap-1">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
               <ShieldCheck className="w-3 h-3" /> AES-256 Encrypted
             </span>
           </div>
@@ -179,7 +179,7 @@ export default function VaultPage() {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
                 selectedCategory === cat.id
-                  ? 'bg-[#00C2B3] text-white shadow-sm'
+                  ? 'bg-emerald-600 text-white shadow-sm'
                   : 'hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
               style={{
@@ -208,7 +208,7 @@ export default function VaultPage() {
           className="rounded-2xl p-12 text-center shadow-sm space-y-3"
           style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
         >
-          <div className="w-12 h-12 rounded-full bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
             <Lock className="w-6 h-6" />
           </div>
           <p className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>
@@ -239,7 +239,7 @@ export default function VaultPage() {
                 <div className="space-y-1">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-xl bg-[#00C2B3]/10 text-[#00C2B3]">
+                      <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                         <KeyRound className="w-4 h-4" />
                       </div>
                       <div>
@@ -248,7 +248,7 @@ export default function VaultPage() {
                         </h3>
                         {item.client ? (
                           <p className="text-[11px] flex items-center gap-1" style={{ color: 'var(--color-text-muted)' }}>
-                            <Building2 className="w-3 h-3 text-[#00C2B3]" />
+                            <Building2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                             {item.client.companyName || item.client.name}
                           </p>
                         ) : (
@@ -303,7 +303,7 @@ export default function VaultPage() {
                     {item.username && (
                       <button
                         onClick={() => handleCopy(item.username!, `user-${item.id}`, 'Username')}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-[#00C2B3] transition-colors shrink-0"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors shrink-0"
                         title="Copy Username"
                       >
                         {copiedField === `user-${item.id}` ? (
@@ -339,7 +339,7 @@ export default function VaultPage() {
                       </button>
                       <button
                         onClick={() => handleCopyPassword(item)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-[#00C2B3] transition-colors"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                         title="Copy Password"
                       >
                         {copiedField === `pass-${item.id}` ? (

@@ -105,7 +105,7 @@ function ClientPortalDocCard({ doc, onPreview }: ClientPortalDocCardProps) {
           <button
             title="Preview"
             onClick={(e) => { e.stopPropagation(); onPreview(doc); }}
-            className="p-1.5 rounded-lg hover:text-[#00C2B3] hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors"
+            className="p-1.5 rounded-lg hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors"
             style={{ color: 'var(--color-text-secondary)' }}
           >
             <Eye className="w-3.5 h-3.5" />
@@ -114,7 +114,7 @@ function ClientPortalDocCard({ doc, onPreview }: ClientPortalDocCardProps) {
             title="Download"
             disabled={isDownloading}
             onClick={(e) => { e.stopPropagation(); handleDownload(); }}
-            className="p-1.5 rounded-lg hover:text-[#00C2B3] hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors disabled:opacity-50"
+            className="p-1.5 rounded-lg hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors disabled:opacity-50"
             style={{ color: 'var(--color-text-secondary)' }}
           >
             {isDownloading ? (
@@ -181,7 +181,7 @@ export default function DocumentsPage() {
           }}
         >
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-[#00C2B3]/10 text-[#00C2B3] flex items-center justify-center font-bold shrink-0 shadow-sm">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold shrink-0 shadow-sm">
               <FileText className="w-6 h-6" />
             </div>
             <div>
@@ -196,7 +196,7 @@ export default function DocumentsPage() {
 
           <button
             onClick={() => setIsUploadOpen(true)}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#00C2B3] hover:bg-[#00a89b] text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
           >
             <Plus className="w-4 h-4" />
             Upload Document
@@ -207,7 +207,7 @@ export default function DocumentsPage() {
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
             <div className="flex flex-col items-center gap-3">
-              <div className="w-8 h-8 border-4 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
               <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Loading documents...</p>
             </div>
           </div>
@@ -239,7 +239,7 @@ export default function DocumentsPage() {
             </div>
             <button
               onClick={() => setIsUploadOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#00C2B3] hover:bg-[#00a89b] text-white text-xs font-bold rounded-xl transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
               Upload Document
@@ -285,7 +285,7 @@ export default function DocumentsPage() {
           border: '1px solid var(--color-border)',
         }}
       >
-        <FileText className="w-8 h-8 text-[#00C2B3]" />
+        <FileText className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
       </div>
       <div>
         <h2 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
@@ -298,7 +298,7 @@ export default function DocumentsPage() {
       <div className="pt-2">
         <Link
           href="/dashboard/my-clients"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00C2B3] hover:bg-[#00a89b] text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
         >
           <Users className="w-4 h-4" />
           Go to My Clients

@@ -83,7 +83,7 @@ export const DscExpiringWidget: React.FC = () => {
 
         <Link
           href="/dashboard/dsc"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#00C2B3]/10 text-[#00C2B3] hover:bg-[#00C2B3]/20 transition-colors shrink-0 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-colors shrink-0 self-start sm:self-auto"
         >
           Manage DSC Tokens
           <ArrowRight className="w-3.5 h-3.5" />

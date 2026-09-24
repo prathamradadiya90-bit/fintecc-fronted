@@ -75,7 +75,7 @@ export function CagrCalculator() {
               <div className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
                 CAGR (Annualized)
               </div>
-              <div className="text-2xl font-bold mt-1 text-[#00C2B3]">
+              <div className="text-2xl font-bold mt-1 text-[#10B981]">
                 {cagr}%
               </div>
             </div>

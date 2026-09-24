@@ -179,7 +179,7 @@ export const TaskGrid: React.FC<TaskGridProps> = ({
                     if (input) input.indeterminate = isIndeterminate;
                   }}
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="w-4 h-4 rounded border-slate-300 text-[#00C2B3] focus:ring-[#00C2B3] cursor-pointer"
+                  className="w-4 h-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500/50 cursor-pointer"
                 />
               </th>
 
@@ -259,7 +259,7 @@ export const TaskGrid: React.FC<TaskGridProps> = ({
               <tr>
                 <td colSpan={9} className="px-6 py-16 text-center">
                   <div className="max-w-sm mx-auto flex flex-col items-center space-y-3">
-                    <div className="w-12 h-12 rounded-2xl bg-teal-500/10 text-[#00C2B3] flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                       <ClipboardList className="w-6 h-6" />
                     </div>
                     <div>
@@ -279,7 +279,7 @@ export const TaskGrid: React.FC<TaskGridProps> = ({
                     <div className="flex items-center gap-2 pt-2">
                       <Button
                         onClick={onOpenCreateModal}
-                        className="bg-[#00C2B3] hover:bg-[#00A89B] text-white text-xs h-9"
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs h-9"
                       >
                         <Plus className="w-3.5 h-3.5 mr-1" />
                         Create Task
@@ -289,7 +289,7 @@ export const TaskGrid: React.FC<TaskGridProps> = ({
                         onClick={onOpenImportModal}
                         className="text-xs h-9 border-[var(--color-border)]"
                       >
-                        <FileSpreadsheet className="w-3.5 h-3.5 mr-1 text-teal-600" />
+                        <FileSpreadsheet className="w-3.5 h-3.5 mr-1 text-emerald-600" />
                         Import Excel
                       </Button>
                     </div>

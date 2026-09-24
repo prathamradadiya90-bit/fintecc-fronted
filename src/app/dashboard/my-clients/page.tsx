@@ -160,7 +160,7 @@ function MyClientsPageContent() {
       header: 'Client',
       render: (client) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#091124] text-white flex items-center justify-center font-semibold text-xs">
+          <div className="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-semibold text-xs">
             {client.name.charAt(0).toUpperCase()}
           </div>
           <div>
@@ -274,19 +274,19 @@ function MyClientsPageContent() {
             </button>
           )}
           <button 
-            className="transition-colors p-1 text-[#00C2B3] hover:text-[#00a89b]"
+            className="transition-colors p-1 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500"
             title="Invite to Portal"
             disabled={isInviting && invitingId === client.id}
             onClick={(e) => { e.stopPropagation(); handleInvite(client); }}
           >
             {isInviting && invitingId === client.id ? (
-              <Loader2 className="w-4 h-4 animate-spin text-[#00C2B3]" />
+              <Loader2 className="w-4 h-4 animate-spin text-emerald-500" />
             ) : (
               <Mail className="w-4 h-4" />
             )}
           </button>
           <button 
-            className="transition-colors p-1 text-[#00C2B3] hover:text-[#00a89b]"
+            className="transition-colors p-1 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500"
             title="View Details"
             onClick={(e) => { e.stopPropagation(); handleView(client); }}
           >
@@ -325,7 +325,7 @@ function MyClientsPageContent() {
             variant="outline"
             onClick={handleExport}
             disabled={isExporting}
-            leftIcon={isExporting ? <Loader2 className="w-4 h-4 animate-spin text-[#00C2B3]" /> : <Download className="w-4 h-4" />}
+            leftIcon={isExporting ? <Loader2 className="w-4 h-4 animate-spin text-emerald-500" /> : <Download className="w-4 h-4" />}
             className="flex-1 sm:flex-initial"
           >
             {isExporting ? 'Exporting...' : 'Export Excel'}
@@ -371,7 +371,7 @@ function MyClientsPageContent() {
             border: '1px solid var(--color-border)',
           }}
         >
-          <div className="w-8 h-8 border-4 border-[#00C2B3] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
           <p className="mt-4" style={{ color: 'var(--color-text-secondary)' }}>Loading clients...</p>
         </div>
       ) : isError ? (

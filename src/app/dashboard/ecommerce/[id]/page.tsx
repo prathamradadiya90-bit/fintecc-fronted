@@ -141,7 +141,7 @@ export default function EcommerceReportDetailPage({
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="flex items-center gap-3 text-slate-500">
-          <Loader2 className="w-6 h-6 animate-spin text-[#00C2B3]" />
+          <Loader2 className="w-6 h-6 animate-spin text-emerald-500" />
           <span>Loading e-commerce report line items...</span>
         </div>
       </div>
@@ -155,13 +155,13 @@ export default function EcommerceReportDetailPage({
         <div>
           <Link
             href="/dashboard/ecommerce"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-[#00C2B3] transition-colors mb-2"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-emerald-500 transition-colors mb-2"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to E-Commerce Hub
           </Link>
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-teal-50 dark:bg-teal-950/50 text-[#00C2B3] border border-teal-100 dark:border-teal-900">
+            <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900">
               <ShoppingBag className="w-6 h-6" />
             </div>
             <div>
@@ -188,7 +188,7 @@ export default function EcommerceReportDetailPage({
       {/* TCS Reconciliation Panel */}
       <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
         <div className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-slate-100">
-          <Layers className="w-4 h-4 text-[#00C2B3]" />
+          <Layers className="w-4 h-4 text-emerald-500" />
           Section 52 TCS Reconciliation
         </div>
 
@@ -287,7 +287,7 @@ export default function EcommerceReportDetailPage({
                     type="checkbox"
                     checked={selectedItemIds.length === lineItems.length && lineItems.length > 0}
                     onChange={toggleSelectAll}
-                    className="rounded text-[#00C2B3] focus:ring-[#00C2B3]"
+                    className="rounded text-emerald-600 focus:ring-emerald-500"
                   />
                 </th>
                 <th className="py-3 px-3">Order ID</th>
@@ -306,7 +306,7 @@ export default function EcommerceReportDetailPage({
                   <tr
                     key={item.id}
                     className={`hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${
-                      isSelected ? 'bg-teal-50/40 dark:bg-teal-950/20' : ''
+                      isSelected ? 'bg-emerald-50/40 dark:bg-emerald-950/20' : ''
                     }`}
                   >
                     <td className="py-2.5 px-3">
@@ -314,7 +314,7 @@ export default function EcommerceReportDetailPage({
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => toggleSelectItem(item.id)}
-                        className="rounded text-[#00C2B3] focus:ring-[#00C2B3]"
+                        className="rounded text-emerald-600 focus:ring-emerald-500"
                       />
                     </td>
                     <td className="py-2.5 px-3 font-mono font-medium text-slate-800 dark:text-slate-200">
