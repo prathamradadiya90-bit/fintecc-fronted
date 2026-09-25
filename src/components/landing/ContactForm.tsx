@@ -112,7 +112,7 @@ export function ContactForm() {
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
               <span>
-                Direct support: <strong className="text-slate-300">support@fintecc.in</strong>
+                Direct support: <strong className="text-slate-300">finteccsolutions@gmail.com</strong>
               </span>
             </div>
             <span>Mon–Sat • 9:30 AM to 7:00 PM IST</span>

@@ -204,18 +204,6 @@ export function Sidebar({
         <ChevronsUpDown className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--color-text-muted)' }} />
       </div>
 
-      {/* Primary CTA: New Conversion */}
-      <Link
-        href="/dashboard/converters"
-        onClick={() => {
-          if (window.innerWidth < 1024 && onClose) onClose();
-        }}
-        className="mx-3 mb-2 bg-emerald-500 hover:bg-emerald-400 text-[#003824] text-xs font-bold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.25)] active:scale-95 transition-all duration-150 shrink-0"
-      >
-        <Plus className="w-4 h-4" />
-        <span>New Conversion</span>
-      </Link>
-
       {/* Navigation Links */}
       <nav className="flex-1 pt-1 pb-4 flex flex-col gap-1 px-3 overflow-y-auto custom-scrollbar">
         {items.map((item) => {
@@ -304,16 +292,6 @@ export function Sidebar({
           background: 'var(--color-bg-page)',
         }}
       >
-        {/* ICAI Compliant Badge */}
-        <div className="flex items-center gap-2 px-1 py-0.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-          <span
-            className="font-medium text-xs"
-            style={{ color: 'var(--color-text-primary)' }}
-          >
-            ICAI Compliant
-          </span>
-        </div>
 
         {/* Settings & Logout */}
         <div

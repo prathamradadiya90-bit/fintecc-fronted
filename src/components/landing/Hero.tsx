@@ -61,53 +61,60 @@ export function Hero() {
 
           {/* Right Column: Interactive Product Showcase Preview */}
           <div className="lg:col-span-5 relative" data-purpose="hero-preview-box">
-            {/* Decorative backdrop glow */}
-            <div className="absolute -inset-1.5 bg-gradient-to-r from-emerald-500/20 to-emerald-500/10 rounded-3xl blur-xl opacity-60 pointer-events-none" />
-            <div className="relative rounded-2xl glass-card p-6 shadow-glow-card">
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+            {/* Ambient glass light sources */}
+            <div className="absolute -inset-2 bg-gradient-to-tr from-emerald-500/20 via-blue-500/10 to-emerald-400/20 rounded-3xl blur-2xl opacity-70 pointer-events-none" />
+            <div className="absolute -top-12 -right-12 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-10 -left-10 w-44 h-44 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative rounded-2xl glass-card p-6 shadow-glow-card overflow-hidden">
+              {/* Frosted glass top sheen */}
+              <div className="absolute inset-0 bg-gradient-to-b from-white/[0.08] via-transparent to-emerald-500/[0.02] pointer-events-none" />
+
+              <div className="relative z-10 flex items-center justify-between pb-4 mb-4 border-b border-white/10">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                  <span className="ml-2 text-xs font-mono uppercase tracking-wider text-slate-400">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 shadow-[0_0_8px_rgba(244,63,94,0.5)]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                  <span className="ml-2 text-xs font-mono uppercase tracking-wider text-slate-300 font-medium">
                     AVAILABLE PRODUCTS
                   </span>
                 </div>
-                <span className="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full font-mono">
+                <span className="text-xs text-emerald-300 bg-emerald-500/15 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-mono backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
                   Live v2.4
                 </span>
               </div>
 
               {/* Interactive Product Preview List */}
-              <div className="space-y-4">
+              <div className="relative z-10 space-y-4">
                 {/* Preview Card 1: Bank Converter */}
                 <Link
                   href="/dashboard/converters?type=bank"
-                  className="block group p-4 rounded-xl bg-[#101828]/90 border border-white/10 hover:border-emerald-500/40 hover:bg-[#101828] transition-all cursor-pointer"
+                  className="relative block group p-4 rounded-xl glass-subcard cursor-pointer overflow-hidden"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0 text-blue-400">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  <div className="relative z-10 flex items-start justify-between gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/15 border border-blue-400/30 backdrop-blur-md flex items-center justify-center flex-shrink-0 text-blue-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25)]">
                       <Landmark className="w-5 h-5" />
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <h2 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1 gap-2">
+                        <h2 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors truncate">
                           Bank Statement Converter
                         </h2>
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 backdrop-blur-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] flex-shrink-0">
                           Live
                         </span>
                       </div>
-                      <p className="text-xs text-slate-400 leading-normal mb-2">
+                      <p className="text-xs text-slate-300 leading-normal mb-2.5">
                         Convert PDF bank statements from 1000s of banks into clean Excel format instantly.
                       </p>
                       {/* Mini Interactive Upload Simulation */}
-                      <div className="py-2 px-3 rounded-lg bg-white/5 border border-dashed border-white/15 flex items-center justify-between text-[11px] text-slate-400">
+                      <div className="py-2 px-3 rounded-lg bg-white/[0.04] backdrop-blur-sm border border-dashed border-white/20 group-hover:border-emerald-400/40 group-hover:bg-white/[0.07] flex items-center justify-between text-[11px] text-slate-300 transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
                         <span className="flex items-center gap-1.5">
                           <UploadCloud className="w-3.5 h-3.5 text-emerald-400" />
                           Drop PDF (e.g. HDFC, ICICI, SBI)
                         </span>
-                        <span className="text-emerald-400 font-semibold text-[10px]">
+                        <span className="text-emerald-300 font-semibold text-[10px] bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-400/20">
                           Parse → XLS
                         </span>
                       </div>
@@ -118,33 +125,34 @@ export function Hero() {
                 {/* Preview Card 2: Tax Invoice Converter */}
                 <Link
                   href="/dashboard/converters?type=tax"
-                  className="block group p-4 rounded-xl bg-[#101828]/90 border border-white/10 hover:border-emerald-500/40 hover:bg-[#101828] transition-all cursor-pointer"
+                  className="relative block group p-4 rounded-xl glass-subcard cursor-pointer overflow-hidden"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0 text-emerald-400">
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  <div className="relative z-10 flex items-start justify-between gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-400/30 backdrop-blur-md flex items-center justify-center flex-shrink-0 text-emerald-300 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25)]">
                       <ReceiptText className="w-5 h-5" />
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <h2 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1 gap-2">
+                        <h2 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors truncate">
                           Tax Invoice Converter
                         </h2>
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 backdrop-blur-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] flex-shrink-0">
                           Live
                         </span>
                       </div>
-                      <p className="text-xs text-slate-400 leading-normal mb-2">
+                      <p className="text-xs text-slate-300 leading-normal mb-2.5">
                         Extract line items, GSTIN, tax amounts from scanned or digital invoices for GST reconciliation.
                       </p>
                       {/* Tag badges */}
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-white/5 text-slate-300 border border-white/5">
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white/[0.05] backdrop-blur-sm text-slate-300 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                           GSTIN Split
                         </span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-white/5 text-slate-300 border border-white/5">
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white/[0.05] backdrop-blur-sm text-slate-300 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                           GSTR-2B Match
                         </span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-white/5 text-slate-300 border border-white/5">
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white/[0.05] backdrop-blur-sm text-slate-300 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                           Batch OCR
                         </span>
                       </div>
@@ -154,12 +162,12 @@ export function Hero() {
               </div>
 
               {/* Quick Security Tag in Box */}
-              <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
+              <div className="relative z-10 mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-300">
                 <span className="flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                   Encrypted In-Memory Processing
                 </span>
-                <span className="text-slate-400">Zero File Storage</span>
+                <span className="text-slate-400 font-mono text-[10px]">Zero File Storage</span>
               </div>
             </div>
           </div>

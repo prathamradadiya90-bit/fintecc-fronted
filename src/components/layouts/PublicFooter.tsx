@@ -45,7 +45,7 @@ export function PublicFooter() {
         {/* Bottom bar: Copyright & Disclaimer */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-3">
           <p>© 2026 Fintecc. All rights reserved.</p>
-          <p>Built with enterprise-grade data security standards in Bengaluru, India.</p>
+          <p>Built in India with love❤️</p>
         </div>
       </div>
     </footer>

@@ -167,23 +167,7 @@ export function Topbar({
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          {/* ICAI Verified Trust Badge */}
-          <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>ICAI Verified</span>
-          </div>
-
-          {/* Quick Convert Button */}
-          <button
-            type="button"
-            onClick={() => router.push('/dashboard/converters')}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-[#003824] text-xs font-bold shadow-[0_0_15px_rgba(16,185,129,0.25)] active:scale-95 transition-all"
-          >
-            <Zap className="w-3.5 h-3.5" />
-            <span>Quick Convert</span>
-          </button>
-
+         
           <NotificationBell />
 
           <div
