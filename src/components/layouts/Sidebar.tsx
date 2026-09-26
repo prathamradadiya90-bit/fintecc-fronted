@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, 
   Shield, MessageSquare, CreditCard, Building2, ReceiptText, ClipboardList, 
   ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, 
-  FileStack, Clock, LifeBuoy, ChevronsUpDown, Plus, ShieldCheck 
+  FileStack, Clock, LifeBuoy, ChevronsUpDown, ShieldCheck, ChevronDown 
 } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
@@ -17,35 +17,24 @@ import { logout as logoutAction } from '@/lib/store/features/auth/authSlice';
 import Logo from '@/components/ui/Logo';
 import type { RootState } from '@/lib/store/store';
 
-interface NavItem {
+interface NavLeafItem {
   name: string;
   href: string;
   icon: React.ElementType;
   badge?: string;
+  badgeVariant?: 'emerald' | 'cyan' | 'amber';
 }
 
-const navItems: NavItem[] = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Work Board', href: '/dashboard/tasks', icon: ClipboardList },
-  { name: 'Notice Board', href: '/dashboard/notices', icon: FileWarning },
-  { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
-  { name: 'Bank Statements', href: '/dashboard/bank-statements', icon: Landmark },
-  { name: 'DSC Tracker', href: '/dashboard/dsc', icon: Key },
-  { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
-  { name: 'Client Vault', href: '/dashboard/vault', icon: KeyRound },
-  { name: 'GST Compliance', href: '/dashboard/gst', icon: Building2 },
-  { name: 'ITR Filing', href: '/dashboard/itr', icon: ReceiptText },
-  { name: 'TDS Compliance', href: '/dashboard/tds', icon: Calculator },
-  { name: 'E-Commerce', href: '/dashboard/ecommerce', icon: ShoppingBag },
-  { name: 'MCA Registry', href: '/dashboard/mca', icon: Building2 },
-  { name: 'ROC Filings', href: '/dashboard/roc', icon: FileStack },
-  { name: 'Tally Sync', href: '/dashboard/tally-sync', icon: RefreshCw },
-  { name: 'Converters', href: '/dashboard/converters', icon: FileText },
-  { name: 'Calculators', href: '/dashboard/calculators', icon: Calculator },
-  { name: 'Compliance Calendar', href: '/dashboard/compliance', icon: Calendar },
-  { name: 'Helpdesk', href: '/dashboard/helpdesk', icon: LifeBuoy },
-  { name: 'Subscription', href: '/dashboard/subscription', icon: CreditCard },
-];
+interface NavGroupItem {
+  id: string;
+  name: string;
+  icon: React.ElementType;
+  children: NavLeafItem[];
+}
+
+type NavEntry =
+  | { type: 'link'; item: NavLeafItem }
+  | { type: 'group'; item: NavGroupItem };
 
 export function Sidebar({ 
   isOpen, 
@@ -76,37 +65,159 @@ export function Sidebar({
     ? tasksData.data.filter((t) => t.status !== 'DONE').length
     : 0;
 
-  const clientNavItems: NavItem[] = [
-    { name: 'My Invoices', href: '/dashboard/portal', icon: Receipt },
-    { name: 'Chat', href: '/dashboard/chat', icon: MessageSquare },
-    { name: 'Helpdesk', href: '/dashboard/helpdesk', icon: LifeBuoy },
-    { name: 'Documents', href: '/dashboard/documents', icon: FileText },
-  ];
+  // Track accordion expand/collapse states
+  const [openGroups, setOpenGroups] = React.useState<Record<string, boolean>>({});
 
-  const rawItems: NavItem[] = user?.role === 'CLIENT'
-    ? clientNavItems
-    : [
-        ...navItems,
-        ...(user?.role === 'FIRM_OWNER'
-          ? [
-              { name: 'Manage Staff', href: '/dashboard/staff', icon: Shield },
-              { name: 'Attendance', href: '/dashboard/attendance', icon: Clock },
-              { name: 'Audit Logs', href: '/dashboard/audit-logs', icon: Shield },
-            ]
-          : []
-        ),
-        { name: 'Contact Us', href: '/dashboard/contact', icon: MessageSquare },
-      ];
+  const clientNavEntries: NavEntry[] = useMemo(() => [
+    { type: 'link', item: { name: 'My Invoices', href: '/dashboard/portal', icon: Receipt } },
+    { type: 'link', item: { name: 'Chat', href: '/dashboard/chat', icon: MessageSquare } },
+    { type: 'link', item: { name: 'Helpdesk', href: '/dashboard/helpdesk', icon: LifeBuoy } },
+    { type: 'link', item: { name: 'Documents', href: '/dashboard/documents', icon: FileText } },
+  ], []);
 
-  const items: NavItem[] = rawItems.map((item) => {
-    if (item.name === 'Work Board') {
-      return {
-        ...item,
-        badge: activeTasksCount > 0 ? String(activeTasksCount) : undefined,
-      };
+  const firmNavEntries: NavEntry[] = useMemo(() => {
+    const entries: NavEntry[] = [
+      {
+        type: 'link',
+        item: { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+      },
+      {
+        type: 'link',
+        item: {
+          name: 'Work Board',
+          href: '/dashboard/tasks',
+          icon: ClipboardList,
+          badge: activeTasksCount > 0 ? String(activeTasksCount) : undefined,
+        },
+      },
+      {
+        type: 'group',
+        item: {
+          id: 'clients-group',
+          name: 'Clients & Security',
+          icon: Users,
+          children: [
+            { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
+            { name: 'Client Vault', href: '/dashboard/vault', icon: KeyRound },
+            { name: 'DSC Tracker', href: '/dashboard/dsc', icon: Key },
+          ],
+        },
+      },
+      {
+        type: 'group',
+        item: {
+          id: 'tax-group',
+          name: 'Tax & Compliance',
+          icon: Building2,
+          children: [
+            {
+              name: 'GST Compliance',
+              href: '/dashboard/gst',
+              icon: Building2,
+              badge: '2B Beta',
+              badgeVariant: 'cyan',
+            },
+            { name: 'ITR Filing', href: '/dashboard/itr', icon: ReceiptText },
+            { name: 'TDS Compliance', href: '/dashboard/tds', icon: Calculator },
+            { name: 'MCA Registry', href: '/dashboard/mca', icon: Building2 },
+            { name: 'ROC Filings', href: '/dashboard/roc', icon: FileStack },
+            { name: 'Notice Board', href: '/dashboard/notices', icon: FileWarning },
+            { name: 'Compliance Calendar', href: '/dashboard/compliance', icon: Calendar },
+          ],
+        },
+      },
+      {
+        type: 'group',
+        item: {
+          id: 'tools-group',
+          name: 'Accounting & Tools',
+          icon: Calculator,
+          children: [
+            { name: 'Bank Statements', href: '/dashboard/bank-statements', icon: Landmark },
+            { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
+            { name: 'Tally Sync', href: '/dashboard/tally-sync', icon: RefreshCw },
+            {
+              name: 'Converters',
+              href: '/dashboard/converters',
+              icon: FileText,
+              badge: 'LIVE',
+              badgeVariant: 'emerald',
+            },
+            { name: 'Calculators', href: '/dashboard/calculators', icon: Calculator },
+            { name: 'E-Commerce', href: '/dashboard/ecommerce', icon: ShoppingBag },
+          ],
+        },
+      },
+    ];
+
+    if (user?.role === 'FIRM_OWNER') {
+      entries.push({
+        type: 'group',
+        item: {
+          id: 'firm-group',
+          name: 'Firm Management',
+          icon: Shield,
+          children: [
+            { name: 'Manage Staff', href: '/dashboard/staff', icon: Shield },
+            { name: 'Staff Attendance', href: '/dashboard/attendance', icon: Clock },
+            { name: 'Audit Logs', href: '/dashboard/audit-logs', icon: ShieldCheck },
+          ],
+        },
+      });
     }
-    return item;
-  });
+
+    entries.push({
+      type: 'link',
+      item: {
+        name: 'Subscription',
+        href: '/dashboard/subscription',
+        icon: CreditCard,
+        badge: !hasActivePlan ? 'Action' : undefined,
+        badgeVariant: 'amber',
+      },
+    });
+
+    entries.push({
+      type: 'group',
+      item: {
+        id: 'support-group',
+        name: 'Help & Support',
+        icon: LifeBuoy,
+        children: [
+          { name: 'Helpdesk', href: '/dashboard/helpdesk', icon: LifeBuoy },
+          { name: 'Contact Us', href: '/dashboard/contact', icon: MessageSquare },
+        ],
+      },
+    });
+
+    return entries;
+  }, [activeTasksCount, user?.role, hasActivePlan]);
+
+  const navEntries = user?.role === 'CLIENT' ? clientNavEntries : firmNavEntries;
+
+  // Auto-expand any group that contains the current active route
+  React.useEffect(() => {
+    navEntries.forEach((entry) => {
+      if (entry.type === 'group') {
+        const hasActiveChild = entry.item.children.some(
+          (child) => pathname === child.href || pathname.startsWith(`${child.href}/`)
+        );
+        if (hasActiveChild) {
+          setOpenGroups((prev) => ({
+            ...prev,
+            [entry.item.id]: true,
+          }));
+        }
+      }
+    });
+  }, [pathname, navEntries]);
+
+  const toggleGroup = (groupId: string) => {
+    setOpenGroups((prev) => ({
+      ...prev,
+      [groupId]: !prev[groupId],
+    }));
+  };
 
   const handleLogout = async () => {
     try {
@@ -122,6 +233,21 @@ export function Sidebar({
   const firmName = (user as any)?.firmName || user?.name || 'Fintecc Practice';
   const firmInitials = firmName.slice(0, 2).toUpperCase();
   const firmCode = `CA-${user?.id ? user.id.slice(-5).toUpperCase() : '98421'}`;
+
+  const renderBadge = (badge?: string, variant?: 'emerald' | 'cyan' | 'amber') => {
+    if (!badge) return null;
+    let colorClasses = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+    if (variant === 'cyan') {
+      colorClasses = 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20';
+    } else if (variant === 'amber') {
+      colorClasses = 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+    }
+    return (
+      <span className={`ml-auto text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-full border shrink-0 ${colorClasses}`}>
+        {badge}
+      </span>
+    );
+  };
 
   return (
     <aside
@@ -206,80 +332,156 @@ export function Sidebar({
 
       {/* Navigation Links */}
       <nav className="flex-1 pt-1 pb-4 flex flex-col gap-1 px-3 overflow-y-auto custom-scrollbar">
-        {items.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-          const isSubscriptionItem = item.href === '/dashboard/subscription';
-          const isContactItem = item.href === '/dashboard/contact';
-          const isLocked = !hasActivePlan && !isSubscriptionItem && !isContactItem;
-          const destinationHref = isLocked ? '/dashboard/subscription' : item.href;
-          const Icon = item.icon;
+        {navEntries.map((entry) => {
+          if (entry.type === 'link') {
+            const isActive = pathname === entry.item.href || pathname.startsWith(`${entry.item.href}/`);
+            const isSubscriptionItem = entry.item.href === '/dashboard/subscription';
+            const isContactItem = entry.item.href === '/dashboard/contact';
+            const isLocked = !hasActivePlan && !isSubscriptionItem && !isContactItem;
+            const destinationHref = isLocked ? '/dashboard/subscription' : entry.item.href;
+            const Icon = entry.item.icon;
+
+            return (
+              <Link
+                key={entry.item.name}
+                href={destinationHref}
+                onClick={() => {
+                  if (window.innerWidth < 1024 && onClose) onClose();
+                }}
+                className={`
+                  flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 group relative text-xs
+                  ${isActive
+                    ? 'text-emerald-400 border border-emerald-500/25 shadow-[0_0_15px_rgba(16,185,129,0.12)] font-medium'
+                    : 'border border-transparent hover:bg-[var(--color-bg-card)]'
+                  }
+                `}
+                style={{
+                  ...(isActive ? { background: 'var(--color-bg-card)' } : {}),
+                  ...(!isActive && !isLocked ? { color: 'var(--color-text-secondary)' } : {}),
+                  ...(isLocked && !isActive ? { color: 'var(--color-text-muted)' } : {}),
+                }}
+              >
+                <Icon
+                  className={`w-4 h-4 shrink-0 ${isActive ? 'text-emerald-400' : ''}`}
+                  style={!isActive ? { color: 'inherit' } : {}}
+                />
+                <span className="truncate">{entry.item.name}</span>
+
+                {isActive && (
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] shrink-0" />
+                )}
+
+                {isLocked && !isActive && (
+                  <Lock className="w-3.5 h-3.5 ml-auto shrink-0" style={{ color: 'var(--color-text-muted)' }} />
+                )}
+
+                {renderBadge(entry.item.badge, entry.item.badgeVariant)}
+              </Link>
+            );
+          }
+
+          // Collapsible Accordion Group
+          const group = entry.item;
+          const GroupIcon = group.icon;
+          const isGroupOpen = !!openGroups[group.id];
+          const hasActiveChild = group.children.some(
+            (child) => pathname === child.href || pathname.startsWith(`${child.href}/`)
+          );
 
           return (
-            <Link
-              key={item.name}
-              href={destinationHref}
-              onClick={() => {
-                if (window.innerWidth < 1024 && onClose) onClose();
-              }}
-              className={`
-                flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 group relative text-xs
-                ${isActive
-                  ? 'text-emerald-400 border border-emerald-500/25 shadow-[0_0_15px_rgba(16,185,129,0.12)] font-medium'
-                  : isLocked
-                  ? 'border border-transparent'
-                  : 'border border-transparent'
-                }
-              `}
-              style={{
-                ...(isActive
-                  ? { background: 'var(--color-bg-card)' }
-                  : {}),
-                ...(!isActive && !isLocked
-                  ? { color: 'var(--color-text-secondary)' }
-                  : {}),
-                ...(isLocked && !isActive
-                  ? { color: 'var(--color-text-muted)' }
-                  : {}),
-              }}
-            >
-              <Icon
-                className={`w-4 h-4 shrink-0 ${isActive ? 'text-emerald-400' : ''}`}
-                style={!isActive ? { color: 'inherit' } : {}}
-              />
-              <span className="truncate">{item.name}</span>
+            <div key={group.id} className="flex flex-col">
+              <button
+                type="button"
+                onClick={() => toggleGroup(group.id)}
+                aria-expanded={isGroupOpen}
+                className={`
+                  w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-150 text-xs text-left group
+                  ${hasActiveChild && !isGroupOpen
+                    ? 'text-emerald-400 bg-emerald-500/10 font-semibold'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-card)]'
+                  }
+                `}
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <GroupIcon
+                    className={`w-4 h-4 shrink-0 transition-colors ${
+                      hasActiveChild ? 'text-emerald-400' : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-text-primary)]'
+                    }`}
+                  />
+                  <span className="truncate font-medium">{group.name}</span>
+                </div>
 
-              {isActive && (
-                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] shrink-0" />
-              )}
+                <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                  {hasActiveChild && !isGroupOpen && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] shrink-0" />
+                  )}
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-[var(--color-text-muted)] transition-transform duration-200 ${
+                      isGroupOpen ? 'rotate-180 text-emerald-400' : 'group-hover:text-[var(--color-text-primary)]'
+                    }`}
+                  />
+                </div>
+              </button>
 
-              {isLocked && !isActive && (
-                <Lock className="w-3.5 h-3.5 ml-auto shrink-0" style={{ color: 'var(--color-text-muted)' }} />
-              )}
+              {/* Sub-items accordion dropdown */}
+              {isGroupOpen && (
+                <div className="ml-3.5 pl-2.5 border-l border-[var(--color-border)] flex flex-col gap-0.5 my-1">
+                  {group.children.map((child) => {
+                    const isChildActive = pathname === child.href || pathname.startsWith(`${child.href}/`);
+                    const isChildLocked =
+                      !hasActivePlan &&
+                      child.href !== '/dashboard/subscription' &&
+                      child.href !== '/dashboard/contact';
+                    const destinationHref = isChildLocked ? '/dashboard/subscription' : child.href;
+                    const ChildIcon = child.icon;
 
-              {item.name === 'Converters' && !isActive && (
-                <span className="ml-auto px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
-                  LIVE
-                </span>
-              )}
+                    return (
+                      <Link
+                        key={child.name}
+                        href={destinationHref}
+                        onClick={() => {
+                          if (window.innerWidth < 1024 && onClose) onClose();
+                        }}
+                        className={`
+                          flex items-center gap-2 px-2.5 py-1.5 rounded-lg transition-all text-xs group relative
+                          ${isChildActive
+                            ? 'text-emerald-400 bg-[var(--color-bg-card)] border border-emerald-500/25 shadow-[0_0_12px_rgba(16,185,129,0.12)] font-medium'
+                            : 'border border-transparent hover:bg-[var(--color-bg-card)]'
+                          }
+                        `}
+                        style={{
+                          ...(!isChildActive && !isChildLocked
+                            ? { color: 'var(--color-text-secondary)' }
+                            : {}),
+                          ...(isChildLocked && !isChildActive
+                            ? { color: 'var(--color-text-muted)' }
+                            : {}),
+                        }}
+                      >
+                        <ChildIcon
+                          className={`w-3.5 h-3.5 shrink-0 ${
+                            isChildActive
+                              ? 'text-emerald-400'
+                              : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-text-primary)]'
+                          }`}
+                        />
+                        <span className="truncate">{child.name}</span>
 
-              {item.name === 'GST Compliance' && !isActive && (
-                <span className="ml-auto px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shrink-0">
-                  2B Beta
-                </span>
-              )}
+                        {isChildActive && (
+                          <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] shrink-0" />
+                        )}
 
-              {isSubscriptionItem && !hasActivePlan && (
-                <span className="ml-auto text-[10px] uppercase tracking-wider font-semibold bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded shrink-0">
-                  Action
-                </span>
-              )}
+                        {isChildLocked && !isChildActive && (
+                          <Lock className="w-3 h-3 ml-auto shrink-0 text-[var(--color-text-muted)]" />
+                        )}
 
-              {item.badge && hasActivePlan && !isActive && (
-                <span className="ml-auto text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.2 rounded-full shrink-0">
-                  {item.badge}
-                </span>
+                        {renderBadge(child.badge, child.badgeVariant)}
+                      </Link>
+                    );
+                  })}
+                </div>
               )}
-            </Link>
+            </div>
           );
         })}
       </nav>
