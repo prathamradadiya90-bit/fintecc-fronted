@@ -1,6 +1,7 @@
 export interface User {
   id: string;
   firmId: string;
+  firmName?: string;
   clientId?: string;
   name: string;
   email: string;

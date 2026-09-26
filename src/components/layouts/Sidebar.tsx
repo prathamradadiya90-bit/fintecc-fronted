@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, 
   Shield, MessageSquare, CreditCard, Building2, ReceiptText, ClipboardList, 
   ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, 
-  FileStack, Clock, LifeBuoy, ChevronsUpDown, ShieldCheck, ChevronDown 
+  FileStack, Clock, LifeBuoy, ShieldCheck, ChevronDown 
 } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
@@ -66,7 +66,7 @@ export function Sidebar({
     : 0;
 
   // Track accordion expand/collapse states
-  const [openGroups, setOpenGroups] = React.useState<Record<string, boolean>>({});
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
   const clientNavEntries: NavEntry[] = useMemo(() => [
     { type: 'link', item: { name: 'My Invoices', href: '/dashboard/portal', icon: Receipt } },
@@ -196,7 +196,7 @@ export function Sidebar({
   const navEntries = user?.role === 'CLIENT' ? clientNavEntries : firmNavEntries;
 
   // Auto-expand any group that contains the current active route
-  React.useEffect(() => {
+  useEffect(() => {
     navEntries.forEach((entry) => {
       if (entry.type === 'group') {
         const hasActiveChild = entry.item.children.some(
@@ -230,7 +230,7 @@ export function Sidebar({
     }
   };
 
-  const firmName = (user as any)?.firmName || user?.name || 'Fintecc Practice';
+  const firmName = user?.firmName || user?.name || 'Fintecc Practice';
   const firmInitials = firmName.slice(0, 2).toUpperCase();
   const firmCode = `CA-${user?.id ? user.id.slice(-5).toUpperCase() : '98421'}`;
 
@@ -292,7 +292,7 @@ export function Sidebar({
 
       {/* Active Practice Switcher */}
       <div
-        className="rounded-xl p-2.5 flex items-center justify-between transition-colors cursor-pointer mx-3 mt-3 mb-2 shrink-0"
+        className="rounded-xl p-2.5 flex items-center justify-between transition-colors mx-3 mt-3 mb-2 shrink-0"
         style={{
           background: 'var(--color-bg-card)',
           border: '1px solid var(--color-border)',
@@ -327,7 +327,6 @@ export function Sidebar({
             </div>
           </div>
         </div>
-        <ChevronsUpDown className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--color-text-muted)' }} />
       </div>
 
       {/* Navigation Links */}
