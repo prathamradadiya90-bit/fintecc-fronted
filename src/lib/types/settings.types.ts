@@ -14,6 +14,7 @@ export interface EmailSettings {
   port?: number;
   user?: string;
   pass?: string;
+  fromEmail?: string;
 }
 
 export interface SmsSettings {

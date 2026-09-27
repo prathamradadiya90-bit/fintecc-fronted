@@ -36,6 +36,10 @@ import { rolesApi } from './api/rolesApi';
 import { calendarApi } from './api/calendarApi';
 import { tdsApi } from './api/tdsApi';
 import { shortcutsApi } from './api/shortcutsApi';
+import { leadsApi } from './api/leadsApi';
+import { signaturesApi } from './api/signaturesApi';
+import { apiKeysApi } from './api/apiKeysApi';
+import { integrationsApi } from './api/integrationsApi';
 import authReducer from './features/auth/authSlice';
 import shortcutsReducer from './features/shortcuts/shortcutsSlice';
 
@@ -83,6 +87,10 @@ const rootReducer = combineReducers({
   [tdsApi.reducerPath]: tdsApi.reducer,
   shortcuts: shortcutsReducer,
   [shortcutsApi.reducerPath]: shortcutsApi.reducer,
+  [leadsApi.reducerPath]: leadsApi.reducer,
+  [signaturesApi.reducerPath]: signaturesApi.reducer,
+  [apiKeysApi.reducerPath]: apiKeysApi.reducer,
+  [integrationsApi.reducerPath]: integrationsApi.reducer,
 });
 
 
@@ -163,7 +171,11 @@ export const store = configureStore({
       rolesApi.middleware,
       calendarApi.middleware,
       tdsApi.middleware,
-      shortcutsApi.middleware
+      shortcutsApi.middleware,
+      leadsApi.middleware,
+      signaturesApi.middleware,
+      apiKeysApi.middleware,
+      integrationsApi.middleware
     ),
 });
 

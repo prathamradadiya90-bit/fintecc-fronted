@@ -10,11 +10,6 @@ import {
   Save,
   Plus,
   Trash2,
-  MapPin,
-  UserCheck,
-  Phone,
-  ShieldCheck,
-  CheckCircle2,
   Brain,
   Shield,
   User as UserIcon,
@@ -33,15 +28,18 @@ import { LedgerMappingRulesSettings } from '@/components/settings/LedgerMappingR
 import { RolesManagement } from '@/components/settings/RolesManagement';
 import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import { DataExportSettings } from '@/components/settings/DataExportSettings';
+import { PaymentGatewaySettings } from '@/components/settings/PaymentGatewaySettings';
+import { ApiKeysSettings } from '@/components/settings/ApiKeysSettings';
+import { CreditCard, KeyRound, Sparkles } from 'lucide-react';
 
-type SettingsTab = 'profile' | 'invoice' | 'tax' | 'email' | 'branches' | 'ledger-rules' | 'roles' | 'export';
+type SettingsTab = 'profile' | 'invoice' | 'tax' | 'email' | 'branches' | 'payment-gateway' | 'api-keys' | 'ledger-rules' | 'roles' | 'export';
 
 
 export default function SettingsPage() {
   const { user } = useSelector((state: RootState) => state.auth);
   const isFirmOwner = user?.role === 'FIRM_OWNER';
   const { showToast } = useToast();
-  const { data: response, isLoading } = useGetSettingsQuery();
+  const { data: response } = useGetSettingsQuery();
   const [updateSettings, { isLoading: isUpdating }] = useUpdateSettingsMutation();
 
   const [activeTab, setActiveTab] = useState<SettingsTab>('invoice');
@@ -66,6 +64,7 @@ export default function SettingsPage() {
     port: 587,
     user: '',
     pass: '',
+    fromEmail: '',
   });
 
   const [branches, setBranches] = useState<FirmBranch[]>([
@@ -81,7 +80,13 @@ export default function SettingsPage() {
         setTaxRates(response.data.taxRates);
       }
       if (response.data.emailSettings) {
-        setEmailSettings(response.data.emailSettings);
+        setEmailSettings({
+          smtpHost: response.data.emailSettings.smtpHost || '',
+          port: response.data.emailSettings.port || 587,
+          user: response.data.emailSettings.user || '',
+          pass: response.data.emailSettings.pass || '',
+          fromEmail: response.data.emailSettings.fromEmail || '',
+        });
       }
     }
   }, [response]);
@@ -131,9 +136,10 @@ export default function SettingsPage() {
         emailSettings,
       }).unwrap();
       showToast('Settings saved successfully!', 'success');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Update settings error:', err);
-      showToast(err?.data?.message || 'Failed to save settings', 'error');
+      const apiErr = err as { data?: { message?: string } };
+      showToast(apiErr?.data?.message || 'Failed to save settings', 'error');
     }
   };
 
@@ -150,7 +156,7 @@ export default function SettingsPage() {
           </p>
         </div>
 
-        {activeTab !== 'profile' && activeTab !== 'ledger-rules' && activeTab !== 'roles' && activeTab !== 'export' && (
+        {activeTab !== 'profile' && activeTab !== 'ledger-rules' && activeTab !== 'roles' && activeTab !== 'export' && activeTab !== 'payment-gateway' && activeTab !== 'api-keys' && (
           <Button
             type="submit"
             form="settings-form"
@@ -168,10 +174,12 @@ export default function SettingsPage() {
           { id: 'profile', label: 'My Profile', icon: UserIcon },
           { id: 'invoice', label: 'Invoice & Billing', icon: Receipt },
           { id: 'tax', label: 'Tax Rates & Slabs', icon: Percent },
-          { id: 'email', label: 'Email & SMTP', icon: Mail },
+          { id: 'email', label: 'Email & White-Labeling', icon: Mail },
+          { id: 'payment-gateway', label: 'Payment Gateway', icon: CreditCard },
+          { id: 'api-keys', label: 'API Keys & Developers', icon: KeyRound },
           { id: 'branches', label: 'Branches & Offices', icon: Building2 },
           ...(isFirmOwner ? [{ id: 'roles', label: 'Custom Roles', icon: Shield }] : []),
-          ...(isFirmOwner ? [{ id: 'export', label: 'Data Export', icon: Database }] : []),
+          ...(isFirmOwner ? [{ id: 'export', label: 'Data & Backups', icon: Database }] : []),
           { id: 'ledger-rules', label: 'Ledger Mapping Rules', icon: Brain },
         ].map((tab) => {
           const Icon = tab.icon;
@@ -339,33 +347,49 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* TAB 3: Email & SMTP */}
+        {/* TAB 3: Email & White-Labeling */}
         {activeTab === 'email' && (
           <div
             className="rounded-2xl p-6 shadow-sm space-y-5"
             style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
           >
-            <div>
-              <h2 className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>
-                Email & Custom SMTP Configuration
-              </h2>
-              <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
-                Use your firm's domain SMTP server to dispatch invoices, tax filing receipts, and overdue alerts.
-              </p>
+            <div className="flex items-start justify-between gap-4 pb-2 border-b" style={{ borderColor: 'var(--color-border-subtle)' }}>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>
+                    Advanced White-Labeling & Custom SMTP
+                  </h2>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    Branding Isolation
+                  </span>
+                </div>
+                <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+                  All emails sent to clients are dispatched directly from your CA firm&apos;s own mail server, entirely removing the platform&apos;s native branding.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                label="Firm From Email (Sender Address) *"
+                placeholder="noreply@mycafirm.com or filings@yourdomain.in"
+                value={emailSettings.fromEmail || ''}
+                onChange={(e) =>
+                  setEmailSettings((prev) => ({ ...prev, fromEmail: e.target.value }))
+                }
+              />
+
+              <Input
+                label="SMTP Host *"
+                placeholder="smtp.sendgrid.net or smtp.gmail.com"
+                value={emailSettings.smtpHost || ''}
+                onChange={(e) =>
+                  setEmailSettings((prev) => ({ ...prev, smtpHost: e.target.value }))
+                }
+              />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="sm:col-span-2">
-                <Input
-                  label="SMTP Host"
-                  placeholder="smtp.gmail.com or mail.yourfirm.com"
-                  value={emailSettings.smtpHost || ''}
-                  onChange={(e) =>
-                    setEmailSettings((prev) => ({ ...prev, smtpHost: e.target.value }))
-                  }
-                />
-              </div>
-
               <div>
                 <Input
                   type="number"
@@ -380,27 +404,61 @@ export default function SettingsPage() {
                   }
                 />
               </div>
+
+              <div>
+                <Input
+                  label="SMTP Username / API User"
+                  placeholder="apikey or billing@yourfirm.com"
+                  value={emailSettings.user || ''}
+                  onChange={(e) =>
+                    setEmailSettings((prev) => ({ ...prev, user: e.target.value }))
+                  }
+                />
+              </div>
+
+              <div>
+                <Input
+                  type="password"
+                  label="SMTP Password / Secret"
+                  placeholder="••••••••••••"
+                  value={emailSettings.pass || ''}
+                  onChange={(e) =>
+                    setEmailSettings((prev) => ({ ...prev, pass: e.target.value }))
+                  }
+                />
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input
-                label="SMTP Username / Email"
-                placeholder="billing@yourfirm.com"
-                value={emailSettings.user || ''}
-                onChange={(e) =>
-                  setEmailSettings((prev) => ({ ...prev, user: e.target.value }))
-                }
-              />
+            {/* Live Recipient Email Preview Card */}
+            <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 space-y-2.5">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                  Client Inbox Preview (White-Labeled)
+                </span>
+                <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  Zero Platform Footprint
+                </span>
+              </div>
 
-              <Input
-                type="password"
-                label="SMTP Password / App Password"
-                placeholder="••••••••••••"
-                value={emailSettings.pass || ''}
-                onChange={(e) =>
-                  setEmailSettings((prev) => ({ ...prev, pass: e.target.value }))
-                }
-              />
+              <div
+                className="p-3 rounded-lg border text-xs space-y-1 font-mono"
+                style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+              >
+                <div className="text-slate-600 dark:text-slate-300">
+                  <strong className="text-slate-400 font-sans">From:</strong> &ldquo;{user?.firmName || 'Your CA Firm'}&rdquo; &lt;
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                    {emailSettings.fromEmail || 'noreply@mycafirm.com'}
+                  </span>
+                  &gt;
+                </div>
+                <div className="text-slate-500">
+                  <strong className="text-slate-400 font-sans">To:</strong> client.director@company.com
+                </div>
+                <div className="text-slate-500">
+                  <strong className="text-slate-400 font-sans">Subject:</strong> Welcome to our Firm / Tax Invoice & Filing Confirmation
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -499,8 +557,14 @@ export default function SettingsPage() {
       {/* TAB: Custom Roles */}
       {activeTab === 'roles' && <RolesManagement />}
 
-      {/* TAB: Data Export */}
+      {/* TAB: Data Export & S3 Backups */}
       {activeTab === 'export' && <DataExportSettings />}
+
+      {/* TAB: Payment Gateway */}
+      {activeTab === 'payment-gateway' && <PaymentGatewaySettings />}
+
+      {/* TAB: Developer API Keys */}
+      {activeTab === 'api-keys' && <ApiKeysSettings />}
     </div>
   );
 }

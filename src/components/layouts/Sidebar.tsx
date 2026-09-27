@@ -8,7 +8,7 @@ import {
   LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, 
   Shield, MessageSquare, CreditCard, Building2, ReceiptText, ClipboardList, 
   ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, 
-  FileStack, Clock, LifeBuoy, ShieldCheck, ChevronDown 
+  FileStack, Clock, LifeBuoy, ShieldCheck, ChevronDown, UserPlus, FileSignature 
 } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
@@ -98,6 +98,8 @@ export function Sidebar({
           icon: Users,
           children: [
             { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
+            { name: 'Leads & CRM', href: '/dashboard/leads', icon: UserPlus },
+            { name: 'Digital Signatures', href: '/dashboard/signatures', icon: FileSignature },
             { name: 'Client Vault', href: '/dashboard/vault', icon: KeyRound },
             { name: 'DSC Tracker', href: '/dashboard/dsc', icon: Key },
           ],
