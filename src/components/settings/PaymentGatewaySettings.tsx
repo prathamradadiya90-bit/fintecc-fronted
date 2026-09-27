@@ -92,7 +92,7 @@ export function PaymentGatewaySettings() {
                 </span>
               </div>
               <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-                Connect your CA firm's Razorpay account to receive invoice payments directly into your bank account.
+                Connect your CA firm&apos;s Razorpay account to receive invoice payments directly into your bank account.
               </p>
             </div>
           </div>
