@@ -75,7 +75,7 @@ export function CagrCalculator() {
               <div className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
                 CAGR (Annualized)
               </div>
-              <div className="text-2xl font-bold mt-1 text-[#10B981]">
+              <div className="text-2xl font-bold mt-1 text-[#3D7A64]">
                 {cagr}%
               </div>
             </div>
@@ -87,7 +87,7 @@ export function CagrCalculator() {
               <div className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
                 Absolute Growth
               </div>
-              <div className="text-2xl font-bold mt-1 text-emerald-500">
+              <div className="text-2xl font-bold mt-1 text-[#3D7A64]">
                 +{absoluteReturns}%
               </div>
             </div>

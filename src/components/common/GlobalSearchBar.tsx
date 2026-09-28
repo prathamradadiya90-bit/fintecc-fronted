@@ -75,11 +75,10 @@ export function GlobalSearchBar() {
   };
 
   return (
-    <div className="relative w-full max-w-xs md:max-w-md" ref={containerRef}>
-      <div className="relative flex items-center">
+    <div className="relative w-full" ref={containerRef}>
+      <div className="relative flex items-center w-full">
         <Search
-          className="absolute left-3 w-4 h-4 pointer-events-none"
-          style={{ color: 'var(--color-text-muted)' }}
+          className="absolute left-3 w-4 h-4 pointer-events-none text-[#4A6FA5]"
         />
         <input
           ref={inputRef}
@@ -91,7 +90,7 @@ export function GlobalSearchBar() {
           }}
           onFocus={() => setIsOpen(true)}
           placeholder="Search clients, tasks, docs... (⌘K)"
-          className="w-full h-9 pl-9 pr-14 text-xs rounded-xl transition-all outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20"
+          className="w-full h-9 pl-9 pr-14 text-xs rounded-xl transition-all outline-none focus:border-[#4A6FA5] focus:ring-1 focus:ring-[#4A6FA5]/25"
           style={{
             background: 'var(--color-bg-input)',
             border: '1px solid var(--color-border)',

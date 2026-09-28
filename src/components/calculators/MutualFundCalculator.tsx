@@ -40,7 +40,7 @@ export function MutualFundCalculator() {
           }}
           className={`px-5 py-2 rounded-lg text-xs font-bold transition-all ${
             investmentType === 'SIP'
-              ? 'bg-[#10B981] text-white shadow-sm'
+              ? 'bg-[#4A6FA5] text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
@@ -54,7 +54,7 @@ export function MutualFundCalculator() {
           }}
           className={`px-5 py-2 rounded-lg text-xs font-bold transition-all ${
             investmentType === 'Lumpsum'
-              ? 'bg-[#10B981] text-white shadow-sm'
+              ? 'bg-[#4A6FA5] text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >

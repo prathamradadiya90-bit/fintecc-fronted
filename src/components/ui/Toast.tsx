@@ -47,18 +47,25 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           return (
             <div
               key={toast.id}
-              className={`pointer-events-auto flex items-center justify-between p-4 rounded-2xl border shadow-lg backdrop-blur-md transition-all duration-300 transform translate-y-0 opacity-100 ${
-                isSuccess
-                  ? 'bg-emerald-50/90 border-emerald-200 text-emerald-800 dark:bg-emerald-950/90 dark:border-emerald-800 dark:text-emerald-200'
+              className="pointer-events-auto flex items-center justify-between p-4 rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300 transform translate-y-0 opacity-100"
+              style={{
+                background: isSuccess
+                  ? 'var(--color-bg-card)'
                   : isError
-                  ? 'bg-rose-50/90 border-rose-200 text-rose-800 dark:bg-rose-950/90 dark:border-rose-800 dark:text-rose-200'
-                  : 'bg-blue-50/90 border-blue-200 text-blue-800 dark:bg-blue-950/90 dark:border-blue-800 dark:text-blue-200'
-              }`}
+                  ? 'var(--color-bg-card)'
+                  : 'var(--color-bg-card)',
+                borderColor: isSuccess
+                  ? 'var(--color-status-success-border, rgba(61, 122, 100, 0.25))'
+                  : isError
+                  ? 'var(--color-status-danger-border, rgba(158, 74, 74, 0.25))'
+                  : 'var(--color-border)',
+                color: 'var(--color-text-primary)',
+              }}
             >
               <div className="flex items-center gap-3">
-                {isSuccess && <CheckCircle2 className="w-[18px] h-[18px] text-emerald-500 shrink-0" />}
-                {isError && <AlertCircle className="w-[18px] h-[18px] text-rose-500 shrink-0" />}
-                {!isSuccess && !isError && <Info className="w-[18px] h-[18px] text-blue-500 shrink-0" />}
+                {isSuccess && <CheckCircle2 className="w-[18px] h-[18px] shrink-0" style={{ color: '#3D7A64' }} />}
+                {isError && <AlertCircle className="w-[18px] h-[18px] shrink-0" style={{ color: '#9E4A4A' }} />}
+                {!isSuccess && !isError && <Info className="w-[18px] h-[18px] shrink-0" style={{ color: '#4A6FA5' }} />}
                 <p className="text-[13px] font-semibold leading-relaxed">{toast.message}</p>
               </div>
               <button

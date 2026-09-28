@@ -132,7 +132,11 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
               variant="outline"
               onClick={handleDelete}
               isLoading={isDeleting}
-              className="text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 border-red-200 dark:border-red-800"
+              className="hover:bg-[rgba(158,74,74,0.08)]"
+              style={{
+                color: '#9E4A4A',
+                borderColor: 'rgba(158, 74, 74, 0.25)',
+              }}
             >
               <Trash2 className="w-4 h-4 mr-1.5" />
               Delete Task
@@ -148,7 +152,8 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
             <Button
               onClick={handleSave}
               isLoading={isSaving}
-              className="bg-emerald-600 hover:bg-emerald-500 text-white"
+              className="text-white shadow-sm"
+              style={{ background: '#4A6FA5' }}
             >
               Save Changes
             </Button>
@@ -166,7 +171,14 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
           }}
         >
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+            <div 
+              className="w-9 h-9 rounded-xl flex items-center justify-center font-bold border"
+              style={{
+                background: 'rgba(74, 111, 165, 0.12)',
+                borderColor: 'rgba(74, 111, 165, 0.25)',
+                color: '#4A6FA5',
+              }}
+            >
               <Building2 className="w-5 h-5" />
             </div>
             <div>
@@ -191,7 +203,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl text-xs font-medium border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+            className="w-full px-3 py-2 rounded-xl text-xs font-medium border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',
@@ -208,7 +220,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
           <select
             value={complianceType}
             onChange={(e) => setComplianceType(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+            className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',
@@ -232,7 +244,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as TaskStatus)}
-              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -254,7 +266,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
             <select
               value={priority}
               onChange={(e) => setPriority(e.target.value as TaskPriority)}
-              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -278,7 +290,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
             <select
               value={assigneeId}
               onChange={(e) => setAssigneeId(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -302,7 +314,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+              className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -321,7 +333,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+            className="w-full px-3 py-2 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',
@@ -333,7 +345,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
         {/* Activity & Comments */}
         <div className="pt-3 border-t border-[var(--color-border)]">
           <div className="flex items-center gap-2 mb-3">
-            <MessageSquare className="w-4 h-4 text-emerald-500" />
+            <MessageSquare className="w-4 h-4 text-[#4A6FA5]" />
             <h4 className="text-xs font-semibold" style={{ color: 'var(--color-text-primary)' }}>
               Activity & Internal Notes
             </h4>
@@ -356,7 +368,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
                   }}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-semibold text-[11px] text-emerald-600 dark:text-emerald-400">
+                    <span className="font-semibold text-[11px] text-[#4A6FA5]">
                       {c.userName || 'Staff'}
                     </span>
                     <span className="text-[10px] text-[var(--color-text-muted)]">
@@ -387,7 +399,7 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
                 }
               }}
               placeholder="Write an internal note..."
-              className="flex-1 px-3 py-1.5 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+              className="flex-1 px-3 py-1.5 rounded-xl text-xs border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40"
               style={{
                 background: 'var(--color-bg-input)',
                 borderColor: 'var(--color-border)',
@@ -398,7 +410,8 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerProps> = ({
               type="button"
               onClick={handleAddComment}
               disabled={!commentText.trim()}
-              className="px-3 py-1.5 bg-emerald-600 text-white hover:bg-emerald-500"
+              className="px-3 py-1.5 text-white"
+              style={{ background: '#4A6FA5' }}
             >
               <Send className="w-3.5 h-3.5" />
             </Button>

@@ -246,7 +246,7 @@ export default function ClientDetailPage() {
               <button
                 onClick={handleOnboardClient}
                 disabled={isOnboarding}
-                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-sm"
+                className="flex items-center gap-1.5 px-4 py-2 bg-[#4A6FA5] hover:bg-[#3D5D8A] text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-sm"
                 title="Onboard Client to Active & Initiate KYC"
               >
                 {isOnboarding ? (
@@ -260,7 +260,7 @@ export default function ClientDetailPage() {
             <button
               onClick={handleInviteClient}
               disabled={isInviting}
-              className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-sm"
+              className="flex items-center gap-1.5 px-4 py-2 bg-[#4A6FA5] hover:bg-[#3D5D8A] text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 shadow-sm"
               title="Send Portal Invite to Client"
             >
               {isInviting ? (
@@ -299,7 +299,7 @@ export default function ClientDetailPage() {
                 className={`
                   relative px-4 py-4 text-sm font-semibold transition-colors duration-150
                   ${activeTab === tab.key
-                    ? 'text-emerald-600 dark:text-emerald-400 font-bold'
+                    ? 'text-[#4A6FA5] font-bold'
                     : ''
                   }
                 `}
@@ -307,7 +307,7 @@ export default function ClientDetailPage() {
               >
                 {tab.label}
                 {activeTab === tab.key && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 rounded-t-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#4A6FA5] rounded-t-full" />
                 )}
               </button>
             ))}

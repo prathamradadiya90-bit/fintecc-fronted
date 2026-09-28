@@ -161,8 +161,8 @@ export const CreateSignatureModal: React.FC<CreateSignatureModalProps> = ({
         </div>
 
         {/* Provider Info Badge */}
-        <div className="p-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-xs space-y-1">
-          <div className="flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
+        <div className="p-3 rounded-xl border border-[#4A6FA5]/20 bg-[#4A6FA5]/5 text-xs space-y-1">
+          <div className="flex items-center gap-1.5 font-bold text-[#4A6FA5]">
             <ShieldCheck className="w-4 h-4" />
             <span>Compliant with Aadhaar eSign (ESP) & DocuSign</span>
           </div>

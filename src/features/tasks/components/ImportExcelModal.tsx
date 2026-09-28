@@ -70,7 +70,8 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({
               onClick={handleSubmit}
               disabled={!file}
               isLoading={isUploading}
-              className="bg-emerald-600 hover:bg-emerald-500 text-white"
+              className="text-white shadow-sm"
+              style={{ background: '#4A6FA5' }}
             >
               Upload & Import
             </Button>
@@ -80,22 +81,36 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({
     >
       <div className="space-y-4">
         {result ? (
-          <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-2 text-xs">
-            <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-300 font-semibold text-sm">
+          <div 
+            className="p-4 rounded-2xl border space-y-2 text-xs"
+            style={{
+              background: 'rgba(61, 122, 100, 0.08)',
+              borderColor: 'rgba(61, 122, 100, 0.25)',
+              color: 'var(--color-text-primary)',
+            }}
+          >
+            <div className="flex items-center gap-2 font-semibold text-sm" style={{ color: '#3D7A64' }}>
               <CheckCircle2 className="w-5 h-5" />
               <span>Import Successful!</span>
             </div>
-            <div className="grid grid-cols-2 gap-2 pt-2 text-slate-700 dark:text-slate-300">
-              <div>Total Rows Processed: <strong>{result.processedCount}</strong></div>
-              <div>New Tasks Created: <strong>{result.newTasksCount}</strong></div>
-              <div>New Clients Added: <strong>{result.newClientsCount}</strong></div>
-              <div>Tasks Updated: <strong>{result.updatedTasksCount}</strong></div>
+            <div className="grid grid-cols-2 gap-2 pt-2" style={{ color: 'var(--color-text-secondary)' }}>
+              <div>Total Rows Processed: <strong style={{ color: 'var(--color-text-primary)' }}>{result.processedCount}</strong></div>
+              <div>New Tasks Created: <strong style={{ color: 'var(--color-text-primary)' }}>{result.newTasksCount}</strong></div>
+              <div>New Clients Added: <strong style={{ color: 'var(--color-text-primary)' }}>{result.newClientsCount}</strong></div>
+              <div>Tasks Updated: <strong style={{ color: 'var(--color-text-primary)' }}>{result.updatedTasksCount}</strong></div>
             </div>
           </div>
         ) : (
           <>
             {error && (
-              <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-300 text-xs border border-red-200 dark:border-red-800 flex items-center gap-2">
+              <div 
+                className="p-3 rounded-xl text-xs border flex items-center gap-2"
+                style={{
+                  background: 'rgba(158, 74, 74, 0.08)',
+                  borderColor: 'rgba(158, 74, 74, 0.2)',
+                  color: '#9E4A4A',
+                }}
+              >
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
@@ -119,8 +134,8 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({
             <div
               className="border-2 border-dashed rounded-2xl p-6 text-center transition-colors cursor-pointer"
               style={{
-                borderColor: file ? '#10B981' : 'var(--color-border)',
-                background: file ? 'rgba(16, 185, 129, 0.05)' : 'var(--color-bg-subtle)',
+                borderColor: file ? '#4A6FA5' : 'var(--color-border)',
+                background: file ? 'rgba(74, 111, 165, 0.05)' : 'var(--color-bg-subtle)',
               }}
               onClick={() => document.getElementById('excel-file-input')?.click()}
             >
@@ -131,10 +146,10 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({
                 onChange={handleFileChange}
                 className="hidden"
               />
-              <FileSpreadsheet className="w-10 h-10 mx-auto text-emerald-500 mb-2" />
+              <FileSpreadsheet className="w-10 h-10 mx-auto text-[#4A6FA5] mb-2" />
               {file ? (
                 <div>
-                  <p className="text-xs font-semibold text-emerald-500">{file.name}</p>
+                  <p className="text-xs font-semibold text-[#4A6FA5]">{file.name}</p>
                   <p className="text-[11px] text-[var(--color-text-muted)]">
                     {(file.size / 1024).toFixed(1)} KB • Click to change file
                   </p>

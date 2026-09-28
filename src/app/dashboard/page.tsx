@@ -79,9 +79,16 @@ export default function DashboardPage() {
               Manage your CA communications and documents in one secure institutional vault.
             </p>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold w-fit">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <div 
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold w-fit border"
+            style={{
+              background: 'var(--color-status-success-bg, rgba(61, 122, 100, 0.08))',
+              borderColor: 'var(--color-status-success-border, rgba(61, 122, 100, 0.2))',
+              color: 'var(--color-status-success-text, #3D7A64)',
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#3D7A64] animate-pulse" />
+            <ShieldCheck className="w-4 h-4 text-[#3D7A64]" />
             Client Portal Verified
           </div>
         </div>
@@ -98,11 +105,18 @@ export default function DashboardPage() {
             }}
           >
             <div>
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold mb-4 group-hover:scale-105 transition-transform">
+              <div 
+                className="w-12 h-12 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:scale-105 transition-transform border"
+                style={{
+                  background: 'rgba(74, 111, 165, 0.1)',
+                  borderColor: 'rgba(74, 111, 165, 0.25)',
+                  color: '#4A6FA5',
+                }}
+              >
                 <MessageSquare className="w-6 h-6" />
               </div>
               <h2
-                className="text-base font-bold group-hover:text-emerald-400 transition-colors"
+                className="text-base font-bold group-hover:text-[#4A6FA5] transition-colors"
                 style={{ color: 'var(--color-text-primary)' }}
               >
                 Chat with Your CA
@@ -114,11 +128,11 @@ export default function DashboardPage() {
                 Have questions or need assistance with GST, tax filings, or accounts? Message your CA firm directly with real-time updates.
               </p>
             </div>
-            <div className="flex items-center gap-2 pt-6 font-semibold text-xs text-emerald-400">
+            <div className="flex items-center gap-2 pt-6 font-semibold text-xs text-[#4A6FA5]">
               Open Secure Chat
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#4A6FA5]/40 to-transparent" />
           </Link>
 
           {/* Documents Card */}
@@ -185,16 +199,11 @@ export default function DashboardPage() {
               className="text-xl font-bold tracking-tight"
               style={{ color: 'var(--color-text-heading)' }}
             >
-              Good morning, {user?.name?.split(' ')[0] || 'Partner'}
+              Good morning, {user?.name?.split(' ')[0] || 'Test'}
             </h1>
             <span className="text-xl">👋</span>
             <span
-              className="px-2 py-0.5 rounded text-[11px] font-semibold"
-              style={{
-                background: 'var(--color-bg-card)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--color-text-secondary)',
-              }}
+              className="px-2.5 py-0.5 rounded-full text-xs font-semibold text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/20 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/40 dark:border-[#A8C5DA]/40 shadow-xs"
             >
               {firmName}
             </span>
@@ -203,8 +212,14 @@ export default function DashboardPage() {
             className="text-xs mt-1 flex flex-wrap items-center gap-2"
             style={{ color: 'var(--color-text-secondary)' }}
           >
-            <span className="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span 
+              className="inline-flex items-center gap-1.5 font-medium"
+              style={{ color: 'var(--color-status-success-text, #3D7A64)' }}
+            >
+              <span 
+                className="w-1.5 h-1.5 rounded-full animate-pulse" 
+                style={{ background: 'var(--color-status-success-text, #3D7A64)' }}
+              />
               {stats?.pdfsConverted || 48} bank statements converted this week
             </span>
             <span>·</span>
@@ -221,7 +236,7 @@ export default function DashboardPage() {
               border: '1px solid var(--color-border)',
             }}
           >
-            <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+            <Calendar className="w-3.5 h-3.5 text-[#4A6FA5] dark:text-[#A8C5DA]" />
             FY 2024-25 (Q4)
           </span>
           <span
@@ -231,7 +246,7 @@ export default function DashboardPage() {
               border: '1px solid var(--color-border)',
             }}
           >
-            <Database className="w-3.5 h-3.5 text-cyan-400" />
+            <Database className="w-3.5 h-3.5 text-[#4A6FA5] dark:text-[#A8C5DA]" />
             Tally XML v9.2 Ready
           </span>
         </div>
@@ -243,14 +258,14 @@ export default function DashboardPage() {
       {/* AI Insights Banner (if available) */}
       {stats?.aiInsights && stats.aiInsights.length > 0 && (
         <div
-          className="rounded-xl p-4 flex items-start gap-3 shadow-lg border border-emerald-500/20"
+          className="rounded-xl p-4 flex items-start gap-3 shadow-sm border border-[#A8C5DA]/40"
           style={{ background: 'var(--color-bg-card)' }}
         >
-          <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
+          <div className="p-2 rounded-lg bg-[#A8C5DA]/20 border border-[#A8C5DA]/30 text-[#4A6FA5] dark:text-[#A8C5DA] shrink-0 mt-0.5">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-semibold text-xs text-emerald-400">Fintecc AI Statutory Insight</h3>
+            <h3 className="font-semibold text-xs text-[#4A6FA5] dark:text-[#A8C5DA]">Fintecc AI Statutory Insight</h3>
             <p
               className="text-xs leading-relaxed mt-0.5"
               style={{ color: 'var(--color-text-secondary)' }}
@@ -280,12 +295,12 @@ export default function DashboardPage() {
           {/* Stat 1: Total Clients */}
           <StatCard 
             title="Total Clients" 
-            value={stats?.totalClients || 86} 
+            value={stats?.totalClients || 1} 
             icon={Users} 
             trend={{ value: '18.4%', isPositive: true }}
             subtitle="Active entity portfolios"
-            colorClass="text-emerald-400 bg-emerald-500/10"
-            accentGradient="from-emerald-500/50"
+            colorClass="text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/30 dark:border-[#A8C5DA]/30 shadow-xs"
+            accentGradient="from-[#4A6FA5]/40"
           />
           {/* Stat 2: Statements Converted */}
           <StatCard 
@@ -294,8 +309,8 @@ export default function DashboardPage() {
             icon={FileText} 
             trend={{ value: '99.4% OCR', isPositive: true }}
             subtitle="From 34 partner bank formats"
-            colorClass="text-cyan-400 bg-cyan-500/10"
-            accentGradient="from-cyan-500/50"
+            colorClass="text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/30 dark:border-[#A8C5DA]/30 shadow-xs"
+            accentGradient="from-[#4A6FA5]/40"
           />
           {/* Stat 3: Hours Saved */}
           <StatCard 
@@ -303,31 +318,31 @@ export default function DashboardPage() {
             value="~340 Hrs" 
             icon={Clock} 
             subtitle="≈ ₹1,80,000 billable value"
-            colorClass="text-emerald-400 bg-emerald-500/10"
-            accentGradient="from-emerald-500/50"
+            colorClass="text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/30 dark:border-[#A8C5DA]/30 shadow-xs"
+            accentGradient="from-[#4A6FA5]/40"
           />
           {/* Stat 4: Staff Members */}
           <StatCard 
             title="Active CA Team Members" 
-            value={stats?.staffCount || 12} 
+            value={stats?.staffCount || 6} 
             icon={UserCheck} 
             subtitle="Audit managers & associates"
-            colorClass="text-indigo-400 bg-indigo-500/10"
-            accentGradient="from-indigo-500/50"
+            colorClass="text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/30 dark:border-[#A8C5DA]/30 shadow-xs"
+            accentGradient="from-[#4A6FA5]/40"
           />
         </section>
       )}
 
       {/* Quick Conversion Hero Dropzone Widget */}
       <section
-        className="rounded-xl p-5 relative overflow-hidden shadow-2xl"
+        className="rounded-xl p-5 relative overflow-hidden shadow-sm"
         style={{
           background: 'var(--color-bg-card)',
           border: '1px solid var(--color-border)',
         }}
       >
         {/* Radial decorative ambient glow */}
-        <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-emerald-500/5 blur-3xl pointer-events-none" />
+        <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-[#A8C5DA]/10 blur-3xl pointer-events-none" />
         
         <div className="flex flex-col lg:flex-row items-stretch gap-5 relative z-10">
           {/* Dropzone Left Area */}
@@ -336,15 +351,11 @@ export default function DashboardPage() {
             className="flex-1 border-2 border-dashed transition-colors duration-200 rounded-xl p-6 flex flex-col items-center justify-center text-center group cursor-pointer"
             style={{
               borderColor: 'var(--color-border)',
-              background: 'var(--color-bg-subtle)',
+              background: 'var(--color-bg-page)',
             }}
           >
             <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-emerald-400 group-hover:scale-105 group-hover:shadow-[0_0_24px_rgba(16,185,129,0.3)] transition-all duration-200 mb-2.5"
-              style={{
-                background: 'var(--color-bg-card)',
-                border: '1px solid var(--color-border)',
-              }}
+              className="w-12 h-12 rounded-full flex items-center justify-center text-[#4A6FA5] dark:text-[#A8C5DA] group-hover:scale-105 transition-all duration-200 mb-2.5 shadow-xs bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/30 dark:border-[#A8C5DA]/30"
             >
               <UploadCloud className="w-6 h-6" />
             </div>
@@ -363,9 +374,9 @@ export default function DashboardPage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <button 
                 type="button"
-                className="bg-emerald-500 text-[#003824] font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 hover:bg-emerald-400 transition-colors shadow-lg active:scale-95"
+                className="bg-[#4A6FA5] text-white font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 hover:bg-[#3D5D8A] transition-colors shadow-sm active:scale-95 cursor-pointer"
               >
-                <FolderOpen className="w-3.5 h-3.5" />
+                <FolderOpen className="w-3.5 h-3.5 text-[#E0B99B]" />
                 <span>Browse Files</span>
               </button>
               <button 
@@ -374,8 +385,7 @@ export default function DashboardPage() {
                   e.stopPropagation();
                   router.push('/dashboard/converters');
                 }}
-                className="text-xs transition-colors underline underline-offset-4 flex items-center gap-1"
-                style={{ color: 'var(--color-text-secondary)' }}
+                className="text-xs transition-colors underline underline-offset-4 flex items-center gap-1 text-[#4A6FA5] dark:text-[#A8C5DA] hover:text-[#3D5D8A] dark:hover:text-white cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Download Sample Statement</span>
@@ -387,12 +397,12 @@ export default function DashboardPage() {
               style={{ color: 'var(--color-text-muted)' }}
             >
               <span className="flex items-center gap-1">
-                <KeyRound className="w-3 h-3 text-emerald-400" />
+                <KeyRound className="w-3 h-3 text-[#4A6FA5] dark:text-[#A8C5DA]" />
                 Auto-decrypt with client password vault
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
-                <Cpu className="w-3 h-3 text-emerald-400" />
+                <Cpu className="w-3 h-3 text-[#4A6FA5] dark:text-[#A8C5DA]" />
                 Multi-column scan OCR
               </span>
             </div>
@@ -402,7 +412,7 @@ export default function DashboardPage() {
           <div
             className="w-full lg:w-80 flex flex-col justify-between rounded-xl p-4"
             style={{
-              background: 'var(--color-bg-subtle)',
+              background: 'var(--color-bg-card)',
               border: '1px solid var(--color-border)',
             }}
           >
@@ -417,7 +427,9 @@ export default function DashboardPage() {
                 >
                   Conversion Preset
                 </span>
-                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                <span 
+                  className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/20 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/40 dark:border-[#A8C5DA]/40 shadow-xs"
+                >
                   Standard CA Ledger
                 </span>
               </div>
@@ -425,7 +437,7 @@ export default function DashboardPage() {
               <div className="space-y-3">
                 <div>
                   <label
-                    className="block text-[11px] font-semibold mb-1"
+                    className="block text-[11px] font-bold mb-1 uppercase tracking-wider"
                     style={{ color: 'var(--color-text-secondary)' }}
                   >
                     Target Output Format
@@ -436,16 +448,11 @@ export default function DashboardPage() {
                         key={fmt}
                         type="button"
                         onClick={() => setSelectedFormat(fmt)}
-                        className={`px-2 py-1 text-xs font-semibold rounded transition-all ${
+                        className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
                           selectedFormat === fmt
-                            ? 'border border-emerald-500 text-emerald-400 shadow-sm'
-                            : ''
+                            ? 'border-2 border-[#4A6FA5] dark:border-[#A8C5DA] text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/15 dark:bg-[#A8C5DA]/20 shadow-xs'
+                            : 'border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-subtle)]'
                         }`}
-                        style={{
-                          background: 'var(--color-bg-card)',
-                          border: selectedFormat === fmt ? undefined : '1px solid var(--color-border)',
-                          color: selectedFormat !== fmt ? 'var(--color-text-secondary)' : undefined,
-                        }}
                       >
                         {fmt}
                       </button>
@@ -456,14 +463,14 @@ export default function DashboardPage() {
                 {/* Client Selector */}
                 <div>
                   <label
-                    className="block text-[11px] font-semibold mb-1"
+                    className="block text-[11px] font-bold mb-1 uppercase tracking-wider"
                     style={{ color: 'var(--color-text-secondary)' }}
                   >
                     Assign to Client Folder
                   </label>
                   <select 
                     aria-label="Assign to Client Folder"
-                    className="w-full rounded text-xs px-2.5 py-1.5 focus:border-emerald-500 focus:outline-none"
+                    className="w-full rounded-lg text-xs px-2.5 py-1.5 focus:border-[#4A6FA5] focus:outline-none cursor-pointer"
                     style={{
                       background: 'var(--color-bg-card)',
                       border: '1px solid var(--color-border)',
@@ -478,6 +485,7 @@ export default function DashboardPage() {
                       ))
                     ) : (
                       <>
+                        <option>pratham Radadiya (GFNPR6666C)</option>
                         <option>Reliance Retail Dist. (GST-27AABCR12)</option>
                         <option>Apex Infra Buildcon Pvt Ltd</option>
                         <option>Kothari Textiles LLP</option>
@@ -487,36 +495,28 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Smart Flags */}
-                <div className="space-y-1.5 pt-1">
+                <div className="space-y-2 pt-1">
                   <label
                     className="flex items-center gap-2 cursor-pointer text-xs"
-                    style={{ color: 'var(--color-text-secondary)' }}
+                    style={{ color: 'var(--color-text-primary)' }}
                   >
                     <input 
                       type="checkbox"
                       checked={autoContra}
                       onChange={(e) => setAutoContra(e.target.checked)}
-                      className="rounded text-emerald-500 focus:ring-0"
-                      style={{
-                        background: 'var(--color-bg-subtle)',
-                        borderColor: 'var(--color-border)',
-                      }}
+                      className="rounded accent-[#4A6FA5] w-3.5 h-3.5 cursor-pointer"
                     />
                     <span>Auto-categorize GST Contra/Cash txns</span>
                   </label>
                   <label
                     className="flex items-center gap-2 cursor-pointer text-xs"
-                    style={{ color: 'var(--color-text-secondary)' }}
+                    style={{ color: 'var(--color-text-primary)' }}
                   >
                     <input 
                       type="checkbox"
                       checked={autoNarration}
                       onChange={(e) => setAutoNarration(e.target.checked)}
-                      className="rounded text-emerald-500 focus:ring-0"
-                      style={{
-                        background: 'var(--color-bg-subtle)',
-                        borderColor: 'var(--color-border)',
-                      }}
+                      className="rounded accent-[#4A6FA5] w-3.5 h-3.5 cursor-pointer"
                     />
                     <span>Generate Narration for BRS Audit trail</span>
                   </label>
@@ -532,11 +532,11 @@ export default function DashboardPage() {
                 color: 'var(--color-text-muted)',
               }}
             >
-              <span className="flex items-center gap-1 text-emerald-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="flex items-center gap-1 text-[#4A6FA5] dark:text-[#A8C5DA]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4A6FA5] dark:bg-[#A8C5DA] animate-pulse" />
                 Engine: Online
               </span>
-              <span className="text-emerald-400 font-mono">Avg: 1.8s / 500 txns</span>
+              <span className="text-[#4A6FA5] dark:text-[#A8C5DA] font-mono">Avg: 1.8s / 500 txns</span>
             </div>
           </div>
         </div>
@@ -569,14 +569,21 @@ export default function DashboardPage() {
                   className="text-xs font-semibold flex items-center gap-1.5"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
-                  <Calendar className="w-4 h-4 text-amber-400" />
+                  <Calendar className="w-4 h-4" style={{ color: 'var(--color-status-warning-text, #9E6B42)' }} />
                   <span>Statutory Tax Deadlines</span>
                 </h3>
                 <p className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
                   Ministry of Finance & GSTN Timeline
                 </p>
               </div>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-rose-500/10 text-rose-400 border border-rose-500/20">
+              <span 
+                className="px-2 py-0.5 rounded text-[10px] font-bold font-mono border"
+                style={{
+                  background: 'var(--color-status-danger-bg, rgba(158, 74, 74, 0.08))',
+                  color: 'var(--color-status-danger-text, #9E4A4A)',
+                  borderColor: 'var(--color-status-danger-border, rgba(158, 74, 74, 0.2))',
+                }}
+              >
                 URGENT
               </span>
             </div>
@@ -593,7 +600,10 @@ export default function DashboardPage() {
               >
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
+                    <span 
+                      className="w-1.5 h-1.5 rounded-full animate-pulse" 
+                      style={{ background: 'var(--color-status-danger-text, #9E4A4A)' }}
+                    />
                     <h4
                       className="text-xs font-bold"
                       style={{ color: 'var(--color-text-primary)' }}
@@ -607,13 +617,23 @@ export default function DashboardPage() {
                   >
                     Regular Taxpayers (&gt; ₹5 Cr TO)
                   </p>
-                  <div className="text-[11px] text-amber-400 font-semibold mt-1 flex items-center gap-1">
+                  <div 
+                    className="text-[11px] font-semibold mt-1 flex items-center gap-1"
+                    style={{ color: 'var(--color-status-warning-text, #9E6B42)' }}
+                  >
                     <AlertTriangle className="w-3 h-3" />
                     <span>12 clients pending 2B reconciliation</span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-[11px] font-bold font-mono">
+                  <span 
+                    className="px-2 py-0.5 rounded text-[11px] font-bold font-mono border"
+                    style={{
+                      background: 'var(--color-status-danger-bg, rgba(158, 74, 74, 0.08))',
+                      color: 'var(--color-status-danger-text, #9E4A4A)',
+                      borderColor: 'var(--color-status-danger-border, rgba(158, 74, 74, 0.2))',
+                    }}
+                  >
                     Due in 3d
                   </span>
                   <div className="text-[10px] mt-1 font-mono" style={{ color: 'var(--color-text-muted)' }}>Dec 20</div>
@@ -630,7 +650,10 @@ export default function DashboardPage() {
               >
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                    <span 
+                      className="w-1.5 h-1.5 rounded-full" 
+                      style={{ background: 'var(--color-status-warning-text, #9E6B42)' }}
+                    />
                     <h4
                       className="text-xs font-bold"
                       style={{ color: 'var(--color-text-primary)' }}
@@ -644,12 +667,22 @@ export default function DashboardPage() {
                   >
                     Tax Deducted for Current Month
                   </p>
-                  <div className="text-[11px] text-emerald-400 font-medium mt-1">
+                  <div 
+                    className="text-[11px] font-medium mt-1"
+                    style={{ color: 'var(--color-status-success-text, #3D7A64)' }}
+                  >
                     28 challans ready for e-payment
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[11px] font-bold font-mono">
+                  <span 
+                    className="px-2 py-0.5 rounded text-[11px] font-bold font-mono border"
+                    style={{
+                      background: 'var(--color-status-warning-bg, rgba(158, 107, 66, 0.08))',
+                      color: 'var(--color-status-warning-text, #9E6B42)',
+                      borderColor: 'var(--color-status-warning-border, rgba(158, 107, 66, 0.2))',
+                    }}
+                  >
                     Due in 9d
                   </span>
                   <div className="text-[10px] mt-1 font-mono" style={{ color: 'var(--color-text-muted)' }}>Dec 07</div>
@@ -725,7 +758,7 @@ export default function DashboardPage() {
                   className="text-xs font-semibold flex items-center gap-1.5"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
-                  <Cable className="w-4 h-4 text-emerald-400" />
+                  <Cable className="w-4 h-4" style={{ color: '#3D7A64' }} />
                   <span>Ledger Sync & ERP Bridges</span>
                 </h3>
                 <p className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
@@ -743,7 +776,14 @@ export default function DashboardPage() {
                 }}
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                  <div 
+                    className="w-7 h-7 rounded border flex items-center justify-center font-bold text-xs"
+                    style={{
+                      background: 'rgba(61, 122, 100, 0.1)',
+                      borderColor: 'rgba(61, 122, 100, 0.25)',
+                      color: '#3D7A64',
+                    }}
+                  >
                     TP
                   </div>
                   <div>
@@ -753,8 +793,11 @@ export default function DashboardPage() {
                     >
                       Tally Prime (Server 9)
                     </div>
-                    <div className="text-[10px] text-emerald-400 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <div 
+                      className="text-[10px] flex items-center gap-1 font-medium"
+                      style={{ color: '#3D7A64' }}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#3D7A64] animate-pulse" />
                       Connected · Synced 12m ago
                     </div>
                   </div>

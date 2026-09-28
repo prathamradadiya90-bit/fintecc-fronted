@@ -67,7 +67,7 @@ export function DiscountCalculator() {
                   onClick={() => setDiscountPercent(pct)}
                   className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border ${
                     discountPercent === pct
-                      ? 'bg-[#10B981] text-white border-[#10B981]'
+                      ? 'bg-[#4A6FA5] text-white border-[#4A6FA5]'
                       : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >
@@ -84,7 +84,7 @@ export function DiscountCalculator() {
             <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-on-card)' }}>
               Discount Formula
             </h2>
-            <p className="text-xs font-mono text-emerald-600 dark:text-emerald-400 mb-1">
+            <p className="text-xs font-mono text-[#3D7A64] mb-1">
               Final Price = Original Price - [Original Price × (Discount % / 100)]
             </p>
             <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
@@ -97,13 +97,13 @@ export function DiscountCalculator() {
         <div className="flex flex-col gap-4">
           <div className="bg-[#0f172a] rounded-2xl p-6 text-white shadow-md">
             <div className="flex items-center gap-2 mb-2">
-              <Tag className="w-5 h-5 text-[#10B981]" />
+              <Tag className="w-5 h-5 text-[#A8C5DA]" />
               <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase">
                 FINAL DISCOUNTED PRICE
               </h3>
             </div>
 
-            <div className="text-2xl font-bold text-[#10B981] mb-6">
+            <div className="text-2xl font-bold text-[#A8C5DA] mb-6">
               {formatCurrencyExact(finalPrice)}
             </div>
 

@@ -89,7 +89,7 @@ export function RoiCalculator() {
               <div className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
                 Annualized ROI (CAGR)
               </div>
-              <div className={`text-xl font-bold mt-1 ${annualizedRoiPercentage >= 0 ? 'text-[#10B981]' : 'text-rose-500'}`}>
+              <div className={`text-xl font-bold mt-1 ${annualizedRoiPercentage >= 0 ? 'text-[#3D7A64]' : 'text-[#9E4A4A]'}`}>
                 {annualizedRoiPercentage >= 0 ? `+${annualizedRoiPercentage}%` : `${annualizedRoiPercentage}%`}
               </div>
             </div>
@@ -102,7 +102,7 @@ export function RoiCalculator() {
             <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-on-card)' }}>
               How ROI is calculated
             </h2>
-            <p className="text-xs font-mono text-emerald-600 dark:text-emerald-400 mb-1">
+            <p className="text-xs font-mono text-[#3D7A64] mb-1">
               ROI % = [(Final Value - Initial Cost) / Initial Cost] × 100
             </p>
             <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>

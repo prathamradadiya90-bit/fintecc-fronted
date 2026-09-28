@@ -18,11 +18,7 @@ export function RecentClientsTable() {
       render: (client) => (
         <div className="flex items-center gap-2.5">
           <div
-            className="w-7 h-7 rounded-md text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0"
-            style={{
-              background: 'var(--color-bg-card-hover)',
-              border: '1px solid var(--color-border)',
-            }}
+            className="w-7 h-7 rounded-md text-[#4A6FA5] dark:text-[#A8C5DA] flex items-center justify-center font-bold text-xs shrink-0 bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/40 dark:border-[#A8C5DA]/40"
           >
             {client.name.charAt(0).toUpperCase()}
           </div>
@@ -63,8 +59,18 @@ export function RecentClientsTable() {
       key: 'status',
       header: 'Status',
       render: () => (
-        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <span 
+          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold border"
+          style={{
+            background: 'var(--color-status-success-bg, rgba(61, 122, 100, 0.08))',
+            color: 'var(--color-status-success-text, #3D7A64)',
+            borderColor: 'var(--color-status-success-border, rgba(61, 122, 100, 0.2))',
+          }}
+        >
+          <span 
+            className="w-1.5 h-1.5 rounded-full animate-pulse" 
+            style={{ background: 'var(--color-status-success-text, #3D7A64)' }}
+          />
           Active
         </span>
       ),
@@ -73,7 +79,7 @@ export function RecentClientsTable() {
 
   return (
     <div
-      className="rounded-xl p-5 shadow-xl"
+      className="rounded-xl p-5 shadow-sm"
       style={{
         background: 'var(--color-bg-card)',
         border: '1px solid var(--color-border)',
@@ -92,11 +98,7 @@ export function RecentClientsTable() {
               Recent Clients
             </h3>
             <span
-              className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold text-emerald-400"
-              style={{
-                background: 'var(--color-bg-card-hover)',
-                border: '1px solid var(--color-border)',
-              }}
+              className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/40 dark:border-[#A8C5DA]/40"
             >
               {recentClients.length} Entities
             </span>
@@ -110,7 +112,7 @@ export function RecentClientsTable() {
         </div>
         <Link 
           href="/dashboard/my-clients" 
-          className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 self-start sm:self-auto transition-colors"
+          className="text-xs font-semibold text-[#4A6FA5] dark:text-[#A8C5DA] hover:text-[#3D5D8A] dark:hover:text-white flex items-center gap-1 self-start sm:self-auto transition-colors"
         >
           View All Clients <ArrowUpRight className="w-3.5 h-3.5" />
         </Link>

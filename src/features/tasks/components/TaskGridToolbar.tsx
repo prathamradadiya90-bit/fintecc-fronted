@@ -38,7 +38,14 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+            <div 
+              className="w-8 h-8 rounded-xl flex items-center justify-center border"
+              style={{
+                background: 'rgba(74, 111, 165, 0.12)',
+                borderColor: 'rgba(74, 111, 165, 0.25)',
+                color: '#4A6FA5',
+              }}
+            >
               <LayoutGrid className="w-4 h-4" />
             </div>
             <div>
@@ -56,16 +63,17 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
         <div className="flex items-center gap-2 flex-wrap">
           {/* Socket Live Sync Indicator */}
           <div
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border ${
-              isSocketConnected
-                ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700'
-            }`}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border"
+            style={{
+              background: isSocketConnected ? 'rgba(61, 122, 100, 0.08)' : 'var(--color-bg-subtle)',
+              borderColor: isSocketConnected ? 'rgba(61, 122, 100, 0.2)' : 'var(--color-border)',
+              color: isSocketConnected ? '#3D7A64' : 'var(--color-text-muted)',
+            }}
             title={isSocketConnected ? 'Real-time WebSocket active' : 'Connecting to real-time sync...'}
           >
             {isSocketConnected ? (
               <>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3D7A64] animate-ping" />
                 <span>Live Sync</span>
               </>
             ) : (
@@ -81,14 +89,14 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
             type="button"
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="p-2 rounded-xl border hover:bg-[var(--color-bg-subtle)] text-[var(--color-text-secondary)] transition-colors"
+            className="p-2 rounded-xl border hover:bg-[var(--color-bg-subtle)] text-[var(--color-text-secondary)] transition-colors cursor-pointer"
             style={{
               borderColor: 'var(--color-border)',
               background: 'var(--color-bg-card)',
             }}
             title="Refresh tasks"
           >
-            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-emerald-500' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-[#4A6FA5]' : ''}`} />
           </button>
 
           {/* Export CSV */}
@@ -108,7 +116,7 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
               onClick={onOpenImportModal}
               className="text-xs h-9 px-3 border-[var(--color-border)]"
             >
-              <FileSpreadsheet className="w-3.5 h-3.5 mr-1.5 text-emerald-600" />
+              <FileSpreadsheet className="w-3.5 h-3.5 mr-1.5 text-[#4A6FA5]" />
               Import Excel
             </Button>
           )}
@@ -116,7 +124,8 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
           {/* New Task Button */}
           <Button
             onClick={onOpenCreateModal}
-            className="text-xs h-9 px-3.5 bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm"
+            className="text-xs h-9 px-3.5 text-white shadow-sm"
+            style={{ background: '#4A6FA5' }}
           >
             <Plus className="w-3.5 h-3.5 mr-1" />
             New Task
@@ -129,15 +138,15 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
         <button
           type="button"
           onClick={() => onViewModeChange('all')}
-          className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+          className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
             viewMode === 'all'
-              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+              ? 'bg-[#4A6FA5]/10 text-[#4A6FA5]'
               : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-subtle)]'
           }`}
         >
           All Firm Tasks
           {viewMode === 'all' && (
-            <span className="ml-1.5 px-1.5 py-0.2 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white text-[10px]">
+            <span className="ml-1.5 px-1.5 py-0.2 rounded-full bg-[#4A6FA5] text-white text-[10px]">
               {totalTasks}
             </span>
           )}
@@ -146,9 +155,9 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
         <button
           type="button"
           onClick={() => onViewModeChange('my')}
-          className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+          className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
             viewMode === 'my'
-              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+              ? 'bg-[#4A6FA5]/10 text-[#4A6FA5]'
               : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-subtle)]'
           }`}
         >
@@ -158,10 +167,10 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
         <button
           type="button"
           onClick={() => onViewModeChange('overdue')}
-          className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+          className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
             viewMode === 'overdue'
-              ? 'bg-red-500/10 text-red-500'
-              : 'text-[var(--color-text-secondary)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20'
+              ? 'bg-[rgba(158,74,74,0.08)] text-[#9E4A4A]'
+              : 'text-[var(--color-text-secondary)] hover:text-[#9E4A4A] hover:bg-[rgba(158,74,74,0.05)]'
           }`}
         >
           Overdue
@@ -170,10 +179,10 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
         <button
           type="button"
           onClick={() => onViewModeChange('review')}
-          className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+          className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
             viewMode === 'review'
-              ? 'bg-purple-500/10 text-purple-600'
-              : 'text-[var(--color-text-secondary)] hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-950/20'
+              ? 'bg-[rgba(158,107,66,0.08)] text-[#9E6B42]'
+              : 'text-[var(--color-text-secondary)] hover:text-[#9E6B42] hover:bg-[rgba(158,107,66,0.05)]'
           }`}
         >
           Needs Review

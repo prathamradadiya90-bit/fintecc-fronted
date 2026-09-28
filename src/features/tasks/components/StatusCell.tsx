@@ -24,30 +24,30 @@ const STATUS_CONFIG: Record<
   },
   IN_PROGRESS: {
     label: 'In Progress',
-    bg: 'bg-blue-50 dark:bg-blue-950/40',
-    text: 'text-blue-700 dark:text-blue-300',
-    border: 'border-blue-200 dark:border-blue-800',
+    bg: 'bg-[#A8C5DA]/25',
+    text: 'text-[#4A6FA5]',
+    border: 'border-[#A8C5DA]/40',
     icon: PlayCircle,
   },
   REVIEW: {
     label: 'Review',
-    bg: 'bg-purple-50 dark:bg-purple-950/40',
-    text: 'text-purple-700 dark:text-purple-300',
-    border: 'border-purple-200 dark:border-purple-800',
+    bg: 'bg-[#4A6FA5]/10',
+    text: 'text-[#4A6FA5]',
+    border: 'border-[#4A6FA5]/25',
     icon: Eye,
   },
   DONE: {
     label: 'Done',
-    bg: 'bg-emerald-50 dark:bg-emerald-950/40',
-    text: 'text-emerald-700 dark:text-emerald-300',
-    border: 'border-emerald-200 dark:border-emerald-800',
+    bg: 'bg-[rgba(61,122,100,0.08)]',
+    text: 'text-[#3D7A64]',
+    border: 'border-[rgba(61,122,100,0.2)]',
     icon: CheckCircle2,
   },
   PENDING_APPROVAL: {
     label: 'Pending Approval',
-    bg: 'bg-amber-50 dark:bg-amber-950/40',
-    text: 'text-amber-700 dark:text-amber-300',
-    border: 'border-amber-200 dark:border-amber-800',
+    bg: 'bg-[rgba(158,107,66,0.08)]',
+    text: 'text-[#9E6B42]',
+    border: 'border-[rgba(158,107,66,0.2)]',
     icon: AlertTriangle,
   },
 };
@@ -105,7 +105,7 @@ export const StatusCell: React.FC<StatusCellProps> = ({
   if (isUpdating) {
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 animate-pulse">
-        <Loader2 className="w-3 h-3 animate-spin text-emerald-500" />
+        <Loader2 className="w-3 h-3 animate-spin text-[#4A6FA5]" />
         Saving...
       </span>
     );
@@ -120,7 +120,7 @@ export const StatusCell: React.FC<StatusCellProps> = ({
           onChange={handleChange}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="text-xs font-semibold rounded-lg px-2.5 py-1 border shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
+          className="text-xs font-semibold rounded-lg px-2.5 py-1 border shadow-md focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
           style={{
             background: 'var(--color-bg-card)',
             color: 'var(--color-text-primary)',

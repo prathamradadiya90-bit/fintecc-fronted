@@ -170,7 +170,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                 <X className="w-3.5 h-3.5" />
               </span>
             )}
-            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-emerald-500' : ''}`} />
+            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-[#4A6FA5]' : ''}`} />
           </div>
         </button>
 
@@ -232,7 +232,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                       onMouseEnter={() => setHighlightedIndex(index)}
                       className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer transition-all ${
                         isSelected
-                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-semibold'
+                          ? 'bg-[#4A6FA5]/15 text-[#4A6FA5] font-semibold'
                           : isHighlighted
                           ? 'bg-[var(--color-bg-subtle)] text-[var(--color-text-primary)]'
                           : 'text-[var(--color-text-primary)] hover:bg-[var(--color-bg-subtle)]'
@@ -242,7 +242,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                         <div className="flex items-center gap-2 truncate">
                           <span className="truncate">{option.label}</span>
                           {option.badge && (
-                            <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                            <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#A8C5DA]/20 text-[#4A6FA5] border border-[#A8C5DA]/30 shrink-0">
                               {option.badge}
                             </span>
                           )}
@@ -254,7 +254,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                         )}
                       </div>
 
-                      {isSelected && <Check className="w-4 h-4 text-emerald-500 shrink-0" />}
+                      {isSelected && <Check className="w-4 h-4 text-[#4A6FA5] shrink-0" />}
                     </div>
                   );
                 })

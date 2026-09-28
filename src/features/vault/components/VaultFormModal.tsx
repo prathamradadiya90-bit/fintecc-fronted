@@ -141,8 +141,15 @@ export function VaultFormModal({
     >
       <form id="vault-form" onSubmit={handleSubmit} className="space-y-4">
         {/* Security Notice */}
-        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-700 dark:text-emerald-300">
-          <ShieldCheck className="w-4 h-4 shrink-0 text-emerald-500" />
+        <div 
+          className="flex items-center gap-2 p-2.5 rounded-xl border text-xs"
+          style={{
+            background: 'var(--color-status-success-bg, rgba(61, 122, 100, 0.08))',
+            borderColor: 'var(--color-status-success-border, rgba(61, 122, 100, 0.2))',
+            color: 'var(--color-status-success-text, #3D7A64)',
+          }}
+        >
+          <ShieldCheck className="w-4 h-4 shrink-0" style={{ color: '#3D7A64' }} />
           <span>All passwords are encrypted with AES-256 before being stored.</span>
         </div>
 
@@ -179,7 +186,7 @@ export function VaultFormModal({
                 type="button"
                 key={preset}
                 onClick={() => setTitle(preset.split(' (')[0])}
-                className="text-[11px] px-2 py-0.5 rounded-md border transition-colors hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400"
+                className="text-[11px] px-2 py-0.5 rounded-md border transition-colors hover:border-[#4A6FA5] hover:text-[#4A6FA5]"
                 style={{
                   background: 'var(--color-bg-subtle)',
                   borderColor: 'var(--color-border)',
@@ -214,10 +221,10 @@ export function VaultFormModal({
                 setPassword(e.target.value);
                 if (errors.password) setErrors((prev) => ({ ...prev, password: '' }));
               }}
-              className="w-full h-10 pl-3 pr-10 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
+              className="w-full h-10 pl-3 pr-10 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 focus:border-[#4A6FA5]"
               style={{
                 background: 'var(--color-bg-card)',
-                borderColor: errors.password ? '#f43f5e' : 'var(--color-border)',
+                borderColor: errors.password ? 'var(--color-status-danger-text, #9E4A4A)' : 'var(--color-border)',
                 color: 'var(--color-text-primary)',
               }}
             />
@@ -230,7 +237,11 @@ export function VaultFormModal({
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
-          {errors.password && <p className="text-xs text-rose-500 mt-1">{errors.password}</p>}
+          {errors.password && (
+            <p className="text-xs mt-1" style={{ color: 'var(--color-status-danger-text, #9E4A4A)' }}>
+              {errors.password}
+            </p>
+          )}
         </div>
       </form>
     </Modal>

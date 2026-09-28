@@ -53,7 +53,14 @@ export function DeleteVaultModal({
       }
     >
       <div className="flex items-start gap-4">
-        <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-600 shrink-0">
+        <div 
+          className="p-2.5 rounded-xl shrink-0 border"
+          style={{
+            background: 'var(--color-status-danger-bg, rgba(158, 74, 74, 0.08))',
+            borderColor: 'var(--color-status-danger-border, rgba(158, 74, 74, 0.2))',
+            color: 'var(--color-status-danger-text, #9E4A4A)',
+          }}
+        >
           <AlertTriangle className="w-6 h-6" />
         </div>
         <div className="space-y-1">

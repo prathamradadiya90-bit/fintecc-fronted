@@ -127,13 +127,13 @@ export function RetirementPlanningCalculator() {
         <div className="flex flex-col gap-6">
           <div className="bg-[#0f172a] rounded-2xl p-6 text-white shadow-md">
             <div className="flex items-center gap-2 mb-2">
-              <Target className="w-5 h-5 text-[#10B981]" />
+              <Target className="w-5 h-5 text-[#A8C5DA]" />
               <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase">
                 TARGET RETIREMENT CORPUS
               </h3>
             </div>
 
-            <div className="text-2xl font-bold text-[#10B981] mb-6">
+            <div className="text-2xl font-bold text-[#A8C5DA] mb-6">
               {formatCurrencyExact(targetRetirementCorpus)}
             </div>
 
@@ -144,7 +144,7 @@ export function RetirementPlanningCalculator() {
               </div>
               <div className="flex justify-between items-center text-sm">
                 <span className="text-slate-400">Inflation-Adjusted Expense at Age {retirementAge}</span>
-                <span className="font-semibold text-amber-400">{formatCurrencyExact(futureMonthlyExpensesAtRetirement)}/mo</span>
+                <span className="font-semibold text-[#9E6B42]">{formatCurrencyExact(futureMonthlyExpensesAtRetirement)}/mo</span>
               </div>
               <div className="flex justify-between items-center text-sm">
                 <span className="text-slate-400">Time Until Retirement</span>
@@ -157,11 +157,11 @@ export function RetirementPlanningCalculator() {
             className="p-6 rounded-2xl flex flex-col gap-2"
             style={{ background: 'var(--color-bg-subtle)', border: '1px solid var(--color-border)' }}
           >
-            <div className="flex items-center gap-2 text-[#10B981]">
+            <div className="flex items-center gap-2 text-[#3D7A64]">
               <TrendingUp className="w-5 h-5" />
               <span className="text-xs font-bold uppercase tracking-wider">Required Monthly SIP</span>
             </div>
-            <div className="text-3xl font-black" style={{ color: 'var(--color-text-primary)' }}>
+            <div className="text-2xl font-black" style={{ color: 'var(--color-text-primary)' }}>
               {formatCurrencyExact(monthlySavingsNeeded)}
               <span className="text-sm font-normal text-slate-500 ml-1">/ month</span>
             </div>

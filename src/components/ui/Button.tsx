@@ -14,9 +14,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center font-medium transition-colors focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed rounded-xl';
     
     const variants = {
-      primary: 'bg-emerald-600 hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white font-semibold shadow-sm dark:shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all',
+      primary: 'bg-[#4A6FA5] hover:bg-[#3D5D8A] text-white font-semibold shadow-sm transition-all',
       secondary: 'text-[var(--color-text-on-card)] hover:opacity-80',
-      danger: 'bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/50',
+      danger: 'bg-[rgba(158,74,74,0.08)] text-[#9E4A4A] hover:bg-[rgba(158,74,74,0.15)] border border-[rgba(158,74,74,0.2)] font-semibold transition-all',
       ghost: 'bg-transparent hover:opacity-80',
       outline: 'bg-transparent hover:opacity-80',
     };

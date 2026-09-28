@@ -48,7 +48,7 @@ export function InvestmentResultsPanel({
 
         <div className="flex justify-between items-center pt-2">
           <span className="font-semibold text-sm" style={{ color: 'var(--color-text-on-card)' }}>{totalLabel}</span>
-          <span className="text-emerald-500 font-bold text-xl">{formatCurrencyExact(totalValue)}</span>
+          <span className="text-[#3D7A64] font-bold text-xl">{formatCurrencyExact(totalValue)}</span>
         </div>
 
         {/* Visual Chart */}
@@ -61,7 +61,7 @@ export function InvestmentResultsPanel({
                 cy="80"
                 r={60}
                 fill="transparent"
-                stroke={type === 'SIP' ? '#10B981' : '#091124'}
+                stroke={type === 'SIP' ? '#4A6FA5' : '#091124'}
                 strokeWidth="24"
                 strokeDasharray={`${(p2 / 100) * (2 * Math.PI * 60)} ${2 * Math.PI * 60}`}
                 strokeDashoffset={-((p1 / 100) * (2 * Math.PI * 60))}
@@ -73,7 +73,7 @@ export function InvestmentResultsPanel({
                 cy="80"
                 r={60}
                 fill="transparent"
-                stroke={type === 'SIP' ? '#091124' : '#10B981'}
+                stroke={type === 'SIP' ? '#091124' : '#4A6FA5'}
                 strokeWidth="24"
                 strokeDasharray={`${(p1 / 100) * (2 * Math.PI * 60)} ${2 * Math.PI * 60}`}
                 className="transition-all duration-500"
@@ -83,11 +83,11 @@ export function InvestmentResultsPanel({
           
           <div className="flex justify-center gap-6 text-[12px] font-medium" style={{ color: 'var(--color-text-secondary)' }}>
             <div className="flex items-center gap-1.5">
-              <span className={`w-2.5 h-2.5 rounded-full ${type === 'SIP' ? 'bg-[#091124]' : 'bg-emerald-500'}`}></span>
+              <span className={`w-2.5 h-2.5 rounded-full ${type === 'SIP' ? 'bg-[#091124]' : 'bg-[#4A6FA5]'}`}></span>
               <span>{amount1Label}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className={`w-2.5 h-2.5 rounded-full ${type === 'SIP' ? 'bg-emerald-500' : 'bg-[#091124]'}`}></span>
+              <span className={`w-2.5 h-2.5 rounded-full ${type === 'SIP' ? 'bg-[#4A6FA5]' : 'bg-[#091124]'}`}></span>
               <span>{amount2Label}</span>
             </div>
           </div>

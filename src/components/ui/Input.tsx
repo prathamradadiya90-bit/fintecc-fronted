@@ -35,7 +35,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className={`
               w-full px-2.5 py-1.5 rounded-xl text-[13px] 
               placeholder:opacity-50
-              focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500
+              focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/30 focus:border-[#4A6FA5]
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-shadow duration-200
               ${leftIcon ? 'pl-9' : ''}
@@ -45,7 +45,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             `}
             style={{
               background: 'var(--color-bg-input)',
-              border: `1px solid ${error ? '#ef4444' : 'var(--color-border)'}`,
+              border: `1px solid ${error ? '#9E4A4A' : 'var(--color-border)'}`,
               color: 'var(--color-text-primary)',
             }}
             {...props}
@@ -56,7 +56,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </div>
           )}
         </div>
-        {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+        {error && <p className="mt-1 text-xs text-[#9E4A4A]">{error}</p>}
       </div>
     );
   }

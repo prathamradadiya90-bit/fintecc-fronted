@@ -123,46 +123,23 @@ export function Topbar({
             <button
               type="button"
               onClick={() => setIsGuideOpen(true)}
-              className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-semibold text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all shadow-xs cursor-pointer focus:outline-none"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all shadow-xs cursor-pointer focus:outline-none hover:bg-[var(--color-bg-card-hover)]"
+              style={{
+                background: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)',
+              }}
               title={`View ${title} guide & workflow`}
               aria-label={`View ${title} guide`}
             >
-              <HelpCircle className="w-3.5 h-3.5 shrink-0" />
-              <span className="hidden sm:inline">Guide</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.dispatchEvent(new CustomEvent('open-keyboard-shortcuts'));
-                }
-              }}
-              className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-medium transition-all shadow-xs cursor-pointer focus:outline-none"
-              style={{
-                color: 'var(--color-text-secondary)',
-                background: 'var(--color-bg-card)',
-                border: '1px solid var(--color-border)',
-              }}
-              title="Keyboard Shortcuts (Shift + ?)"
-              aria-label="View Keyboard Shortcuts"
-            >
-              <Keyboard className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--color-text-muted)' }} />
-              <span className="hidden md:inline">Shortcuts</span>
-              <kbd
-                className="text-[10px] px-1 py-0.2 rounded font-mono"
-                style={{
-                  background: 'var(--color-bg-card-hover)',
-                  color: 'var(--color-text-secondary)',
-                }}
-              >
-                ?
-              </kbd>
+              <span className="font-semibold text-[11px] text-[var(--color-text-muted)]">?</span>
+              <span>Guide</span>
             </button>
           </div>
         </div>
 
         {/* Global Search */}
-        <div className="hidden sm:flex flex-1 justify-center max-w-lg mx-auto">
+        <div className="hidden sm:flex flex-1 items-center mx-3 sm:mx-4 lg:mx-6 min-w-0">
           <GlobalSearchBar />
         </div>
 
@@ -177,9 +154,9 @@ export function Topbar({
           >
             <button 
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2.5 focus:outline-none"
+              className="flex items-center gap-2.5 focus:outline-none cursor-pointer"
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-950 to-emerald-500/40 border border-emerald-500/40 text-emerald-300 flex items-center justify-center font-bold text-xs overflow-hidden">
+              <div className="w-8 h-8 rounded-full bg-[#4A6FA5] text-white flex items-center justify-center font-bold text-xs overflow-hidden shrink-0 shadow-xs">
                 {user?.profilePic ? (
                   <img src={user.profilePic} alt={userName} className="w-full h-full object-cover" />
                 ) : (
@@ -194,10 +171,10 @@ export function Topbar({
                   {displayName}
                 </p>
                 <p
-                  className="text-[10px] font-mono leading-tight"
+                  className="text-[10px] font-medium tracking-wider uppercase leading-tight"
                   style={{ color: 'var(--color-text-muted)' }}
                 >
-                  {user?.role || 'Chartered Accountant'}
+                  {user?.role === 'SUPER_ADMIN' ? 'SUPER ADMIN' : user?.role === 'CLIENT' ? 'CLIENT' : 'FIRM OWNER'}
                 </p>
               </div>
             </button>
@@ -270,7 +247,7 @@ export function Topbar({
                     e.currentTarget.style.background = 'transparent';
                   }}
                 >
-                  <Sparkles className="w-4 h-4 text-emerald-400" />
+                  <Sparkles className="w-4 h-4 text-[#4A6FA5]" />
                   Ask Fintecc AI
                 </button>
 
@@ -336,7 +313,8 @@ export function Topbar({
 
                 <button 
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-xs font-medium text-rose-400 hover:bg-rose-950/20 hover:text-rose-300 flex items-center gap-2 transition-colors cursor-pointer"
+                  className="w-full text-left px-4 py-2 text-xs font-medium flex items-center gap-2 transition-colors cursor-pointer hover:bg-[rgba(158,74,74,0.08)]"
+                  style={{ color: 'var(--color-status-danger-text, #9E4A4A)' }}
                 >
                   <LogOut className="w-4 h-4" />
                   Sign out

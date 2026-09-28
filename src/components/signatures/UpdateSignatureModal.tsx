@@ -79,9 +79,9 @@ const SignatureForm: React.FC<{
         </label>
         <div className="grid grid-cols-3 gap-2">
           {[
-            { id: 'SIGNED', label: 'Signed ✅', color: 'border-emerald-500/30 text-emerald-600 bg-emerald-500/10' },
-            { id: 'VIEWED', label: 'Viewed 👁️', color: 'border-blue-500/30 text-blue-600 bg-blue-500/10' },
-            { id: 'DECLINED', label: 'Declined ❌', color: 'border-rose-500/30 text-rose-600 bg-rose-500/10' },
+            { id: 'SIGNED', label: 'Signed ✅', color: 'border-[#3D7A64]/30 text-[#3D7A64] bg-[#3D7A64]/10' },
+            { id: 'VIEWED', label: 'Viewed 👁️', color: 'border-[#4A6FA5]/30 text-[#4A6FA5] bg-[#4A6FA5]/10' },
+            { id: 'DECLINED', label: 'Declined ❌', color: 'border-[#9E4A4A]/30 text-[#9E4A4A] bg-[#9E4A4A]/10' },
           ].map((st) => (
             <button
               type="button"
@@ -89,7 +89,7 @@ const SignatureForm: React.FC<{
               onClick={() => setStatus(st.id as SignatureStatus)}
               className={`py-2 px-2 rounded-xl text-xs font-medium border text-center transition-all ${
                 status === st.id
-                  ? `${st.color} ring-2 ring-emerald-500/40 font-bold shadow-sm`
+                  ? `${st.color} ring-2 ring-[#4A6FA5]/40 font-bold shadow-sm`
                   : 'border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/40'
               }`}
             >

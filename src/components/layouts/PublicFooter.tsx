@@ -11,8 +11,9 @@ export function PublicFooter() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/5">
           {/* Left Footer Brand */}
           <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4">
-            <Link href="/" className="inline-block">
-              <Logo width={110} height={32} />
+            <Link href="/" className="inline-flex items-center gap-2.5">
+              <Logo width={32} height={32} className="rounded-lg shrink-0" />
+              <span className="text-lg font-bold tracking-tight text-white">Fintecc</span>
             </Link>
             <p className="text-xs text-slate-400 text-center sm:text-left sm:border-l sm:border-white/10 sm:pl-4">
               Empowering Indian Chartered Accountants with next-gen automation
@@ -21,22 +22,22 @@ export function PublicFooter() {
 
           {/* Footer Navigation Links */}
           <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
-            <Link className="hover:text-emerald-400 transition-colors" href="/#products">
+            <Link className="hover:text-[#A8C5DA] transition-colors" href="/#products">
               Products
             </Link>
-            <Link className="hover:text-emerald-400 transition-colors" href="/calculators">
+            <Link className="hover:text-[#A8C5DA] transition-colors" href="/calculators">
               Calculators
             </Link>
-            <Link className="hover:text-emerald-400 transition-colors" href="/privacy">
+            <Link className="hover:text-[#A8C5DA] transition-colors" href="/privacy">
               Privacy
             </Link>
-            <Link className="hover:text-emerald-400 transition-colors" href="/terms">
+            <Link className="hover:text-[#A8C5DA] transition-colors" href="/terms">
               Terms
             </Link>
-            <Link className="hover:text-emerald-400 transition-colors" href="/security">
+            <Link className="hover:text-[#A8C5DA] transition-colors" href="/security">
               Security
             </Link>
-            <Link className="hover:text-emerald-400 transition-colors" href="/#contact">
+            <Link className="hover:text-[#A8C5DA] transition-colors" href="/#contact">
               Contact Us
             </Link>
           </div>

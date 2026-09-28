@@ -39,7 +39,7 @@ interface StaffFormModalProps {
 
 const SectionHeader = ({ letter, title }: { letter: string; title: string }) => (
   <div className="flex items-center gap-2.5 mt-6 mb-4">
-    <div className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-white text-[10px] font-bold">
+    <div className="w-5 h-5 rounded-full bg-[#4A6FA5] flex items-center justify-center text-white text-[10px] font-bold">
       {letter}
     </div>
     <h4 className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.1em]">{title}</h4>
@@ -144,7 +144,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
           <button
             onClick={handleSubmit(onSubmit)}
             disabled={isLoading}
-            className="flex-1 md:flex-none px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-[13px] text-white font-bold rounded-xl transition-colors disabled:opacity-50"
+            className="flex-1 md:flex-none px-6 py-2.5 bg-[#4A6FA5] hover:bg-[#3D5D8A] text-[13px] text-white font-bold rounded-xl transition-colors disabled:opacity-50"
           >
             {isLoading ? 'Saving...' : staff ? 'Save Changes' : 'Send Invite'}
           </button>
@@ -243,7 +243,7 @@ export function StaffFormModal({ isOpen, onClose, staff }: StaffFormModalProps) 
                 <div className="relative flex items-center justify-center w-5 h-5">
                   <input 
                     type="checkbox" 
-                    className="peer appearance-none w-5 h-5 border border-slate-300 rounded cursor-pointer checked:bg-emerald-600 checked:border-emerald-600 transition-all"
+                    className="peer appearance-none w-5 h-5 border border-slate-300 rounded cursor-pointer checked:bg-[#4A6FA5] checked:border-[#4A6FA5] transition-all"
                     {...register('isActive')}
                   />
                   <svg className="absolute w-3.5 h-3.5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">

@@ -3,62 +3,153 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* ─── Page / Layout (Emerald Ledger Light) ─── */
-  --color-bg-page: #F8FAFC;
+  /* ─── Page / Layout (Bank Trust Blue Light) ─── */
+  --color-bg-page: #F7F9FB;
   --color-bg-card: #FFFFFF;
-  --color-bg-card-hover: #F1F5F9;
+  --color-bg-card-hover: #F0F4F8;
   --color-bg-elevated: #FFFFFF;
   --color-bg-input: #FFFFFF;
-  --color-bg-skeleton: #E2E8F0;
-  --color-bg-subtle: #F1F5F9;
+  --color-bg-skeleton: #E3EBF3;
+  --color-bg-subtle: #F0F4F8;
 
   /* ─── Borders ─── */
   --color-border: #E2E8F0;
-  --color-border-subtle: #F1F5F9;
+  --color-border-subtle: #EDF2F7;
 
   /* ─── Text ─── */
-  --color-text-primary: #0F172A;
-  --color-text-secondary: #64748B;
-  --color-text-muted: #94A3B8;
-  --color-text-on-card: #0F172A;
-  --color-text-heading: #0F172A;
+  --color-text-primary: #1E2A38;
+  --color-text-secondary: #5A6E85;
+  --color-text-muted: #8E9FAA;
+  --color-text-on-card: #1E2A38;
+  --color-text-heading: #1E2A38;
+
+  /* ─── Bank Trust Blue Theme Tokens ─── */
+  --color-primary: #4A6FA5;
+  --color-primary-hover: #3D5D8A;
+  --color-secondary: #A8C5DA;
+  --color-accent: #9E6B42;
+
+  /* ─── Faded Institutional Status Tokens (Muted & Executive) ─── */
+  --color-status-success-text: #3D7A64;
+  --color-status-success-bg: rgba(61, 122, 100, 0.08);
+  --color-status-success-border: rgba(61, 122, 100, 0.2);
+
+  --color-status-warning-text: #9E6B42;
+  --color-status-warning-bg: rgba(158, 107, 66, 0.08);
+  --color-status-warning-border: rgba(158, 107, 66, 0.2);
+
+  --color-status-danger-text: #9E4A4A;
+  --color-status-danger-bg: rgba(158, 74, 74, 0.08);
+  --color-status-danger-border: rgba(158, 74, 74, 0.2);
 
   /* ─── Next.js defaults ─── */
-  --background: #F8FAFC;
-  --foreground: #0F172A;
+  --background: #F7F9FB;
+  --foreground: #1E2A38;
 }
 
 .dark {
-  /* ─── Page / Layout (Emerald Ledger Dark) ─── */
-  --color-bg-page: #0A0F1D;
-  --color-bg-card: #0F172A;
-  --color-bg-card-hover: #1E293B;
-  --color-bg-elevated: #161F33;
-  --color-bg-input: #0A0F1D;
-  --color-bg-skeleton: #1E293B;
-  --color-bg-subtle: #0E1321;
+  /* ─── Page / Layout (Bank Trust Blue Dark) ─── */
+  --color-bg-page: #0C131F;
+  --color-bg-card: #131C2E;
+  --color-bg-card-hover: #1A263D;
+  --color-bg-elevated: #182338;
+  --color-bg-input: #0F1728;
+  --color-bg-skeleton: #1E2B42;
+  --color-bg-subtle: #10192A;
 
   /* ─── Borders ─── */
-  --color-border: #1E293B;
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border: #1E2B42;
+  --color-border-subtle: rgba(168, 197, 218, 0.12);
 
   /* ─── Text ─── */
   --color-text-primary: #F8FAFC;
-  --color-text-secondary: #94A3B8;
-  --color-text-muted: #64748B;
+  --color-text-secondary: #B0C4DE;
+  --color-text-muted: #8E9FAA;
   --color-text-on-card: #F8FAFC;
-  --color-text-heading: #F8FAFC;
+  --color-text-heading: #FFFFFF;
+
+  /* ─── Bank Trust Blue Theme Tokens ─── */
+  --color-primary: #5C85BE;
+  --color-primary-hover: #4A6FA5;
+  --color-secondary: #A8C5DA;
+  --color-accent: #C89874;
+
+  /* ─── Faded Institutional Status Tokens (Dark) ─── */
+  --color-status-success-text: #6CA891;
+  --color-status-success-bg: rgba(108, 168, 145, 0.12);
+  --color-status-success-border: rgba(108, 168, 145, 0.25);
+
+  --color-status-warning-text: #C89874;
+  --color-status-warning-bg: rgba(200, 152, 116, 0.12);
+  --color-status-warning-border: rgba(200, 152, 116, 0.25);
+
+  --color-status-danger-text: #C47474;
+  --color-status-danger-bg: rgba(196, 116, 116, 0.12);
+  --color-status-danger-border: rgba(196, 116, 116, 0.25);
 
   /* ─── Next.js defaults ─── */
-  --background: #0A0F1D;
-  --foreground: #F8FAFC;
+  --background: #0C131F;
+  --foreground: #F1F5F9;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* ─── Institutional Bank Trust Blue Palette System Overrides ─── */
+  --color-emerald-50: var(--color-status-success-bg, rgba(61, 122, 100, 0.08));
+  --color-emerald-100: var(--color-status-success-bg, rgba(61, 122, 100, 0.08));
+  --color-emerald-200: var(--color-status-success-border, rgba(61, 122, 100, 0.2));
+  --color-emerald-300: #8EBFA9;
+  --color-emerald-400: #6CA891;
+  --color-emerald-500: var(--color-status-success-text, #3D7A64);
+  --color-emerald-600: var(--color-primary, #4A6FA5);
+  --color-emerald-700: var(--color-primary-hover, #3D5D8A);
+  --color-emerald-800: #2C4363;
+  --color-emerald-900: #1E2A38;
+  --color-emerald-950: #0C131F;
+
+  --color-green-50: var(--color-status-success-bg, rgba(61, 122, 100, 0.08));
+  --color-green-100: var(--color-status-success-bg, rgba(61, 122, 100, 0.08));
+  --color-green-200: var(--color-status-success-border, rgba(61, 122, 100, 0.2));
+  --color-green-400: #6CA891;
+  --color-green-500: var(--color-status-success-text, #3D7A64);
+  --color-green-600: var(--color-primary, #4A6FA5);
+  --color-green-700: var(--color-primary-hover, #3D5D8A);
+
+  --color-amber-50: var(--color-status-warning-bg, rgba(158, 107, 66, 0.08));
+  --color-amber-100: var(--color-status-warning-bg, rgba(158, 107, 66, 0.08));
+  --color-amber-200: var(--color-status-warning-border, rgba(158, 107, 66, 0.2));
+  --color-amber-400: #C89874;
+  --color-amber-500: var(--color-status-warning-text, #9E6B42);
+  --color-amber-600: #875933;
+
+  --color-orange-50: var(--color-status-warning-bg, rgba(158, 107, 66, 0.08));
+  --color-orange-100: var(--color-status-warning-bg, rgba(158, 107, 66, 0.08));
+  --color-orange-200: var(--color-status-warning-border, rgba(158, 107, 66, 0.2));
+  --color-orange-400: #C89874;
+  --color-orange-500: var(--color-status-warning-text, #9E6B42);
+  --color-orange-600: #875933;
+
+  --color-red-50: var(--color-status-danger-bg, rgba(158, 74, 74, 0.08));
+  --color-red-100: var(--color-status-danger-bg, rgba(158, 74, 74, 0.08));
+  --color-red-200: var(--color-status-danger-border, rgba(158, 74, 74, 0.2));
+  --color-red-400: #C47474;
+  --color-red-500: var(--color-status-danger-text, #9E4A4A);
+  --color-red-600: #873B3B;
+
+  --color-rose-50: var(--color-status-danger-bg, rgba(158, 74, 74, 0.08));
+  --color-rose-100: var(--color-status-danger-bg, rgba(158, 74, 74, 0.08));
+  --color-rose-200: var(--color-status-danger-border, rgba(158, 74, 74, 0.2));
+  --color-rose-400: #C47474;
+  --color-rose-500: var(--color-status-danger-text, #9E4A4A);
+  --color-rose-600: #873B3B;
 }
 
 body {
@@ -86,8 +177,8 @@ html {
 }
 
 .glass-card:hover {
-  border-color: rgba(52, 211, 153, 0.45);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px -5px rgba(16, 185, 129, 0.22), inset 0 1px 2px 0 rgba(255, 255, 255, 0.35);
+  border-color: rgba(168, 197, 218, 0.45);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px -5px rgba(74, 111, 165, 0.25), inset 0 1px 2px 0 rgba(255, 255, 255, 0.35);
 }
 
 .glass-subcard {
@@ -101,27 +192,28 @@ html {
 
 .glass-subcard:hover {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.04) 40%, rgba(15, 23, 42, 0.55) 100%);
-  border-color: rgba(52, 211, 153, 0.45);
-  box-shadow: 0 12px 35px -5px rgba(16, 185, 129, 0.2), inset 0 1px 1px 0 rgba(255, 255, 255, 0.28);
+  border-color: rgba(168, 197, 218, 0.45);
+  box-shadow: 0 12px 35px -5px rgba(74, 111, 165, 0.2), inset 0 1px 1px 0 rgba(255, 255, 255, 0.28);
   transform: translateY(-2px);
 }
 
 .hero-glow-radial {
-  background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, rgba(7, 10, 17, 0) 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(74, 111, 165, 0.18) 0%, rgba(7, 10, 17, 0) 70%);
 }
 
 .accent-gradient-text {
-  background: linear-gradient(135deg, #34d399 0%, #10b981 60%, #059669 100%);
+  background: linear-gradient(135deg, #A8C5DA 0%, #4A6FA5 60%, #35537e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.shadow-glow-emerald {
-  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.3);
+.shadow-glow-emerald,
+.shadow-glow-primary {
+  box-shadow: 0 0 35px -5px rgba(74, 111, 165, 0.3);
 }
 
 .shadow-glow-card {
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px -2px rgba(16, 185, 129, 0.08);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px -2px rgba(74, 111, 165, 0.1);
 }
 
 /* ─── Dashboard Custom Scrollbar ─── */

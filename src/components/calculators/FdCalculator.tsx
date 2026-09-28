@@ -82,7 +82,7 @@ export function FdCalculator() {
                   onClick={() => setFrequency(freq)}
                   className={`py-2 px-2 rounded-xl text-xs font-semibold capitalize transition-all border ${
                     frequency === freq
-                      ? 'bg-[#10B981] text-white border-[#10B981]'
+                      ? 'bg-[#4A6FA5] text-white border-[#4A6FA5]'
                       : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >

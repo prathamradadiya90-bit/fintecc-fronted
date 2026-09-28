@@ -10,7 +10,7 @@ export function QuickActions() {
       icon: UserPlus,
       href: '/dashboard/my-clients?action=new',
       badge: 'Client',
-      iconColor: 'bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-[#003824]',
+      iconColor: 'bg-[#4A6FA5]/15 dark:bg-[#4A6FA5]/30 text-[#4A6FA5] dark:text-[#A8C5DA] group-hover:bg-[#4A6FA5] group-hover:text-white',
     },
     {
       title: 'Convert Statements',
@@ -18,7 +18,7 @@ export function QuickActions() {
       icon: FileText,
       href: '/dashboard/converters',
       badge: 'Fast OCR',
-      iconColor: 'bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-[#003824]',
+      iconColor: 'bg-[#A8C5DA]/30 dark:bg-[#A8C5DA]/20 text-[#35537e] dark:text-[#A8C5DA] group-hover:bg-[#4A6FA5] group-hover:text-white',
     },
     {
       title: 'CA Calculators',
@@ -26,13 +26,13 @@ export function QuickActions() {
       icon: Calculator,
       href: '/dashboard/calculators',
       badge: 'FY 24-25',
-      iconColor: 'bg-amber-500/10 text-amber-400 group-hover:bg-amber-500 group-hover:text-[#003824]',
+      iconColor: 'bg-[rgba(158,107,66,0.1)] dark:bg-[rgba(158,107,66,0.2)] text-[#9E6B42] dark:text-[#E0B99B] group-hover:bg-[#9E6B42] group-hover:text-white',
     },
   ];
 
   return (
     <div
-      className="rounded-xl p-5 shadow-xl"
+      className="rounded-xl p-5 shadow-sm"
       style={{
         background: 'var(--color-bg-card)',
         border: '1px solid var(--color-border)',
@@ -68,7 +68,7 @@ export function QuickActions() {
                 border: '1px solid var(--color-border)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+                e.currentTarget.style.borderColor = 'rgba(74, 111, 165, 0.4)';
                 e.currentTarget.style.background = 'var(--color-bg-card-hover)';
               }}
               onMouseLeave={(e) => {
@@ -83,7 +83,7 @@ export function QuickActions() {
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
                     <h4
-                      className="text-xs font-semibold group-hover:text-emerald-400 transition-colors truncate"
+                      className="text-xs font-semibold group-hover:text-[#4A6FA5] dark:group-hover:text-[#A8C5DA] transition-colors truncate"
                       style={{ color: 'var(--color-text-primary)' }}
                     >
                       {action.title}
@@ -98,7 +98,7 @@ export function QuickActions() {
                 </div>
               </div>
               <ArrowRight
-                className="w-3.5 h-3.5 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all shrink-0 ml-2"
+                className="w-3.5 h-3.5 group-hover:text-[#4A6FA5] dark:group-hover:text-[#A8C5DA] group-hover:translate-x-0.5 transition-all shrink-0 ml-2"
                 style={{ color: 'var(--color-text-muted)' }}
               />
             </Link>

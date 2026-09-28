@@ -236,13 +236,16 @@ export function Sidebar({
   const firmInitials = firmName.slice(0, 2).toUpperCase();
   const firmCode = `CA-${user?.id ? user.id.slice(-5).toUpperCase() : '98421'}`;
 
-  const renderBadge = (badge?: string, variant?: 'emerald' | 'cyan' | 'amber') => {
+  const renderBadge = (badge?: string, variant?: 'emerald' | 'cyan' | 'amber', isActive?: boolean) => {
     if (!badge) return null;
-    let colorClasses = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+    let colorClasses = 'bg-[#A8C5DA]/25 text-[#4A6FA5] border-[#A8C5DA]/40';
     if (variant === 'cyan') {
-      colorClasses = 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20';
+      colorClasses = 'bg-[#A8C5DA]/30 text-[#35537e] border-[#A8C5DA]/50';
     } else if (variant === 'amber') {
-      colorClasses = 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+      colorClasses = 'bg-[rgba(158,107,66,0.08)] text-[#9E6B42] border-[rgba(158,107,66,0.2)]';
+    }
+    if (isActive) {
+      colorClasses = 'bg-white/20 text-white border-white/30';
     }
     return (
       <span className={`ml-auto text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-full border shrink-0 ${colorClasses}`}>
@@ -266,8 +269,8 @@ export function Sidebar({
         className="h-16 px-4 flex items-center justify-between shrink-0"
         style={{ borderBottom: '1px solid var(--color-border)' }}
       >
-        <Link href="/dashboard" className="flex items-center gap-2 min-w-0">
-          <Logo width={32} height={32} className="rounded-md shrink-0" />
+        <Link href="/dashboard" className="flex items-center gap-2.5 min-w-0">
+          <Logo width={32} height={32} className="rounded-lg shrink-0" />
           <span
             className="text-base font-bold tracking-tight"
             style={{ color: 'var(--color-text-primary)' }}
@@ -276,7 +279,14 @@ export function Sidebar({
           </span>
         </Link>
         <div className="flex items-center gap-1.5 shrink-0">
-          <span className="text-[10px] tracking-wider uppercase font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span 
+            className="text-[10px] tracking-wider uppercase font-bold px-2 py-0.5 rounded border"
+            style={{
+              background: 'var(--color-status-success-bg, rgba(61, 122, 100, 0.08))',
+              color: 'var(--color-status-success-text, #3D7A64)',
+              borderColor: 'var(--color-status-success-border, rgba(61, 122, 100, 0.2))',
+            }}
+          >
             PRO
           </span>
           {onClose && (
@@ -294,7 +304,7 @@ export function Sidebar({
 
       {/* Active Practice Switcher */}
       <div
-        className="rounded-xl p-2.5 flex items-center justify-between transition-colors mx-3 mt-3 mb-2 shrink-0"
+        className="rounded-xl p-2.5 flex items-center justify-between transition-colors mx-3 mt-3 mb-2 shrink-0 shadow-xs"
         style={{
           background: 'var(--color-bg-card)',
           border: '1px solid var(--color-border)',
@@ -302,12 +312,7 @@ export function Sidebar({
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold shrink-0"
-            style={{
-              background: 'var(--color-bg-card-hover)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text-primary)',
-            }}
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 bg-[#4A6FA5] text-white shadow-xs"
           >
             {firmInitials}
           </div>
@@ -319,7 +324,10 @@ export function Sidebar({
               {firmName}
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span 
+                className="w-1.5 h-1.5 rounded-full animate-pulse" 
+                style={{ background: 'var(--color-status-success-text, #3D7A64)' }}
+              />
               <span
                 className="text-[10px] font-mono truncate"
                 style={{ color: 'var(--color-text-muted)' }}
@@ -335,7 +343,7 @@ export function Sidebar({
       <nav className="flex-1 pt-1 pb-4 flex flex-col gap-1 px-3 overflow-y-auto custom-scrollbar">
         {navEntries.map((entry) => {
           if (entry.type === 'link') {
-            const isActive = pathname === entry.item.href || pathname.startsWith(`${entry.item.href}/`);
+            const isActive = pathname === entry.item.href || (entry.item.href !== '/dashboard' && pathname.startsWith(`${entry.item.href}/`)) || (entry.item.href === '/dashboard' && pathname === '/dashboard');
             const isSubscriptionItem = entry.item.href === '/dashboard/subscription';
             const isContactItem = entry.item.href === '/dashboard/contact';
             const isLocked = !hasActivePlan && !isSubscriptionItem && !isContactItem;
@@ -350,33 +358,28 @@ export function Sidebar({
                   if (window.innerWidth < 1024 && onClose) onClose();
                 }}
                 className={`
-                  flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 group relative text-xs
+                  flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 group relative text-xs font-medium
                   ${isActive
-                    ? 'text-emerald-400 border border-emerald-500/25 shadow-[0_0_15px_rgba(16,185,129,0.12)] font-medium'
-                    : 'border border-transparent hover:bg-[var(--color-bg-card)]'
+                    ? 'bg-[#4A6FA5] text-white shadow-xs'
+                    : 'text-[var(--color-text-secondary)] hover:text-[#4A6FA5] hover:bg-[var(--color-bg-card)]'
                   }
                 `}
                 style={{
-                  ...(isActive ? { background: 'var(--color-bg-card)' } : {}),
+                  ...(isActive ? { background: '#4A6FA5', color: '#FFFFFF' } : {}),
                   ...(!isActive && !isLocked ? { color: 'var(--color-text-secondary)' } : {}),
                   ...(isLocked && !isActive ? { color: 'var(--color-text-muted)' } : {}),
                 }}
               >
                 <Icon
-                  className={`w-4 h-4 shrink-0 ${isActive ? 'text-emerald-400' : ''}`}
-                  style={!isActive ? { color: 'inherit' } : {}}
+                  className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-[var(--color-text-muted)] group-hover:text-[#4A6FA5]'}`}
                 />
                 <span className="truncate">{entry.item.name}</span>
-
-                {isActive && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] shrink-0" />
-                )}
 
                 {isLocked && !isActive && (
                   <Lock className="w-3.5 h-3.5 ml-auto shrink-0" style={{ color: 'var(--color-text-muted)' }} />
                 )}
 
-                {renderBadge(entry.item.badge, entry.item.badgeVariant)}
+                {renderBadge(entry.item.badge, entry.item.badgeVariant, isActive)}
               </Link>
             );
           }
@@ -396,17 +399,17 @@ export function Sidebar({
                 onClick={() => toggleGroup(group.id)}
                 aria-expanded={isGroupOpen}
                 className={`
-                  w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-150 text-xs text-left group
+                  w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-150 text-xs text-left group cursor-pointer
                   ${hasActiveChild && !isGroupOpen
-                    ? 'text-emerald-400 bg-emerald-500/10 font-semibold'
-                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-card)]'
+                    ? 'text-[#4A6FA5] bg-[#A8C5DA]/15 font-semibold'
+                    : 'text-[var(--color-text-secondary)] hover:text-[#4A6FA5] hover:bg-[var(--color-bg-card)]'
                   }
                 `}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <GroupIcon
                     className={`w-4 h-4 shrink-0 transition-colors ${
-                      hasActiveChild ? 'text-emerald-400' : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-text-primary)]'
+                      hasActiveChild ? 'text-[#4A6FA5]' : 'text-[var(--color-text-muted)] group-hover:text-[#4A6FA5]'
                     }`}
                   />
                   <span className="truncate font-medium">{group.name}</span>
@@ -414,11 +417,11 @@ export function Sidebar({
 
                 <div className="flex items-center gap-1.5 shrink-0 ml-2">
                   {hasActiveChild && !isGroupOpen && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#4A6FA5] shrink-0" />
                   )}
                   <ChevronDown
                     className={`w-3.5 h-3.5 text-[var(--color-text-muted)] transition-transform duration-200 ${
-                      isGroupOpen ? 'rotate-180 text-emerald-400' : 'group-hover:text-[var(--color-text-primary)]'
+                      isGroupOpen ? 'rotate-180 text-[#4A6FA5]' : 'group-hover:text-[#4A6FA5]'
                     }`}
                   />
                 </div>
@@ -444,13 +447,14 @@ export function Sidebar({
                           if (window.innerWidth < 1024 && onClose) onClose();
                         }}
                         className={`
-                          flex items-center gap-2 px-2.5 py-1.5 rounded-lg transition-all text-xs group relative
+                          flex items-center gap-2 px-2.5 py-1.5 rounded-lg transition-all text-xs group relative font-medium
                           ${isChildActive
-                            ? 'text-emerald-400 bg-[var(--color-bg-card)] border border-emerald-500/25 shadow-[0_0_12px_rgba(16,185,129,0.12)] font-medium'
+                            ? 'bg-[#4A6FA5] text-white shadow-xs'
                             : 'border border-transparent hover:bg-[var(--color-bg-card)]'
                           }
                         `}
                         style={{
+                          ...(isChildActive ? { background: '#4A6FA5', color: '#FFFFFF' } : {}),
                           ...(!isChildActive && !isChildLocked
                             ? { color: 'var(--color-text-secondary)' }
                             : {}),
@@ -462,21 +466,17 @@ export function Sidebar({
                         <ChildIcon
                           className={`w-3.5 h-3.5 shrink-0 ${
                             isChildActive
-                              ? 'text-emerald-400'
-                              : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-text-primary)]'
+                              ? 'text-white'
+                              : 'text-[var(--color-text-muted)] group-hover:text-[#4A6FA5]'
                           }`}
                         />
                         <span className="truncate">{child.name}</span>
-
-                        {isChildActive && (
-                          <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981] shrink-0" />
-                        )}
 
                         {isChildLocked && !isChildActive && (
                           <Lock className="w-3 h-3 ml-auto shrink-0 text-[var(--color-text-muted)]" />
                         )}
 
-                        {renderBadge(child.badge, child.badgeVariant)}
+                        {renderBadge(child.badge, child.badgeVariant, isChildActive)}
                       </Link>
                     );
                   })}
@@ -487,7 +487,7 @@ export function Sidebar({
         })}
       </nav>
 
-      {/* Footer Section: Storage Quota & Compliance */}
+      {/* Footer Section: Compliance & Settings */}
       <div
         className="p-3 flex flex-col gap-2 shrink-0"
         style={{
@@ -495,7 +495,6 @@ export function Sidebar({
           background: 'var(--color-bg-page)',
         }}
       >
-
         {/* Settings & Logout */}
         <div
           className="flex flex-col gap-1 pt-1"
@@ -506,14 +505,14 @@ export function Sidebar({
             onClick={() => {
               if (window.innerWidth < 1024 && onClose) onClose();
             }}
-            className={`flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-all text-xs ${
+            className={`flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-all text-xs font-medium ${
               pathname.startsWith('/dashboard/settings')
-                ? 'text-emerald-400 border border-emerald-500/25 font-medium'
-                : ''
+                ? 'bg-[#4A6FA5] text-white shadow-xs'
+                : 'text-[var(--color-text-secondary)] hover:text-[#4A6FA5] hover:bg-[var(--color-bg-card)]'
             }`}
             style={{
               ...(pathname.startsWith('/dashboard/settings')
-                ? { background: 'var(--color-bg-card)' }
+                ? { background: '#4A6FA5', color: '#FFFFFF' }
                 : { color: 'var(--color-text-secondary)' }),
             }}
           >
@@ -523,7 +522,8 @@ export function Sidebar({
           <button
             onClick={handleLogout}
             disabled={isLoading}
-            className="flex items-center gap-2.5 px-3 py-1.5 text-rose-400 hover:text-rose-300 hover:bg-rose-950/20 rounded-lg transition-all disabled:opacity-50 text-xs text-left"
+            className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-all disabled:opacity-50 text-xs text-left cursor-pointer hover:bg-[rgba(158,74,74,0.08)]"
+            style={{ color: 'var(--color-status-danger-text, #9E4A4A)' }}
           >
             <LogOut className="w-4 h-4" />
             <span>{isLoading ? 'Logging Out...' : 'Log Out'}</span>

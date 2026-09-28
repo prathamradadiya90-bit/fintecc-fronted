@@ -42,7 +42,7 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
             value={filters.search}
             onChange={(e) => onFilterChange('search', e.target.value)}
             placeholder="Search tasks by title..."
-            className="w-full pl-9 pr-8 py-2 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+            className="w-full pl-9 pr-8 py-2 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 transition-all"
             style={{
               background: 'var(--color-bg-input)',
               border: '1px solid var(--color-border)',
@@ -66,11 +66,20 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
           <button
             type="button"
             onClick={() => onFilterChange('isOverdue', !filters.isOverdue)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
               filters.isOverdue
-                ? 'bg-red-500 text-white border-red-500 shadow-xs'
+                ? 'shadow-xs'
                 : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-subtle)]'
             }`}
+            style={
+              filters.isOverdue
+                ? {
+                    background: '#9E4A4A',
+                    borderColor: '#9E4A4A',
+                    color: '#FFFFFF',
+                  }
+                : undefined
+            }
           >
             <AlertCircle className="w-3.5 h-3.5" />
             <span>Overdue</span>
@@ -82,11 +91,20 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
             onClick={() =>
               onFilterChange('status', filters.status === 'REVIEW' ? '' : 'REVIEW')
             }
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
               filters.status === 'REVIEW'
-                ? 'bg-purple-600 text-white border-purple-600 shadow-xs'
+                ? 'shadow-xs'
                 : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-subtle)]'
             }`}
+            style={
+              filters.status === 'REVIEW'
+                ? {
+                    background: '#9E6B42',
+                    borderColor: '#9E6B42',
+                    color: '#FFFFFF',
+                  }
+                : undefined
+            }
           >
             <Clock className="w-3.5 h-3.5" />
             <span>Needs Review</span>
@@ -97,7 +115,8 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
             <button
               type="button"
               onClick={onResetFilters}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 border border-transparent transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-[rgba(158,74,74,0.08)] border border-transparent transition-colors cursor-pointer"
+              style={{ color: '#9E4A4A' }}
             >
               <X className="w-3.5 h-3.5" />
               <span>Clear ({activeFilterCount})</span>
@@ -116,7 +135,7 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
           <select
             value={filters.complianceType}
             onChange={(e) => onFilterChange('complianceType', e.target.value)}
-            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
+            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',
@@ -140,7 +159,7 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
           <select
             value={filters.status}
             onChange={(e) => onFilterChange('status', e.target.value)}
-            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
+            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',
@@ -164,7 +183,7 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
           <select
             value={filters.priority}
             onChange={(e) => onFilterChange('priority', e.target.value)}
-            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
+            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',
@@ -187,7 +206,7 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
           <select
             value={filters.assigneeId}
             onChange={(e) => onFilterChange('assigneeId', e.target.value)}
-            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
+            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',
@@ -211,7 +230,7 @@ export const TaskFiltersBar: React.FC<TaskFiltersBarProps> = ({
           <select
             value={filters.clientId}
             onChange={(e) => onFilterChange('clientId', e.target.value)}
-            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
+            className="w-full text-xs rounded-xl px-2.5 py-1.5 border focus:outline-none focus:ring-2 focus:ring-[#4A6FA5]/40 cursor-pointer"
             style={{
               background: 'var(--color-bg-input)',
               borderColor: 'var(--color-border)',

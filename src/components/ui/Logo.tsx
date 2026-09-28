@@ -6,7 +6,7 @@ interface LogoProps {
   height?: number;
 }
 
-export default function Logo({ className = '', width = 120, height = 36 }: LogoProps) {
+export default function Logo({ className = '', width = 36, height = 36 }: LogoProps) {
   return (
     <Image
       src="/Fintecc-logo.png"
@@ -14,7 +14,7 @@ export default function Logo({ className = '', width = 120, height = 36 }: LogoP
       width={width}
       height={height}
       className={`object-contain ${className}`}
-      style={{ width: 'auto', height: 'auto' }}
+      style={{ width: `${width}px`, height: `${height}px` }}
       priority
     />
   );

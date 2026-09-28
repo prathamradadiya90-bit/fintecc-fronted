@@ -61,18 +61,18 @@ export function UsageLimitModal({
           className="p-4 rounded-xl flex items-start gap-3.5"
           style={{
             background: isAccessDenied
-              ? 'rgba(239, 68, 68, 0.08)'
-              : 'rgba(245, 158, 11, 0.08)',
+              ? 'rgba(158, 74, 74, 0.08)'
+              : 'rgba(158, 107, 66, 0.08)',
             border: isAccessDenied
-              ? '1px solid rgba(239, 68, 68, 0.2)'
-              : '1px solid rgba(245, 158, 11, 0.2)',
+              ? '1px solid rgba(158, 74, 74, 0.2)'
+              : '1px solid rgba(158, 107, 66, 0.2)',
           }}
         >
           <div
             className="p-2.5 rounded-xl shrink-0"
             style={{
-              background: isAccessDenied ? 'rgba(239, 68, 68, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-              color: isAccessDenied ? '#ef4444' : '#f59e0b',
+              background: isAccessDenied ? 'rgba(158, 74, 74, 0.15)' : 'rgba(158, 107, 66, 0.15)',
+              color: isAccessDenied ? '#9E4A4A' : '#9E6B42',
             }}
           >
             {isAccessDenied ? (

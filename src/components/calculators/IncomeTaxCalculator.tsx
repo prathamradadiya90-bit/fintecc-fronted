@@ -37,12 +37,12 @@ export function IncomeTaxCalculator() {
       <div
         className="p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
         style={{
-          background: results.betterRegime === 'NEW' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(99, 102, 241, 0.1)',
-          border: `1px solid ${results.betterRegime === 'NEW' ? '#10B981' : '#6366f1'}`,
+          background: results.betterRegime === 'NEW' ? 'rgba(61, 122, 100, 0.08)' : 'rgba(74, 111, 165, 0.08)',
+          border: `1px solid ${results.betterRegime === 'NEW' ? 'rgba(61, 122, 100, 0.2)' : 'rgba(74, 111, 165, 0.2)'}`,
         }}
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-[#4A6FA5] text-white flex items-center justify-center shrink-0">
             <Zap className="w-5 h-5" />
           </div>
           <div>
@@ -50,13 +50,13 @@ export function IncomeTaxCalculator() {
               {results.betterRegime === 'NEW' ? 'New Tax Regime is Better for You!' : 'Old Tax Regime Saves You More!'}
             </h3>
             <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-              You save <strong className="text-emerald-500 font-bold">{formatCurrencyExact(results.taxDifference)}</strong> by choosing the{' '}
+              You save <strong className="text-[#3D7A64] font-bold">{formatCurrencyExact(results.taxDifference)}</strong> by choosing the{' '}
               {results.betterRegime === 'NEW' ? 'New' : 'Old'} Regime.
             </p>
           </div>
         </div>
 
-        <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white">
+        <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-[#4A6FA5] text-white">
           Budget 2024-25 Updated
         </span>
       </div>

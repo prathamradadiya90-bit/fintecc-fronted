@@ -51,7 +51,7 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
             border: '1px solid var(--color-border)',
           }}
         >
-          <Search className="w-3.5 h-3.5 text-emerald-500" />
+          <Search className="w-3.5 h-3.5 text-[#4A6FA5]" />
           <span>Switch calculator (Ctrl+K)</span>
         </button>
       </div>
@@ -64,7 +64,7 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
               className="w-10 h-10 rounded-xl flex items-center justify-center"
               style={{
                 background: 'var(--color-bg-subtle)',
-                color: '#10B981',
+                color: '#4A6FA5',
                 border: '1px solid var(--color-border)',
               }}
             >
@@ -80,7 +80,7 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
               {calculator.category}
             </span>
             {calculator.badge && (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#A8C5DA]/20 text-[#4A6FA5] dark:bg-[#4A6FA5]/20 dark:text-[#A8C5DA]">
                 {calculator.badge}
               </span>
             )}
@@ -152,14 +152,14 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                     style={{
                       background: 'var(--color-bg-card)',
-                      color: '#10B981',
+                      color: '#4A6FA5',
                     }}
                   >
                     <CalculatorIcon name={rel.iconName} className="w-4 h-4" />
                   </div>
                   <div>
                     <h3
-                      className="text-xs font-bold group-hover:text-emerald-500 transition-colors line-clamp-1"
+                      className="text-xs font-bold group-hover:text-[#4A6FA5] transition-colors line-clamp-1"
                       style={{ color: 'var(--color-text-primary)' }}
                     >
                       {rel.shortName || rel.name}

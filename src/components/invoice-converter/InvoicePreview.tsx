@@ -135,19 +135,19 @@ export function InvoicePreview({
       </div>
 
       {/* Financial Summary */}
-      <div className="bg-gradient-to-br from-[#10B981]/5 to-[#10B981]/10 rounded-xl border border-emerald-500/20 p-5">
+      <div className="bg-gradient-to-br from-[#4A6FA5]/5 to-[#4A6FA5]/10 rounded-xl border border-[#4A6FA5]/20 p-5">
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-6 h-6 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+          <div className="w-6 h-6 rounded-md bg-[#4A6FA5]/20 text-[#4A6FA5] flex items-center justify-center">
             <BadgeIndianRupee className="w-3.5 h-3.5" />
           </div>
           <h3 className="text-[12px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>Financial Summary</h3>
         </div>
         <div className="space-y-2">
-          <div className="flex items-center justify-between py-2 border-b border-emerald-500/10">
+          <div className="flex items-center justify-between py-2 border-b border-[#4A6FA5]/10">
             <span className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>Sub Total</span>
             <span className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>{formatCurrency(invoice.subTotal)}</span>
           </div>
-          <div className="flex items-center justify-between py-2 border-b border-emerald-500/10">
+          <div className="flex items-center justify-between py-2 border-b border-[#4A6FA5]/10">
             <span className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>Tax Amount</span>
             <span className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>{formatCurrency(invoice.taxAmount)}</span>
           </div>

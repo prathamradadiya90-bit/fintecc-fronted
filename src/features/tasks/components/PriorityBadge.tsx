@@ -13,9 +13,9 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority, size = '
 
   const styles = {
     LOW: 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800/60 dark:text-slate-300 dark:border-slate-700',
-    MEDIUM: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800',
-    HIGH: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800',
-    URGENT: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800 animate-pulse',
+    MEDIUM: 'bg-[#A8C5DA]/25 text-[#4A6FA5] border-[#A8C5DA]/40',
+    HIGH: 'bg-[rgba(158,107,66,0.08)] text-[#9E6B42] border-[rgba(158,107,66,0.25)]',
+    URGENT: 'bg-[rgba(158,74,74,0.08)] text-[#9E4A4A] border-[rgba(158,74,74,0.25)] animate-pulse',
   };
 
   const labels = {
@@ -37,11 +37,11 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority, size = '
       <span
         className={`w-1.5 h-1.5 rounded-full ${
           normalized === 'URGENT'
-            ? 'bg-red-500'
+            ? 'bg-[#9E4A4A]'
             : normalized === 'HIGH'
-            ? 'bg-amber-500'
+            ? 'bg-[#9E6B42]'
             : normalized === 'MEDIUM'
-            ? 'bg-blue-500'
+            ? 'bg-[#4A6FA5]'
             : 'bg-slate-400'
         }`}
       />

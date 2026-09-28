@@ -101,7 +101,14 @@ export function KeyboardShortcutsProvider({ children }: { children: React.ReactN
       {/* Leader Key Visual Feedback Banner */}
       {leaderKey && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none animate-in fade-in slide-in-from-bottom-2 duration-150">
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full shadow-lg border border-amber-500/30 bg-slate-900/90 text-amber-300 text-xs font-medium backdrop-blur-md">
+          <div 
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full shadow-lg border text-xs font-medium backdrop-blur-md"
+            style={{
+              background: 'rgba(19, 28, 46, 0.95)',
+              borderColor: 'rgba(158, 107, 66, 0.35)',
+              color: '#9E6B42',
+            }}
+          >
             <Compass className="w-3.5 h-3.5 animate-spin" />
             <span>Go to: <strong className="text-white">D</strong> (Dashboard), <strong className="text-white">C</strong> (Clients), <strong className="text-white">V</strong> (Vault), <strong className="text-white">T</strong> (Tasks)</span>
           </div>

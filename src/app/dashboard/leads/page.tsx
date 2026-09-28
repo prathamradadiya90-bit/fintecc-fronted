@@ -24,28 +24,28 @@ import type { Lead, LeadStatus } from '@/lib/types/lead.types';
 const statusBadgeStyles: Record<LeadStatus, { label: string; badge: string; border: string }> = {
   NEW: {
     label: 'New Lead',
-    badge: 'text-blue-600 bg-blue-500/10 border-blue-500/20',
-    border: 'border-blue-500/30',
+    badge: 'text-[#4A6FA5] bg-[#A8C5DA]/25 border-[#A8C5DA]/40',
+    border: 'border-[#A8C5DA]/50',
   },
   CONTACTED: {
     label: 'Contacted',
-    badge: 'text-amber-600 bg-amber-500/10 border-amber-500/20',
-    border: 'border-amber-500/30',
+    badge: 'text-[#9E6B42] bg-[rgba(158,107,66,0.08)] border-[rgba(158,107,66,0.2)]',
+    border: 'border-[rgba(158,107,66,0.3)]',
   },
   PROPOSAL_SENT: {
     label: 'Proposal Sent',
-    badge: 'text-purple-600 bg-purple-500/10 border-purple-500/20',
-    border: 'border-purple-500/30',
+    badge: 'text-[#4A6FA5] bg-[#4A6FA5]/10 border-[#4A6FA5]/25',
+    border: 'border-[#4A6FA5]/30',
   },
   WON: {
     label: 'Won (Client)',
-    badge: 'text-emerald-600 bg-emerald-500/10 border-emerald-500/20',
-    border: 'border-emerald-500/30',
+    badge: 'text-[#3D7A64] bg-[rgba(61,122,100,0.08)] border-[rgba(61,122,100,0.2)]',
+    border: 'border-[rgba(61,122,100,0.3)]',
   },
   LOST: {
     label: 'Lost',
-    badge: 'text-rose-600 bg-rose-500/10 border-rose-500/20',
-    border: 'border-rose-500/30',
+    badge: 'text-[#9E4A4A] bg-[rgba(158,74,74,0.08)] border-[rgba(158,74,74,0.2)]',
+    border: 'border-[rgba(158,74,74,0.3)]',
   },
 };
 
@@ -140,7 +140,9 @@ export default function LeadsCrmPage() {
             <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
               Client Onboarding & CRM Pipeline
             </h1>
-            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            <span 
+              className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/20 dark:bg-[#A8C5DA]/15 border-[#A8C5DA]/40 dark:border-[#A8C5DA]/40 shadow-xs"
+            >
               Enterprise Workflow
             </span>
           </div>
@@ -170,7 +172,7 @@ export default function LeadsCrmPage() {
             <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
               Active Pipeline Leads
             </span>
-            <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 text-[#4A6FA5] dark:text-[#A8C5DA] border border-[#A8C5DA]/30 dark:border-[#A8C5DA]/30 flex items-center justify-center">
               <Users className="w-4 h-4" />
             </div>
           </div>
@@ -190,12 +192,18 @@ export default function LeadsCrmPage() {
             <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
               Total Pipeline Value
             </span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+            <div 
+              className="w-8 h-8 rounded-xl flex items-center justify-center"
+              style={{
+                background: 'rgba(61, 122, 100, 0.1)',
+                color: '#3D7A64',
+              }}
+            >
               <IndianRupee className="w-4 h-4" />
             </div>
           </div>
           <div>
-            <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+            <div className="text-xl font-bold" style={{ color: '#3D7A64' }}>
               ₹{metrics.totalPipelineValue.toLocaleString('en-IN')}
             </div>
             <span className="text-[11px] text-slate-400 font-medium">Estimated retainers</span>
@@ -210,7 +218,13 @@ export default function LeadsCrmPage() {
             <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
               Converted Deals (Won)
             </span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+            <div 
+              className="w-8 h-8 rounded-xl flex items-center justify-center"
+              style={{
+                background: 'rgba(61, 122, 100, 0.1)',
+                color: '#3D7A64',
+              }}
+            >
               <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
@@ -218,7 +232,7 @@ export default function LeadsCrmPage() {
             <div className="text-xl font-bold" style={{ color: 'var(--color-text-primary)' }}>
               {metrics.wonCount}
             </div>
-            <span className="text-[11px] text-emerald-500 font-semibold">
+            <span className="text-[11px] font-semibold" style={{ color: '#3D7A64' }}>
               ₹{metrics.wonValue.toLocaleString('en-IN')} signed
             </span>
           </div>
@@ -232,7 +246,7 @@ export default function LeadsCrmPage() {
             <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
               Conversion Win Rate
             </span>
-            <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 text-[#4A6FA5] dark:text-[#A8C5DA] border border-[#A8C5DA]/30 dark:border-[#A8C5DA]/30 flex items-center justify-center">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
@@ -247,22 +261,28 @@ export default function LeadsCrmPage() {
 
       {/* Automated Onboarding Feature Callout */}
       <div
-        className="p-4 rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent flex flex-col md:flex-row md:items-center justify-between gap-4"
+        className="p-4 rounded-2xl border flex flex-col md:flex-row md:items-center justify-between gap-4"
+        style={{
+          background: 'rgba(74, 111, 165, 0.05)',
+          borderColor: 'rgba(74, 111, 165, 0.2)',
+        }}
       >
         <div className="flex items-start gap-3">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+          <div 
+            className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 border text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border-[#A8C5DA]/40 dark:border-[#A8C5DA]/40"
+          >
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
+            <h2 className="text-sm font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>
               Automated Client Onboarding Engine
             </h2>
-            <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 leading-relaxed max-w-3xl">
-              When a lead&apos;s status transitions to <strong className="text-emerald-700 dark:text-emerald-300 font-bold">WON</strong>, the backend instantly converts the lead into an active <span className="font-semibold text-slate-700 dark:text-slate-300">Client profile</span>, generates an <span className="font-semibold text-slate-700 dark:text-slate-300">Onboarding Work Task</span>, dispatches a branded <span className="font-semibold text-slate-700 dark:text-slate-300">Welcome Email</span> via your custom SMTP, and initiates a <span className="font-semibold text-slate-700 dark:text-slate-300">Digital Signature Request</span>.
+            <p className="text-xs mt-0.5 leading-relaxed max-w-3xl" style={{ color: 'var(--color-text-secondary)' }}>
+              When a lead&apos;s status transitions to <strong className="font-bold" style={{ color: '#3D7A64' }}>WON</strong>, the backend instantly converts the lead into an active <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>Client profile</span>, generates an <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>Onboarding Work Task</span>, dispatches a branded <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>Welcome Email</span> via your custom SMTP, and initiates a <span className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>Digital Signature Request</span>.
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 shrink-0 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+        <div className="flex items-center gap-1.5 shrink-0 text-xs font-semibold text-[#4A6FA5] dark:text-[#A8C5DA]">
           <span>Zero manual handoffs</span>
           <ChevronRight className="w-4 h-4" />
         </div>
@@ -281,7 +301,7 @@ export default function LeadsCrmPage() {
               placeholder="Search leads by company, person or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 rounded-xl border text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500 font-medium"
+              className="w-full pl-9 pr-3 py-1.5 rounded-xl border text-xs focus:outline-none focus:ring-1 focus:ring-[#4A6FA5] font-medium"
               style={{
                 background: 'var(--color-bg-subtle)',
                 borderColor: 'var(--color-border)',
@@ -297,7 +317,7 @@ export default function LeadsCrmPage() {
                 onClick={() => setStatusFilter(st)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                   statusFilter === st
-                    ? 'bg-emerald-600 text-white font-bold shadow-sm'
+                    ? 'bg-[#4A6FA5] text-white font-bold shadow-sm'
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
@@ -316,7 +336,7 @@ export default function LeadsCrmPage() {
               onClick={() => setViewMode('kanban')}
               className={`p-1.5 rounded-lg transition-colors ${
                 viewMode === 'kanban'
-                  ? 'bg-white dark:bg-slate-800 text-emerald-600 shadow-sm'
+                  ? 'bg-white dark:bg-slate-800 text-[#4A6FA5] shadow-sm'
                   : 'text-slate-400 hover:text-slate-600'
               }`}
               title="Pipeline Board View"
@@ -327,7 +347,7 @@ export default function LeadsCrmPage() {
               onClick={() => setViewMode('table')}
               className={`p-1.5 rounded-lg transition-colors ${
                 viewMode === 'table'
-                  ? 'bg-white dark:bg-slate-800 text-emerald-600 shadow-sm'
+                  ? 'bg-white dark:bg-slate-800 text-[#4A6FA5] shadow-sm'
                   : 'text-slate-400 hover:text-slate-600'
               }`}
               title="Table View"
@@ -354,7 +374,7 @@ export default function LeadsCrmPage() {
           className="p-12 text-center rounded-2xl border space-y-3"
           style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
         >
-          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-2xl bg-[#4A6FA5]/10 text-[#4A6FA5] flex items-center justify-center mx-auto">
             <Users className="w-6 h-6" />
           </div>
           <div>
@@ -402,7 +422,7 @@ export default function LeadsCrmPage() {
                     </span>
                   </div>
                   {stageTotalVal > 0 && (
-                    <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                    <span className="text-[11px] font-bold" style={{ color: '#3D7A64' }}>
                       ₹{stageTotalVal.toLocaleString('en-IN')}
                     </span>
                   )}
@@ -417,18 +437,18 @@ export default function LeadsCrmPage() {
                       <div
                         key={lead.id}
                         onClick={() => openLeadDetails(lead)}
-                        className="p-3.5 rounded-xl border cursor-pointer transition-all hover:shadow-md hover:border-emerald-500/40 space-y-2.5 group"
+                        className="p-3.5 rounded-xl border cursor-pointer transition-all hover:shadow-md hover:border-[#4A6FA5]/40 space-y-2.5 group"
                         style={{
                           background: 'var(--color-bg-subtle)',
                           borderColor: 'var(--color-border)',
                         }}
                       >
                         <div className="flex items-start justify-between gap-2">
-                          <h4 className="text-xs font-bold leading-tight group-hover:text-emerald-600 transition-colors" style={{ color: 'var(--color-text-primary)' }}>
+                          <h4 className="text-xs font-bold leading-tight group-hover:text-[#4A6FA5] transition-colors" style={{ color: 'var(--color-text-primary)' }}>
                             {lead.companyName}
                           </h4>
                           {dealVal > 0 && (
-                            <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
+                            <span className="text-[11px] font-bold shrink-0" style={{ color: '#3D7A64' }}>
                               ₹{dealVal.toLocaleString('en-IN')}
                             </span>
                           )}
@@ -462,7 +482,11 @@ export default function LeadsCrmPage() {
                             <button
                               type="button"
                               onClick={(e) => handleQuickStatus(lead, 'WON', e)}
-                              className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 transition-colors"
+                              className="px-2 py-0.5 rounded-lg text-[10px] font-bold transition-colors cursor-pointer"
+                              style={{
+                                background: 'rgba(61, 122, 100, 0.08)',
+                                color: '#3D7A64',
+                              }}
                               title="Mark WON to auto-onboard client"
                             >
                               Win 🤝
@@ -523,7 +547,7 @@ export default function LeadsCrmPage() {
                         <div className="text-[11px] text-slate-400">{lead.phone || ''}</div>
                       </td>
 
-                      <td className="py-3 px-4 font-bold text-emerald-600 dark:text-emerald-400">
+                      <td className="py-3 px-4 font-bold" style={{ color: '#3D7A64' }}>
                         {dealVal > 0 ? `₹${dealVal.toLocaleString('en-IN')}` : '—'}
                       </td>
 
@@ -539,12 +563,17 @@ export default function LeadsCrmPage() {
                             size="sm"
                             variant="outline"
                             onClick={(e) => handleQuickStatus(lead, 'WON', e)}
-                            className="text-xs text-emerald-600 border-emerald-500/30 hover:bg-emerald-500/10"
+                            className="text-xs"
+                            style={{
+                              color: '#3D7A64',
+                              borderColor: 'rgba(61, 122, 100, 0.3)',
+                              background: 'rgba(61, 122, 100, 0.05)',
+                            }}
                           >
                             Mark WON 🤝
                           </Button>
                         ) : (
-                          <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center justify-end gap-1">
+                          <span className="text-[11px] font-semibold flex items-center justify-end gap-1" style={{ color: '#3D7A64' }}>
                             <CheckCircle2 className="w-3.5 h-3.5" />
                             Client Active
                           </span>

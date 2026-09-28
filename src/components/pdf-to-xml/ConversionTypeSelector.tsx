@@ -81,16 +81,16 @@ export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTyp
                 ${option.disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
               `}
               style={{
-                border: `1px solid ${isSelected ? '#10B981' : 'var(--color-border)'}`,
+                border: `1px solid ${isSelected ? '#4A6FA5' : 'var(--color-border)'}`,
               }}
               onMouseEnter={(e) => { if (!isSelected && !option.disabled) e.currentTarget.style.background = 'var(--color-bg-card-hover)'; }}
               onMouseLeave={(e) => { if (!isSelected) e.currentTarget.style.background = 'transparent'; }}
             >
-              <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : ''}`} style={isSelected ? {} : { background: 'var(--color-bg-skeleton)', color: 'var(--color-text-secondary)' }}>
+              <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-[#4A6FA5]/15 text-[#4A6FA5]' : ''}`} style={isSelected ? {} : { background: 'var(--color-bg-skeleton)', color: 'var(--color-text-secondary)' }}>
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-semibold text-[14px]" style={{ color: isSelected ? '#10B981' : 'var(--color-text-on-card)' }}>
+                <h3 className="font-semibold text-[14px]" style={{ color: isSelected ? '#4A6FA5' : 'var(--color-text-on-card)' }}>
                   {option.title}
                 </h3>
                 <p className="text-[12px] mt-0.5 leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
@@ -99,8 +99,8 @@ export function ConversionTypeSelector({ selectedType, onSelect }: ConversionTyp
               </div>
 
               {isSelected && (
-                <div className="absolute top-2.5 right-2.5 text-emerald-500">
-                  <CheckCircle2 className="w-4 h-4 fill-emerald-500 text-white" />
+                <div className="absolute top-2.5 right-2.5 text-[#4A6FA5]">
+                  <CheckCircle2 className="w-4 h-4 fill-[#4A6FA5] text-white" />
                 </div>
               )}
             </button>

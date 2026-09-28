@@ -175,28 +175,34 @@ export function AiAssistantWidget() {
     <div className="fixed bottom-6 right-6 z-40 font-sans">
       {/* Floating Action Button */}
       {!isOpen && (
-        <div className="group relative inline-flex items-center bg-[#0F172A] dark:bg-emerald-600 text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-emerald-500/30">
+        <div 
+          className="group relative inline-flex items-center text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border cursor-pointer"
+          style={{
+            background: '#1E2A38',
+            borderColor: 'rgba(74, 111, 165, 0.4)',
+          }}
+        >
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            className="flex items-center gap-2.5 pl-4 pr-3.5 py-3 select-none text-left focus:outline-none"
+            className="flex items-center gap-2.5 pl-4 pr-3.5 py-3 select-none text-left focus:outline-none cursor-pointer"
             aria-label="Open Fintecc AI Assistant"
           >
             <div className="relative">
-              <Sparkles className="w-5 h-5 text-emerald-400 dark:text-white group-hover:rotate-12 transition-transform duration-300" />
+              <Sparkles className="w-5 h-5 text-[#A8C5DA] group-hover:rotate-12 transition-transform duration-300" />
               <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4A6FA5] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4A6FA5]" />
               </span>
             </div>
-            <span className="text-sm font-semibold tracking-wide">Ask Fintecc AI</span>
+            <span className="text-sm font-semibold tracking-wide text-white">Ask Fintecc AI</span>
           </button>
 
           {/* Close button shown on hover */}
           <button
             type="button"
             onClick={handleDismiss}
-            className="overflow-hidden w-0 group-hover:w-7 opacity-0 group-hover:opacity-100 group-hover:mr-2.5 h-7 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/20 dark:text-white/80 dark:hover:text-white dark:hover:bg-black/20 transition-all duration-200 focus:opacity-100 focus:w-7 focus:mr-2.5 focus:outline-none shrink-0"
+            className="overflow-hidden w-0 group-hover:w-7 opacity-0 group-hover:opacity-100 group-hover:mr-2.5 h-7 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/20 transition-all duration-200 focus:opacity-100 focus:w-7 focus:mr-2.5 focus:outline-none shrink-0 cursor-pointer"
             title="Close"
             aria-label="Close Ask Fintecc AI"
           >
@@ -223,7 +229,14 @@ export function AiAssistantWidget() {
             }}
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+              <div 
+                className="w-8 h-8 rounded-xl flex items-center justify-center font-bold border"
+                style={{
+                  background: 'rgba(74, 111, 165, 0.12)',
+                  borderColor: 'rgba(74, 111, 165, 0.25)',
+                  color: '#4A6FA5',
+                }}
+              >
                 <Bot className="w-4 h-4" />
               </div>
               <div>
@@ -231,7 +244,14 @@ export function AiAssistantWidget() {
                   <h3 className="text-sm font-bold" style={{ color: 'var(--color-text-heading)' }}>
                     Fintecc AI
                   </h3>
-                  <span className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                  <span 
+                    className="px-1.5 py-0.2 rounded text-[10px] font-semibold border"
+                    style={{
+                      background: 'rgba(74, 111, 165, 0.1)',
+                      borderColor: 'rgba(74, 111, 165, 0.2)',
+                      color: '#4A6FA5',
+                    }}
+                  >
                     Gemini CA
                   </span>
                 </div>
@@ -274,7 +294,13 @@ export function AiAssistantWidget() {
                   className={`flex gap-2.5 ${isAssistant ? 'items-start' : 'items-end justify-end'}`}
                 >
                   {isAssistant && (
-                    <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <div 
+                      className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+                      style={{
+                        background: 'rgba(74, 111, 165, 0.12)',
+                        color: '#4A6FA5',
+                      }}
+                    >
                       <Sparkles className="w-3.5 h-3.5" />
                     </div>
                   )}
@@ -283,7 +309,7 @@ export function AiAssistantWidget() {
                     className={`max-w-[82%] rounded-2xl px-3.5 py-2.5 text-sm shadow-sm relative group ${
                       isAssistant
                         ? 'rounded-tl-sm'
-                        : 'bg-emerald-600 text-white rounded-br-sm'
+                        : 'rounded-br-sm'
                     }`}
                     style={
                       isAssistant
@@ -292,24 +318,27 @@ export function AiAssistantWidget() {
                             border: '1px solid var(--color-border)',
                             color: 'var(--color-text-primary)',
                           }
-                        : undefined
+                        : {
+                            background: '#4A6FA5',
+                            color: '#FFFFFF',
+                          }
                     }
                   >
                     <p className="whitespace-pre-wrap leading-relaxed">{msg.text}</p>
                     <div
                       className={`flex items-center justify-between gap-2 mt-1.5 text-[10px] ${
-                        isAssistant ? 'text-slate-400' : 'text-emerald-100'
+                        isAssistant ? 'text-slate-400' : 'text-blue-100'
                       }`}
                     >
                       <span>{msg.timestamp}</span>
                       {isAssistant && (
                         <button
                           onClick={() => handleCopyText(msg.id, msg.text)}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 hover:text-emerald-600 dark:text-emerald-400"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 hover:text-[#4A6FA5]"
                           title="Copy message"
                         >
                           {copiedId === msg.id ? (
-                            <Check className="w-3 h-3 text-emerald-500" />
+                            <Check className="w-3 h-3" style={{ color: '#3D7A64' }} />
                           ) : (
                             <Copy className="w-3 h-3" />
                           )}
@@ -330,7 +359,13 @@ export function AiAssistantWidget() {
             {/* Loading Indicator */}
             {isLoading && (
               <div className="flex gap-2.5 items-start">
-                <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                <div 
+                  className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+                  style={{
+                    background: 'rgba(74, 111, 165, 0.12)',
+                    color: '#4A6FA5',
+                  }}
+                >
                   <Sparkles className="w-3.5 h-3.5 animate-spin" />
                 </div>
                 <div
@@ -340,7 +375,7 @@ export function AiAssistantWidget() {
                     border: '1px solid var(--color-border)',
                   }}
                 >
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-500" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" style={{ color: '#4A6FA5' }} />
                   <span className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>
                     Thinking with firm context...
                   </span>
@@ -365,7 +400,7 @@ export function AiAssistantWidget() {
                   key={index}
                   onClick={() => handleSendMessage(prompt)}
                   disabled={isLoading}
-                  className="px-2.5 py-1 text-xs rounded-lg whitespace-nowrap transition-colors hover:border-emerald-500 disabled:opacity-50"
+                  className="px-2.5 py-1 text-xs rounded-lg whitespace-nowrap transition-colors hover:border-[#4A6FA5] disabled:opacity-50"
                   style={{
                     background: 'var(--color-bg-card)',
                     border: '1px solid var(--color-border)',
@@ -387,7 +422,7 @@ export function AiAssistantWidget() {
             }}
           >
             <div
-              className="flex items-center gap-2 px-3 py-1.5 rounded-2xl border transition-colors focus-within:border-emerald-500"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-2xl border transition-colors focus-within:border-[#4A6FA5]"
               style={{
                 background: 'var(--color-bg-page)',
                 borderColor: 'var(--color-border)',
@@ -407,7 +442,8 @@ export function AiAssistantWidget() {
               <button
                 onClick={() => handleSendMessage()}
                 disabled={!inputMessage.trim() || isLoading}
-                className="p-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+                className="p-1.5 rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0 cursor-pointer"
+                style={{ background: '#4A6FA5' }}
                 aria-label="Send message"
               >
                 {isLoading ? (

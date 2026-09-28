@@ -31,22 +31,22 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
         <h3 className="text-slate-400 text-xs font-semibold tracking-wider uppercase mb-2">
           MONTHLY EMI — {loanType.toUpperCase()}
         </h3>
-        <div className="text-5xl font-bold text-emerald-400 mb-5">
+        <div className="text-2xl font-bold text-[#A8C5DA] mb-5">
           {formatCurrencyExact(emi)}
         </div>
         
-        <div className="grid grid-cols-3 gap-4 border-t border-slate-700/50 pt-5">
+        <div className="grid grid-cols-3 gap-4 border-t border-slate-700/50 pt-5 text-sm">
           <div>
             <p className="text-slate-400 text-xs mb-1">Principal</p>
-            <p className="text-lg font-semibold">{formatCurrency(principal)}</p>
+            <p className="text-base font-semibold">{formatCurrency(principal)}</p>
           </div>
           <div>
             <p className="text-slate-400 text-xs mb-1">Total Interest</p>
-            <p className="text-lg font-semibold text-emerald-400">{formatCurrency(totalInterest)}</p>
+            <p className="text-base font-semibold text-[#A8C5DA]">{formatCurrency(totalInterest)}</p>
           </div>
           <div>
             <p className="text-slate-400 text-xs mb-1">Total Payable</p>
-            <p className="text-lg font-semibold text-amber-500">{formatCurrency(totalPayable)}</p>
+            <p className="text-base font-semibold text-[#9E6B42]">{formatCurrency(totalPayable)}</p>
           </div>
         </div>
       </div>
@@ -83,7 +83,7 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
               cy="80"
               r={radius}
               fill="transparent"
-              stroke="#10B981"
+              stroke="#4A6FA5"
               strokeWidth="24"
               strokeDasharray={`${principalDash} ${circumference}`}
               className="transition-all duration-300 cursor-pointer hover:opacity-80"
@@ -111,7 +111,7 @@ export function ResultsPanel({ emi, principal, totalInterest, totalPayable, loan
 
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-emerald-500" />
+            <div className="w-3 h-3 rounded-full bg-[#4A6FA5]" />
             <span className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>Principal</span>
           </div>
           <div className="flex items-center gap-2">

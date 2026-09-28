@@ -69,18 +69,15 @@ export const TaskRow: React.FC<TaskRowProps> = ({
   // Work type pill style
   const getWorkTypeColor = (type?: string | null) => {
     if (!type) return 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700';
-    if (type.includes('GST')) return 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800';
-    if (type.includes('Income Tax') || type.includes('ITR')) return 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800';
-    if (type.includes('TDS')) return 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800';
-    if (type.includes('Audit')) return 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800';
-    if (type.includes('ROC')) return 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800';
-    return 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800';
+    if (type.includes('GST')) return 'bg-[rgba(61,122,100,0.08)] text-[#3D7A64] border-[rgba(61,122,100,0.2)]';
+    if (type.includes('ROC')) return 'bg-[rgba(158,107,66,0.08)] text-[#9E6B42] border-[rgba(158,107,66,0.2)]';
+    return 'bg-[#A8C5DA]/20 text-[#4A6FA5] border-[#A8C5DA]/40';
   };
 
   return (
     <tr
       className={`group transition-colors border-b select-none ${
-        isSelected ? 'bg-emerald-500/5 dark:bg-emerald-500/10' : ''
+        isSelected ? 'bg-[#4A6FA5]/10' : ''
       }`}
       style={{
         borderColor: 'var(--color-border-subtle)',
@@ -98,7 +95,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
           type="checkbox"
           checked={isSelected}
           onChange={(e) => onSelect(task.id, e.target.checked)}
-          className="w-4 h-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500/50 cursor-pointer"
+          className="w-4 h-4 rounded border-slate-300 accent-[#4A6FA5] cursor-pointer"
         />
       </td>
 
@@ -106,7 +103,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       <td className="px-4 py-3 max-w-[180px]">
         <div className="flex flex-col">
           <span
-            className="text-xs font-semibold truncate hover:text-emerald-500 cursor-pointer transition-colors"
+            className="text-xs font-semibold truncate hover:text-[#4A6FA5] cursor-pointer transition-colors"
             style={{ color: 'var(--color-text-primary)' }}
             onClick={() => onEdit(task)}
             title={displayClientName}
@@ -135,7 +132,7 @@ export const TaskRow: React.FC<TaskRowProps> = ({
             </span>
             {task.isRecurring && (
               <span title={`Recurring: ${task.recurrencePattern || 'Pattern'}`}>
-                <Repeat className="w-3 h-3 text-emerald-600 shrink-0" />
+                <Repeat className="w-3 h-3 text-[#4A6FA5] shrink-0" />
               </span>
             )}
           </div>
@@ -189,21 +186,29 @@ export const TaskRow: React.FC<TaskRowProps> = ({
       <td className="px-4 py-3 whitespace-nowrap">
         <div className="flex items-center gap-1.5">
           <Calendar
-            className={`w-3.5 h-3.5 ${
-              formattedDueDate.isOverdue ? 'text-red-500' : 'text-[var(--color-text-muted)]'
-            }`}
+            className="w-3.5 h-3.5"
+            style={{
+              color: formattedDueDate.isOverdue ? '#9E4A4A' : 'var(--color-text-muted)',
+            }}
           />
           <span
-            className={`text-xs ${
-              formattedDueDate.isOverdue
-                ? 'text-red-600 dark:text-red-400 font-semibold'
-                : 'text-[var(--color-text-secondary)]'
-            }`}
+            className="text-xs"
+            style={{
+              color: formattedDueDate.isOverdue ? '#9E4A4A' : 'var(--color-text-secondary)',
+              fontWeight: formattedDueDate.isOverdue ? 600 : 400,
+            }}
           >
             {formattedDueDate.dateStr}
           </span>
           {formattedDueDate.isOverdue && (
-            <span className="text-[9px] font-bold px-1 py-0.2 rounded bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800">
+            <span 
+              className="text-[9px] font-bold px-1 py-0.2 rounded border"
+              style={{
+                background: 'rgba(158, 74, 74, 0.08)',
+                color: '#9E4A4A',
+                borderColor: 'rgba(158, 74, 74, 0.25)',
+              }}
+            >
               OVERDUE
             </span>
           )}
@@ -240,7 +245,8 @@ export const TaskRow: React.FC<TaskRowProps> = ({
             <button
               type="button"
               onClick={() => onDelete(task.id)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+              className="p-1.5 rounded-lg text-slate-400 hover:bg-[rgba(158,74,74,0.08)] transition-colors"
+              style={{ color: '#9E4A4A' }}
               title="Delete task"
             >
               <Trash2 className="w-3.5 h-3.5" />

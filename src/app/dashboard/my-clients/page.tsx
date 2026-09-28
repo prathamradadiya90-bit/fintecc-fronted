@@ -195,16 +195,16 @@ function MyClientsPageContent() {
         const isBlocked = client.status === 'Blocked';
 
         let statusBadgeClass = 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300';
-        if (isActive) statusBadgeClass = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800';
-        else if (isLead) statusBadgeClass = 'bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-400 border border-purple-200 dark:border-purple-800';
-        else if (isInactive) statusBadgeClass = 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800';
-        else if (isBlocked) statusBadgeClass = 'bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200 dark:border-rose-800';
+        if (isActive) statusBadgeClass = 'bg-[#3D7A64]/10 dark:bg-[#3D7A64]/20 text-[#3D7A64] dark:text-[#8EBFA9] border border-[#3D7A64]/20 dark:border-[#3D7A64]/30';
+        else if (isLead) statusBadgeClass = 'bg-[#4A6FA5]/15 dark:bg-[#4A6FA5]/25 text-[#4A6FA5] dark:text-[#A8C5DA] border border-[#4A6FA5]/25 dark:border-[#A8C5DA]/30';
+        else if (isInactive) statusBadgeClass = 'bg-[#9E6B42]/10 dark:bg-[#9E6B42]/20 text-[#9E6B42] dark:text-[#E0B99B] border border-[#9E6B42]/20 dark:border-[#9E6B42]/30';
+        else if (isBlocked) statusBadgeClass = 'bg-[#9E4A4A]/10 dark:bg-[#9E4A4A]/20 text-[#9E4A4A] dark:text-[#E59898] border border-[#9E4A4A]/20 dark:border-[#9E4A4A]/30';
 
         const kyc = (client.kycStatus || 'NOT_STARTED').toUpperCase();
         let kycBadgeClass = 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700';
-        if (kyc === 'VERIFIED') kycBadgeClass = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800';
-        else if (kyc === 'PENDING') kycBadgeClass = 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800';
-        else if (kyc === 'REJECTED') kycBadgeClass = 'bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200 dark:border-rose-800';
+        if (kyc === 'VERIFIED') kycBadgeClass = 'bg-[#3D7A64]/10 dark:bg-[#3D7A64]/20 text-[#3D7A64] dark:text-[#8EBFA9] border border-[#3D7A64]/20 dark:border-[#3D7A64]/30';
+        else if (kyc === 'PENDING') kycBadgeClass = 'bg-[#9E6B42]/10 dark:bg-[#9E6B42]/20 text-[#9E6B42] dark:text-[#E0B99B] border border-[#9E6B42]/20 dark:border-[#9E6B42]/30';
+        else if (kyc === 'REJECTED') kycBadgeClass = 'bg-[#9E4A4A]/10 dark:bg-[#9E4A4A]/20 text-[#9E4A4A] dark:text-[#E59898] border border-[#9E4A4A]/20 dark:border-[#9E4A4A]/30';
 
         return (
           <div className="flex flex-col gap-1 items-start">
@@ -235,10 +235,10 @@ function MyClientsPageContent() {
         const hasGst = !!client.gstin && client.gstin.length > 5;
         return (
           <div className="flex flex-col items-center justify-center">
-            <div className={`w-5 h-5 rounded-full flex items-center justify-center ${hasGst ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-50 text-red-500 dark:bg-red-900/30 dark:text-red-400'}`}>
+            <div className={`w-5 h-5 rounded-full flex items-center justify-center ${hasGst ? 'bg-[#3D7A64]/10 text-[#3D7A64]' : 'bg-[#9E4A4A]/10 text-[#9E4A4A]'}`}>
               {hasGst ? <Check className="w-3 h-3" /> : <XIcon className="w-3 h-3" />}
             </div>
-            <span className={`text-[9px] uppercase tracking-wider font-bold mt-1 ${hasGst ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+            <span className={`text-[9px] uppercase tracking-wider font-bold mt-1 ${hasGst ? 'text-[#3D7A64]' : 'text-[#9E4A4A]'}`}>
               {hasGst ? 'Yes' : 'No'}
             </span>
           </div>
@@ -261,32 +261,32 @@ function MyClientsPageContent() {
         <div className="flex items-center gap-2">
           {(client.status === 'Inactive' || client.status === 'LEAD') && (
             <button 
-              className="transition-colors p-1 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded"
+              className="transition-colors p-1 text-[#4A6FA5] dark:text-[#A8C5DA] hover:text-[#3D5D8A] dark:hover:text-white hover:bg-[#4A6FA5]/10 dark:hover:bg-[#4A6FA5]/25 rounded"
               title="Onboard Client & Initiate KYC"
               disabled={isOnboarding && onboardingId === client.id}
               onClick={(e) => { e.stopPropagation(); handleOnboard(client); }}
             >
               {isOnboarding && onboardingId === client.id ? (
-                <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+                <Loader2 className="w-4 h-4 animate-spin text-[#4A6FA5] dark:text-[#A8C5DA]" />
               ) : (
                 <UserCheck className="w-4 h-4" />
               )}
             </button>
           )}
           <button 
-            className="transition-colors p-1 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500"
+            className="transition-colors p-1 text-[#4A6FA5] dark:text-[#A8C5DA] hover:text-[#3D5D8A] dark:hover:text-white hover:bg-[#4A6FA5]/10 dark:hover:bg-[#4A6FA5]/25 rounded"
             title="Invite to Portal"
             disabled={isInviting && invitingId === client.id}
             onClick={(e) => { e.stopPropagation(); handleInvite(client); }}
           >
             {isInviting && invitingId === client.id ? (
-              <Loader2 className="w-4 h-4 animate-spin text-emerald-500" />
+              <Loader2 className="w-4 h-4 animate-spin text-[#4A6FA5] dark:text-[#A8C5DA]" />
             ) : (
               <Mail className="w-4 h-4" />
             )}
           </button>
           <button 
-            className="transition-colors p-1 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500"
+            className="transition-colors p-1 text-[#4A6FA5] dark:text-[#A8C5DA] hover:text-[#3D5D8A] dark:hover:text-white hover:bg-[#4A6FA5]/10 dark:hover:bg-[#4A6FA5]/25 rounded"
             title="View Details"
             onClick={(e) => { e.stopPropagation(); handleView(client); }}
           >

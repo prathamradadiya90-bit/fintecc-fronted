@@ -40,17 +40,23 @@ export const DscExpiringWidget: React.FC = () => {
       className="rounded-2xl p-5 relative overflow-hidden border"
       style={{
         background: 'var(--color-bg-card)',
-        borderColor: criticalCount > 0 ? '#f43f5e33' : '#f59e0b33',
+        borderColor: criticalCount > 0 
+          ? 'var(--color-status-danger-border, rgba(158, 74, 74, 0.2))' 
+          : 'var(--color-status-warning-border, rgba(158, 107, 66, 0.2))',
       }}
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start gap-3.5">
           <div
-            className={`p-2.5 rounded-xl shrink-0 ${
-              criticalCount > 0
-                ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400'
-                : 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400'
-            }`}
+            className="p-2.5 rounded-xl shrink-0"
+            style={{
+              background: criticalCount > 0 
+                ? 'var(--color-status-danger-bg, rgba(158, 74, 74, 0.08))' 
+                : 'var(--color-status-warning-bg, rgba(158, 107, 66, 0.08))',
+              color: criticalCount > 0 
+                ? 'var(--color-status-danger-text, #9E4A4A)' 
+                : 'var(--color-status-warning-text, #9E6B42)',
+            }}
           >
             {criticalCount > 0 ? (
               <ShieldAlert className="w-5 h-5" />
@@ -64,11 +70,18 @@ export const DscExpiringWidget: React.FC = () => {
                 DSC Token Renewal Alert
               </h3>
               <span
-                className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-                  criticalCount > 0
-                    ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300'
-                    : 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
-                }`}
+                className="px-2 py-0.5 rounded-full text-xs font-semibold border"
+                style={{
+                  background: criticalCount > 0 
+                    ? 'var(--color-status-danger-bg, rgba(158, 74, 74, 0.08))' 
+                    : 'var(--color-status-warning-bg, rgba(158, 107, 66, 0.08))',
+                  color: criticalCount > 0 
+                    ? 'var(--color-status-danger-text, #9E4A4A)' 
+                    : 'var(--color-status-warning-text, #9E6B42)',
+                  borderColor: criticalCount > 0 
+                    ? 'var(--color-status-danger-border, rgba(158, 74, 74, 0.2))' 
+                    : 'var(--color-status-warning-border, rgba(158, 107, 66, 0.2))',
+                }}
               >
                 {expiringTokens.length} {expiringTokens.length === 1 ? 'Token' : 'Tokens'}
               </span>
@@ -83,7 +96,7 @@ export const DscExpiringWidget: React.FC = () => {
 
         <Link
           href="/dashboard/dsc"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-colors shrink-0 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#4A6FA5]/10 dark:bg-[#4A6FA5]/25 text-[#4A6FA5] dark:text-[#A8C5DA] hover:bg-[#4A6FA5]/20 dark:hover:bg-[#4A6FA5]/40 transition-colors shrink-0 self-start sm:self-auto cursor-pointer"
         >
           Manage DSC Tokens
           <ArrowRight className="w-3.5 h-3.5" />

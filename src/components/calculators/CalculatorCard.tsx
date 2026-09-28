@@ -22,10 +22,10 @@ export function CalculatorCard({ calculator }: CalculatorCardProps) {
         {/* Top bar: Icon and Badge */}
         <div className="flex items-start justify-between gap-2 mb-4">
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center transition-colors group-hover:bg-emerald-500/20"
+            className="w-12 h-12 rounded-xl flex items-center justify-center transition-colors group-hover:bg-[#4A6FA5]/20"
             style={{
               background: 'var(--color-bg-subtle)',
-              color: '#10B981',
+              color: '#4A6FA5',
               border: '1px solid var(--color-border)',
             }}
           >
@@ -34,7 +34,7 @@ export function CalculatorCard({ calculator }: CalculatorCardProps) {
 
           <div className="flex items-center gap-2">
             {calculator.badge && (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#A8C5DA]/20 text-[#4A6FA5] dark:bg-[#4A6FA5]/20 dark:text-[#A8C5DA]">
                 {calculator.badge}
               </span>
             )}
@@ -43,7 +43,7 @@ export function CalculatorCard({ calculator }: CalculatorCardProps) {
 
         {/* Title */}
         <h3
-          className="text-base font-bold mb-2 group-hover:text-emerald-500 transition-colors line-clamp-1"
+          className="text-base font-bold mb-2 group-hover:text-[#4A6FA5] transition-colors line-clamp-1"
           style={{ color: 'var(--color-text-primary)' }}
         >
           {calculator.name}
@@ -74,7 +74,7 @@ export function CalculatorCard({ calculator }: CalculatorCardProps) {
         className="flex items-center justify-between pt-4 mt-4 text-sm font-semibold transition-colors"
         style={{
           borderTop: '1px solid var(--color-border)',
-          color: '#10B981',
+          color: '#4A6FA5',
         }}
       >
         <span>Calculate now</span>

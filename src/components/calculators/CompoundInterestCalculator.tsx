@@ -87,7 +87,7 @@ export function CompoundInterestCalculator() {
                   onClick={() => setFrequency(item.val)}
                   className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border ${
                     frequency === item.val
-                      ? 'bg-[#10B981] text-white border-[#10B981]'
+                      ? 'bg-[#4A6FA5] text-white border-[#4A6FA5]'
                       : 'border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                   }`}
                 >
@@ -104,7 +104,7 @@ export function CompoundInterestCalculator() {
             <h2 className="text-sm font-semibold mb-2" style={{ color: 'var(--color-text-on-card)' }}>
               Compound Interest Formula
             </h2>
-            <p className="text-xs font-mono bg-white dark:bg-slate-900 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 mb-3 text-emerald-600 dark:text-emerald-400">
+            <p className="text-xs font-mono bg-white dark:bg-slate-900 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 mb-3 text-[#3D7A64]">
               A = P × (1 + r/n)^(n×t)
             </p>
             <p className="text-xs leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
