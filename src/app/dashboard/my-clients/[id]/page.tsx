@@ -21,8 +21,9 @@ import { DeleteClientModal } from '@/components/clients/DeleteClientModal';
 import { ClientOverviewTab } from '@/components/clients/ClientOverviewTab';
 import { ClientDocumentsTab } from '@/components/clients/ClientDocumentsTab';
 import { ChatTab } from '@/components/clients/ChatTab';
+import { ClientLedgerTab } from '@/components/clients/ClientLedgerTab';
 
-type Tab = 'overview' | 'documents' | 'chat';
+type Tab = 'overview' | 'documents' | 'chat' | 'ledger';
 
 function ClientIdBadge({ id }: { id: string }) {
   return (
@@ -101,6 +102,7 @@ export default function ClientDetailPage() {
   const hasGst = !!client.gstin && client.gstin.length > 5;
   const tabs: { key: Tab; label: string }[] = [
     { key: 'overview',   label: 'Overview'   },
+    { key: 'ledger',     label: 'Ledger & Account' },
     { key: 'documents',  label: 'Documents'  },
     { key: 'chat',       label: 'Chat'       },
   ];
@@ -317,6 +319,7 @@ export default function ClientDetailPage() {
         {/* Tab Content */}
         <div className="p-6">
           {activeTab === 'overview' && <ClientOverviewTab client={client} />}
+          {activeTab === 'ledger' && <ClientLedgerTab clientId={client.id} clientName={client.name} />}
           {activeTab === 'documents' && <ClientDocumentsTab clientId={client.id} />}
           {activeTab === 'chat' && <ChatTab clientId={client.id} />}
         </div>

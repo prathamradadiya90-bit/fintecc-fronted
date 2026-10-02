@@ -31,12 +31,14 @@ import { InvoiceStatusBadge } from '@/features/invoices/components/InvoiceStatus
 import { InvoiceFormModal } from '@/features/invoices/components/InvoiceFormModal';
 import { DeleteInvoiceModal } from '@/features/invoices/components/DeleteInvoiceModal';
 import { InvoiceViewModal } from '@/features/invoices/components/InvoiceViewModal';
+import { QuotationsListTab } from '@/features/quotations/components/QuotationsListTab';
 import type { Invoice, InvoiceStatus } from '@/lib/types/invoice-management.types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
 export default function InvoicesPage() {
   const { showToast } = useToast();
+  const [activeTab, setActiveTab] = useState<'invoices' | 'quotations'>('invoices');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
@@ -288,25 +290,55 @@ export default function InvoicesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold" style={{ color: 'var(--color-text-heading)' }}>
-            Invoice Management
+            Billing & Estimates
           </h1>
           <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
-            Create, track, and export firm invoices with instant 1-click Tally Prime sync.
+            Manage client tax invoices, quotations, and 1-click Tally Prime accounting sync.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Button
-            onClick={() => {
-              setSelectedInvoice(null);
-              setIsFormModalOpen(true);
-            }}
-            leftIcon={<Plus className="w-4 h-4" />}
+        {/* Tab Switcher */}
+        <div className="flex items-center p-1 rounded-xl border bg-[var(--color-bg-card)] border-[var(--color-border)] shadow-xs">
+          <button
+            onClick={() => setActiveTab('invoices')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              activeTab === 'invoices'
+                ? 'bg-[#4A6FA5] text-white shadow-xs'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+            }`}
           >
-            Create Invoice
-          </Button>
+            <Receipt className="w-3.5 h-3.5" />
+            Tax Invoices
+          </button>
+          <button
+            onClick={() => setActiveTab('quotations')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              activeTab === 'quotations'
+                ? 'bg-[#4A6FA5] text-white shadow-xs'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+            }`}
+          >
+            <Repeat className="w-3.5 h-3.5" />
+            Quotations & Estimates
+          </button>
         </div>
       </div>
+
+      {activeTab === 'quotations' ? (
+        <QuotationsListTab />
+      ) : (
+        <>
+          <div className="flex justify-end">
+            <Button
+              onClick={() => {
+                setSelectedInvoice(null);
+                setIsFormModalOpen(true);
+              }}
+              leftIcon={<Plus className="w-4 h-4" />}
+            >
+              Create Invoice
+            </Button>
+          </div>
 
       {/* Metric Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -480,6 +512,8 @@ export default function InvoicesPage() {
           setIsFormModalOpen(true);
         }}
       />
+        </>
+      )}
     </div>
   );
 }

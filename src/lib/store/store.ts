@@ -40,6 +40,15 @@ import { leadsApi } from './api/leadsApi';
 import { signaturesApi } from './api/signaturesApi';
 import { apiKeysApi } from './api/apiKeysApi';
 import { integrationsApi } from './api/integrationsApi';
+import { quotationsApi } from './api/quotationsApi';
+import { udinApi } from './api/udinApi';
+import { clientLedgersApi } from './api/clientLedgersApi';
+import { staffShiftsApi } from './api/staffShiftsApi';
+import { leaveRequestsApi } from './api/leaveRequestsApi';
+import { approvalsApi } from './api/approvalsApi';
+import { resourceAllocationsApi } from './api/resourceAllocationsApi';
+import { communicationApi } from './api/communicationApi';
+import { pettyCashApi } from './api/pettyCashApi';
 import authReducer from './features/auth/authSlice';
 import shortcutsReducer from './features/shortcuts/shortcutsSlice';
 
@@ -91,6 +100,15 @@ const rootReducer = combineReducers({
   [signaturesApi.reducerPath]: signaturesApi.reducer,
   [apiKeysApi.reducerPath]: apiKeysApi.reducer,
   [integrationsApi.reducerPath]: integrationsApi.reducer,
+  [quotationsApi.reducerPath]: quotationsApi.reducer,
+  [udinApi.reducerPath]: udinApi.reducer,
+  [clientLedgersApi.reducerPath]: clientLedgersApi.reducer,
+  [staffShiftsApi.reducerPath]: staffShiftsApi.reducer,
+  [leaveRequestsApi.reducerPath]: leaveRequestsApi.reducer,
+  [approvalsApi.reducerPath]: approvalsApi.reducer,
+  [resourceAllocationsApi.reducerPath]: resourceAllocationsApi.reducer,
+  [communicationApi.reducerPath]: communicationApi.reducer,
+  [pettyCashApi.reducerPath]: pettyCashApi.reducer,
 });
 
 
@@ -175,7 +193,16 @@ export const store = configureStore({
       leadsApi.middleware,
       signaturesApi.middleware,
       apiKeysApi.middleware,
-      integrationsApi.middleware
+      integrationsApi.middleware,
+      quotationsApi.middleware,
+      udinApi.middleware,
+      clientLedgersApi.middleware,
+      staffShiftsApi.middleware,
+      leaveRequestsApi.middleware,
+      approvalsApi.middleware,
+      resourceAllocationsApi.middleware,
+      communicationApi.middleware,
+      pettyCashApi.middleware
     ),
 });
 

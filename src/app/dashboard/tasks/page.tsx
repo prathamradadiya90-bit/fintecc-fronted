@@ -22,6 +22,7 @@ import { TaskGrid } from '@/features/tasks/components/TaskGrid';
 import { CreateTaskModal } from '@/features/tasks/components/CreateTaskModal';
 import { EditTaskDrawer } from '@/features/tasks/components/EditTaskDrawer';
 import { ImportExcelModal } from '@/features/tasks/components/ImportExcelModal';
+import { ResourceAllocationTab } from '@/features/tasks/components/ResourceAllocationTab';
 import type { Task, TaskStatus, TaskPriority, CreateTaskRequest } from '@/lib/types/task.types';
 
 export default function WorkBoardPage() {
@@ -30,6 +31,8 @@ export default function WorkBoardPage() {
 
   const isStaffRole = user?.role === 'EMPLOYEE' || user?.role === 'ACCOUNTANT';
   const defaultAssigneeId = isStaffRole ? user?.id : undefined;
+
+  const [workTab, setWorkTab] = useState<'board' | 'resources'>('board');
 
   // Filter state
   const {
@@ -236,32 +239,60 @@ export default function WorkBoardPage() {
 
   return (
     <div className="space-y-4 pb-12">
-      {/* Top Toolbar */}
-      <TaskGridToolbar
-        viewMode={filters.viewMode}
-        userRole={user?.role}
-        totalTasks={totalTasks}
-        isSocketConnected={isSocketConnected}
-        onViewModeChange={handleViewModeChange}
-        onOpenCreateModal={() => setIsCreateOpen(true)}
-        onOpenImportModal={() => setIsImportOpen(true)}
-        onExportCSV={handleExportCSV}
-        onRefresh={refetchTasks}
-        isRefreshing={isFetchingTasks}
-      />
+      {/* View Switcher Tabs */}
+      <div className="flex border-b border-slate-200 dark:border-slate-800 space-x-6 pb-1">
+        <button
+          onClick={() => setWorkTab('board')}
+          className={`pb-2.5 text-sm font-semibold transition border-b-2 ${
+            workTab === 'board'
+              ? 'border-[#4A6FA5] text-[#4A6FA5]'
+              : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
+          }`}
+        >
+          Task Work Board
+        </button>
+        <button
+          onClick={() => setWorkTab('resources')}
+          className={`pb-2.5 text-sm font-semibold transition border-b-2 ${
+            workTab === 'resources'
+              ? 'border-[#4A6FA5] text-[#4A6FA5]'
+              : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
+          }`}
+        >
+          Resource & Capacity Allocations
+        </button>
+      </div>
 
-      {/* Filter Bar */}
-      <TaskFiltersBar
-        filters={filters}
-        staffList={staffList}
-        clientsList={clientsList}
-        activeFilterCount={activeFilterCount}
-        onFilterChange={setFilter}
-        onResetFilters={resetFilters}
-      />
+      {workTab === 'resources' ? (
+        <ResourceAllocationTab />
+      ) : (
+        <>
+          {/* Top Toolbar */}
+          <TaskGridToolbar
+            viewMode={filters.viewMode}
+            userRole={user?.role}
+            totalTasks={totalTasks}
+            isSocketConnected={isSocketConnected}
+            onViewModeChange={handleViewModeChange}
+            onOpenCreateModal={() => setIsCreateOpen(true)}
+            onOpenImportModal={() => setIsImportOpen(true)}
+            onExportCSV={handleExportCSV}
+            onRefresh={refetchTasks}
+            isRefreshing={isFetchingTasks}
+          />
 
-      {/* Master Task Grid */}
-      <TaskGrid
+          {/* Filter Bar */}
+          <TaskFiltersBar
+            filters={filters}
+            staffList={staffList}
+            clientsList={clientsList}
+            activeFilterCount={activeFilterCount}
+            onFilterChange={setFilter}
+            onResetFilters={resetFilters}
+          />
+
+          {/* Master Task Grid */}
+          <TaskGrid
         tasks={tasks}
         total={totalTasks}
         currentPage={filters.page}
@@ -281,6 +312,8 @@ export default function WorkBoardPage() {
         onOpenCreateModal={() => setIsCreateOpen(true)}
         onOpenImportModal={() => setIsImportOpen(true)}
       />
+        </>
+      )}
 
       {/* Create Task Modal */}
       <CreateTaskModal

@@ -33,10 +33,16 @@ export const clientPortalApi = createApi({
       query: () => '/documents',
       providesTags: ['ClientPortal'],
     }),
+
+    getMyGstInvoices: builder.query<{ success: boolean; data: any[] }, void>({
+      query: () => '/gst-invoices',
+      providesTags: ['ClientPortal'],
+    }),
   }),
 });
 
 export const {
   useGetMyInvoicesQuery,
   useGetMyDocumentsQuery,
+  useGetMyGstInvoicesQuery,
 } = clientPortalApi;

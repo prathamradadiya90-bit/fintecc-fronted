@@ -8,7 +8,8 @@ import {
   LayoutDashboard, Users, FileText, Calculator, Calendar, Settings, LogOut, X, 
   Shield, MessageSquare, CreditCard, Building2, ReceiptText, ClipboardList, 
   ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, 
-  FileStack, Clock, LifeBuoy, ShieldCheck, ChevronDown, UserPlus, FileSignature 
+  FileStack, Clock, LifeBuoy, ShieldCheck, ChevronDown, UserPlus, FileSignature,
+  CheckSquare, Megaphone, Wallet
 } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
@@ -99,6 +100,7 @@ export function Sidebar({
           children: [
             { name: 'My Clients', href: '/dashboard/my-clients', icon: Users },
             { name: 'Leads & CRM', href: '/dashboard/leads', icon: UserPlus },
+            { name: 'Bulk Campaigns', href: '/dashboard/campaigns', icon: Megaphone },
             { name: 'Digital Signatures', href: '/dashboard/signatures', icon: FileSignature },
             { name: 'Client Vault', href: '/dashboard/vault', icon: KeyRound },
             { name: 'DSC Tracker', href: '/dashboard/dsc', icon: Key },
@@ -121,6 +123,7 @@ export function Sidebar({
             },
             { name: 'ITR Filing', href: '/dashboard/itr', icon: ReceiptText },
             { name: 'TDS Compliance', href: '/dashboard/tds', icon: Calculator },
+            { name: 'UDIN Register', href: '/dashboard/udin', icon: ShieldCheck },
             { name: 'MCA Registry', href: '/dashboard/mca', icon: Building2 },
             { name: 'ROC Filings', href: '/dashboard/roc', icon: FileStack },
             { name: 'Notice Board', href: '/dashboard/notices', icon: FileWarning },
@@ -137,6 +140,7 @@ export function Sidebar({
           children: [
             { name: 'Bank Statements', href: '/dashboard/bank-statements', icon: Landmark },
             { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
+            { name: 'Petty Cash', href: '/dashboard/petty-cash', icon: Wallet },
             { name: 'Tally Sync', href: '/dashboard/tally-sync', icon: RefreshCw },
             {
               name: 'Converters',
@@ -160,6 +164,7 @@ export function Sidebar({
           name: 'Firm Management',
           icon: Shield,
           children: [
+            { name: 'Approvals Hub', href: '/dashboard/approvals', icon: CheckSquare },
             { name: 'Manage Staff', href: '/dashboard/staff', icon: Shield },
             { name: 'Staff Attendance', href: '/dashboard/attendance', icon: Clock },
             { name: 'Audit Logs', href: '/dashboard/audit-logs', icon: ShieldCheck },

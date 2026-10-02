@@ -19,6 +19,9 @@ import type {
   WhitebooksOtpRequest,
   WhitebooksTokenRequest,
   WhitebooksGstr2bRequest,
+  PreFilingValidationResponse,
+  ItcDashboardResponse,
+  UnifiedReconciliationResponse,
 } from '../../types/gst.types';
 
 export const gstApi = createApi({
@@ -307,6 +310,41 @@ export const gstApi = createApi({
         body,
       }),
     }),
+
+    // --- PRE-FILING AUDIT VALIDATOR (30-POINT CHECKS) ---
+    preFilingValidation: builder.mutation<
+      PreFilingValidationResponse,
+      { clientId: string; period: string; supplierGstin?: string; turnoverExceeds5Cr?: boolean }
+    >({
+      query: (body) => ({
+        url: '/pre-filing-validation',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    // --- ITC MAXIMIZATION DASHBOARD (RULE 42/43 & 180-DAY RISKS) ---
+    getItcDashboard: builder.query<
+      ItcDashboardResponse,
+      { clientId: string; period?: string }
+    >({
+      query: ({ clientId, period }) => ({
+        url: '/itc-dashboard',
+        params: period ? { clientId, period } : { clientId },
+      }),
+    }),
+
+    // --- UNIFIED RECONCILIATION (GSTR-1, 2A/2B & IMS MULTI-WAY) ---
+    reconcileUnified: builder.mutation<
+      UnifiedReconciliationResponse,
+      { clientId: string; period: string; includeIMS?: boolean }
+    >({
+      query: (body) => ({
+        url: '/reconcile-unified',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -344,4 +382,8 @@ export const {
   useWhitebooksRequestOtpMutation,
   useWhitebooksGetTokenMutation,
   useWhitebooksGetGstr2bMutation,
+  usePreFilingValidationMutation,
+  useGetItcDashboardQuery,
+  useLazyGetItcDashboardQuery,
+  useReconcileUnifiedMutation,
 } = gstApi;

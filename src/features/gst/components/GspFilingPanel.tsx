@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { UploadCloud, CheckCircle2, ShieldAlert, Cpu } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { PreFilingAuditModal } from './PreFilingAuditModal';
 import {
   usePrepareGstr1Mutation,
   useValidateGstr1Mutation,
@@ -27,6 +28,7 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
   const [referenceId, setReferenceId] = useState<string | null>(null);
   const [isValidated, setIsValidated] = useState<boolean | null>(null);
   const [filingResult, setFilingResult] = useState<{ arn: string; filedAt: string } | null>(null);
+  const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
 
   // Mutations
   const [prepareGstr1Api, { isLoading: isPreparingG1 }] = usePrepareGstr1Mutation();
@@ -104,9 +106,21 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
           </div>
         </div>
 
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-          GSP API ONLINE
-        </span>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsAuditModalOpen(true)}
+            leftIcon={<ShieldAlert className="w-3.5 h-3.5 text-[#4A6FA5]" />}
+            className="border-[#4A6FA5]/30 text-[#4A6FA5] hover:bg-[#4A6FA5]/10 text-xs"
+          >
+            Run 30-Rule Diagnostics
+          </Button>
+
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            GSP API ONLINE
+          </span>
+        </div>
       </div>
 
       {/* Step Grid */}
@@ -191,6 +205,13 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
           </Button>
         </div>
       </div>
+
+      <PreFilingAuditModal
+        isOpen={isAuditModalOpen}
+        onClose={() => setIsAuditModalOpen(false)}
+        clientId={clientId}
+        period={period}
+      />
     </div>
   );
 };

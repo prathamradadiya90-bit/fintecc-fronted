@@ -210,3 +210,91 @@ export interface ImportInvoicesRequest {
   returnId: string;
   invoiceIds: string[];
 }
+
+// ─── Pre-Filing & ITC Intelligence Types ─────────────────────────────────────
+export interface PreFilingCheckResult {
+  code: string;
+  severity: 'ERROR' | 'WARNING' | 'INFO';
+  message: string;
+  invoiceRef?: string;
+}
+
+export interface PreFilingValidationResponse {
+  success: boolean;
+  message?: string;
+  data: {
+    passed: boolean;
+    totalChecks: number;
+    errorCount: number;
+    warningCount: number;
+    results: PreFilingCheckResult[];
+  };
+}
+
+export interface ItcLedger {
+  id?: string;
+  period: string;
+  openingIgst: number;
+  openingCgst: number;
+  openingSgst: number;
+  openingCess: number;
+  availableIgst: number;
+  availableCgst: number;
+  availableSgst: number;
+  availableCess: number;
+  reversedIgst: number;
+  reversedCgst: number;
+  reversedSgst: number;
+  reversedCess: number;
+  reversalReason?: string;
+  utilizedIgst: number;
+  utilizedCgst: number;
+  utilizedSgst: number;
+  utilizedCess: number;
+  closingIgst: number;
+  closingCgst: number;
+  closingSgst: number;
+  closingCess: number;
+}
+
+export interface ItcDashboardResponse {
+  success: boolean;
+  message?: string;
+  data: {
+    ledger: ItcLedger | null;
+    rule180Warning: {
+      count: number;
+      expiringAmount: number;
+      invoices: string[];
+    };
+    rule180Violation: {
+      count: number;
+      invoices: string[];
+    };
+  };
+}
+
+export interface UnifiedReconciliationResponse {
+  success: boolean;
+  message?: string;
+  data: {
+    period: string;
+    summary: {
+      gstr1: {
+        totalInvoices: number;
+        totalValue: number;
+      };
+      gstr2: {
+        matchedCount: number;
+        missingIn2BCount: number;
+        mismatchedCount: number;
+        imsPendingActions: number;
+      };
+    };
+    details: {
+      matched: any[];
+      missingIn2B: any[];
+      mismatchedValues: any[];
+    };
+  };
+}

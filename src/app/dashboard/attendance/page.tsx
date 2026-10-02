@@ -19,6 +19,8 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Table, Column } from '@/components/ui/Table';
 import { MarkAttendanceModal } from '@/features/staff/components/MarkAttendanceModal';
+import { ShiftsTab } from '@/features/attendance/components/ShiftsTab';
+import { LeaveRequestsTab } from '@/features/attendance/components/LeaveRequestsTab';
 import { useToast } from '@/components/ui/Toast';
 import type { AttendanceRecord, AttendanceStatus } from '@/lib/types/attendance.types';
 
@@ -50,6 +52,7 @@ const ATTENDANCE_STATUS_STYLES: Record<
 
 export default function AttendancePage() {
   const { showToast } = useToast();
+  const [activeTab, setActiveTab] = useState<'attendance' | 'leaves' | 'shifts'>('attendance');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDate, setSelectedDate] = useState<string>('');
 
@@ -200,18 +203,60 @@ export default function AttendancePage() {
           </div>
         </div>
 
-        <Button
-          onClick={() => {
-            setSelectedAttendance(null);
-            setIsModalOpen(true);
-          }}
-          leftIcon={<UserCheck className="w-4 h-4" />}
-        >
-          Log Attendance
-        </Button>
+        {activeTab === 'attendance' && (
+          <Button
+            onClick={() => {
+              setSelectedAttendance(null);
+              setIsModalOpen(true);
+            }}
+            leftIcon={<UserCheck className="w-4 h-4" />}
+            className="bg-[#4A6FA5] hover:bg-[#3D5C8A] text-white"
+          >
+            Log Attendance
+          </Button>
+        )}
       </div>
 
-      {/* Metrics Row */}
+      {/* Tabs */}
+      <div className="flex border-b border-slate-200 dark:border-slate-800 space-x-6">
+        <button
+          onClick={() => setActiveTab('attendance')}
+          className={`pb-3 text-sm font-semibold transition border-b-2 ${
+            activeTab === 'attendance'
+              ? 'border-[#4A6FA5] text-[#4A6FA5]'
+              : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
+          }`}
+        >
+          Daily Attendance
+        </button>
+        <button
+          onClick={() => setActiveTab('leaves')}
+          className={`pb-3 text-sm font-semibold transition border-b-2 ${
+            activeTab === 'leaves'
+              ? 'border-[#4A6FA5] text-[#4A6FA5]'
+              : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
+          }`}
+        >
+          Leave Applications
+        </button>
+        <button
+          onClick={() => setActiveTab('shifts')}
+          className={`pb-3 text-sm font-semibold transition border-b-2 ${
+            activeTab === 'shifts'
+              ? 'border-[#4A6FA5] text-[#4A6FA5]'
+              : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
+          }`}
+        >
+          Office Shifts
+        </button>
+      </div>
+
+      {activeTab === 'leaves' && <LeaveRequestsTab />}
+      {activeTab === 'shifts' && <ShiftsTab />}
+
+      {activeTab === 'attendance' && (
+        <>
+          {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="rounded-2xl p-4 shadow-sm flex items-center justify-between bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div>
@@ -300,6 +345,8 @@ export default function AttendancePage() {
         }}
         attendanceToEdit={selectedAttendance}
       />
+        </>
+      )}
     </div>
   );
 }

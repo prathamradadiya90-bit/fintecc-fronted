@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Cpu,
   GitCompare,
+  TrendingUp,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useGetReturnByIdQuery } from '@/lib/store/api/gstApi';
@@ -19,13 +20,14 @@ import { FilingProgressStepper } from '@/features/gst/components/FilingProgressS
 import { ReturnWorkflowActions } from '@/features/gst/components/ReturnWorkflowActions';
 import { GspFilingPanel } from '@/features/gst/components/GspFilingPanel';
 import { ItcReconciliationCard } from '@/features/gst/components/ItcReconciliationCard';
+import { ItcMaximizationCard } from '@/features/gst/components/ItcMaximizationCard';
 
 export default function ReturnDetailPage() {
   const params = useParams();
   const router = useRouter();
   const returnId = params.id as string;
 
-  const [activeTab, setActiveTab] = useState<'gsp' | 'itc' | 'breakup'>('gsp');
+  const [activeTab, setActiveTab] = useState<'gsp' | 'itc' | 'breakup' | 'intelligence'>('gsp');
 
   const { data: response, isLoading, refetch } = useGetReturnByIdQuery(returnId);
   const gstReturn = response?.data;
@@ -184,6 +186,17 @@ export default function ReturnDetailPage() {
         >
           <FileCheck2 className="w-4 h-4" /> Tax Liability Breakup
         </button>
+
+        <button
+          onClick={() => setActiveTab('intelligence')}
+          className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
+            activeTab === 'intelligence'
+              ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+              : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
+          }`}
+        >
+          <TrendingUp className="w-4 h-4" /> ITC Intelligence & 180-Day Risks
+        </button>
       </div>
 
       {/* Tab Panels */}
@@ -196,6 +209,13 @@ export default function ReturnDetailPage() {
           <ItcReconciliationCard
             returnId={gstReturn.id}
             itcClaimed={Number(gstReturn.itcClaimed || 0)}
+          />
+        )}
+
+        {activeTab === 'intelligence' && (
+          <ItcMaximizationCard
+            clientId={profile?.clientId || 'default-client'}
+            period={gstReturn.period}
           />
         )}
 
