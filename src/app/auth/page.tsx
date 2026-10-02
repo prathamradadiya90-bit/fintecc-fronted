@@ -7,8 +7,8 @@ export default function AuthPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-50">
-          <div className="w-8 h-8 border-4 border-slate-300 border-t-emerald-500 rounded-full animate-spin"></div>
+        <div className="min-h-screen flex items-center justify-center bg-[#F7F9FB]">
+          <div className="w-8 h-8 border-3 border-[#E2E8F0] border-t-[#4A6FA5] rounded-full animate-spin"></div>
         </div>
       }
     >

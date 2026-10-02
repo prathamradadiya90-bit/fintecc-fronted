@@ -60,15 +60,19 @@ export default function SuperAdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 font-sans">
-      <div className="w-full max-w-[360px]">
+    <div className="min-h-screen bg-[#F7F9FB] flex items-center justify-center p-6 font-sans text-[#1E2A38] relative overflow-hidden">
+      {/* Subtle ambient blur */}
+      <div className="fixed -top-40 right-1/4 w-[400px] h-[400px] bg-[#4A6FA5]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="fixed bottom-10 right-10 w-[350px] h-[350px] bg-[#A8C5DA]/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="w-full max-w-[400px] bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(74,111,165,0.06)] relative z-10">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#0A1628] mb-4 shadow-sm">
-            <Shield className="w-6 h-6 text-white" />
+        <div className="text-center mb-7">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#A8C5DA]/20 border border-[#A8C5DA]/40 mb-3 text-[#4A6FA5] shadow-xs">
+            <Shield className="w-6 h-6" />
           </div>
-          <h1 className="text-xl font-extrabold text-slate-900 mb-1.5">Super Admin</h1>
-          <p className="text-xs text-slate-500">
+          <h1 className="text-xl font-bold text-[#1E2A38] mb-1.5 tracking-tight">Super Admin</h1>
+          <p className="text-xs text-[#5A6E85]">
             Sign in to access the control panel
           </p>
         </div>
@@ -76,7 +80,7 @@ export default function SuperAdminLoginPage() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
           <div>
-            <label htmlFor="sa-email" className="block text-xs font-bold text-slate-700 mb-1.5">
+            <label htmlFor="sa-email" className="block text-xs font-semibold text-[#1E2A38] mb-1.5">
               Email Address
             </label>
             <input
@@ -87,12 +91,12 @@ export default function SuperAdminLoginPage() {
               placeholder="admin@example.com"
               autoComplete="email"
               required
-              className="w-full px-3 py-2 border border-slate-200 focus:border-[#0A1628] rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
+              className="w-full px-3.5 py-2.5 border border-[#E2E8F0] focus:border-[#4A6FA5] focus:ring-2 focus:ring-[#4A6FA5]/15 rounded-lg text-sm text-[#1E2A38] bg-white outline-none transition-all placeholder:text-[#8E9FAA]"
             />
           </div>
 
           <div>
-            <label htmlFor="sa-password" className="block text-xs font-bold text-slate-700 mb-1.5">
+            <label htmlFor="sa-password" className="block text-xs font-semibold text-[#1E2A38] mb-1.5">
               Password
             </label>
             <div className="relative">
@@ -104,12 +108,12 @@ export default function SuperAdminLoginPage() {
                 placeholder="••••••••"
                 autoComplete="current-password"
                 required
-                className="w-full pl-3 pr-10 py-2 border border-slate-200 focus:border-[#0A1628] rounded-lg text-[13px] text-slate-900 bg-white outline-none transition-colors"
+                className="w-full pl-3.5 pr-10 py-2.5 border border-[#E2E8F0] focus:border-[#4A6FA5] focus:ring-2 focus:ring-[#4A6FA5]/15 rounded-lg text-sm text-[#1E2A38] bg-white outline-none transition-all placeholder:text-[#8E9FAA]"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8E9FAA] hover:text-[#5A6E85] transition-colors bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -120,15 +124,17 @@ export default function SuperAdminLoginPage() {
             type="submit"
             disabled={isLoading}
             id="sa-login-submit"
-            className={`w-full py-2.5 mt-2 text-white font-bold rounded-lg text-[13px] flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-              isLoading ? "bg-slate-400 cursor-wait" : "bg-[#0A1628] hover:bg-slate-800"
+            className={`w-full py-2.5 mt-2 text-white font-semibold rounded-lg text-sm flex items-center justify-center gap-1.5 transition-all shadow-xs ${
+              isLoading
+                ? "bg-[#A8C5DA] cursor-wait text-white/80"
+                : "bg-[#4A6FA5] hover:bg-[#3D5D8A] active:scale-[0.99] cursor-pointer"
             }`}
           >
             {isLoading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
-        <p className="text-center text-xs text-slate-400 mt-8">
+        <p className="text-center text-xs text-[#8E9FAA] mt-6">
           Restricted access. Unauthorised access is prohibited.
         </p>
       </div>
