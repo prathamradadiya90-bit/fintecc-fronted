@@ -45,7 +45,7 @@ export function PublicNavbar({ onProductsClick }: PublicNavbarProps) {
           </Link>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[#5A6E85]">
+          <nav className="hidden md:flex items-center gap-12 text-sm font-medium text-[#5A6E85]">
             {onProductsClick ? (
               <button
                 type="button"
@@ -53,9 +53,6 @@ export function PublicNavbar({ onProductsClick }: PublicNavbarProps) {
                 className="hover:text-[#1E2A38] transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 Products
-                <span className="px-1.5 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-[#4A6FA5]/10 text-[#4A6FA5] rounded-md border border-[#4A6FA5]/25">
-                  2 Live
-                </span>
               </button>
             ) : (
               <Link
@@ -63,9 +60,6 @@ export function PublicNavbar({ onProductsClick }: PublicNavbarProps) {
                 className="hover:text-[#1E2A38] transition-colors flex items-center gap-1.5"
               >
                 Products
-                <span className="px-1.5 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-[#4A6FA5]/10 text-[#4A6FA5] rounded-md border border-[#4A6FA5]/25">
-                  2 Live
-                </span>
               </Link>
             )}
             <Link href="/calculators" className="hover:text-[#1E2A38] transition-colors">
@@ -74,8 +68,8 @@ export function PublicNavbar({ onProductsClick }: PublicNavbarProps) {
             <Link href="/#pricing" className="hover:text-[#1E2A38] transition-colors">
               Pricing
             </Link>
-            <Link href="/#about" className="hover:text-[#1E2A38] transition-colors">
-              About Us
+            <Link href="/#how-it-works" className="hover:text-[#1E2A38] transition-colors">
+              How It Works
             </Link>
             <Link href="/#contact" className="hover:text-[#1E2A38] transition-colors">
               Contact

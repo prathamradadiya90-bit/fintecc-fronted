@@ -2,8 +2,9 @@ import React from "react";
 import { PublicNavbar } from "@/components/layouts/PublicNavbar";
 import { PublicFooter } from "@/components/layouts/PublicFooter";
 import { Hero } from "@/components/landing/Hero";
+import { FeatureStrip } from "@/components/landing/FeatureStrip";
+import { AutomationSteps } from "@/components/landing/AutomationSteps";
 import { Products } from "@/components/landing/Products";
-import { About } from "@/components/landing/About";
 import { Pricing } from "@/components/landing/Pricing";
 import { ContactForm } from "@/components/landing/ContactForm";
 
@@ -22,11 +23,14 @@ export default function Landing() {
         {/* HERO */}
         <Hero />
 
-        {/* PRODUCTS SECTION */}
-        <Products />
+        {/* FEATURE STRIP (Below first section) */}
+        <FeatureStrip />
 
-        {/* ABOUT / TRUST METRICS */}
-        <About />
+        {/* 3 STEPS CA OFFICE AUTOMATION */}
+        <AutomationSteps />
+
+        {/* PRODUCTS / EVERYTHING YOUR CA FIRM NEEDS (Section-wise cards) */}
+        <Products />
 
         {/* PRICING */}
         <Pricing />
