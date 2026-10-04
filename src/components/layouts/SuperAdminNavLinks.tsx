@@ -3,7 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, MessageSquare, CreditCard, Megaphone } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  MessageSquare,
+  CreditCard,
+  Megaphone,
+  FileCode2,
+  BarChart3,
+} from "lucide-react";
 
 const navItems = [
   { name: "Dashboard", href: "/super-admin/dashboard", icon: LayoutDashboard },
@@ -15,6 +23,16 @@ const navItems = [
   },
   { name: "Plans", href: "/super-admin/plans", icon: CreditCard },
   { name: "Announcements", href: "/super-admin/announcements", icon: Megaphone },
+  {
+    name: "Template Proposals",
+    href: "/super-admin/template-proposals",
+    icon: FileCode2,
+  },
+  {
+    name: "Extraction Stats",
+    href: "/super-admin/extraction-stats",
+    icon: BarChart3,
+  },
 ];
 
 interface SuperAdminNavLinksProps {
@@ -49,7 +67,7 @@ export function SuperAdminNavLinks({ onClose }: SuperAdminNavLinksProps) {
               flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group relative text-[13px]
               ${
                 isActive
-                  ? "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-medium"
+                  ? "text-[#A8C5DA] bg-[#4A6FA5]/20 font-medium"
                   : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
               }
             `}
@@ -57,13 +75,13 @@ export function SuperAdminNavLinks({ onClose }: SuperAdminNavLinksProps) {
             <Icon
               className={`w-[18px] h-[18px] ${
                 isActive
-                  ? "text-emerald-600 dark:text-emerald-400"
+                  ? "text-[#A8C5DA]"
                   : "text-slate-400 group-hover:text-slate-300"
               }`}
             />
             <span>{item.name}</span>
             {isActive && (
-              <div className="absolute right-4 w-1.5 h-1.5 rounded-full bg-emerald-600" />
+              <div className="absolute right-4 w-1.5 h-1.5 rounded-full bg-[#4A6FA5]" />
             )}
           </Link>
         );
