@@ -16,6 +16,8 @@ import {
   RefreshCw,
   Eye,
   FileText,
+  Lock,
+  KeyRound,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/Toast';
@@ -49,31 +51,46 @@ export default function BankStatementsHubPage() {
   });
 
   const getStatusBadge = (status: string) => {
-    if (status === 'COMPLETED') {
+    if (status === 'COMPLETED' || status === 'DONE') {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-          <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Fully Approved
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#3D7A64]/10 text-[#3D7A64] border border-[#3D7A64]/20">
+          <CheckCircle2 className="w-3 h-3 text-[#3D7A64]" /> Fully Approved
         </span>
       );
     }
-    if (status === 'REVIEW') {
+    if (status === 'REVIEW' || status === 'NEEDS_REVIEW') {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-          <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Ready for Review
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20">
+          <CheckCircle2 className="w-3 h-3 text-[#4A6FA5]" /> Ready for Review
         </span>
       );
     }
-    if (status === 'PROCESSING') {
+    if (
+      status === 'PROCESSING' ||
+      status === 'INSPECTING' ||
+      status === 'EXTRACTING' ||
+      status === 'VALIDATING' ||
+      status === 'UPLOADED' ||
+      status === 'TEXT_PARSED'
+    ) {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/20">
-          <RefreshCw className="w-3 h-3 animate-spin text-amber-500" /> AI Parsing...
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20">
+          <RefreshCw className="w-3 h-3 animate-spin text-[#4A6FA5]" />{' '}
+          {status === 'VALIDATING' ? 'Reconciling...' : 'AI Extracting...'}
         </span>
       );
     }
-    if (status === 'FAILED' || status === 'FAILED_PASSWORD') {
+    if (status === 'FAILED_PASSWORD' || status === 'LOCKED') {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20">
-          <AlertTriangle className="w-3 h-3" /> {status === 'FAILED_PASSWORD' ? 'Password Protected' : 'Failed'}
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#9E6B42]/10 text-[#9E6B42] border border-[#9E6B42]/20">
+          <Lock className="w-3 h-3 text-[#9E6B42]" /> Password Protected
+        </span>
+      );
+    }
+    if (status === 'FAILED') {
+      return (
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#9E4A4A]/10 text-[#9E4A4A] border border-[#9E4A4A]/20">
+          <AlertTriangle className="w-3 h-3 text-[#9E4A4A]" /> Extraction Failed
         </span>
       );
     }
@@ -284,17 +301,33 @@ export default function BankStatementsHubPage() {
 
                     {/* Actions */}
                     <td className="py-3.5 px-4 text-right">
-                      {stmt.status === 'PROCESSING' ? (
-                        <span className="text-[11px] text-amber-500 font-semibold animate-pulse">
+                      {stmt.status === 'PROCESSING' ||
+                      stmt.status === 'INSPECTING' ||
+                      stmt.status === 'EXTRACTING' ||
+                      stmt.status === 'VALIDATING' ||
+                      stmt.status === 'UPLOADED' ||
+                      stmt.status === 'TEXT_PARSED' ? (
+                        <span className="inline-flex items-center gap-1.5 text-[11px] text-[#4A6FA5] font-semibold animate-pulse">
+                          <RefreshCw className="w-3 h-3 animate-spin" />
                           Processing...
                         </span>
+                      ) : stmt.status === 'FAILED_PASSWORD' || stmt.status === 'LOCKED' ? (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setIsUploadModalOpen(true)}
+                          leftIcon={<KeyRound className="w-3.5 h-3.5" />}
+                          className="text-xs font-semibold border-[#9E6B42]/30 text-[#9E6B42] hover:bg-[#9E6B42]/10"
+                        >
+                          Unlock PDF
+                        </Button>
                       ) : (
                         <Link href={`/dashboard/bank-statements/${stmt.id}/review`}>
                           <Button
                             variant="primary"
                             size="sm"
                             rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
-                            className="text-xs font-semibold"
+                            className="text-xs font-semibold bg-[#4A6FA5] hover:bg-[#3D5C8A] text-white"
                           >
                             Review & Export
                           </Button>

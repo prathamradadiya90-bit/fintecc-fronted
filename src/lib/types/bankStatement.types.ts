@@ -18,11 +18,20 @@ export type TransactionStatus =
 
 export type StatementStatus =
   | 'PENDING'
+  | 'UPLOADED'
   | 'PROCESSING'
+  | 'INSPECTING'
+  | 'TEXT_PARSED'
+  | 'NEEDS_OCR'
+  | 'EXTRACTING'
+  | 'VALIDATING'
+  | 'NEEDS_REVIEW'
   | 'REVIEW'
   | 'COMPLETED'
+  | 'DONE'
   | 'FAILED'
-  | 'FAILED_PASSWORD';
+  | 'FAILED_PASSWORD'
+  | 'LOCKED';
 
 export type ValidationStatus = 'PENDING' | 'PASSED' | 'FAILED' | 'PARTIAL';
 
@@ -109,6 +118,9 @@ export interface BankStatement {
   closingBalance?: number | null;
   parserUsed?: string | null;
   status: StatementStatus;
+  processingProgress?: number;
+  errorMessage?: string | null;
+  jobId?: string | null;
   validationStatus?: ValidationStatus;
   validationReport?: StatementValidationReport | null;
   fileUrl?: string | null;
