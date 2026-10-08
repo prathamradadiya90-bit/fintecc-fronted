@@ -102,7 +102,7 @@ export default function BankStatementsHubPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="w-full space-y-6">
       {/* Page Header */}
       <div
         className="rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4"

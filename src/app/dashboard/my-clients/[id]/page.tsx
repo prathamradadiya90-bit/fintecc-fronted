@@ -108,7 +108,7 @@ export default function ClientDetailPage() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto space-y-5">
+    <div className="w-full space-y-5">
       {/* ─── Breadcrumb ──────────────────────────────────────────────────── */}
       <nav className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-text-muted)' }}>
         <Link href="/dashboard/my-clients" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium">

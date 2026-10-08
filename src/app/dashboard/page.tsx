@@ -58,7 +58,7 @@ export default function DashboardPage() {
   // Client Portal Home View
   if (isClient) {
     return (
-      <div className="max-w-6xl mx-auto space-y-6 pb-10">
+      <div className="w-full space-y-6 pb-10">
         <AnnouncementBanner />
         {/* Header */}
         <div
@@ -185,7 +185,7 @@ export default function DashboardPage() {
 
   // Professional CA Firm Operating System View
   return (
-    <div className="max-w-[1440px] mx-auto space-y-6 pb-12">
+    <div className="w-full space-y-6 pb-12">
       <AnnouncementBanner />
       
       {/* Welcome Header Banner */}

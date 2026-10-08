@@ -22,7 +22,7 @@ export default function GstLayout({ children }: GstLayoutProps) {
   const [selectedClientId, setSelectedClientId] = useState<string>('');
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 pb-12">
+    <div className="w-full space-y-6 pb-12">
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

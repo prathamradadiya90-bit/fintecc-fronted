@@ -40,7 +40,7 @@ export default function ChatPage() {
     }
 
     return (
-      <div className="max-w-5xl mx-auto space-y-4">
+      <div className="w-full space-y-4">
         {/* Header */}
         <div
           className="rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4"

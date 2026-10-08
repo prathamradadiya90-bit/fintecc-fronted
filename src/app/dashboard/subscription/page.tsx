@@ -172,7 +172,7 @@ export default function SubscriptionPage() {
   const plans = data?.data || [];
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="w-full space-y-8 animate-in fade-in duration-500">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-emerald-500/10 to-transparent p-6 rounded-2xl border border-emerald-500/20">
         <div>

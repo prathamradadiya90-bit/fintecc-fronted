@@ -164,6 +164,26 @@ button {
 
 html {
   scroll-behavior: smooth;
+  font-size: 100%;
+}
+
+/* ─── Fluid Root Scaling for High-Resolution & Large Displays (rem-based) ─── */
+@media (min-width: 1920px) {
+  html {
+    font-size: 103.125%; /* ~16.5px base: subtle proportional boost on 1080p+ full screen */
+  }
+}
+
+@media (min-width: 2200px) {
+  html {
+    font-size: 106.25%; /* ~17px base: comfortable reading scale on 2K / QHD monitors */
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 109.375%; /* ~17.5px base: balanced legibility on 4K / Ultrawide displays */
+  }
 }
 
 /* ─── Homepage Redesign Glassmorphism & Accents ─── */

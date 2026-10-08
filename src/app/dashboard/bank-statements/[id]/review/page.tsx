@@ -150,7 +150,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto py-24 flex flex-col items-center justify-center space-y-3">
+      <div className="w-full py-24 flex flex-col items-center justify-center space-y-3">
         <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
         <p className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>
           Loading statement review dataset and AI mappings...
@@ -184,7 +184,7 @@ export default function BankStatementReviewPage({ params }: PageProps) {
   const isMathValid = statementInfo?.validationStatus === 'PASSED';
 
   return (
-    <div className="max-w-7xl mx-auto space-y-5 pb-16">
+    <div className="w-full space-y-5 pb-16">
       {/* Top Breadcrumb & Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4" style={{ borderColor: 'var(--color-border)' }}>
         <div className="space-y-1">
