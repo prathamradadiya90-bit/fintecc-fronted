@@ -36,7 +36,7 @@ const steps: StepItem[] = [
 export function AutomationSteps() {
   return (
     <section 
-      className="relative py-16 md:py-24 bg-[#F7F9FB] border-b border-[#E2E8F0] overflow-hidden" 
+      className="relative py-12 md:py-16 lg:py-20 bg-[#F7F9FB] border-b border-[#E2E8F0] overflow-hidden" 
       id="how-it-works"
       data-purpose="how-it-works-steps"
     >
@@ -45,7 +45,7 @@ export function AutomationSteps() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-12">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20 mb-3 shadow-xs">
             Practice Automation
           </div>

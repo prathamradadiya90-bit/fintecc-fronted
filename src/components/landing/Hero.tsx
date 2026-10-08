@@ -5,8 +5,8 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-center py-8 md:py-12 overflow-hidden" data-purpose="hero-container">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">
+    <section className="relative py-10 sm:py-14 lg:py-16 overflow-hidden" data-purpose="hero-container">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Value Proposition */}
           <div className="lg:col-span-6 flex flex-col items-start text-left">

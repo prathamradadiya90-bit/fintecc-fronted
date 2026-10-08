@@ -350,7 +350,7 @@ export function Products() {
 
   return (
     <section 
-      className="py-16 md:py-24 relative bg-white border-t border-[#E2E8F0]" 
+      className="py-12 md:py-16 lg:py-20 relative bg-white border-t border-[#E2E8F0]" 
       id="products"
       data-purpose="core-products-suite"
     >

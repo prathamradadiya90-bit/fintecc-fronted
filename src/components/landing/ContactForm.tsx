@@ -41,8 +41,8 @@ export function ContactForm() {
   };
 
   return (
-    <section className="min-h-screen flex flex-col justify-center py-12 md:py-16 relative bg-[#F7F9FB] border-t border-[#E2E8F0]" data-purpose="contact-form" id="contact">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">
+    <section className="py-12 md:py-16 lg:py-20 relative bg-[#F7F9FB] border-t border-[#E2E8F0]" data-purpose="contact-form" id="contact">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="text-center mb-6">
           <div className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20 mb-2 shadow-xs">
             Contact

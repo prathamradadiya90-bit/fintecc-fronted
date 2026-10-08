@@ -1,5 +1,3 @@
-import type { Plan } from '@/lib/types/plan.types';
-
 /**
  * Cleanly formats the plan billing period label (e.g. "/mo", "/yr"),
  * preventing "undefinedmo" when durationMonths is missing or undefined.
@@ -30,6 +28,7 @@ export function formatPlanBillingPeriod(plan?: { durationMonths?: number; billin
 export function cleanPlanFeature(feature: string): string {
   if (!feature) return '';
   return feature
+    .replace(/\r?\n|\r/g, ' ')
     .replace(/\breconcilation\b/gi, 'Reconciliation')
     .replace(/\bcomplience\b/gi, 'Compliance')
     .replace(/\bmanagment\b/gi, 'Management')
