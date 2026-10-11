@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
-import { FileText, Plus, Download, Loader2, Users, AlertCircle, Eye } from 'lucide-react';
+import { FileText, Plus, Download, Loader2, Users, AlertCircle, Eye, History } from 'lucide-react';
 import { RootState } from '@/lib/store/store';
 import { useGetDocumentsByClientIdQuery, useDownloadDocumentMutation } from '@/lib/store/api/clientDocumentsApi';
 import { AddDocumentModal } from '@/components/clients/AddDocumentModal';
+import { DocumentVersionDrawer } from '@/components/clients/DocumentVersionDrawer';
 import { useToast } from '@/components/ui/Toast';
 import type { ClientDocument } from '@/lib/types/client.types';
 
@@ -45,9 +46,10 @@ function formatDate(dateStr: string): string {
 interface ClientPortalDocCardProps {
   doc: ClientDocument;
   onPreview: (doc: ClientDocument) => void;
+  onViewVersions: (doc: ClientDocument) => void;
 }
 
-function ClientPortalDocCard({ doc, onPreview }: ClientPortalDocCardProps) {
+function ClientPortalDocCard({ doc, onPreview, onViewVersions }: ClientPortalDocCardProps) {
   const typeConfig = getFileTypeConfig(doc.fileType);
   const [downloadDocument, { isLoading: isDownloading }] = useDownloadDocumentMutation();
   const { showToast } = useToast();
@@ -88,20 +90,32 @@ function ClientPortalDocCard({ doc, onPreview }: ClientPortalDocCardProps) {
       </div>
 
       <div className="flex items-center justify-between pt-3 mt-3" style={{ borderTop: '1px solid var(--color-border)' }}>
-        {doc.category ? (
-          <span
-            className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-            style={{
-              background: 'var(--color-bg-skeleton)',
-              color: 'var(--color-text-secondary)',
-            }}
-          >
-            {doc.category}
+        <div className="flex items-center gap-1.5 overflow-hidden">
+          {doc.category && (
+            <span
+              className="text-[10px] font-semibold px-2 py-0.5 rounded-full truncate"
+              style={{
+                background: 'var(--color-bg-skeleton)',
+                color: 'var(--color-text-secondary)',
+              }}
+            >
+              {doc.category}
+            </span>
+          )}
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20 shrink-0">
+            v{doc.version || 1}
           </span>
-        ) : (
-          <div />
-        )}
-        <div className="flex items-center gap-1.5">
+        </div>
+
+        <div className="flex items-center gap-1">
+          <button
+            title="Version History & Revisions"
+            onClick={(e) => { e.stopPropagation(); onViewVersions(doc); }}
+            className="p-1.5 rounded-lg hover:text-[#4A6FA5] hover:bg-[#4A6FA5]/10 transition-colors"
+            style={{ color: 'var(--color-text-secondary)' }}
+          >
+            <History className="w-3.5 h-3.5 text-[#4A6FA5]" />
+          </button>
           <button
             title="Preview"
             onClick={(e) => { e.stopPropagation(); onPreview(doc); }}
@@ -136,6 +150,7 @@ export default function DocumentsPage() {
   const { showToast } = useToast();
 
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [versionDoc, setVersionDoc] = useState<ClientDocument | null>(null);
 
   const { data, isLoading, isError } = useGetDocumentsByClientIdQuery(clientId || '', {
     skip: !clientId,
@@ -258,6 +273,7 @@ export default function DocumentsPage() {
                     showToast('Preview not available for this document', 'error');
                   }
                 }}
+                onViewVersions={(d) => setVersionDoc(d)}
               />
             ))}
           </div>
@@ -271,6 +287,14 @@ export default function DocumentsPage() {
             clientId={clientId}
           />
         )}
+
+        {/* Version History Drawer */}
+        <DocumentVersionDrawer
+          isOpen={!!versionDoc}
+          onClose={() => setVersionDoc(null)}
+          document={versionDoc}
+          clientId={clientId}
+        />
       </div>
     );
   }

@@ -6,7 +6,8 @@ import type {
   ClientDocumentsResponse,
   ClientFoldersResponse,
   CreateFolderRequest,
-  CreateFolderResponse
+  CreateFolderResponse,
+  DocumentVersionHistoryResponse,
 } from '../../types/client.types';
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
@@ -124,6 +125,36 @@ export const clientDocumentsApi = createApi({
         { type: 'ClientDocumentFolder', id: `LIST_${clientId}` },
       ],
     }),
+
+    // --- DOCUMENT VERSIONING ---
+    getVersionHistory: builder.query<{ success: boolean; data: DocumentVersionHistoryResponse }, string>({
+      query: (id) => `/${id}/versions`,
+      providesTags: (_result, _error, id) => [{ type: 'ClientDocument', id }],
+    }),
+
+    uploadNewVersion: builder.mutation<SingleDocumentResponse, { id: string; formData: FormData; clientId?: string }>({
+      query: ({ id, formData }) => ({
+        url: `/${id}/versions`,
+        method: 'POST',
+        body: formData,
+        formData: true,
+      }),
+      invalidatesTags: (_result, _error, { id, clientId }) => [
+        { type: 'ClientDocument', id },
+        ...(clientId ? [{ type: 'ClientDocument' as const, id: `LIST_${clientId}` }] : []),
+      ],
+    }),
+
+    revertVersion: builder.mutation<SingleDocumentResponse, { id: string; versionNumber: number; clientId?: string }>({
+      query: ({ id, versionNumber }) => ({
+        url: `/${id}/versions/${versionNumber}/revert`,
+        method: 'POST',
+      }),
+      invalidatesTags: (_result, _error, { id, clientId }) => [
+        { type: 'ClientDocument', id },
+        ...(clientId ? [{ type: 'ClientDocument' as const, id: `LIST_${clientId}` }] : []),
+      ],
+    }),
   }),
 });
 
@@ -134,5 +165,8 @@ export const {
   useDownloadDocumentMutation,
   useGetFoldersByClientIdQuery,
   useCreateFolderMutation,
+  useGetVersionHistoryQuery,
+  useUploadNewVersionMutation,
+  useRevertVersionMutation,
 } = clientDocumentsApi;
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 
-import { Plus, Trash2, Download, AlertTriangle, Loader2, FolderPlus, FolderOpen, FilterX } from 'lucide-react';
+import { Plus, Trash2, Download, AlertTriangle, Loader2, FolderPlus, FolderOpen, FilterX, History } from 'lucide-react';
 
 import { 
   useGetDocumentsByClientIdQuery, 
@@ -13,6 +13,7 @@ import {
 import { AddDocumentModal } from './AddDocumentModal';
 import { CreateFolderModal } from './CreateFolderModal';
 import { FolderCard } from './FolderCard';
+import { DocumentVersionDrawer } from './DocumentVersionDrawer';
 import { useToast } from '@/components/ui/Toast';
 
 import type { ClientDocument, ClientFolder } from '@/lib/types/client.types';
@@ -62,10 +63,11 @@ interface DocumentCardProps {
   doc: ClientDocument;
   onDelete: (doc: ClientDocument) => void;
   onPreview: (doc: ClientDocument) => void;
+  onViewVersions: (doc: ClientDocument) => void;
   isDeleting: boolean;
 }
 
-function DocumentCard({ doc, onDelete, onPreview, isDeleting }: DocumentCardProps) {
+function DocumentCard({ doc, onDelete, onPreview, onViewVersions, isDeleting }: DocumentCardProps) {
   const typeConfig = getFileTypeConfig(doc.fileType);
   const [downloadDocument, { isLoading: isDownloading }] = useDownloadDocumentMutation();
   const { showToast } = useToast();
@@ -101,21 +103,33 @@ function DocumentCard({ doc, onDelete, onPreview, isDeleting }: DocumentCardProp
 
       {/* Actions Row */}
       <div className="flex items-center justify-between pt-2.5 mt-2" style={{ borderTop: '1px solid var(--color-border)' }}>
-        {/* Category badge */}
-        {doc.category ? (
-          <span
-            className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-            style={{
-              background: 'var(--color-bg-skeleton)',
-              color: 'var(--color-text-secondary)',
-            }}
-          >
-            {doc.category}
+        {/* Category & Version badge */}
+        <div className="flex items-center gap-1.5 overflow-hidden">
+          {doc.category && (
+            <span
+              className="text-[10px] font-semibold px-2 py-0.5 rounded-full truncate"
+              style={{
+                background: 'var(--color-bg-skeleton)',
+                color: 'var(--color-text-secondary)',
+              }}
+            >
+              {doc.category}
+            </span>
+          )}
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20 shrink-0">
+            v{doc.version || 1}
           </span>
-        ) : (
-          <div />
-        )}
+        </div>
+
         <div className="flex items-center gap-1">
+          <button
+            title="Version History & Revisions"
+            onClick={(e) => { e.stopPropagation(); onViewVersions(doc); }}
+            className="p-1.5 rounded-lg hover:text-[#4A6FA5] hover:bg-[#4A6FA5]/10 transition-colors"
+            style={{ color: 'var(--color-text-secondary)' }}
+          >
+            <History className="w-3.5 h-3.5 text-[#4A6FA5]" />
+          </button>
           <button
             title="Download"
             disabled={isDownloading}
@@ -215,6 +229,7 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState<ClientFolder | null>(null);
   const [docToDelete, setDocToDelete] = useState<ClientDocument | null>(null);
+  const [versionDoc, setVersionDoc] = useState<ClientDocument | null>(null);
 
   const { data, isLoading, isError } = useGetDocumentsByClientIdQuery(clientId);
   const { data: foldersData, isLoading: isFoldersLoading } = useGetFoldersByClientIdQuery(clientId);
@@ -414,6 +429,7 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
                   showToast('Preview not available for this document', 'error');
                 }
               }}
+              onViewVersions={(d) => setVersionDoc(d)}
               onDelete={(d) => setDocToDelete(d)}
               isDeleting={isDeleting && docToDelete?.id === doc.id}
             />
@@ -433,6 +449,14 @@ export function ClientDocumentsTab({ clientId }: ClientDocumentsTabProps) {
       <CreateFolderModal
         isOpen={isCreateFolderOpen}
         onClose={() => setIsCreateFolderOpen(false)}
+        clientId={clientId}
+      />
+
+      {/* Version History Drawer */}
+      <DocumentVersionDrawer
+        isOpen={!!versionDoc}
+        onClose={() => setVersionDoc(null)}
+        document={versionDoc}
         clientId={clientId}
       />
 

@@ -8,6 +8,13 @@ import type {
   UpdateMcaCompanyRequest,
   AddMcaDirectorRequest,
   McaDirector,
+  CinValidationResult,
+  DinValidationResult,
+  LlpinValidationResult,
+  CalculateMcaLateFeeInput,
+  McaLateFeeResult,
+  GenerateBoardResolutionInput,
+  BoardResolutionDraftResult,
 } from '../../types/mca.types';
 
 export const mcaApi = createApi({
@@ -79,6 +86,47 @@ export const mcaApi = createApi({
         { type: 'McaCompany', id: companyId },
       ],
     }),
+
+    // --- MCA COMPLIANCE TOOLS ---
+    validateCin: builder.mutation<{ success: boolean; data: CinValidationResult; message?: string }, { cin: string }>({
+      query: (body) => ({
+        url: '/validate-cin',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    validateDin: builder.mutation<{ success: boolean; data: DinValidationResult; message?: string }, { din: string }>({
+      query: (body) => ({
+        url: '/validate-din',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    validateLlpin: builder.mutation<{ success: boolean; data: LlpinValidationResult; message?: string }, { llpin: string }>({
+      query: (body) => ({
+        url: '/validate-llpin',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    calculateLateFee: builder.mutation<{ success: boolean; data: McaLateFeeResult; message?: string }, CalculateMcaLateFeeInput>({
+      query: (body) => ({
+        url: '/calculate-late-fee',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    generateResolution: builder.mutation<{ success: boolean; data: BoardResolutionDraftResult; message?: string }, GenerateBoardResolutionInput>({
+      query: (body) => ({
+        url: '/generate-resolution',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -89,4 +137,9 @@ export const {
   useUpdateCompanyMutation,
   useGetDirectorsQuery,
   useAddDirectorMutation,
+  useValidateCinMutation,
+  useValidateDinMutation,
+  useValidateLlpinMutation,
+  useCalculateLateFeeMutation,
+  useGenerateResolutionMutation,
 } = mcaApi;

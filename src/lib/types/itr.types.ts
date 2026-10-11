@@ -150,3 +150,133 @@ export interface AcknowledgementResponse {
   };
   message?: string;
 }
+
+// ─── CA TAX COMPUTATION & REGIME COMPARISON ENGINE ────────────────────────────
+export interface IncomeDetails {
+  salary?: number | { grossSalary?: number; professionalTax?: number };
+  grossSalary?: number;
+  houseProperty?: {
+    propertyType?: 'SELF_OCCUPIED' | 'LET_OUT';
+    annualRent?: number;
+    municipalTaxes?: number;
+    homeLoanInterest?: number;
+  };
+  businessProfession?: {
+    pgbpIncome?: number;
+  };
+  capitalGains?: {
+    stcg111A?: number;
+    stcgNormal?: number;
+    ltcg112A?: number;
+    ltcg112?: number;
+  };
+  otherSources?: {
+    savingsInterest?: number;
+    fdInterest?: number;
+    dividendIncome?: number;
+    otherMiscellaneous?: number;
+  };
+}
+
+export interface ChapterViaDeductions {
+  section80C?: number;
+  section80D?: number;
+  section80CCD1B?: number;
+  section80G?: number;
+  section80TTA?: number;
+  section80TTB?: number;
+  section80E?: number;
+}
+
+export interface TaxComputationInput {
+  assessmentYear?: string;
+  regime?: 'NEW_REGIME' | 'OLD_REGIME';
+  taxpayerCategory?: 'INDIVIDUAL' | 'SENIOR_CITIZEN' | 'SUPER_SENIOR';
+  incomeDetails?: IncomeDetails;
+  deductions?: ChapterViaDeductions;
+  advanceTaxPaid?: number;
+  tdsTcsPaid?: number;
+  selfAssessmentTaxPaid?: number;
+  filingDate?: string;
+}
+
+export interface TaxComputationResult {
+  assessmentYear: string;
+  regime: string;
+  grossTotalIncome: number;
+  totalTaxableIncome: number;
+  totalTaxPayable: number;
+  refundDue: number;
+  taxBreakdown: {
+    baseTax: number;
+    rebate87A: number;
+    taxAfterRebate: number;
+    surcharge: number;
+    marginalRelief: number;
+    cess: number;
+    totalTaxAndCess: number;
+  };
+  headsOfIncome?: any;
+  deductions?: {
+    totalDeductions: number;
+    breakdown: Record<string, number>;
+  };
+  summary: {
+    grossTotalIncome: number;
+    allowedDeductions: number;
+    netTaxableIncome: number;
+    totalTaxBeforeRebate: number;
+    rebate87A: number;
+    taxAfterRebate: number;
+    surcharge: number;
+    marginalRelief: number;
+    cess: number;
+    totalTaxAndCess: number;
+    interest?: number;
+    totalPrepaidTaxes: number;
+    balanceTaxPayable: number;
+    refundDue: number;
+  };
+}
+
+export interface RegimeComparisonResult {
+  recommendedRegime: 'NEW_REGIME' | 'OLD_REGIME';
+  savings: number;
+  explanation: string;
+  newRegime: TaxComputationResult;
+  oldRegime: TaxComputationResult;
+  comparisonSummary: {
+    recommendedRegime: string;
+    savingsAmount: number;
+    explanation: string;
+  };
+  comparison: {
+    newRegime: {
+      grossTotalIncome: number;
+      deductions: number;
+      taxableIncome: number;
+      rebate87A: number;
+      totalTaxAndCess: number;
+      balancePayable: number;
+      refundDue: number;
+    };
+    oldRegime: {
+      grossTotalIncome: number;
+      deductions: number;
+      taxableIncome: number;
+      rebate87A: number;
+      totalTaxAndCess: number;
+      balancePayable: number;
+      refundDue: number;
+    };
+  };
+}
+
+export interface GenerateCbdtJsonInput {
+  assessmentYear?: string;
+  itrForm?: string;
+  client?: any;
+  computation?: any;
+  bankAccounts?: Array<{ accountNumber: string; ifsc: string; bankName: string; isPrimaryForRefund?: boolean }>;
+}
+

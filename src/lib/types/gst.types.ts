@@ -298,3 +298,102 @@ export interface UnifiedReconciliationResponse {
     };
   };
 }
+
+// ─── Statutory 22 Returns Catalog & Due Date Engine ───────────────────────────
+export interface StatutoryReturnCatalogItem {
+  code: string;
+  name: string;
+  legalSection: string;
+  frequency: string;
+  status: 'ACTIVE' | 'SUSPENDED' | 'VIEW_ONLY';
+  description: string;
+  whoMustFile: string;
+  dueDateRule: string;
+  nilReturnAllowed: boolean;
+}
+
+export interface GstDueDateQuery {
+  returnType: string;
+  period: string;
+  filingFrequency?: string;
+  stateCode?: string;
+  annualTurnover?: number;
+  cancellationDate?: string;
+}
+
+export interface GstDueDateResult {
+  returnType: string;
+  period: string;
+  dueDate: string;
+  filingFrequency: string;
+  stateCategory?: string;
+  statutoryRule?: string;
+  notes?: string;
+}
+
+export interface GstInterestLateFeeQuery {
+  dueDate: string;
+  filingDate?: string;
+  taxLiability?: number;
+  isNilReturn?: boolean;
+  annualTurnover?: number;
+  returnType?: string;
+  interestRateAnnual?: number;
+}
+
+export interface GstInterestLateFeeResult {
+  returnType: string;
+  dueDate: string;
+  filingDate: string;
+  delayDays: number;
+  isOverdue: boolean;
+  isNilReturn: boolean;
+  taxLiability: number;
+  interest: {
+    annualRatePercent: number;
+    daysCalculated: number;
+    amount: number;
+    statutorySection: string;
+  };
+  lateFee: {
+    cgst: number;
+    sgst: number;
+    total: number;
+    perDayRateTotal: number;
+    cappedApplied: boolean;
+    statutorySection: string;
+  };
+  summary: {
+    netTax: number;
+    totalLateFee: number;
+    totalInterest: number;
+    grandTotalPayable: number;
+  };
+}
+
+// ─── GST Portal Status Sync Types ─────────────────────────────────────────────
+export interface PortalStatusReturn {
+  returnType: string;
+  financialYear: string;
+  taxPeriod: string;
+  dateOfFiling?: string;
+  status: 'Filed' | 'Pending' | 'Not Filed' | string;
+  arn?: string;
+  modeOfFiling?: string;
+}
+
+export interface ClientPortalStatusResult {
+  clientId?: string;
+  gstin: string;
+  legalName?: string;
+  tradeName?: string;
+  lastSyncedAt?: string;
+  returns: PortalStatusReturn[];
+}
+
+export interface SyncAllPortalStatusResult {
+  totalClients: number;
+  syncedCount: number;
+  errors?: Array<{ clientId: string; message: string }>;
+}
+

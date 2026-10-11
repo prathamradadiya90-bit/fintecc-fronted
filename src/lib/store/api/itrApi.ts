@@ -11,6 +11,10 @@ import type {
   ValidateReturnResponse,
   AcknowledgementResponse,
   ItrPrefillData,
+  TaxComputationInput,
+  TaxComputationResult,
+  RegimeComparisonResult,
+  GenerateCbdtJsonInput,
 } from '../../types/itr.types';
 
 export const itrApi = createApi({
@@ -18,6 +22,31 @@ export const itrApi = createApi({
   baseQuery: baseQueryWithReauth('/itr'),
   tagTypes: ['ItrClient', 'ItrReturn'],
   endpoints: (builder) => ({
+    // --- TAX CALCULATION & REGIME COMPARISON ---
+    computeTax: builder.mutation<{ success: boolean; data: TaxComputationResult; message?: string }, TaxComputationInput>({
+      query: (body) => ({
+        url: '/compute-tax',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    compareRegimes: builder.mutation<{ success: boolean; data: RegimeComparisonResult; message?: string }, TaxComputationInput>({
+      query: (body) => ({
+        url: '/compare-regimes',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    generateCbdtJson: builder.mutation<{ success: boolean; data: any; message?: string }, GenerateCbdtJsonInput>({
+      query: (body) => ({
+        url: '/generate-cbdt-json',
+        method: 'POST',
+        body,
+      }),
+    }),
+
     // --- CLIENTS ---
     getItrClients: builder.query<ItrClientsListResponse, void>({
       query: () => ({
@@ -134,4 +163,7 @@ export const {
   useEVerifyReturnMutation,
   useGetAcknowledgementQuery,
   useLazyGetAcknowledgementQuery,
+  useComputeTaxMutation,
+  useCompareRegimesMutation,
+  useGenerateCbdtJsonMutation,
 } = itrApi;

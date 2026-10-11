@@ -108,16 +108,81 @@ export interface CreateTaskRequest {
   attachments?: TaskAttachment[] | null;
 }
 
+export interface ReviewHistoryItem {
+  action: 'SUBMIT' | 'APPROVE' | 'REJECT';
+  userId: string;
+  notes?: string;
+  timestamp: string;
+}
+
+export interface TimeLogEntry {
+  id: string;
+  userId: string;
+  userName: string;
+  minutes: number;
+  description: string;
+  timestamp: string;
+}
+
+export interface Task {
+  id: string;
+  firmId: string;
+  clientId: string;
+  branchId?: string | null;
+  assigneeId?: string | null;
+  preparerId?: string | null;
+  reviewerId?: string | null;
+  title: string;
+  description?: string | null;
+  status: TaskStatus;
+  priority: TaskPriority;
+  dueDate?: string | null;
+  complianceType?: string | null;
+  overdueAlertSent?: boolean;
+  isRecurring?: boolean;
+  recurrencePattern?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY' | null;
+  nextRunDate?: string | null;
+  reviewNotes?: string | null;
+  reviewHistory?: ReviewHistoryItem[] | null;
+  workingUserIds?: string[] | null;
+  timeAllocated?: number | null;
+  timeTaken?: number | null;
+  timeLogs?: TimeLogEntry[] | null;
+  filingVerified?: boolean | null;
+  arn?: string | null;
+  completedAt?: string | null;
+  comments?: TaskComment[] | null;
+  attachments?: TaskAttachment[] | null;
+  client?: {
+    id: string;
+    name: string;
+    pan?: string;
+    gstin?: string;
+    email?: string;
+    phone?: string;
+  };
+  assignee?: {
+    id: string;
+    name: string;
+    email: string;
+    role?: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface UpdateTaskRequest {
   clientId?: string;
   branchId?: string | null;
   assigneeId?: string | null;
+  reviewerId?: string | null;
   title?: string;
   description?: string | null;
   status?: TaskStatus;
   priority?: TaskPriority;
   dueDate?: string | null;
   complianceType?: string | null;
+  arn?: string | null;
   comments?: TaskComment[] | null;
   attachments?: TaskAttachment[] | null;
 }
@@ -131,6 +196,7 @@ export interface BulkUpdateTasksRequest {
     priority?: TaskPriority;
     dueDate?: string | null;
     complianceType?: string | null;
+    arn?: string | null;
   };
 }
 
@@ -145,3 +211,106 @@ export interface MasterExcelImportResponse {
     skippedRows?: Array<{ row: number; reason: string }>;
   };
 }
+
+export interface KanbanBoardData {
+  NOT_STARTED: Task[];
+  IN_PROGRESS: Task[];
+  REVIEW: Task[];
+  DONE: Task[];
+}
+
+export interface KanbanBoardResponse {
+  success: boolean;
+  data: KanbanBoardData;
+  message?: string;
+}
+
+export interface CalendarViewResponse {
+  success: boolean;
+  data: {
+    period: { start: string; end: string };
+    totalTasks: number;
+    tasks: Task[];
+  };
+  message?: string;
+}
+
+export interface ComplianceAnalyticsSummary {
+  total: number;
+  completed: number;
+  pending: number;
+  inReview: number;
+  overdue: number;
+  completionRate: number;
+}
+
+export interface StaffBottleneck {
+  assigneeId: string;
+  activeTasks: number;
+  overdueTasks: number;
+  completedTasks: number;
+  totalAllocatedMinutes: number;
+  totalLoggedMinutes: number;
+}
+
+export interface ComplianceAnalyticsData {
+  summary: ComplianceAnalyticsSummary;
+  byReturnType: Record<string, { total: number; completed: number; pending: number; overdue: number }>;
+  bottlenecks: StaffBottleneck[];
+}
+
+export interface ComplianceAnalyticsResponse {
+  success: boolean;
+  data: ComplianceAnalyticsData;
+  message?: string;
+}
+
+export interface SubmitReviewRequest {
+  reviewerId?: string;
+  notes?: string;
+}
+
+export interface ReviewTaskRequest {
+  action: 'APPROVE' | 'REJECT';
+  notes: string;
+}
+
+export interface LogTimeRequest {
+  minutes: number;
+  description?: string;
+}
+
+export interface RescheduleTaskRequest {
+  newDueDate: string;
+}
+
+export interface AiFilterRequest {
+  prompt: string;
+}
+
+export interface VerifyGstPortalData {
+  taskId: string;
+  gstin: string;
+  returnType: string;
+  period: string;
+  isFiled: boolean;
+  arn?: string;
+  filingDate?: string;
+  message: string;
+}
+
+export interface VerifyGstPortalResponse {
+  success: boolean;
+  data: VerifyGstPortalData;
+  message?: string;
+}
+
+export interface ProcessRecurringResponse {
+  success: boolean;
+  data: {
+    processedCount: number;
+    generatedTasks: Task[];
+  };
+  message?: string;
+}
+

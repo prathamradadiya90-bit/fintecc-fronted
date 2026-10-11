@@ -3,7 +3,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, LayoutDashboard, FileSpreadsheet, Receipt, ShieldCheck } from 'lucide-react';
+import {
+  Building2,
+  LayoutDashboard,
+  FileSpreadsheet,
+  Receipt,
+  ShieldCheck,
+  BookOpen,
+  Calculator,
+  RefreshCw,
+} from 'lucide-react';
 import { GstClientSelector } from '@/features/gst/components/GstClientSelector';
 
 interface GstLayoutProps {
@@ -15,6 +24,9 @@ const navTabs = [
   { name: 'GST Profiles', href: '/dashboard/gst/profiles', icon: Building2 },
   { name: 'Returns & Filing', href: '/dashboard/gst/returns', icon: FileSpreadsheet },
   { name: 'GST Invoices', href: '/dashboard/gst/invoices', icon: Receipt },
+  { name: 'Statutory Catalog', href: '/dashboard/gst/catalog', icon: BookOpen },
+  { name: 'Interest & Late Fee', href: '/dashboard/gst/calculator', icon: Calculator },
+  { name: 'Portal Status Sync', href: '/dashboard/gst/portal-sync', icon: RefreshCw },
 ];
 
 export default function GstLayout({ children }: GstLayoutProps) {

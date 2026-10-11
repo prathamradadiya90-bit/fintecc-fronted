@@ -62,8 +62,29 @@ export interface ClientDocument {
   filePath: string;
   fileType?: string; // "PDF", "JPG", "XLS", "DOC"
   fileSize?: number; // bytes
+  version?: number; // Document version sequence (e.g. 1, 2, 3...)
   createdAt: string;
   updatedAt: string;
+}
+
+export interface DocumentVersionItem {
+  id: string;
+  documentId: string;
+  versionNumber: number;
+  filePath: string;
+  fileSize: number;
+  uploadedBy?: string | null;
+  createdAt: string;
+}
+
+export interface DocumentVersionHistoryResponse {
+  currentVersion: {
+    versionNumber: number;
+    filePath: string;
+    fileSize: number;
+    updatedAt: string;
+  };
+  history: DocumentVersionItem[];
 }
 
 export interface ClientDocumentsResponse {

@@ -11,6 +11,12 @@ import type {
   CreateReturnRequest,
   CreateTransactionRequest,
   CreateNoticeRequest,
+  ComputeTdsInput,
+  ComputeTdsResult,
+  ValidateChallan281Input,
+  ValidateChallanResult,
+  GenerateFvuFileInput,
+  GenerateFvuResult,
 } from '../../types/tds.types';
 
 export const tdsApi = createApi({
@@ -96,6 +102,31 @@ export const tdsApi = createApi({
         method: 'DELETE',
       }),
       invalidatesTags: ['TdsReturn'],
+    }),
+
+    // --- TDS ENGINE & FVU FILE GENERATOR ---
+    computeTdsTax: builder.mutation<{ success: boolean; data: ComputeTdsResult; message?: string }, ComputeTdsInput>({
+      query: (body) => ({
+        url: '/returns/compute-tax',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    validateChallan: builder.mutation<{ success: boolean; data: ValidateChallanResult; message?: string }, ValidateChallan281Input>({
+      query: (body) => ({
+        url: '/returns/validate-challan',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    generateNsdlFvuFile: builder.mutation<{ success: boolean; data: GenerateFvuResult; message?: string }, GenerateFvuFileInput>({
+      query: (body) => ({
+        url: '/returns/generate-fvu-file',
+        method: 'POST',
+        body,
+      }),
     }),
 
     // --- TRANSACTIONS ---
@@ -192,6 +223,9 @@ export const {
   useCreateReturnMutation,
   useUpdateReturnMutation,
   useDeleteReturnMutation,
+  useComputeTdsTaxMutation,
+  useValidateChallanMutation,
+  useGenerateNsdlFvuFileMutation,
 
   useGetTransactionsQuery,
   useGetTransactionByIdQuery,

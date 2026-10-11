@@ -22,12 +22,18 @@ import {
 } from '@/lib/store/api/communicationApi';
 import { CreateCampaignModal } from '@/features/communication/components/CreateCampaignModal';
 import { TemplatesTab } from '@/features/communication/components/TemplatesTab';
+import { DueReminderBroadcastModal } from '@/features/communication/components/DueReminderBroadcastModal';
+import { ComposeBroadcastModal } from '@/features/communication/components/ComposeBroadcastModal';
+import { NotificationRulesTab } from '@/features/communication/components/NotificationRulesTab';
+import { DeliveryTrackingTab } from '@/features/communication/components/DeliveryTrackingTab';
 import type { BulkCampaign, CampaignStatus } from '@/lib/types/communication.types';
 
 export default function CampaignsPage() {
   const { showToast } = useToast();
-  const [activeTab, setActiveTab] = useState<'campaigns' | 'templates'>('campaigns');
+  const [activeTab, setActiveTab] = useState<'campaigns' | 'rules' | 'tracking' | 'templates'>('campaigns');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isDueReminderOpen, setIsDueReminderOpen] = useState(false);
+  const [isComposeBroadcastOpen, setIsComposeBroadcastOpen] = useState(false);
 
   const { data: response, isLoading, refetch } = useGetCampaignsQuery();
   const [sendCampaign, { isLoading: isSending }] = useSendCampaignMutation();
@@ -124,27 +130,48 @@ export default function CampaignsPage() {
               Bulk Communication & Campaigns
             </h1>
             <p className="text-xs text-[#5A6E85] dark:text-slate-400">
-              Broadcast compliance updates, invoice reminders, and notices across WhatsApp, Email & SMS
+              Statutory reminder broadcasts, circular distribution, open receipt tracking, and automated client alerts
             </p>
           </div>
         </div>
 
-        {activeTab === 'campaigns' && (
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            onClick={() => setIsDueReminderOpen(true)}
+            variant="outline"
+            size="sm"
+            className="flex items-center space-x-1.5 text-xs border-[#4A6FA5]/40 text-[#4A6FA5] hover:bg-[#4A6FA5]/10"
+          >
+            <Clock className="w-3.5 h-3.5 text-[#9E6B42]" />
+            <span>Send Due Reminder</span>
+          </Button>
+
+          <Button
+            onClick={() => setIsComposeBroadcastOpen(true)}
+            variant="outline"
+            size="sm"
+            className="flex items-center space-x-1.5 text-xs border-[#4A6FA5]/40 text-[#4A6FA5] hover:bg-[#4A6FA5]/10"
+          >
+            <Send className="w-3.5 h-3.5" />
+            <span>Compose Circular</span>
+          </Button>
+
           <Button
             onClick={() => setIsCreateOpen(true)}
-            className="bg-[#4A6FA5] hover:bg-[#3D5C8A] text-white flex items-center space-x-2 text-xs"
+            size="sm"
+            className="bg-[#4A6FA5] hover:bg-[#3D5C8A] text-white flex items-center space-x-1.5 text-xs"
           >
-            <Plus className="w-4 h-4" />
-            <span>New Broadcast Campaign</span>
+            <Plus className="w-3.5 h-3.5" />
+            <span>New Campaign</span>
           </Button>
-        )}
+        </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 space-x-6">
+      <div className="flex border-b border-slate-200 dark:border-slate-800 space-x-6 overflow-x-auto">
         <button
           onClick={() => setActiveTab('campaigns')}
-          className={`pb-3 text-sm font-semibold transition border-b-2 ${
+          className={`pb-3 text-sm font-semibold transition border-b-2 whitespace-nowrap ${
             activeTab === 'campaigns'
               ? 'border-[#4A6FA5] text-[#4A6FA5]'
               : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
@@ -153,8 +180,28 @@ export default function CampaignsPage() {
           Broadcast Campaigns
         </button>
         <button
+          onClick={() => setActiveTab('rules')}
+          className={`pb-3 text-sm font-semibold transition border-b-2 whitespace-nowrap ${
+            activeTab === 'rules'
+              ? 'border-[#4A6FA5] text-[#4A6FA5]'
+              : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
+          }`}
+        >
+          Automated Rules
+        </button>
+        <button
+          onClick={() => setActiveTab('tracking')}
+          className={`pb-3 text-sm font-semibold transition border-b-2 whitespace-nowrap ${
+            activeTab === 'tracking'
+              ? 'border-[#4A6FA5] text-[#4A6FA5]'
+              : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
+          }`}
+        >
+          Delivery & Tracking
+        </button>
+        <button
           onClick={() => setActiveTab('templates')}
-          className={`pb-3 text-sm font-semibold transition border-b-2 ${
+          className={`pb-3 text-sm font-semibold transition border-b-2 whitespace-nowrap ${
             activeTab === 'templates'
               ? 'border-[#4A6FA5] text-[#4A6FA5]'
               : 'border-transparent text-[#5A6E85] dark:text-slate-400 hover:text-[#1E2A38] dark:hover:text-slate-200'
@@ -166,6 +213,10 @@ export default function CampaignsPage() {
 
       {activeTab === 'templates' ? (
         <TemplatesTab />
+      ) : activeTab === 'rules' ? (
+        <NotificationRulesTab />
+      ) : activeTab === 'tracking' ? (
+        <DeliveryTrackingTab />
       ) : (
         <>
           {/* Metrics Row */}
@@ -333,6 +384,19 @@ export default function CampaignsPage() {
           />
         </>
       )}
+
+      {/* Broadcast & Reminder Modals */}
+      <DueReminderBroadcastModal
+        isOpen={isDueReminderOpen}
+        onClose={() => setIsDueReminderOpen(false)}
+        onSuccess={() => refetch()}
+      />
+
+      <ComposeBroadcastModal
+        isOpen={isComposeBroadcastOpen}
+        onClose={() => setIsComposeBroadcastOpen(false)}
+        onSuccess={() => refetch()}
+      />
     </div>
   );
 }

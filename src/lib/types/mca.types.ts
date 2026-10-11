@@ -90,3 +90,77 @@ export interface AddMcaDirectorRequest {
   dateOfAppointment?: string;
   kycStatus?: string;
 }
+
+// ─── MCA COMPLIANCE ENGINES & VALIDATORS ─────────────────────────────────────
+export interface CinValidationResult {
+  isValid: boolean;
+  cin?: string;
+  message?: string;
+  details?: {
+    isListed: boolean;
+    listingStatus: string;
+    industryCode: string;
+    stateCode: string;
+    stateName: string;
+    incorporationYear: number;
+    companyClassCode: string;
+    companyClass: string;
+    registrationNo: string;
+    rocJurisdiction: string;
+  };
+}
+
+export interface DinValidationResult {
+  isValid: boolean;
+  din?: string;
+  message: string;
+}
+
+export interface LlpinValidationResult {
+  isValid: boolean;
+  llpin?: string;
+  message: string;
+}
+
+export interface CalculateMcaLateFeeInput {
+  formType?: string;
+  dueDate: string;
+  actualFilingDate?: string;
+  nominalShareCapital?: number;
+}
+
+export interface McaLateFeeResult {
+  formType: string;
+  isDelayed: boolean;
+  delayDays: number;
+  normalFee: number;
+  additionalFee: number;
+  totalPayable: number;
+  statutoryReference?: string;
+}
+
+export interface GenerateBoardResolutionInput {
+  companyName?: string;
+  cin?: string;
+  registeredOffice?: string;
+  resolutionType?: 'ACCOUNTS_ADOPTION' | 'AUDITOR_APPOINTMENT' | 'GENERAL_AUTHORITY';
+  meetingDate?: string;
+  directorName?: string;
+  din?: string;
+  details?: Record<string, any>;
+}
+
+export interface BoardResolutionDraftResult {
+  companyName: string;
+  cin: string;
+  registeredOffice: string;
+  meetingDate: string;
+  title: string;
+  body: string;
+  signatory: {
+    directorName: string;
+    din: string;
+    designation: string;
+  };
+}
+

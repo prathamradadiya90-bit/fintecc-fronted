@@ -155,6 +155,78 @@ export default function GstOverviewPage() {
         </div>
       </div>
 
+      {/* New Statutory & Portal Sync Action Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div
+          className="p-5 rounded-2xl border transition-all hover:border-[#4A6FA5]/40 flex flex-col justify-between"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div>
+            <div className="w-10 h-10 rounded-xl bg-[#4A6FA5]/10 text-[#4A6FA5] flex items-center justify-center mb-3">
+              <FileSpreadsheet className="w-5 h-5" />
+            </div>
+            <h3 className="font-semibold text-sm" style={{ color: 'var(--color-text-primary)' }}>
+              Statutory 22 Returns Catalog
+            </h3>
+            <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
+              Full directory of active, suspended, and view-only GST returns with legal sections and due date rules.
+            </p>
+          </div>
+          <Link
+            href="/dashboard/gst/catalog"
+            className="inline-flex items-center text-xs font-semibold text-[#4A6FA5] hover:underline mt-4 gap-1"
+          >
+            Explore Catalog <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div
+          className="p-5 rounded-2xl border transition-all hover:border-[#9E6B42]/40 flex flex-col justify-between"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div>
+            <div className="w-10 h-10 rounded-xl bg-[rgba(158,107,66,0.1)] text-[#9E6B42] flex items-center justify-center mb-3">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <h3 className="font-semibold text-sm" style={{ color: 'var(--color-text-primary)' }}>
+              Interest & Late Fee Calculator
+            </h3>
+            <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
+              Compute Section 47 daily late fees with rationalized caps and Section 50(1) 18% p.a. interest.
+            </p>
+          </div>
+          <Link
+            href="/dashboard/gst/calculator"
+            className="inline-flex items-center text-xs font-semibold text-[#9E6B42] hover:underline mt-4 gap-1"
+          >
+            Open Calculator <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div
+          className="p-5 rounded-2xl border transition-all hover:border-[#3D7A64]/40 flex flex-col justify-between"
+          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
+        >
+          <div>
+            <div className="w-10 h-10 rounded-xl bg-[rgba(61,122,100,0.1)] text-[#3D7A64] flex items-center justify-center mb-3">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <h3 className="font-semibold text-sm" style={{ color: 'var(--color-text-primary)' }}>
+              GST Portal Real-Time Sync
+            </h3>
+            <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
+              Query any GSTIN or bulk-sync all firm clients to fetch live return filing history and ARNs without logins.
+            </p>
+          </div>
+          <Link
+            href="/dashboard/gst/portal-sync"
+            className="inline-flex items-center text-xs font-semibold text-[#3D7A64] hover:underline mt-4 gap-1"
+          >
+            Portal Sync <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      </div>
+
       {/* Profiles Preview Table */}
       <div
         className="p-5 rounded-2xl border space-y-4"

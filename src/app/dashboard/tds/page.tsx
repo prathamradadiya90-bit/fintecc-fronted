@@ -36,6 +36,7 @@ import { Input } from '@/components/ui/Input';
 import { Table, Column } from '@/components/ui/Table';
 import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
+import { TdsEngineFvuCard } from '@/features/tds/components/TdsEngineFvuCard';
 import type {
   TdsChallan,
   TdsReturn,
@@ -46,7 +47,7 @@ import type {
   TdsNoticeType,
 } from '@/lib/types/tds.types';
 
-type TdsTab = 'challans' | 'returns' | 'transactions' | 'notices';
+type TdsTab = 'challans' | 'returns' | 'transactions' | 'notices' | 'engine';
 
 export default function TdsCompliancePage() {
   const { showToast } = useToast();
@@ -501,6 +502,7 @@ export default function TdsCompliancePage() {
           { id: 'returns', label: `Quarterly Returns (${returnsList.length})`, icon: FileCheck },
           { id: 'transactions', label: `Deductee Ledger (${transactionsList.length})`, icon: Calculator },
           { id: 'notices', label: `Demand Notices (${noticesList.length})`, icon: AlertTriangle },
+          { id: 'engine', label: 'TDS Engine & FVU Generator', icon: Calculator },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -561,6 +563,8 @@ export default function TdsCompliancePage() {
           emptyMessage="No TRACES demand notices on file. Great job keeping filings in order!"
         />
       )}
+
+      {activeTab === 'engine' && <TdsEngineFvuCard />}
 
       {/* CHALLAN MODAL */}
       <Modal

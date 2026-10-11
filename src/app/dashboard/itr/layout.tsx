@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, ReceiptText, Landmark } from 'lucide-react';
+import { LayoutDashboard, Users, ReceiptText, Landmark, Calculator } from 'lucide-react';
 import { ItrClientSelector } from '@/features/itr/components/ItrClientSelector';
 
 interface ItrLayoutProps {
@@ -12,6 +12,7 @@ interface ItrLayoutProps {
 
 const navTabs = [
   { name: 'Overview', href: '/dashboard/itr', icon: LayoutDashboard },
+  { name: 'Tax Calculator & Regimes', href: '/dashboard/itr/calculator', icon: Calculator },
   { name: 'Taxpayers / Clients', href: '/dashboard/itr/clients', icon: Users },
   { name: 'Returns & Filings', href: '/dashboard/itr/returns', icon: ReceiptText },
 ];

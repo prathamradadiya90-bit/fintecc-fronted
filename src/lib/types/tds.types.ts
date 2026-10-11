@@ -136,3 +136,66 @@ export interface CreateNoticeRequest {
   noticeDate: string;
   status?: TdsNoticeStatus;
 }
+
+// ─── TDS ENGINE & NSDL FVU GENERATOR TYPES ───────────────────────────────────
+export interface ComputeTdsInput {
+  section: string;
+  transactionAmount: number;
+  cumulativeFinancialYearAmount?: number;
+  deducteeCategory?: 'INDIVIDUAL' | 'COMPANY';
+  deducteePan?: string;
+  hasLowerDeductionCert?: boolean;
+  certificateRate?: number;
+  isTechnicalService?: boolean;
+}
+
+export interface ComputeTdsResult {
+  section: string;
+  amount: number;
+  rateApplied: number;
+  tdsRate: number;
+  tdsAmount: number;
+  isTdsApplicable: boolean;
+  isHigherRate206AA?: boolean;
+  panStatus: { isValid: boolean; pan: string };
+  reason?: string;
+  statutoryNote?: string;
+}
+
+export interface ValidateChallan281Input {
+  bsrCode: string;
+  challanDate: string;
+  challanNo: string;
+  minorHead?: string;
+  majorHead?: string;
+  amount: number;
+}
+
+export interface ValidateChallanResult {
+  isValid: boolean;
+  errors?: string[];
+  formattedChallan?: any;
+  cin?: string;
+  message?: string;
+}
+
+export interface GenerateFvuFileInput {
+  tan: string;
+  pan: string;
+  quarter: string;
+  financialYear: string;
+  formType: '24Q' | '26Q' | '27Q' | '27EQ';
+  deductorType?: string;
+  challans: any[];
+  deductees: any[];
+}
+
+export interface GenerateFvuResult {
+  fvuText: string;
+  fileName: string;
+  totalDeductionsCount: number;
+  totalChallansCount: number;
+  totalTaxDeducted: number;
+  totalTaxDeposited: number;
+}
+

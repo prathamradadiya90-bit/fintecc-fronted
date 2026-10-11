@@ -41,8 +41,9 @@ export function GstComplianceCalendar() {
     },
   ];
 
+  const rawEvents = response?.data?.events;
   const events: ComplianceCalendarEvent[] =
-    response?.data && response.data.length > 0 ? response.data : defaultEvents;
+    Array.isArray(rawEvents) && rawEvents.length > 0 ? rawEvents : defaultEvents;
 
   const filteredEvents = events.filter((ev) => {
     if (filter === 'ALL') return true;

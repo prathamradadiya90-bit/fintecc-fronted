@@ -22,12 +22,19 @@ import type {
   PreFilingValidationResponse,
   ItcDashboardResponse,
   UnifiedReconciliationResponse,
+  StatutoryReturnCatalogItem,
+  GstDueDateQuery,
+  GstDueDateResult,
+  GstInterestLateFeeQuery,
+  GstInterestLateFeeResult,
+  ClientPortalStatusResult,
+  SyncAllPortalStatusResult,
 } from '../../types/gst.types';
 
 export const gstApi = createApi({
   reducerPath: 'gstApi',
   baseQuery: baseQueryWithReauth('/gst'),
-  tagTypes: ['GstProfile', 'GstReturn'],
+  tagTypes: ['GstProfile', 'GstReturn', 'GstPortalStatus'],
   endpoints: (builder) => ({
     // --- PROFILES ---
     getProfiles: builder.query<PaginatedGstProfilesResponse, GetGstProfilesParams | void>({
@@ -232,9 +239,81 @@ export const gstApi = createApi({
       }),
     }),
 
-    // --- COMPLIANCE CALENDAR ---
-    getComplianceCalendar: builder.query<{ success: boolean; data: ComplianceCalendarEvent[] }, void>({
-      query: () => '/compliance-calendar',
+    // --- COMPLIANCE CALENDAR & STATUTORY ENGINE ---
+    getComplianceCalendar: builder.query<
+      { success: boolean; data: { events: ComplianceCalendarEvent[]; count: number } },
+      { year?: number; month?: number; registrationType?: string; filingFrequency?: string; stateCode?: string; annualTurnover?: number } | void
+    >({
+      query: (params) => ({
+        url: '/compliance-calendar',
+        params: params || {},
+      }),
+    }),
+
+    getStatutoryCatalog: builder.query<{ success: boolean; data: StatutoryReturnCatalogItem[] }, void>({
+      query: () => '/statutory-catalog',
+    }),
+
+    calculateDueDate: builder.query<{ success: boolean; data: GstDueDateResult }, GstDueDateQuery>({
+      query: (params) => ({
+        url: '/calculate-due-date',
+        params,
+      }),
+    }),
+
+    calculateInterestLateFee: builder.mutation<{ success: boolean; data: GstInterestLateFeeResult }, GstInterestLateFeeQuery>({
+      query: (body) => ({
+        url: '/calculate-interest-late-fee',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    // --- GST PORTAL STATUS FETCH & SYNC ---
+    getPortalStatusByGstin: builder.query<
+      { success: boolean; data: ClientPortalStatusResult },
+      { gstin: string; financialYear?: string }
+    >({
+      query: ({ gstin, financialYear }) => ({
+        url: `/portal-status/by-gstin/${gstin}`,
+        params: financialYear ? { financialYear } : {},
+      }),
+      providesTags: ['GstPortalStatus'],
+    }),
+
+    getClientPortalStatus: builder.query<
+      { success: boolean; data: ClientPortalStatusResult },
+      { clientId: string; gstin?: string; financialYear?: string }
+    >({
+      query: ({ clientId, gstin, financialYear }) => ({
+        url: `/portal-status/${clientId}`,
+        params: { gstin, financialYear },
+      }),
+      providesTags: ['GstPortalStatus'],
+    }),
+
+    syncClientPortalStatus: builder.mutation<
+      { success: boolean; data: ClientPortalStatusResult; message: string },
+      { clientId: string; gstin?: string; financialYear?: string }
+    >({
+      query: ({ clientId, ...body }) => ({
+        url: `/portal-status/sync-client/${clientId}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['GstPortalStatus'],
+    }),
+
+    syncAllClientsPortalStatus: builder.mutation<
+      { success: boolean; data: SyncAllPortalStatusResult; message: string },
+      { financialYear?: string } | void
+    >({
+      query: (body) => ({
+        url: '/portal-status/sync-all',
+        method: 'POST',
+        body: body || {},
+      }),
+      invalidatesTags: ['GstPortalStatus'],
     }),
 
     // --- CLIENT GSTIN MANAGEMENT ---
@@ -386,4 +465,12 @@ export const {
   useGetItcDashboardQuery,
   useLazyGetItcDashboardQuery,
   useReconcileUnifiedMutation,
+  useGetStatutoryCatalogQuery,
+  useCalculateDueDateQuery,
+  useLazyCalculateDueDateQuery,
+  useCalculateInterestLateFeeMutation,
+  useGetPortalStatusByGstinQuery,
+  useGetClientPortalStatusQuery,
+  useSyncClientPortalStatusMutation,
+  useSyncAllClientsPortalStatusMutation,
 } = gstApi;
