@@ -7,7 +7,12 @@ const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api
 
 export const createBaseQuery = (path: string) => fetchBaseQuery({
   baseUrl: `${apiBaseUrl}${path}`,
-  credentials: 'include'
+  credentials: 'include',
+  prepareHeaders: (headers) => {
+    headers.set('Cache-Control', 'no-cache');
+    headers.set('Pragma', 'no-cache');
+    return headers;
+  },
 });
 
 function checkAndDispatchUsageLimit(error: FetchBaseQueryError) {

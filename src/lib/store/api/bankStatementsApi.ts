@@ -13,6 +13,8 @@ import type {
   LedgerMappingRule,
   CreateLedgerMappingPayload,
   BankStatementTransaction,
+  PostToLedgerPayload,
+  PostToLedgerResponse,
 } from '../../types/bankStatement.types';
 
 export const bankStatementsApi = createApi({
@@ -37,7 +39,14 @@ export const bankStatementsApi = createApi({
 
     // Get single statement by ID (used for status polling)
     getStatementById: builder.query<{ success: boolean; data: BankStatement }, string>({
-      query: (id) => `/${id}`,
+      query: (id) => ({
+        url: `/${id}`,
+        params: { _t: Date.now() },
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+        },
+      }),
       providesTags: (result, error, id) => [{ type: 'BankStatement', id }],
     }),
 
@@ -107,6 +116,23 @@ export const bankStatementsApi = createApi({
           transactionIds: transactionIds || rowIds,
           reason: reason || 'Flagged by CA',
         },
+      }),
+      invalidatesTags: (result, error, { statementId }) => [
+        { type: 'BankStatementReview', id: statementId },
+        { type: 'BankStatement', id: statementId },
+        { type: 'BankStatement', id: 'LIST' },
+      ],
+    }),
+
+    // Confirm and post approved rows to General Ledger (Double-Entry balancing)
+    confirmAndPostToLedger: builder.mutation<
+      PostToLedgerResponse,
+      PostToLedgerPayload
+    >({
+      query: ({ statementId, rowIds }) => ({
+        url: `/${statementId}/confirm-and-post`,
+        method: 'POST',
+        body: rowIds ? { rowIds } : {},
       }),
       invalidatesTags: (result, error, { statementId }) => [
         { type: 'BankStatementReview', id: statementId },
@@ -225,6 +251,7 @@ export const {
   useUpdateReviewRowMutation,
   useBulkApproveRowsMutation,
   useBulkRejectRowsMutation,
+  useConfirmAndPostToLedgerMutation,
   useQueueBankStatementSyncMutation,
   useGetLedgerMappingsQuery,
   useSaveLedgerMappingMutation,

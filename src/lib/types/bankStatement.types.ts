@@ -66,17 +66,29 @@ export interface BankStatementTransaction {
   approvedAt?: string | null;
   approvedBy?: string | null;
   isReconciled?: boolean;
+  flags?: string[];
+  isUserEdited?: boolean;
+  userEditedFields?: string[];
+  duplicateGroupId?: string | null;
+  duplicateHash?: string | null;
+  voucherType?: string | null;
+  parentGroup?: string | null;
+  reconciledBalance?: number | null;
+  balanceMismatch?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
 
 export interface StatementValidationReport {
-  openingBalance: number;
-  totalDebits: number;
-  totalCredits: number;
-  expectedClosing: number;
-  actualClosing: number;
-  difference: number;
+  openingBalance?: number;
+  totalDebits?: number;
+  totalCredits?: number;
+  expectedClosing?: number;
+  actualClosing?: number;
+  difference?: number;
+  error?: string | null;
+  skippedDuplicates?: number;
+  rowErrors?: any[];
 }
 
 export interface StatementInfo {
@@ -87,12 +99,21 @@ export interface StatementInfo {
   validationReport?: StatementValidationReport | null;
   sourceChannel?: string;
   parserUsed?: string | null;
+  fileUrl?: string | null;
 }
 
 export interface ReviewSummary {
   totalRows: number;
   pendingRows: number;
   approvedRows: number;
+  postedRows?: number;
+  rejectedRows?: number;
+  userEditedRows?: number;
+  flaggedRowsCount?: number;
+  flagCounts?: Record<string, number>;
+  totalDebits?: number;
+  totalCredits?: number;
+  isReadyForPost?: boolean;
   isReadyForExport: boolean;
 }
 
@@ -179,10 +200,12 @@ export interface UpdateReviewRowPayload {
   rowId: string;
   body: {
     date?: string;
+    valueDate?: string | null;
     narration?: string;
     reference?: string | null;
     debit?: number;
     credit?: number;
+    balance?: number;
     accountId?: string | null;
     suggestedLedger?: string | null;
     approve?: boolean;
@@ -193,14 +216,30 @@ export interface UpdateReviewRowPayload {
 export interface BulkApprovePayload {
   statementId: string;
   rowIds: string[];
-  transactionIds: string[];
+  transactionIds?: string[];
 }
 
 export interface BulkRejectPayload {
   statementId: string;
   rowIds: string[];
-  transactionIds: string[];
+  transactionIds?: string[];
   reason?: string;
+}
+
+export interface PostToLedgerPayload {
+  statementId: string;
+  rowIds?: string[];
+}
+
+export interface PostToLedgerResponse {
+  success: boolean;
+  message: string;
+  data: {
+    postedCount: number;
+    totalDebits: number;
+    totalCredits: number;
+    journalEntryIds: string[];
+  };
 }
 
 export interface LedgerMappingRule {

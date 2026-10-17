@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   BankStatementTransaction,
   TransactionStatus,
@@ -15,6 +15,12 @@ import {
   Check,
   Brain,
   Sliders,
+  Copy,
+  Edit3,
+  HelpCircle,
+  AlertCircle,
+  Save,
+  RotateCcw,
 } from 'lucide-react';
 import { useUpdateReviewRowMutation } from '@/lib/store/api/bankStatementsApi';
 import { useToast } from '@/components/ui/Toast';
@@ -55,6 +61,12 @@ export const STANDARD_TALLY_LEDGERS = [
   'Drawings',
 ];
 
+export interface EnrichedRowTransaction extends BankStatementTransaction {
+  computedExpectedBalance?: number;
+  hasContinuityMismatch?: boolean;
+  continuityDifference?: number;
+}
+
 interface CAReviewTableProps {
   statementId: string;
   transactions: BankStatementTransaction[];
@@ -63,6 +75,17 @@ interface CAReviewTableProps {
   onSelectAll: () => void;
   onDeselectAll: () => void;
   filterStatus?: string;
+  openingBalance?: number | null;
+  onRejectRow?: (rowId: string) => void;
+}
+
+interface RowEditFields {
+  date?: string;
+  narration?: string;
+  debit?: string;
+  credit?: string;
+  balance?: string;
+  suggestedLedger?: string;
 }
 
 export function CAReviewTable({
@@ -73,35 +96,112 @@ export function CAReviewTable({
   onSelectAll,
   onDeselectAll,
   filterStatus = 'ALL',
+  openingBalance = null,
+  onRejectRow,
 }: CAReviewTableProps) {
   const { showToast } = useToast();
   const [updateReviewRow] = useUpdateReviewRowMutation();
 
-  // Local tracking for editing rows
-  const [editingRowId, setEditingRowId] = useState<string | null>(null);
   const [savingRowId, setSavingRowId] = useState<string | null>(null);
   const [savedSuccessRowId, setSavedSuccessRowId] = useState<string | null>(null);
 
-  // Temporary row state for edited fields before committing
-  const [rowEdits, setRowEdits] = useState<Record<string, { narration?: string; suggestedLedger?: string }>>({});
+  // Temporary row edits storage { [rowId]: { date, narration, debit, credit, balance, suggestedLedger } }
+  const [rowEdits, setRowEdits] = useState<Record<string, RowEditFields>>({});
 
-  const filteredTransactions = transactions.filter((tx) => {
-    if (filterStatus === 'NEEDS_REVIEW') {
-      return tx.status !== 'APPROVED' && (tx.needsReview || (tx.confidenceScore !== null && tx.confidenceScore !== undefined && tx.confidenceScore < 80));
-    }
-    if (filterStatus === 'PENDING') {
-      return tx.status === 'PENDING';
-    }
-    if (filterStatus === 'APPROVED') {
-      return tx.status === 'APPROVED';
-    }
-    if (filterStatus === 'REJECTED') {
-      return tx.status === 'REJECTED';
-    }
-    return true;
-  });
+  // 1. Enrich transactions with row-by-row Mathematical Balance Continuity
+  // Formula: Current Balance = Previous Balance + Credit - Debit
+  const enrichedTransactions = useMemo<EnrichedRowTransaction[]>(() => {
+    return transactions.map((tx, idx) => {
+      let expectedBal: number | null = null;
+      let hasMismatch = Boolean(tx.balanceMismatch);
 
-  const handleRowChange = (id: string, field: 'narration' | 'suggestedLedger', value: string) => {
+      if (idx === 0 && openingBalance !== null && openingBalance !== undefined) {
+        const debit = Number(tx.debit || 0);
+        const credit = Number(tx.credit || 0);
+        expectedBal = Number((openingBalance + credit - debit).toFixed(2));
+        if (Math.abs(expectedBal - Number(tx.balance || 0)) > 0.05) {
+          hasMismatch = true;
+        }
+      } else if (idx > 0) {
+        const prevTx = transactions[idx - 1];
+        const prevBal = Number(prevTx.balance || 0);
+        const debit = Number(tx.debit || 0);
+        const credit = Number(tx.credit || 0);
+        expectedBal = Number((prevBal + credit - debit).toFixed(2));
+        if (Math.abs(expectedBal - Number(tx.balance || 0)) > 0.05) {
+          hasMismatch = true;
+        }
+      }
+
+      const diff = expectedBal !== null ? Number((Number(tx.balance || 0) - expectedBal).toFixed(2)) : 0;
+
+      // Ensure flags include BALANCE_MISMATCH if calculated mismatch exists
+      const existingFlags = Array.isArray(tx.flags) ? [...tx.flags] : [];
+      if (hasMismatch && !existingFlags.includes('BALANCE_MISMATCH')) {
+        existingFlags.push('BALANCE_MISMATCH');
+      }
+
+      return {
+        ...tx,
+        flags: existingFlags,
+        hasContinuityMismatch: hasMismatch,
+        computedExpectedBalance: expectedBal ?? undefined,
+        continuityDifference: diff,
+      };
+    });
+  }, [transactions, openingBalance]);
+
+  // 2. Filter transactions based on active tab / filter state
+  const filteredTransactions = useMemo(() => {
+    return enrichedTransactions.filter((tx) => {
+      if (filterStatus === 'ALL') return true;
+      if (filterStatus === 'NEEDS_REVIEW') {
+        return (
+          tx.status !== 'APPROVED' &&
+          tx.status !== 'POSTED' &&
+          (tx.needsReview ||
+            (tx.flags && tx.flags.length > 0) ||
+            tx.hasContinuityMismatch ||
+            (tx.confidenceScore !== null && tx.confidenceScore !== undefined && tx.confidenceScore < 85))
+        );
+      }
+      if (filterStatus === 'BALANCE_MISMATCH') {
+        return tx.hasContinuityMismatch || tx.flags?.includes('BALANCE_MISMATCH');
+      }
+      if (filterStatus === 'POTENTIAL_DUPLICATE') {
+        return tx.flags?.includes('POTENTIAL_DUPLICATE') || Boolean(tx.duplicateGroupId);
+      }
+      if (filterStatus === 'UNCERTAIN_LEDGER') {
+        return (
+          tx.flags?.includes('UNCERTAIN_LEDGER') ||
+          !tx.suggestedLedger ||
+          tx.suggestedLedger === 'Suspense Account'
+        );
+      }
+      if (filterStatus === 'MANUALLY_EDITED') {
+        return tx.isUserEdited || tx.flags?.includes('MANUALLY_EDITED');
+      }
+      if (filterStatus === 'PENDING') {
+        return tx.status === 'PENDING';
+      }
+      if (filterStatus === 'APPROVED') {
+        return tx.status === 'APPROVED';
+      }
+      if (filterStatus === 'POSTED') {
+        return tx.status === 'POSTED';
+      }
+      if (filterStatus === 'REJECTED') {
+        return tx.status === 'REJECTED';
+      }
+      // Specific flag filter
+      if (tx.flags && tx.flags.includes(filterStatus)) {
+        return true;
+      }
+      return true;
+    });
+  }, [enrichedTransactions, filterStatus]);
+
+  const handleRowChange = (id: string, field: keyof RowEditFields, value: string) => {
     setRowEdits((prev) => ({
       ...prev,
       [id]: {
@@ -111,10 +211,33 @@ export function CAReviewTable({
     }));
   };
 
-  const handleSaveRow = async (tx: BankStatementTransaction, autoApprove = false) => {
+  const handleResetRowEdits = (id: string) => {
+    setRowEdits((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  };
+
+  const handleSaveRow = async (
+    tx: EnrichedRowTransaction,
+    autoApprove = false,
+    newStatus?: TransactionStatus
+  ) => {
     const edits = rowEdits[tx.id] || {};
+
+    const finalDate = edits.date !== undefined ? edits.date : tx.date;
     const finalNarration = edits.narration !== undefined ? edits.narration : tx.narration;
-    const finalLedger = edits.suggestedLedger !== undefined ? edits.suggestedLedger : tx.suggestedLedger;
+    const finalDebit =
+      edits.debit !== undefined ? Number(edits.debit) || 0 : Number(tx.debit || 0);
+    const finalCredit =
+      edits.credit !== undefined ? Number(edits.credit) || 0 : Number(tx.credit || 0);
+    const finalBalance =
+      edits.balance !== undefined ? Number(edits.balance) || 0 : Number(tx.balance || 0);
+    const finalLedger =
+      edits.suggestedLedger !== undefined ? edits.suggestedLedger : tx.suggestedLedger;
+
+    const targetStatus = newStatus || (autoApprove ? 'APPROVED' : tx.status);
 
     setSavingRowId(tx.id);
     try {
@@ -122,16 +245,32 @@ export function CAReviewTable({
         statementId,
         rowId: tx.id,
         body: {
+          date: finalDate,
           narration: finalNarration,
+          debit: finalDebit,
+          credit: finalCredit,
+          balance: finalBalance,
           suggestedLedger: finalLedger,
           approve: autoApprove,
-          status: autoApprove ? 'APPROVED' : tx.status,
+          status: targetStatus,
         },
       }).unwrap();
 
+      // Clear local row edit cache for this row on successful commit
+      setRowEdits((prev) => {
+        const next = { ...prev };
+        delete next[tx.id];
+        return next;
+      });
+
       setSavedSuccessRowId(tx.id);
       setTimeout(() => setSavedSuccessRowId(null), 2000);
-      setEditingRowId(null);
+      showToast(
+        autoApprove
+          ? 'Transaction approved & mapping updated.'
+          : 'Row updated successfully.',
+        'success'
+      );
     } catch (err: any) {
       console.error('Failed to update row:', err);
       showToast(err?.data?.message || 'Failed to save transaction changes', 'error');
@@ -146,48 +285,54 @@ export function CAReviewTable({
 
   return (
     <div
-      className="rounded-2xl overflow-hidden shadow-sm"
+      className="rounded-2xl overflow-hidden shadow-sm border"
       style={{
-        background: 'var(--color-bg-card)',
-        border: '1px solid var(--color-border)',
+        background: 'var(--color-bg-card, #FFFFFF)',
+        borderColor: 'var(--color-border, #E2E8F0)',
       }}
     >
-      <div className="overflow-x-auto max-h-[650px] relative">
+      <div className="overflow-x-auto max-h-[700px] relative">
         <table className="w-full text-left text-xs border-collapse">
           <thead
-            className="sticky top-0 z-10 text-[11px] uppercase tracking-wider font-semibold border-b shadow-xs backdrop-blur-md"
+            className="sticky top-0 z-20 text-[11px] uppercase tracking-wider font-semibold border-b shadow-xs backdrop-blur-md"
             style={{
-              background: 'var(--color-bg-elevated)',
-              borderColor: 'var(--color-border)',
-              color: 'var(--color-text-secondary)',
+              background: 'var(--color-bg-elevated, #F7F9FB)',
+              borderColor: 'var(--color-border, #E2E8F0)',
+              color: 'var(--color-text-secondary, #5A6E85)',
             }}
           >
             <tr>
-              <th className="py-3.5 px-4 w-12 text-center">
+              <th className="py-3 px-3.5 w-10 text-center">
                 <input
                   type="checkbox"
                   checked={allFilteredSelected}
                   onChange={allFilteredSelected ? onDeselectAll : onSelectAll}
-                  className="rounded border-slate-300 text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500 cursor-pointer"
+                  className="rounded border-[#E2E8F0] text-[#4A6FA5] focus:ring-[#4A6FA5] cursor-pointer"
                   title={allFilteredSelected ? 'Deselect all' : 'Select all'}
                 />
               </th>
-              <th className="py-3.5 px-3 w-28">Date</th>
-              <th className="py-3.5 px-4 min-w-[240px]">Narration (Editable)</th>
-              <th className="py-3.5 px-3 text-right w-28">Debit</th>
-              <th className="py-3.5 px-3 text-right w-28">Credit</th>
-              <th className="py-3.5 px-3 text-right w-28">Balance</th>
-              <th className="py-3.5 px-4 min-w-[220px]">Suggested Ledger</th>
-              <th className="py-3.5 px-3 text-center w-32">AI Confidence</th>
-              <th className="py-3.5 px-3 text-center w-28">Status</th>
-              <th className="py-3.5 px-3 text-center w-24">Actions</th>
+              <th className="py-3 px-3 w-28">Date</th>
+              <th className="py-3 px-3 min-w-[240px]">Narration (Editable)</th>
+              <th className="py-3 px-3 text-right w-28">Debit (₹)</th>
+              <th className="py-3 px-3 text-right w-28">Credit (₹)</th>
+              <th className="py-3 px-3 text-right w-32">Balance (₹)</th>
+              <th className="py-3 px-3 min-w-[200px]">Suggested Ledger</th>
+              <th className="py-3 px-3 min-w-[140px] text-center">Validation Flags</th>
+              <th className="py-3 px-3 text-center w-28">Status</th>
+              <th className="py-3 px-3 text-center w-28">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--color-border)]">
+          <tbody className="divide-y divide-[var(--color-border,#E2E8F0)]">
             {filteredTransactions.length === 0 ? (
               <tr>
-                <td colSpan={10} className="py-12 text-center text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                  No transactions match the selected filter.
+                <td colSpan={10} className="py-16 text-center text-xs text-[#8E9FAA]">
+                  <div className="flex flex-col items-center justify-center space-y-2">
+                    <CheckCircle2 className="w-8 h-8 text-[#3D7A64] opacity-50" />
+                    <p className="font-medium text-[#1E2A38]">No transactions in this view</p>
+                    <p className="text-[11px] text-[#5A6E85]">
+                      All transactions match your quality criteria or no rows match the filter.
+                    </p>
+                  </div>
                 </td>
               </tr>
             ) : (
@@ -196,27 +341,61 @@ export function CAReviewTable({
                 const isSaving = savingRowId === tx.id;
                 const isSaved = savedSuccessRowId === tx.id;
 
-                const isLowConfidence = tx.status !== 'APPROVED' && (tx.needsReview || (tx.confidenceScore !== null && tx.confidenceScore !== undefined && tx.confidenceScore < 80));
-                const isFallback = tx.source === 'fallback';
-                const isLearned = tx.source === 'learned_exact';
-                const isRule = tx.source === 'rule_based';
-
                 const edits = rowEdits[tx.id] || {};
-                const currentNarration = edits.narration !== undefined ? edits.narration : (tx.narration || tx.description || '');
-                const currentLedger = edits.suggestedLedger !== undefined ? edits.suggestedLedger : (tx.suggestedLedger || '');
+                const currentDate = edits.date !== undefined ? edits.date : (tx.date || '');
+                const currentNarration =
+                  edits.narration !== undefined
+                    ? edits.narration
+                    : tx.narration || tx.description || '';
+                const currentDebit =
+                  edits.debit !== undefined ? edits.debit : String(tx.debit || 0);
+                const currentCredit =
+                  edits.credit !== undefined ? edits.credit : String(tx.credit || 0);
+                const currentBalance =
+                  edits.balance !== undefined ? edits.balance : String(tx.balance || 0);
+                const currentLedger =
+                  edits.suggestedLedger !== undefined
+                    ? edits.suggestedLedger
+                    : tx.suggestedLedger || '';
 
-                const hasEdits =
-                  (edits.narration !== undefined && edits.narration !== tx.narration) ||
-                  (edits.suggestedLedger !== undefined && edits.suggestedLedger !== tx.suggestedLedger);
+                const hasEdits = Object.keys(edits).length > 0;
 
-                // Row highlight color based on AI confidence warning
+                const hasMismatch = tx.hasContinuityMismatch;
+                const isDuplicate =
+                  tx.flags?.includes('POTENTIAL_DUPLICATE') || Boolean(tx.duplicateGroupId);
+                const isLowConfidence =
+                  tx.status !== 'APPROVED' &&
+                  (tx.flags?.includes('LOW_CONFIDENCE') ||
+                    (tx.confidenceScore !== null &&
+                      tx.confidenceScore !== undefined &&
+                      tx.confidenceScore < 85));
+                const isUncertainLedger =
+                  tx.flags?.includes('UNCERTAIN_LEDGER') ||
+                  !currentLedger ||
+                  currentLedger === 'Suspense Account';
+                const isBothDrCr = tx.flags?.includes('BOTH_DR_CR');
+                const isEdited = tx.isUserEdited || tx.flags?.includes('MANUALLY_EDITED') || hasEdits;
+
+                // Bank Trust Blue Row Highlight Styling
                 let rowBgClass = '';
-                if (isLowConfidence && tx.status === 'PENDING') {
-                  rowBgClass = 'bg-amber-500/10 dark:bg-amber-500/15 border-l-4 border-l-amber-500';
+                if (hasMismatch) {
+                  // Dusty Rose for mathematical mismatch
+                  rowBgClass = 'bg-[#9E4A4A]/5 border-l-4 border-l-[#9E4A4A]';
+                } else if (isDuplicate) {
+                  // Warm Sand/Caramel for duplicate alert
+                  rowBgClass = 'bg-[#9E6B42]/5 border-l-4 border-l-[#9E6B42]';
+                } else if (isLowConfidence || isUncertainLedger || isBothDrCr) {
+                  // Warm Sand for uncertainty / warnings
+                  rowBgClass = 'bg-[#9E6B42]/5 border-l-4 border-l-[#9E6B42]';
+                } else if (tx.status === 'POSTED') {
+                  // Muted Navy for general ledger posted
+                  rowBgClass = 'bg-[#4A6FA5]/5 border-l-4 border-l-[#4A6FA5]';
                 } else if (tx.status === 'APPROVED') {
-                  rowBgClass = 'bg-emerald-500/5 dark:bg-emerald-500/10 border-l-4 border-l-emerald-500';
+                  // Muted Sage Green for approved
+                  rowBgClass = 'bg-[#3D7A64]/5 border-l-4 border-l-[#3D7A64]';
                 } else if (tx.status === 'REJECTED') {
-                  rowBgClass = 'bg-rose-500/5 dark:bg-rose-500/10 border-l-4 border-l-rose-500 opacity-60';
+                  // Dusty Rose with opacity for rejected
+                  rowBgClass = 'bg-[#9E4A4A]/5 border-l-4 border-l-[#9E4A4A] opacity-60';
                 } else {
                   rowBgClass = 'border-l-4 border-l-transparent';
                 }
@@ -224,201 +403,311 @@ export function CAReviewTable({
                 return (
                   <tr
                     key={tx.id}
-                    className={`transition-colors hover:bg-slate-500/5 ${rowBgClass} ${isSelected ? 'ring-1 ring-inset ring-emerald-500/40' : ''}`}
+                    className={`transition-colors hover:bg-slate-500/5 ${rowBgClass} ${
+                      isSelected ? 'ring-1 ring-inset ring-[#4A6FA5]/40' : ''
+                    }`}
                   >
                     {/* Checkbox */}
-                    <td className="py-3 px-4 text-center">
+                    <td className="py-2.5 px-3.5 text-center">
                       <input
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => onToggleSelect(tx.id)}
-                        className="rounded border-slate-300 text-emerald-600 dark:text-emerald-400 focus:ring-emerald-500 cursor-pointer"
+                        className="rounded border-[#E2E8F0] text-[#4A6FA5] focus:ring-[#4A6FA5] cursor-pointer"
                       />
                     </td>
 
-                    {/* Date */}
-                    <td className="py-3 px-3 whitespace-nowrap font-medium" style={{ color: 'var(--color-text-primary)' }}>
-                      {tx.date}
+                    {/* Date (Editable) */}
+                    <td className="py-2.5 px-3 whitespace-nowrap">
+                      <input
+                        type="text"
+                        value={currentDate}
+                        onChange={(e) => handleRowChange(tx.id, 'date', e.target.value)}
+                        className="w-24 text-xs px-2 py-1 rounded-md border bg-white dark:bg-[#131C2E] border-[#E2E8F0] dark:border-[#1E2B42] text-[#1E2A38] dark:text-slate-100 focus:outline-none focus:border-[#4A6FA5] font-mono"
+                        placeholder="YYYY-MM-DD"
+                      />
                     </td>
 
-                    {/* Narration (Editable input) */}
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-1.5">
+                    {/* Narration (Editable) */}
+                    <td className="py-2.5 px-3">
+                      <div className="flex flex-col gap-1">
                         <input
                           type="text"
                           value={currentNarration}
                           onChange={(e) => handleRowChange(tx.id, 'narration', e.target.value)}
-                          onFocus={() => setEditingRowId(tx.id)}
-                          onBlur={() => {
-                            if (hasEdits) handleSaveRow(tx, false);
-                          }}
-                          className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500 transition-colors"
-                          placeholder="Transaction narration..."
+                          className="w-full text-xs px-2.5 py-1 rounded-md border bg-white dark:bg-[#131C2E] border-[#E2E8F0] dark:border-[#1E2B42] text-[#1E2A38] dark:text-slate-100 focus:outline-none focus:border-[#4A6FA5]"
+                          placeholder="Narration..."
                         />
+                        {tx.reference && (
+                          <span className="text-[10px] text-[#8E9FAA] font-mono">
+                            Ref: {tx.reference}
+                          </span>
+                        )}
                       </div>
                     </td>
 
-                    {/* Debit */}
-                    <td className="py-3 px-3 text-right font-medium whitespace-nowrap">
-                      {Number(tx.debit) > 0 ? (
-                        <span className="text-red-600 dark:text-red-400">
-                          ₹{Number(tx.debit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                        </span>
-                      ) : (
-                        <span style={{ color: 'var(--color-text-muted)' }}>—</span>
-                      )}
+                    {/* Debit (Editable) */}
+                    <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                      <input
+                        type="number"
+                        step="any"
+                        value={currentDebit === '0' && !edits.debit ? '' : currentDebit}
+                        onChange={(e) => handleRowChange(tx.id, 'debit', e.target.value)}
+                        placeholder="0.00"
+                        className="w-24 text-right text-xs px-2 py-1 rounded-md border bg-white dark:bg-[#131C2E] border-[#E2E8F0] dark:border-[#1E2B42] text-[#9E4A4A] font-semibold font-mono focus:outline-none focus:border-[#4A6FA5]"
+                      />
                     </td>
 
-                    {/* Credit */}
-                    <td className="py-3 px-3 text-right font-medium whitespace-nowrap">
-                      {Number(tx.credit) > 0 ? (
-                        <span className="text-emerald-600 dark:text-emerald-400">
-                          ₹{Number(tx.credit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                        </span>
-                      ) : (
-                        <span style={{ color: 'var(--color-text-muted)' }}>—</span>
-                      )}
+                    {/* Credit (Editable) */}
+                    <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                      <input
+                        type="number"
+                        step="any"
+                        value={currentCredit === '0' && !edits.credit ? '' : currentCredit}
+                        onChange={(e) => handleRowChange(tx.id, 'credit', e.target.value)}
+                        placeholder="0.00"
+                        className="w-24 text-right text-xs px-2 py-1 rounded-md border bg-white dark:bg-[#131C2E] border-[#E2E8F0] dark:border-[#1E2B42] text-[#3D7A64] font-semibold font-mono focus:outline-none focus:border-[#4A6FA5]"
+                      />
                     </td>
 
-                    {/* Balance */}
-                    <td className="py-3 px-3 text-right font-semibold whitespace-nowrap" style={{ color: 'var(--color-text-primary)' }}>
-                      ₹{Number(tx.balance || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                    </td>
-
-                    {/* Suggested Ledger Dropdown */}
-                    <td className="py-3 px-4">
-                      <div className="relative">
-                        <select
-                          value={currentLedger}
-                          onChange={(e) => {
-                            handleRowChange(tx.id, 'suggestedLedger', e.target.value);
-                            // Auto trigger save when ledger selection changes
-                            setRowEdits((prev) => ({
-                              ...prev,
-                              [tx.id]: { ...prev[tx.id], suggestedLedger: e.target.value },
-                            }));
-                            setTimeout(() => {
-                              handleSaveRow({ ...tx, suggestedLedger: e.target.value }, false);
-                            }, 50);
-                          }}
-                          className="w-full text-xs px-2.5 py-1.5 rounded-lg border bg-[var(--color-bg-card)] border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-emerald-500 cursor-pointer"
-                        >
-                          <option value="" disabled>Select Ledger...</option>
-                          {!STANDARD_TALLY_LEDGERS.includes(currentLedger) && currentLedger && (
-                            <option value={currentLedger}>{currentLedger} (Custom)</option>
-                          )}
-                          {STANDARD_TALLY_LEDGERS.map((ledger) => (
-                            <option key={ledger} value={ledger}>
-                              {ledger}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </td>
-
-                    {/* AI Confidence & Source badge */}
-                    <td className="py-3 px-3 text-center whitespace-nowrap">
-                      <div className="flex flex-col items-center gap-1">
-                        {isFallback && (
-                          <span
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30"
-                            title="Gemini AI fallback guess — CA verification advised"
-                          >
-                            <Sparkles className="w-3 h-3 text-amber-500 animate-pulse" />
-                            Gemini AI
-                          </span>
-                        )}
-
-                        {isLearned && (
-                          <span
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
-                            title="Learned from firm's past corrections"
-                          >
-                            <Brain className="w-3 h-3 text-emerald-500" />
-                            Learned
-                          </span>
-                        )}
-
-                        {isRule && (
-                          <span
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30"
-                            title="Matched standard rule engine"
-                          >
-                            <Sliders className="w-3 h-3 text-blue-500" />
-                            Rule
-                          </span>
-                        )}
-
-                        <span
-                          className={`text-[10px] font-semibold ${
-                            tx.confidenceScore >= 90
-                              ? 'text-emerald-600 dark:text-emerald-400'
-                              : tx.confidenceScore >= 75
-                              ? 'text-amber-600 dark:text-amber-400'
-                              : 'text-rose-500'
+                    {/* Balance (Editable) + Row Balance Continuity Check */}
+                    <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                      <div className="flex flex-col items-end gap-1">
+                        <input
+                          type="number"
+                          step="any"
+                          value={currentBalance}
+                          onChange={(e) => handleRowChange(tx.id, 'balance', e.target.value)}
+                          className={`w-28 text-right text-xs px-2 py-1 rounded-md border bg-white dark:bg-[#131C2E] font-semibold font-mono focus:outline-none focus:border-[#4A6FA5] ${
+                            hasMismatch
+                              ? 'border-[#9E4A4A] text-[#9E4A4A] bg-[#9E4A4A]/5'
+                              : 'border-[#E2E8F0] dark:border-[#1E2B42] text-[#1E2A38] dark:text-slate-100'
                           }`}
-                        >
-                          {tx.confidenceScore !== null && tx.confidenceScore !== undefined
-                            ? `${tx.confidenceScore}% conf`
-                            : 'Unscored'}
-                        </span>
+                        />
+                        {hasMismatch && tx.computedExpectedBalance !== undefined && (
+                          <span
+                            className="inline-flex items-center gap-0.5 text-[10px] font-medium text-[#9E4A4A]"
+                            title={`Previous Bal + Cr - Dr = ₹${tx.computedExpectedBalance.toLocaleString(
+                              'en-IN',
+                              { minimumFractionDigits: 2 }
+                            )}`}
+                          >
+                            Exp: ₹{tx.computedExpectedBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                          </span>
+                        )}
                       </div>
                     </td>
 
-                    {/* Status Pill */}
-                    <td className="py-3 px-3 text-center whitespace-nowrap">
+                    {/* Suggested Ledger Dropdown (Editable) */}
+                    <td className="py-2.5 px-3">
+                      <select
+                        value={currentLedger}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          handleRowChange(tx.id, 'suggestedLedger', val);
+                        }}
+                        className={`w-full text-xs px-2 py-1 rounded-md border bg-white dark:bg-[#131C2E] text-[#1E2A38] dark:text-slate-100 focus:outline-none focus:border-[#4A6FA5] cursor-pointer ${
+                          isUncertainLedger
+                            ? 'border-[#9E6B42] text-[#9E6B42]'
+                            : 'border-[#E2E8F0] dark:border-[#1E2B42]'
+                        }`}
+                      >
+                        <option value="" disabled>
+                          Select Ledger...
+                        </option>
+                        {!STANDARD_TALLY_LEDGERS.includes(currentLedger) && currentLedger && (
+                          <option value={currentLedger}>{currentLedger} (Custom)</option>
+                        )}
+                        {STANDARD_TALLY_LEDGERS.map((ledger) => (
+                          <option key={ledger} value={ledger}>
+                            {ledger}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+
+                    {/* Validation Flags & Telemetry */}
+                    <td className="py-2.5 px-3 text-center">
+                      <div className="flex flex-wrap items-center justify-center gap-1 max-w-[180px] mx-auto">
+                        {hasMismatch && (
+                          <span
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#9E4A4A]/10 text-[#9E4A4A] border border-[#9E4A4A]/20"
+                            title={`Balance does not reconcile. Diff: ₹${tx.continuityDifference}`}
+                          >
+                            <AlertTriangle className="w-2.5 h-2.5" />
+                            Bal Mismatch
+                          </span>
+                        )}
+
+                        {isDuplicate && (
+                          <span
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#9E6B42]/10 text-[#9E6B42] border border-[#9E6B42]/20"
+                            title={
+                              tx.duplicateGroupId
+                                ? `Duplicate Group: ${tx.duplicateGroupId}`
+                                : 'Duplicate transaction suspected'
+                            }
+                          >
+                            <Copy className="w-2.5 h-2.5" />
+                            Duplicate
+                          </span>
+                        )}
+
+                        {isUncertainLedger && (
+                          <span
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#9E6B42]/10 text-[#9E6B42] border border-[#9E6B42]/20"
+                            title="Ledger unassigned or pointing to Suspense"
+                          >
+                            <HelpCircle className="w-2.5 h-2.5" />
+                            Uncertain
+                          </span>
+                        )}
+
+                        {isLowConfidence && (
+                          <span
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#9E6B42]/10 text-[#9E6B42] border border-[#9E6B42]/20"
+                            title={`AI confidence score: ${tx.confidenceScore ?? 0}%`}
+                          >
+                            <AlertCircle className="w-2.5 h-2.5" />
+                            Low Conf ({tx.confidenceScore ?? 0}%)
+                          </span>
+                        )}
+
+                        {isBothDrCr && (
+                          <span
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#9E4A4A]/10 text-[#9E4A4A] border border-[#9E4A4A]/20"
+                            title="Both Debit and Credit amounts detected"
+                          >
+                            Both Dr/Cr
+                          </span>
+                        )}
+
+                        {isEdited && (
+                          <span
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20"
+                            title={
+                              tx.userEditedFields?.length
+                                ? `Fields modified: ${tx.userEditedFields.join(', ')}`
+                                : 'Row modified'
+                            }
+                          >
+                            <Edit3 className="w-2.5 h-2.5" />
+                            CA Edited
+                          </span>
+                        )}
+
+                        {/* AI Source Tag if present and no major flags */}
+                        {!hasMismatch && !isDuplicate && !isUncertainLedger && !isLowConfidence && (
+                          <span className="text-[10px] text-[#5A6E85]">
+                            {tx.source === 'learned_exact' ? (
+                              <span className="inline-flex items-center gap-0.5 text-[#3D7A64] font-medium">
+                                <Brain className="w-2.5 h-2.5" /> Learned
+                              </span>
+                            ) : tx.source === 'fallback' ? (
+                              <span className="inline-flex items-center gap-0.5 text-[#9E6B42] font-medium">
+                                <Sparkles className="w-2.5 h-2.5" /> AI Guessed
+                              </span>
+                            ) : (
+                              <span className="text-[#8E9FAA]">Verified</span>
+                            )}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+
+                    {/* Status Badge */}
+                    <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                      {tx.status === 'POSTED' && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20">
+                          <CheckCircle2 className="w-3 h-3 text-[#4A6FA5]" /> GL Posted
+                        </span>
+                      )}
                       {tx.status === 'APPROVED' && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                          <CheckCircle2 className="w-3 h-3" /> Approved
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#3D7A64]/10 text-[#3D7A64] border border-[#3D7A64]/20">
+                          <CheckCircle2 className="w-3 h-3 text-[#3D7A64]" /> Approved
                         </span>
                       )}
                       {tx.status === 'PENDING' && (
                         <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                            isLowConfidence
-                              ? 'bg-amber-500/20 text-amber-700 dark:text-amber-300 border-amber-500/40'
+                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${
+                            hasMismatch || isDuplicate || isLowConfidence || isUncertainLedger
+                              ? 'bg-[#9E6B42]/10 text-[#9E6B42] border-[#9E6B42]/20'
                               : 'bg-slate-500/10 text-slate-600 dark:text-slate-300 border-slate-500/20'
                           }`}
                         >
-                          {isLowConfidence ? <AlertTriangle className="w-3 h-3 text-amber-500" /> : <Clock className="w-3 h-3" />}
-                          {isLowConfidence ? 'Needs Review' : 'Pending'}
+                          {hasMismatch || isDuplicate || isLowConfidence ? (
+                            <AlertTriangle className="w-3 h-3 text-[#9E6B42]" />
+                          ) : (
+                            <Clock className="w-3 h-3" />
+                          )}
+                          {hasMismatch ? 'Needs Fix' : isLowConfidence ? 'Review' : 'Pending'}
                         </span>
                       )}
                       {tx.status === 'REJECTED' && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20">
-                          <XCircle className="w-3 h-3" /> Rejected
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#9E4A4A]/10 text-[#9E4A4A] border border-[#9E4A4A]/20">
+                          <XCircle className="w-3 h-3 text-[#9E4A4A]" /> Rejected
                         </span>
                       )}
                     </td>
 
                     {/* Inline Actions */}
-                    <td className="py-3 px-3 text-center whitespace-nowrap">
+                    <td className="py-2.5 px-3 text-center whitespace-nowrap">
                       <div className="flex items-center justify-center gap-1">
                         {isSaving ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-emerald-600 dark:text-emerald-400" />
+                          <Loader2 className="w-4 h-4 animate-spin text-[#4A6FA5]" />
                         ) : isSaved ? (
-                          <Check className="w-4 h-4 text-emerald-500 font-bold" />
-                        ) : tx.status !== 'APPROVED' ? (
-                          <button
-                            title="Approve & Learn this ledger"
-                            onClick={() => handleSaveRow(tx, true)}
-                            className="p-1 rounded hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 transition-colors"
-                          >
-                            <CheckCircle2 className="w-4 h-4" />
-                          </button>
+                          <Check className="w-4 h-4 text-[#3D7A64] font-bold" />
                         ) : (
-                          <button
-                            title="Save edits"
-                            disabled={!hasEdits}
-                            onClick={() => handleSaveRow(tx, false)}
-                            className={`p-1 rounded text-xs transition-colors ${
-                              hasEdits
-                                ? 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10'
-                                : 'text-slate-300 dark:text-slate-600'
-                            }`}
-                          >
-                            <Check className="w-4 h-4" />
-                          </button>
+                          <>
+                            {/* Save changes if row has dirty edits */}
+                            {hasEdits && (
+                              <button
+                                title="Save changes"
+                                onClick={() => handleSaveRow(tx, false)}
+                                className="p-1 rounded bg-[#4A6FA5]/10 hover:bg-[#4A6FA5]/20 text-[#4A6FA5] transition-colors"
+                              >
+                                <Save className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+
+                            {hasEdits && (
+                              <button
+                                title="Reset changes"
+                                onClick={() => handleResetRowEdits(tx.id)}
+                                className="p-1 rounded hover:bg-slate-500/10 text-[#8E9FAA] transition-colors"
+                              >
+                                <RotateCcw className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+
+                            {/* Approve button */}
+                            {tx.status !== 'APPROVED' && tx.status !== 'POSTED' && (
+                              <button
+                                title="Approve & Learn Mapping"
+                                onClick={() => handleSaveRow(tx, true)}
+                                className="p-1 rounded hover:bg-[#3D7A64]/10 text-[#3D7A64] transition-colors"
+                              >
+                                <CheckCircle2 className="w-4 h-4" />
+                              </button>
+                            )}
+
+                            {/* Reject button */}
+                            {tx.status !== 'REJECTED' && (
+                              <button
+                                title="Reject transaction"
+                                onClick={() => {
+                                  if (onRejectRow) {
+                                    onRejectRow(tx.id);
+                                  } else {
+                                    handleSaveRow(tx, false, 'REJECTED');
+                                  }
+                                }}
+                                className="p-1 rounded hover:bg-[#9E4A4A]/10 text-[#8E9FAA] hover:text-[#9E4A4A] transition-colors"
+                              >
+                                <XCircle className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                          </>
                         )}
                       </div>
                     </td>

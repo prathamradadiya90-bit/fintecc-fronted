@@ -32,16 +32,26 @@ export default function BankStatementsHubPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
+  const [pollingInterval, setPollingInterval] = useState<number>(0);
+
   const { data: statementsData, isLoading, isFetching, refetch } = useGetStatementsQuery(
     selectedClientId ? { clientId: selectedClientId } : undefined,
     {
-      pollingInterval: 5000, // Poll every 5s if any statements are processing
+      pollingInterval,
     }
   );
 
+  const statements: BankStatement[] = statementsData?.data || [];
+
+  useEffect(() => {
+    const hasProcessing = statements.some((s) =>
+      ['PROCESSING', 'INSPECTING', 'EXTRACTING', 'VALIDATING', 'UPLOADED', 'TEXT_PARSED', 'NEEDS_OCR'].includes(s.status)
+    );
+    setPollingInterval(hasProcessing ? 4000 : 0);
+  }, [statements]);
+
   const { data: clientsData } = useGetClientsQuery();
   const clients = clientsData?.data || [];
-  const statements: BankStatement[] = statementsData?.data || [];
 
   const filteredStatements = statements.filter((stmt) => {
     const bank = stmt.bankName?.toLowerCase() || '';
@@ -71,12 +81,13 @@ export default function BankStatementsHubPage() {
       status === 'EXTRACTING' ||
       status === 'VALIDATING' ||
       status === 'UPLOADED' ||
-      status === 'TEXT_PARSED'
+      status === 'TEXT_PARSED' ||
+      status === 'NEEDS_OCR'
     ) {
       return (
         <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20">
           <RefreshCw className="w-3 h-3 animate-spin text-[#4A6FA5]" />{' '}
-          {status === 'VALIDATING' ? 'Reconciling...' : 'AI Extracting...'}
+          {status === 'NEEDS_OCR' ? 'Vision OCR...' : status === 'VALIDATING' ? 'Reconciling...' : 'AI Extracting...'}
         </span>
       );
     }
@@ -306,10 +317,11 @@ export default function BankStatementsHubPage() {
                       stmt.status === 'EXTRACTING' ||
                       stmt.status === 'VALIDATING' ||
                       stmt.status === 'UPLOADED' ||
-                      stmt.status === 'TEXT_PARSED' ? (
+                      stmt.status === 'TEXT_PARSED' ||
+                      stmt.status === 'NEEDS_OCR' ? (
                         <span className="inline-flex items-center gap-1.5 text-[11px] text-[#4A6FA5] font-semibold animate-pulse">
                           <RefreshCw className="w-3 h-3 animate-spin" />
-                          Processing...
+                          {stmt.status === 'NEEDS_OCR' ? 'Running OCR...' : 'Processing...'}
                         </span>
                       ) : stmt.status === 'FAILED_PASSWORD' || stmt.status === 'LOCKED' ? (
                         <Button

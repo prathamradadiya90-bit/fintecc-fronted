@@ -188,6 +188,7 @@ export function UploadIntakeModal({
 
   const pollStatementStatus = (statementId: string) => {
     let attempts = 0;
+    let consecutiveNetworkErrors = 0;
     const maxAttempts = 40; // 40 * 2.5s = 100 seconds timeout
 
     if (pollingTimerRef.current) clearInterval(pollingTimerRef.current);
@@ -202,6 +203,8 @@ export function UploadIntakeModal({
             forceRefetch: true,
           })
         ).unwrap();
+
+        consecutiveNetworkErrors = 0;
 
         const stmt = result?.data;
         const status = stmt?.status as StatementStatus | undefined;
@@ -242,6 +245,20 @@ export function UploadIntakeModal({
         }
       } catch (err: any) {
         console.error('Polling status error:', err);
+        const isNetworkErr = err?.status === 'FETCH_ERROR' || String(err?.error || err?.message || '').includes('NetworkError');
+        if (isNetworkErr) {
+          consecutiveNetworkErrors++;
+        }
+
+        if (consecutiveNetworkErrors >= 3) {
+          if (pollingTimerRef.current) clearInterval(pollingTimerRef.current);
+          stopElapsedTimer();
+          setCurrentView('error');
+          setErrorMessage(
+            'Unable to reach backend API (Network / CORS Error). Please ensure the backend is running on port 4000 and access the application via http://localhost:3000.'
+          );
+          return;
+        }
       }
 
       if (attempts >= maxAttempts) {
