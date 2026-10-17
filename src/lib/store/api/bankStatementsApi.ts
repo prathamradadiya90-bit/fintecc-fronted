@@ -16,11 +16,22 @@ import type {
   PostToLedgerPayload,
   PostToLedgerResponse,
 } from '../../types/bankStatement.types';
+import type {
+  TemplateProposal,
+  GetProposalsParams,
+  GetProposalsResponse,
+  ProposalImageResponse,
+  TestProposalReport,
+  BankTemplate,
+  RejectProposalPayload,
+  MergeVariantPayload,
+  EditProposalPayload,
+} from '../../types/templateProposal.types';
 
 export const bankStatementsApi = createApi({
   reducerPath: 'bankStatementsApi',
   baseQuery: baseQueryWithReauth('/bank-statements'),
-  tagTypes: ['BankStatement', 'BankStatementReview', 'LedgerMapping'],
+  tagTypes: ['BankStatement', 'BankStatementReview', 'LedgerMapping', 'TemplateProposal', 'BankTemplate'],
   endpoints: (builder) => ({
     // List firm statements (with optional clientId filter)
     getStatements: builder.query<{ success: boolean; data: BankStatement[] }, { clientId?: string } | void>({
@@ -240,6 +251,137 @@ export const bankStatementsApi = createApi({
         };
       },
     }),
+
+    // --- Bank Statement Template Proposals & DB Templates (Task 21/22) ---
+
+    // List template proposals with optional status/bankCode filter, search, sorting and pagination
+    getProposals: builder.query<GetProposalsResponse, GetProposalsParams | void>({
+      query: (params) => ({
+        url: '/templates/proposals',
+        params: params ? {
+          status: params.status === 'ALL' ? undefined : params.status,
+          bankCode: params.bankCode,
+          isProvisional: params.isProvisional,
+          limit: params.limit,
+          page: params.page,
+          search: params.search,
+          sortBy: params.sortBy,
+          sortOrder: params.sortOrder,
+        } : undefined,
+      }),
+      providesTags: (result) =>
+        result?.data
+          ? [
+              ...result.data.map(({ id }) => ({ type: 'TemplateProposal' as const, id })),
+              { type: 'TemplateProposal', id: 'LIST' },
+            ]
+          : [{ type: 'TemplateProposal', id: 'LIST' }],
+    }),
+
+    // Get single template proposal details by ID
+    getProposalById: builder.query<{ success: boolean; data: TemplateProposal }, string>({
+      query: (id) => `/templates/proposals/${id}`,
+      providesTags: (result, error, id) => [{ type: 'TemplateProposal', id }],
+    }),
+
+    // Get rendered sample page preview image
+    getProposalImage: builder.query<ProposalImageResponse, string>({
+      query: (id) => `/templates/proposals/${id}/image`,
+    }),
+
+    // Edit proposal layout, bank metadata, or column definitions
+    editProposal: builder.mutation<{ success: boolean; data: TemplateProposal }, { id: string; data: EditProposalPayload }>({
+      query: ({ id, data }) => ({
+        url: `/templates/proposals/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'TemplateProposal', id },
+        { type: 'TemplateProposal', id: 'LIST' },
+      ],
+    }),
+
+    // Dry-run test proposed template against sample PDF file or sample text
+    testProposal: builder.mutation<
+      { success: boolean; data: TestProposalReport },
+      { id: string; body: FormData | { statementId?: string; sampleText?: string; templateOverrides?: any } }
+    >({
+      query: ({ id, body }) => ({
+        url: `/templates/proposals/${id}/test`,
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    // Approve proposal and promote into active bank_templates
+    approveProposal: builder.mutation<{ success: boolean; data: any }, { id: string; overrides?: any }>({
+      query: ({ id, overrides }) => ({
+        url: `/templates/proposals/${id}/approve`,
+        method: 'POST',
+        body: overrides ? { overrides } : {},
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'TemplateProposal', id },
+        { type: 'TemplateProposal', id: 'LIST' },
+        { type: 'BankTemplate', id: 'LIST' },
+      ],
+    }),
+
+    // Reject proposal with mandatory reason
+    rejectProposal: builder.mutation<{ success: boolean; data: TemplateProposal }, { id: string; reason: string }>({
+      query: ({ id, reason }) => ({
+        url: `/templates/proposals/${id}/reject`,
+        method: 'POST',
+        body: { reason },
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'TemplateProposal', id },
+        { type: 'TemplateProposal', id: 'LIST' },
+      ],
+    }),
+
+    // Reopen proposal back to PENDING
+    reopenProposal: builder.mutation<{ success: boolean; data: TemplateProposal }, { id: string; reason?: string }>({
+      query: ({ id, reason }) => ({
+        url: `/templates/proposals/${id}/reopen`,
+        method: 'POST',
+        body: reason ? { reason } : {},
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'TemplateProposal', id },
+        { type: 'TemplateProposal', id: 'LIST' },
+      ],
+    }),
+
+    // Merge proposal as a variant under an existing active template
+    mergeProposalAsVariant: builder.mutation<{ success: boolean; data: any }, { id: string; payload: MergeVariantPayload }>({
+      query: ({ id, payload }) => ({
+        url: `/templates/proposals/${id}/merge`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'TemplateProposal', id },
+        { type: 'TemplateProposal', id: 'LIST' },
+        { type: 'BankTemplate', id: 'LIST' },
+      ],
+    }),
+
+    // List active official templates (for merge target dropdown)
+    getActiveTemplates: builder.query<{ success: boolean; data: BankTemplate[] }, { bankCode?: string } | void>({
+      query: (params) => ({
+        url: '/templates',
+        params: params?.bankCode ? { bankCode: params.bankCode } : undefined,
+      }),
+      providesTags: (result) =>
+        result?.data
+          ? [
+              ...result.data.map(({ id }) => ({ type: 'BankTemplate' as const, id })),
+              { type: 'BankTemplate', id: 'LIST' },
+            ]
+          : [{ type: 'BankTemplate', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -258,4 +400,15 @@ export const {
   useUploadBankStatementMutation,
   useDownloadBankStatementConvertMutation,
   useLazyExportStatementQuery,
+  // Template Proposals hooks (Task 21/22)
+  useGetProposalsQuery,
+  useGetProposalByIdQuery,
+  useGetProposalImageQuery,
+  useEditProposalMutation,
+  useTestProposalMutation,
+  useApproveProposalMutation,
+  useRejectProposalMutation,
+  useReopenProposalMutation,
+  useMergeProposalAsVariantMutation,
+  useGetActiveTemplatesQuery,
 } = bankStatementsApi;
