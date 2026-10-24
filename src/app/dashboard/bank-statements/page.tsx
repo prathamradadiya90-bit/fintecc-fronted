@@ -18,6 +18,7 @@ import {
   FileText,
   Lock,
   KeyRound,
+  Timer,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/Toast';
@@ -59,6 +60,51 @@ export default function BankStatementsHubPage() {
     const query = searchQuery.toLowerCase();
     return bank.includes(query) || clientName.includes(query) || stmt.id.includes(query);
   });
+
+  const getProcessingDuration = (stmt: BankStatement) => {
+    if (!stmt.createdAt) return { text: '—', isRunning: false, isFailed: false };
+
+    const isStillProcessing = [
+      'PROCESSING',
+      'INSPECTING',
+      'EXTRACTING',
+      'VALIDATING',
+      'UPLOADED',
+      'TEXT_PARSED',
+      'NEEDS_OCR',
+    ].includes(stmt.status);
+
+    const start = new Date(stmt.createdAt).getTime();
+    const end = isStillProcessing
+      ? Date.now()
+      : stmt.updatedAt
+      ? new Date(stmt.updatedAt).getTime()
+      : start;
+    const diffMs = Math.max(0, end - start);
+
+    if (isStillProcessing) {
+      const secs = Math.max(1, Math.round(diffMs / 1000));
+      return { text: `${secs}s elapsed`, isRunning: true, isFailed: false };
+    }
+
+    const isFailed = stmt.status === 'FAILED' || stmt.status === 'FAILED_PASSWORD';
+
+    // If manual approval happened much later (e.g. > 30 minutes), standard automated parsing took only seconds
+    if (diffMs > 30 * 60 * 1000) {
+      return { text: '< 5s (automated)', isRunning: false, isFailed };
+    }
+
+    if (diffMs < 1000) {
+      return { text: '< 1s', isRunning: false, isFailed };
+    }
+    if (diffMs < 60000) {
+      return { text: `${(diffMs / 1000).toFixed(1)}s`, isRunning: false, isFailed };
+    }
+
+    const mins = Math.floor(diffMs / 60000);
+    const secs = Math.round((diffMs % 60000) / 1000);
+    return { text: `${mins}m ${secs}s`, isRunning: false, isFailed };
+  };
 
   const getStatusBadge = (status: string) => {
     if (status === 'COMPLETED' || status === 'DONE') {
@@ -253,7 +299,7 @@ export default function BankStatementsHubPage() {
                   <th className="py-3.5 px-4">Parser Engine</th>
                   <th className="py-3.5 px-4 text-center">Status</th>
                   <th className="py-3.5 px-4 text-center">Reconciliation Math</th>
-                  <th className="py-3.5 px-4">Uploaded Date</th>
+                  <th className="py-3.5 px-4">Uploaded & Duration</th>
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -301,13 +347,48 @@ export default function BankStatementsHubPage() {
                       )}
                     </td>
 
-                    {/* Upload Date */}
-                    <td className="py-3.5 px-4 text-slate-400 whitespace-nowrap">
-                      {new Date(stmt.createdAt).toLocaleDateString('en-GB', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
+                    {/* Upload Date, Time & Taken Time (Duration) */}
+                    <td className="py-3.5 px-4 whitespace-nowrap">
+                      <div className="font-semibold text-xs" style={{ color: 'var(--color-text-primary)' }}>
+                        {stmt.createdAt
+                          ? new Date(stmt.createdAt).toLocaleDateString('en-GB', {
+                              day: '2-digit',
+                              month: 'short',
+                              year: 'numeric',
+                            })
+                          : '—'}
+                      </div>
+                      <div className="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
+                        {stmt.createdAt && (
+                          <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400">
+                            <Clock className="w-3 h-3 text-[#4A6FA5]" />
+                            {new Date(stmt.createdAt).toLocaleTimeString('en-US', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: true,
+                            })}
+                          </span>
+                        )}
+                        {stmt.createdAt && <span className="text-slate-300 dark:text-slate-600">·</span>}
+                        {(() => {
+                          const duration = getProcessingDuration(stmt);
+                          return (
+                            <span
+                              className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium ${
+                                duration.isRunning
+                                  ? 'bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20 animate-pulse'
+                                  : duration.isFailed
+                                  ? 'bg-[#9E4A4A]/10 text-[#9E4A4A] border border-[#9E4A4A]/20'
+                                  : 'bg-[#3D7A64]/10 text-[#3D7A64] border border-[#3D7A64]/20'
+                              }`}
+                              title="Time taken to parse, OCR, and reconcile document"
+                            >
+                              <Timer className="w-2.5 h-2.5" />
+                              {duration.text}
+                            </span>
+                          );
+                        })()}
+                      </div>
                     </td>
 
                     {/* Actions */}
