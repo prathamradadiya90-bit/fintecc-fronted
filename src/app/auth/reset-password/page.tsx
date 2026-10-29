@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 
 import { useResetPasswordMutation } from "../../../lib/store/api/authApi";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../lib/store/store";
 import Logo from "@/components/ui/Logo";
 
 const SOFTWARE_INFO = {
@@ -25,6 +27,13 @@ const SOFTWARE_INFO = {
 function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (isAuthenticated && user?.role === "SUPER_ADMIN") {
+      router.replace("/super-admin/dashboard");
+    }
+  }, [isAuthenticated, user, router]);
 
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -72,6 +81,10 @@ function ResetPasswordForm() {
       setLocalError(errorMsg);
     }
   };
+
+  if (isAuthenticated && user?.role === "SUPER_ADMIN") {
+    return null;
+  }
 
   return (
     <div className="flex min-h-screen bg-[#F7F9FB] font-sans text-[#1E2A38]">

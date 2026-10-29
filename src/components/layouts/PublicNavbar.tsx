@@ -93,10 +93,10 @@ export function PublicNavbar({ onProductsClick }: PublicNavbarProps) {
             </button>
 
             <Link
-              href={user ? "/dashboard" : "/auth"}
+              href={user ? (user.role === 'SUPER_ADMIN' ? "/super-admin/dashboard" : "/dashboard") : "/auth"}
               className="inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-2 text-sm font-semibold text-white bg-[#4A6FA5] hover:bg-[#3D5D8A] rounded-xl transition-all shadow-sm cursor-pointer"
             >
-              {user ? "Dashboard" : "Sign in"}
+              {user ? (user.role === 'SUPER_ADMIN' ? "Admin Panel" : "Dashboard") : "Sign in"}
             </Link>
           </div>
         </div>

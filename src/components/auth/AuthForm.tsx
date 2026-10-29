@@ -25,7 +25,8 @@ import {
   useGoogleLoginMutation,
 } from "../../lib/store/api/authApi";
 import { plansApi } from "../../lib/store/api/plansApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../lib/store/store";
 import type { AppDispatch } from "../../lib/store/store";
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import Logo from "../ui/Logo";
@@ -57,8 +58,23 @@ export default function AuthForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      if (user?.role === 'SUPER_ADMIN') {
+        router.replace('/super-admin/dashboard');
+      } else {
+        router.replace('/dashboard');
+      }
+    }
+  }, [isAuthenticated, user, router]);
 
   const navigateBasedOnSubscription = async () => {
+    if (user?.role === 'SUPER_ADMIN') {
+      router.push('/super-admin/dashboard');
+      return;
+    }
     try {
       const res = await dispatch(plansApi.endpoints.getMySubscription.initiate(undefined, { forceRefetch: true })).unwrap();
       if (res?.data?.hasActivePlan) {
@@ -128,7 +144,11 @@ export default function AuthForm() {
     if (credentialResponse.credential) {
       setLocalError("");
       try {
-        await googleLogin({ token: credentialResponse.credential }).unwrap();
+        const res = await googleLogin({ token: credentialResponse.credential }).unwrap();
+        if (res?.data?.user?.role === 'SUPER_ADMIN') {
+          router.push('/super-admin/dashboard');
+          return;
+        }
         await navigateBasedOnSubscription();
       } catch (err: unknown) {
         setLocalError(getErrorMessage(err, "An error occurred during Google sign in."));
@@ -163,7 +183,11 @@ export default function AuthForm() {
     }
 
     try {
-      await login({ email: loginEmail, password: loginPassword }).unwrap();
+      const res = await login({ email: loginEmail, password: loginPassword }).unwrap();
+      if (res?.data?.user?.role === 'SUPER_ADMIN') {
+        router.push('/super-admin/dashboard');
+        return;
+      }
       await navigateBasedOnSubscription();
     } catch (err: unknown) {
       setLocalError(getErrorMessage(err, "An error occurred during login."));
@@ -214,7 +238,11 @@ export default function AuthForm() {
     }
 
     try {
-      await verifyRegistration({ email: authEmail, otp }).unwrap();
+      const res = await verifyRegistration({ email: authEmail, otp }).unwrap();
+      if (res?.data?.user?.role === 'SUPER_ADMIN') {
+        router.push('/super-admin/dashboard');
+        return;
+      }
       await navigateBasedOnSubscription();
     } catch (err: unknown) {
       setLocalError(getErrorMessage(err, "Invalid or expired OTP."));
@@ -260,6 +288,14 @@ export default function AuthForm() {
       setLocalError(getErrorMessage(err, "Failed to reset password. The OTP may be invalid."));
     }
   };
+
+  if (isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F7F9FB]">
+        <div className="w-8 h-8 border-3 border-[#E2E8F0] border-t-[#4A6FA5] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-[#F7F9FB] font-sans text-[#1E2A38]">

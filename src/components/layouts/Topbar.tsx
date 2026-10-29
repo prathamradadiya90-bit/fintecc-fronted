@@ -174,7 +174,7 @@ export function Topbar({
                   className="text-[10px] font-medium tracking-wider uppercase leading-tight"
                   style={{ color: 'var(--color-text-muted)' }}
                 >
-                  {user?.role === 'SUPER_ADMIN' ? 'SUPER ADMIN' : user?.role === 'CLIENT' ? 'CLIENT' : 'FIRM OWNER'}
+                  {user?.role === 'CLIENT' ? 'CLIENT' : user?.role === 'EMPLOYEE' ? 'STAFF' : user?.role?.replace('_', ' ') || 'FIRM OWNER'}
                 </p>
               </div>
             </button>

@@ -56,7 +56,7 @@ export function Sidebar({
   const { data: subData } = useGetMySubscriptionQuery(undefined, {
     skip: !user || isSuperAdmin,
   });
-  const hasActivePlan = isSuperAdmin || Boolean(subData?.data?.hasActivePlan);
+  const hasActivePlan = Boolean(subData?.data?.hasActivePlan);
 
   // Dynamic active tasks tracking for the Work Board badge
   const { data: tasksData } = useGetTasksQuery(undefined, {

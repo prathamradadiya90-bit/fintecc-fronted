@@ -31,7 +31,7 @@ export function SubscriptionGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
 
-  // Super Admin is exempt from firm subscription requirements
+  // Super Admin cannot access firm subscription/dashboard routes
   const isSuperAdmin = user?.role === 'SUPER_ADMIN';
 
   const { data, isLoading, isFetching } = useGetMySubscriptionQuery(undefined, {
@@ -42,13 +42,19 @@ export function SubscriptionGuard({ children }: { children: React.ReactNode }) {
   const subStatus = subscription?.status;
 
   const hasAccess =
-    isSuperAdmin ||
-    Boolean(data?.data?.hasActivePlan) ||
-    hasAccessByStatus(subStatus, subscription?.endDate);
+    !isSuperAdmin &&
+    (Boolean(data?.data?.hasActivePlan) ||
+      hasAccessByStatus(subStatus, subscription?.endDate));
 
   const isSubscriptionPage = pathname === '/dashboard/subscription';
 
   useEffect(() => {
+    // If super admin reaches here, redirect immediately to super admin panel
+    if (isAuthenticated && isSuperAdmin) {
+      router.replace('/super-admin/dashboard');
+      return;
+    }
+
     if (
       !isLoading &&
       !isFetching &&
@@ -58,7 +64,12 @@ export function SubscriptionGuard({ children }: { children: React.ReactNode }) {
     ) {
       router.replace('/dashboard/subscription');
     }
-  }, [isLoading, isFetching, isAuthenticated, hasAccess, isSubscriptionPage, router]);
+  }, [isLoading, isFetching, isAuthenticated, hasAccess, isSubscriptionPage, isSuperAdmin, router]);
+
+  // Block rendering firm dashboard for Super Admin
+  if (isAuthenticated && isSuperAdmin) {
+    return null;
+  }
 
   // Loading state while verifying subscription
   if ((isLoading || isFetching) && !hasAccess && !isSubscriptionPage) {
