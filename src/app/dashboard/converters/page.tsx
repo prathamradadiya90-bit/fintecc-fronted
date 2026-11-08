@@ -76,6 +76,8 @@ function ConvertersPageContent() {
   } | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [passwordProtectedFileName, setPasswordProtectedFileName] = useState('');
+  const [bankPassword, setBankPassword] = useState<string>('');
+  const [isUnlocking, setIsUnlocking] = useState<boolean>(false);
 
   const [isDownloadingBankXml, setIsDownloadingBankXml] = useState(false);
   const [isDownloadingBankCsv, setIsDownloadingBankCsv] = useState(false);
@@ -134,6 +136,7 @@ function ConvertersPageContent() {
   const handleBankFileSelect = async (file: File) => {
     setBankFile(file);
     setBankData(null);
+    setBankPassword('');
     setAsyncUploadStatus(null);
 
     // 1. Async Upload Flow (save to database for CA review)
@@ -153,12 +156,15 @@ function ConvertersPageContent() {
       } catch (error: any) {
         console.error('Failed to upload bank statement intake:', error);
         const errMsg = error?.data?.message || '';
-        if (
-          error?.status === 400 &&
-          (errMsg.toLowerCase().includes('password') || errMsg === 'PDF_PASSWORD_PROTECTED')
-        ) {
+        const errCode = error?.data?.errors || '';
+        const isPasswordRequired =
+          (error?.status === 400 || error?.status === 422) &&
+          (errMsg.toLowerCase().includes('password') || errCode === 'PDF_PASSWORD_REQUIRED' || errMsg === 'PDF_PASSWORD_PROTECTED');
+
+        if (isPasswordRequired) {
           setPasswordProtectedFileName(file.name);
           setIsPasswordModalOpen(true);
+          return;
         }
         showToast(errMsg || 'Failed to process statement intake.', 'error');
       }
@@ -176,14 +182,52 @@ function ConvertersPageContent() {
     } catch (error: any) {
       console.error('Failed to parse bank statement:', error);
       const errMsg = error?.data?.message || '';
-      if (
-        error?.status === 400 &&
-        (errMsg.toLowerCase().includes('password') || errMsg === 'PDF_PASSWORD_PROTECTED')
-      ) {
+      const errCode = error?.data?.errors || '';
+      const isPasswordRequired =
+        (error?.status === 400 || error?.status === 422) &&
+        (errMsg.toLowerCase().includes('password') || errCode === 'PDF_PASSWORD_REQUIRED' || errMsg === 'PDF_PASSWORD_PROTECTED');
+
+      if (isPasswordRequired) {
         setPasswordProtectedFileName(file.name);
         setIsPasswordModalOpen(true);
+        return;
       }
       showToast(errMsg || 'Failed to process the PDF statement.', 'error');
+    }
+  };
+
+  const handlePasswordUnlockSubmit = async (password: string) => {
+    if (!bankFile) return;
+    setIsUnlocking(true);
+    try {
+      if (bankMode === 'async') {
+        const formData = new FormData();
+        formData.append('statement', bankFile);
+        formData.append('clientId', selectedClientId);
+        formData.append('password', password);
+
+        const response = await uploadStatementIntake(formData).unwrap();
+        setAsyncUploadStatus(response.data);
+        setBankPassword(password);
+        setIsPasswordModalOpen(false);
+        showToast(response.message || 'Statement accepted for processing in background!', 'success');
+      } else {
+        const formData = new FormData();
+        formData.append('statement', bankFile);
+        formData.append('password', password);
+
+        const response = await uploadBankStatement(formData).unwrap();
+        setBankData(response);
+        setBankPassword(password);
+        setIsPasswordModalOpen(false);
+        showToast('Statement unlocked & parsed successfully!', 'success');
+      }
+    } catch (error: any) {
+      console.error('Password unlock failed:', error);
+      const errMsg = error?.data?.message || 'The password provided for this protected PDF is incorrect.';
+      showToast(errMsg, 'error');
+    } finally {
+      setIsUnlocking(false);
     }
   };
 
@@ -202,6 +246,9 @@ function ConvertersPageContent() {
     try {
       const formData = new FormData();
       formData.append('statement', bankFile);
+      if (bankPassword) {
+        formData.append('password', bankPassword);
+      }
 
       const blob = await downloadBankStatementConvert({
         formData,
@@ -849,6 +896,8 @@ function ConvertersPageContent() {
         isOpen={isPasswordModalOpen}
         fileName={passwordProtectedFileName}
         onClose={() => setIsPasswordModalOpen(false)}
+        onUnlockSubmit={handlePasswordUnlockSubmit}
+        isUnlocking={isUnlocking}
       />
     </div>
   );
