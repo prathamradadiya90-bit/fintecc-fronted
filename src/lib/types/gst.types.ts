@@ -397,3 +397,70 @@ export interface SyncAllPortalStatusResult {
   errors?: Array<{ clientId: string; message: string }>;
 }
 
+// ─── Invoice Management System (IMS) Types ─────────────────────────────────────
+export interface GstImsInvoice {
+  id: string;
+  firmId: string;
+  clientId: string;
+  recipientGstin: string;
+  supplierGstin: string;
+  supplierName: string;
+  invoiceNumber: string;
+  invoiceDate: string;
+  invoiceType: string;
+  taxableValue: number;
+  cgst: number;
+  sgst: number;
+  igst: number;
+  cess: number;
+  totalAmount: number;
+  portalStatus: string;
+  action: 'NO_ACTION' | 'ACCEPTED' | 'REJECTED' | 'PENDING';
+  actionTakenBy?: string;
+  actionTakenAt?: string;
+  isTbs: boolean;
+  tbsSubmittedAt?: string;
+  matchStatus: 'MATCHED' | 'MISMATCHED' | 'UNMATCHED';
+  linkedPurchaseInvoiceId?: string;
+  period?: string;
+  remarks?: string;
+}
+
+export interface ImsSummary {
+  totalInvoices: number;
+  totalTaxableValue: number;
+  totalCgst: number;
+  totalSgst: number;
+  totalIgst: number;
+  totalTax: number;
+  totalAmount: number;
+  actions: {
+    noAction: number;
+    accepted: number;
+    rejected: number;
+    pending: number;
+  };
+  reconciliation: {
+    matched: number;
+    mismatched: number;
+    unmatched: number;
+  };
+  tbsCount: number;
+}
+
+export interface ImsVendorSummaryItem {
+  supplierGstin: string;
+  supplierName: string;
+  invoiceCount: number;
+  totalTaxable: number;
+  totalTax: number;
+  totalAmount: number;
+  acceptedCount: number;
+  rejectedCount: number;
+  pendingCount: number;
+  noActionCount: number;
+  matchedCount: number;
+  unmatchedCount: number;
+}
+
+

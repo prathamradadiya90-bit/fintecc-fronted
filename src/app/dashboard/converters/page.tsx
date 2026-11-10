@@ -340,6 +340,48 @@ function ConvertersPageContent() {
     }
   };
 
+  const [isQueueingInvoiceTally, setIsQueueingInvoiceTally] = useState(false);
+
+  const handleQueueInvoiceToTally = async () => {
+    if (!invoiceData) return;
+    setIsQueueingInvoiceTally(true);
+    try {
+      const res = await fetch('/api/v1/accounting/import/queue-tally', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+        },
+        body: JSON.stringify({
+          clientId: selectedClientId || undefined,
+          vouchers: [{
+            date: invoiceData.issueDate || new Date().toISOString().split('T')[0],
+            voucherNumber: invoiceData.invoiceNumber || 'INV-001',
+            partyName: invoiceData.buyerName || invoiceData.sellerName || 'Cash Customer',
+            gstin: invoiceData.buyerGstin || invoiceData.sellerGstin || '',
+            taxableValue: Number(invoiceData.subTotal || 0),
+            cgst: Number(invoiceData.taxAmount ? Number(invoiceData.taxAmount) / 2 : 0),
+            sgst: Number(invoiceData.taxAmount ? Number(invoiceData.taxAmount) / 2 : 0),
+            igst: 0,
+            totalAmount: Number(invoiceData.total || 0),
+            narration: invoiceData.notes || `Extracted Invoice #${invoiceData.invoiceNumber || ''}`
+          }],
+          voucherType: 'SALES',
+          companyName: invoiceData.sellerName || 'Company Name'
+        })
+      });
+
+      const resData = await res.json();
+      if (!res.ok) throw new Error(resData.message || 'Failed to queue to Tally');
+
+      showToast('Invoice pushed directly to Tally Connector queue!', 'success');
+    } catch (err: any) {
+      showToast(err.message || 'Failed to push to Tally queue', 'error');
+    } finally {
+      setIsQueueingInvoiceTally(false);
+    }
+  };
+
   // ────────────────────────── Bulk Invoice OCR handlers ─────────────────────────
   const handleBulkFilesSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -609,8 +651,10 @@ function ConvertersPageContent() {
               invoice={invoiceData}
               onDownloadXml={() => handleInvoiceDownload('xml')}
               onDownloadCsv={() => handleInvoiceDownload('csv')}
+              onQueueTally={handleQueueInvoiceToTally}
               isDownloadingXml={isDownloadingInvoiceXml}
               isDownloadingCsv={isDownloadingInvoiceCsv}
+              isQueueingTally={isQueueingInvoiceTally}
             />
           )}
         </>

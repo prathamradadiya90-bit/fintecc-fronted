@@ -9,7 +9,7 @@ import {
   Shield, MessageSquare, CreditCard, Building2, ReceiptText, ClipboardList, 
   ShoppingBag, RefreshCw, Receipt, KeyRound, Lock, Landmark, FileWarning, Key, 
   FileStack, Clock, LifeBuoy, ShieldCheck, ChevronDown, UserPlus, FileSignature,
-  CheckSquare, Megaphone, Wallet
+  CheckSquare, Megaphone, Wallet, FileSpreadsheet, BookOpen, Boxes
 } from 'lucide-react';
 import { useLogoutMutation } from '@/lib/store/api/authApi';
 import { useGetMySubscriptionQuery } from '@/lib/store/api/plansApi';
@@ -121,6 +121,13 @@ export function Sidebar({
               badge: '2B Beta',
               badgeVariant: 'cyan',
             },
+            {
+              name: 'GST IMS Dashboard',
+              href: '/dashboard/gst/ims',
+              icon: ShieldCheck,
+              badge: 'IMS',
+              badgeVariant: 'emerald',
+            },
             { name: 'ITR Filing', href: '/dashboard/itr', icon: ReceiptText },
             { name: 'TDS Compliance', href: '/dashboard/tds', icon: Calculator },
             { name: 'UDIN Register', href: '/dashboard/udin', icon: ShieldCheck },
@@ -138,6 +145,15 @@ export function Sidebar({
           name: 'Accounting & Tools',
           icon: Calculator,
           children: [
+            {
+              name: 'Universal Import',
+              href: '/dashboard/accounting/import',
+              icon: FileSpreadsheet,
+              badge: 'Tally',
+              badgeVariant: 'emerald',
+            },
+            { name: 'Journal Entries', href: '/dashboard/accounting/journal', icon: BookOpen },
+            { name: 'Bulk Masters', href: '/dashboard/accounting/masters', icon: Boxes },
             { name: 'Bank Statements', href: '/dashboard/bank-statements', icon: Landmark },
             { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
             { name: 'Petty Cash', href: '/dashboard/petty-cash', icon: Wallet },

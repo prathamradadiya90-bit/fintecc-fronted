@@ -1,14 +1,16 @@
 import React from 'react';
 import { Button } from '../ui/Button';
-import { FileCode2, FileSpreadsheet, Building2, User2, Receipt, Calendar, Hash, BadgeIndianRupee, Sparkles } from 'lucide-react';
+import { FileCode2, FileSpreadsheet, Building2, User2, Receipt, Calendar, Hash, BadgeIndianRupee, Sparkles, Send } from 'lucide-react';
 import type { ExtractedInvoice } from '@/lib/types/invoice.types';
 
 interface InvoicePreviewProps {
   invoice: ExtractedInvoice;
   onDownloadXml: () => void;
   onDownloadCsv: () => void;
+  onQueueTally?: () => void;
   isDownloadingXml?: boolean;
   isDownloadingCsv?: boolean;
+  isQueueingTally?: boolean;
 }
 
 function DetailItem({
@@ -95,7 +97,7 @@ export function InvoicePreview({
             AI-extracted data from your invoice PDF. Download as Tally XML or CSV.
           </p>
         </div>
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
           <Button
             variant="outline"
             onClick={onDownloadCsv}
@@ -111,6 +113,17 @@ export function InvoicePreview({
           >
             Download Tally XML
           </Button>
+          {onQueueTally && (
+            <Button
+              variant="default"
+              onClick={onQueueTally}
+              isLoading={isQueueingTally}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white"
+              leftIcon={<Send className="w-4 h-4" />}
+            >
+              Push to Tally Connector
+            </Button>
+          )}
         </div>
       </div>
 

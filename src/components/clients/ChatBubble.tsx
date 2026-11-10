@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Check, CheckCheck, Paperclip, Download } from 'lucide-react';
+import { Check, CheckCheck, Paperclip, Download, CheckSquare } from 'lucide-react';
 import type { ChatMessage } from '@/lib/types/chat.types';
+import { useCreateTaskMutation } from '@/lib/store/api/tasksApi';
+import { useToast } from '@/components/ui/Toast';
 
 interface ChatBubbleProps {
   message: ChatMessage;
@@ -36,6 +38,23 @@ function isImageUrl(url: string): boolean {
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:5000';
 
 export function ChatBubble({ message, isOwn }: ChatBubbleProps) {
+  const [createTask, { isLoading: isCreatingTask }] = useCreateTaskMutation();
+  const { showToast } = useToast();
+
+  const handleCreateTask = async () => {
+    try {
+      await createTask({
+        title: message.message ? message.message.slice(0, 60) : 'Client Task Request',
+        description: message.message || 'Task created from client message',
+        clientId: (message as any).clientId,
+        priority: 'MEDIUM',
+      }).unwrap();
+      showToast('Task created from client message!', 'success');
+    } catch (err: any) {
+      showToast(err?.data?.message || 'Failed to create task', 'error');
+    }
+  };
+
   const hasAttachment = !!message.attachmentUrl;
   const attachmentFullUrl = message.attachmentUrl
     ? (message.attachmentUrl.startsWith('http')
@@ -113,18 +132,32 @@ export function ChatBubble({ message, isOwn }: ChatBubbleProps) {
 
         {/* Footer: time + read status */}
         <div
-          className={`flex items-center gap-1.5 mt-1 ${isOwn ? 'justify-end' : 'justify-start'}`}
+          className={`flex items-center gap-2 mt-1 ${isOwn ? 'justify-end' : 'justify-between'}`}
         >
-          <span
-            className="text-[10px] opacity-70"
-            style={!isOwn ? { color: 'var(--color-text-muted)' } : undefined}
-          >
-            {formatTime(message.createdAt)}
-          </span>
-          {isOwn && (
-            message.isRead
-              ? <CheckCheck className="w-3.5 h-3.5 text-white/80" />
-              : <Check className="w-3.5 h-3.5 text-white/60" />
+          <div className="flex items-center gap-1.5">
+            <span
+              className="text-[10px] opacity-70"
+              style={!isOwn ? { color: 'var(--color-text-muted)' } : undefined}
+            >
+              {formatTime(message.createdAt)}
+            </span>
+            {isOwn && (
+              message.isRead
+                ? <CheckCheck className="w-3.5 h-3.5 text-white/80" />
+                : <Check className="w-3.5 h-3.5 text-white/60" />
+            )}
+          </div>
+
+          {!isOwn && (
+            <button
+              onClick={handleCreateTask}
+              disabled={isCreatingTask}
+              className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 dark:text-emerald-400 hover:underline opacity-80 hover:opacity-100 transition-opacity"
+              title="Convert message to practice task"
+            >
+              <CheckSquare className="w-3 h-3" />
+              <span>{isCreatingTask ? 'Creating...' : '+ Task'}</span>
+            </button>
           )}
         </div>
       </div>

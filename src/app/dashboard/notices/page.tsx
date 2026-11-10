@@ -14,10 +14,13 @@ import {
 } from 'lucide-react';
 import { useGetNoticesQuery } from '@/lib/store/api/noticesApi';
 import { NoticeKanbanBoard } from '@/components/notices/NoticeKanbanBoard';
+import { NoticeCalendarView } from '@/components/notices/NoticeCalendarView';
+import { NoticeCompanySyncView } from '@/components/notices/NoticeCompanySyncView';
 
 export default function NoticeManagementPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<'ALL' | 'GST' | 'ITR'>('ALL');
+  const [viewMode, setViewMode] = useState<'kanban' | 'calendar' | 'companies'>('kanban');
 
   const { data: response, isLoading, refetch, isFetching } = useGetNoticesQuery();
   const allNotices = useMemo(() => response?.data || [], [response]);
@@ -220,11 +223,61 @@ export default function NoticeManagementPage() {
         </div>
       </div>
 
-      {/* Kanban Board */}
-      <NoticeKanbanBoard
-        notices={filteredNotices}
-        isLoading={isLoading}
-      />
+      {/* View Switcher Tabs */}
+      <div className="flex items-center gap-2 border-b border-[var(--color-border)]">
+        <button
+          onClick={() => setViewMode('kanban')}
+          className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
+            viewMode === 'kanban'
+              ? 'border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400'
+              : 'border-transparent text-slate-500 hover:text-slate-900'
+          }`}
+        >
+          Kanban Board View
+        </button>
+
+        <button
+          onClick={() => setViewMode('calendar')}
+          className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
+            viewMode === 'calendar'
+              ? 'border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400'
+              : 'border-transparent text-slate-500 hover:text-slate-900'
+          }`}
+        >
+          Notice Calendar View
+        </button>
+
+        <button
+          onClick={() => setViewMode('companies')}
+          className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
+            viewMode === 'companies'
+              ? 'border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400'
+              : 'border-transparent text-slate-500 hover:text-slate-900'
+          }`}
+        >
+          Company Sync Health
+        </button>
+      </div>
+
+      {/* Main View Container */}
+      {viewMode === 'kanban' && (
+        <NoticeKanbanBoard
+          notices={filteredNotices}
+          isLoading={isLoading}
+        />
+      )}
+
+      {viewMode === 'calendar' && (
+        <NoticeCalendarView
+          notices={filteredNotices}
+        />
+      )}
+
+      {viewMode === 'companies' && (
+        <NoticeCompanySyncView
+          notices={filteredNotices}
+        />
+      )}
     </div>
   );
 }

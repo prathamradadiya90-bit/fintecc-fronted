@@ -29,12 +29,15 @@ import type {
   GstInterestLateFeeResult,
   ClientPortalStatusResult,
   SyncAllPortalStatusResult,
+  GstImsInvoice,
+  ImsSummary,
+  ImsVendorSummaryItem,
 } from '../../types/gst.types';
 
 export const gstApi = createApi({
   reducerPath: 'gstApi',
   baseQuery: baseQueryWithReauth('/gst'),
-  tagTypes: ['GstProfile', 'GstReturn', 'GstPortalStatus'],
+  tagTypes: ['GstProfile', 'GstReturn', 'GstPortalStatus', 'GstIms'],
   endpoints: (builder) => ({
     // --- PROFILES ---
     getProfiles: builder.query<PaginatedGstProfilesResponse, GetGstProfilesParams | void>({
@@ -424,6 +427,94 @@ export const gstApi = createApi({
         body,
       }),
     }),
+
+    // --- INVOICE MANAGEMENT SYSTEM (IMS) ---
+    getImsSummary: builder.query<{ success: boolean; data: ImsSummary }, { clientId: string; period?: string }>({
+      query: (params) => ({
+        url: '/ims/summary',
+        params,
+      }),
+      providesTags: ['GstIms'],
+    }),
+
+    getImsInvoices: builder.query<
+      { success: boolean; data: { items: GstImsInvoice[]; total: number; page: number; limit: number; totalPages: number } },
+      { clientId: string; period?: string; action?: string; matchStatus?: string; isTbs?: boolean; search?: string; page?: number; limit?: number }
+    >({
+      query: (params) => ({
+        url: '/ims/invoices',
+        params,
+      }),
+      providesTags: ['GstIms'],
+    }),
+
+    getImsVendors: builder.query<{ success: boolean; data: ImsVendorSummaryItem[] }, { clientId: string; period?: string }>({
+      query: (params) => ({
+        url: '/ims/vendors',
+        params,
+      }),
+      providesTags: ['GstIms'],
+    }),
+
+    takeImsAction: builder.mutation<
+      { success: boolean; data: GstImsInvoice; message: string },
+      { id: string; clientId: string; action: string }
+    >({
+      query: ({ id, clientId, action }) => ({
+        url: `/ims/invoices/${id}/action`,
+        method: 'POST',
+        body: { clientId, action },
+      }),
+      invalidatesTags: ['GstIms'],
+    }),
+
+    bulkImsAction: builder.mutation<
+      { success: boolean; data: { count: number; action: string }; message: string },
+      { clientId: string; invoiceIds: string[]; action: string }
+    >({
+      query: (body) => ({
+        url: '/ims/bulk-action',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['GstIms'],
+    }),
+
+    submitImsTbs: builder.mutation<
+      { success: boolean; data: { count: number; submittedAt: string }; message: string },
+      { clientId: string; period?: string }
+    >({
+      query: (body) => ({
+        url: '/ims/submit-tbs',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['GstIms'],
+    }),
+
+    linkImsPurchaseInvoice: builder.mutation<
+      { success: boolean; message: string },
+      { id: string; clientId: string; purchaseInvoiceId: string }
+    >({
+      query: ({ id, clientId, purchaseInvoiceId }) => ({
+        url: `/ims/invoices/${id}/link-purchase`,
+        method: 'POST',
+        body: { clientId, purchaseInvoiceId },
+      }),
+      invalidatesTags: ['GstIms'],
+    }),
+
+    createVoucherFromIms: builder.mutation<
+      { success: boolean; message: string; purchaseInvoice: any },
+      { id: string; clientId: string }
+    >({
+      query: ({ id, clientId }) => ({
+        url: `/ims/invoices/${id}/create-voucher`,
+        method: 'POST',
+        body: { clientId },
+      }),
+      invalidatesTags: ['GstIms', 'GstReturn'],
+    }),
   }),
 });
 
@@ -473,4 +564,12 @@ export const {
   useGetClientPortalStatusQuery,
   useSyncClientPortalStatusMutation,
   useSyncAllClientsPortalStatusMutation,
+  useGetImsSummaryQuery,
+  useGetImsInvoicesQuery,
+  useGetImsVendorsQuery,
+  useTakeImsActionMutation,
+  useBulkImsActionMutation,
+  useSubmitImsTbsMutation,
+  useLinkImsPurchaseInvoiceMutation,
+  useCreateVoucherFromImsMutation,
 } = gstApi;
