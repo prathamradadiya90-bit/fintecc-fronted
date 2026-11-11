@@ -253,7 +253,7 @@ export default function ReturnDetailPage() {
         )}
 
         {activeTab === 'breakup' && (() => {
-          const liability = Number(gstReturn.taxPayable || gstReturn.liabilityAmount || 0);
+          const liability = Number(gstReturn.taxPayable || (gstReturn as any).liabilityAmount || 0);
           const itc = Number(gstReturn.itcClaimed || 0);
           const netCash = Math.max(0, liability - itc);
 
