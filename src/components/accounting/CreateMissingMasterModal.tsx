@@ -171,7 +171,7 @@ export const CreateMissingMasterModal: React.FC<CreateMissingMasterModalProps> =
 
             <div>
               <label className="block font-semibold mb-1 text-[var(--color-text-heading)]">
-                Opening Balance (₹)
+                Opening Balance (â‚¹)
               </label>
               <input
                 type="number"
@@ -189,7 +189,7 @@ export const CreateMissingMasterModal: React.FC<CreateMissingMasterModalProps> =
               Cancel
             </Button>
             <Button
-              variant="default"
+              variant="primary"
               size="sm"
               type="submit"
               isLoading={isLoading}

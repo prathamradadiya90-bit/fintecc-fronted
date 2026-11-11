@@ -160,7 +160,7 @@ export const NoticeCalendarView: React.FC<NoticeCalendarViewProps> = ({ notices 
                         }`}
                         title={`${n.client?.name || 'Client'}: ${n.noticeNumber || n.sectionCode}`}
                       >
-                        {isDue ? '🔴 Due: ' : '🔵 '}
+                        {isDue ? 'ðŸ”´ Due: ' : 'ðŸ”µ '}
                         {n.sectionCode || n.noticeNumber || 'Notice'}
                       </button>
                     );
@@ -191,7 +191,7 @@ export const NoticeCalendarView: React.FC<NoticeCalendarViewProps> = ({ notices 
                   Notice Details ({selectedNotice.noticeNumber || 'N/A'})
                 </h3>
               </div>
-              <button onClick={() => setSelectedNotice(null)} className="text-slate-400 hover:text-slate-600">✕</button>
+              <button onClick={() => setSelectedNotice(null)} className="text-slate-400 hover:text-slate-600">âœ•</button>
             </div>
 
             <div className="space-y-3 text-xs">
@@ -224,7 +224,7 @@ export const NoticeCalendarView: React.FC<NoticeCalendarViewProps> = ({ notices 
               {selectedNotice.amountDemanded && (
                 <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
                   <span className="font-semibold">Disputed Demand:</span>{' '}
-                  <strong className="font-mono text-sm">₹{Number(selectedNotice.amountDemanded).toLocaleString('en-IN')}</strong>
+                  <strong className="font-mono text-sm">â‚¹{Number(selectedNotice.amountDemanded).toLocaleString('en-IN')}</strong>
                 </div>
               )}
 
@@ -239,7 +239,7 @@ export const NoticeCalendarView: React.FC<NoticeCalendarViewProps> = ({ notices 
             </div>
 
             <div className="pt-3 flex justify-end border-t border-[var(--color-border)]">
-              <Button variant="default" size="sm" onClick={() => setSelectedNotice(null)}>
+              <Button variant="primary" size="sm" onClick={() => setSelectedNotice(null)}>
                 Close
               </Button>
             </div>

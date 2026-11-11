@@ -22,7 +22,7 @@ function DetailItem({
   value: string | number | null | undefined;
   className?: string;
 }) {
-  const display = value !== null && value !== undefined && value !== '' ? String(value) : '—';
+  const display = value !== null && value !== undefined && value !== '' ? String(value) : 'â€”';
   return (
     <div className={`flex flex-col gap-0.5 ${className}`}>
       <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>{label}</span>
@@ -69,8 +69,8 @@ export function InvoicePreview({
   isDownloadingCsv,
 }: InvoicePreviewProps) {
   const formatCurrency = (amount: number | null | undefined) => {
-    if (amount === null || amount === undefined) return '—';
-    const symbol = invoice.currency === 'USD' ? '$' : '₹';
+    if (amount === null || amount === undefined) return 'â€”';
+    const symbol = invoice.currency === 'USD' ? '$' : 'â‚¹';
     return `${symbol}${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
@@ -115,7 +115,7 @@ export function InvoicePreview({
           </Button>
           {onQueueTally && (
             <Button
-              variant="default"
+              variant="primary"
               onClick={onQueueTally}
               isLoading={isQueueingTally}
               className="bg-indigo-600 hover:bg-indigo-500 text-white"
