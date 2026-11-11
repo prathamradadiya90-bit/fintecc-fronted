@@ -22,7 +22,7 @@ function DetailItem({
   value: string | number | null | undefined;
   className?: string;
 }) {
-  const display = value !== null && value !== undefined && value !== '' ? String(value) : 'â€”';
+  const display = value !== null && value !== undefined && value !== '' ? String(value) : 'Ã¢â‚¬â€';
   return (
     <div className={`flex flex-col gap-0.5 ${className}`}>
       <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>{label}</span>
@@ -69,8 +69,8 @@ export function InvoicePreview({
   isDownloadingCsv,
 }: InvoicePreviewProps) {
   const formatCurrency = (amount: number | null | undefined) => {
-    if (amount === null || amount === undefined) return 'â€”';
-    const symbol = invoice.currency === 'USD' ? '$' : 'â‚¹';
+    if (amount === null || amount === undefined) return 'Ã¢â‚¬â€';
+    const symbol = invoice.currency === 'USD' ? '$' : 'Ã¢â€šÂ¹';
     return `${symbol}${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
