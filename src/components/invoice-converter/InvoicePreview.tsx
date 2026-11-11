@@ -67,6 +67,8 @@ export function InvoicePreview({
   onDownloadCsv,
   isDownloadingXml,
   isDownloadingCsv,
+  onQueueTally,
+  isQueueingTally,
 }: InvoicePreviewProps) {
   const formatCurrency = (amount: number | null | undefined) => {
     if (amount === null || amount === undefined) return 'Ã¢â‚¬â€';
