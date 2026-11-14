@@ -50,13 +50,17 @@ export function Sidebar({
   const router = useRouter();
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
-  const [logoutApi, { isLoading }] = useLogoutMutation();
+  const [logoutApi, { isLoading: isLoggingOut }] = useLogoutMutation();
 
   const isSuperAdmin = user?.role === 'SUPER_ADMIN';
-  const { data: subData } = useGetMySubscriptionQuery(undefined, {
+  const { data: subData, isLoading: isSubLoading, isFetching: isSubFetching } = useGetMySubscriptionQuery(undefined, {
     skip: !user || isSuperAdmin,
   });
-  const hasActivePlan = Boolean(subData?.data?.hasActivePlan);
+  
+  // Guard against race condition and route-flashing while subscription query is in-flight
+  const isResolvingSubscription = !isSuperAdmin && (isSubLoading || (subData === undefined && !isSuperAdmin));
+  const hasActivePlan = isSuperAdmin || isResolvingSubscription || Boolean(subData?.data?.hasActivePlan);
+  const isSubscriptionLocked = !isSuperAdmin && !isResolvingSubscription && !subData?.data?.hasActivePlan;
 
   // Dynamic active tasks tracking for the Work Board badge
   const { data: tasksData } = useGetTasksQuery(undefined, {
@@ -195,7 +199,7 @@ export function Sidebar({
         name: 'Subscription',
         href: '/dashboard/subscription',
         icon: CreditCard,
-        badge: !hasActivePlan ? 'Action' : undefined,
+        badge: isSubscriptionLocked ? 'Action' : undefined,
         badgeVariant: 'amber',
       },
     });
@@ -214,7 +218,7 @@ export function Sidebar({
     });
 
     return entries;
-  }, [activeTasksCount, user?.role, hasActivePlan]);
+  }, [activeTasksCount, user?.role, hasActivePlan, isSubscriptionLocked]);
 
   const navEntries = user?.role === 'CLIENT' ? clientNavEntries : firmNavEntries;
 
@@ -367,7 +371,7 @@ export function Sidebar({
             const isActive = pathname === entry.item.href || (entry.item.href !== '/dashboard' && pathname.startsWith(`${entry.item.href}/`)) || (entry.item.href === '/dashboard' && pathname === '/dashboard');
             const isSubscriptionItem = entry.item.href === '/dashboard/subscription';
             const isContactItem = entry.item.href === '/dashboard/contact';
-            const isLocked = !hasActivePlan && !isSubscriptionItem && !isContactItem;
+            const isLocked = isSubscriptionLocked && !isSubscriptionItem && !isContactItem;
             const destinationHref = isLocked ? '/dashboard/subscription' : entry.item.href;
             const Icon = entry.item.icon;
 
@@ -454,7 +458,7 @@ export function Sidebar({
                   {group.children.map((child) => {
                     const isChildActive = pathname === child.href || pathname.startsWith(`${child.href}/`);
                     const isChildLocked =
-                      !hasActivePlan &&
+                      isSubscriptionLocked &&
                       child.href !== '/dashboard/subscription' &&
                       child.href !== '/dashboard/contact';
                     const destinationHref = isChildLocked ? '/dashboard/subscription' : child.href;
@@ -542,12 +546,12 @@ export function Sidebar({
           </Link>
           <button
             onClick={handleLogout}
-            disabled={isLoading}
+            disabled={isLoggingOut}
             className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-all disabled:opacity-50 text-xs text-left cursor-pointer hover:bg-[rgba(158,74,74,0.08)]"
             style={{ color: 'var(--color-status-danger-text, #9E4A4A)' }}
           >
             <LogOut className="w-4 h-4" />
-            <span>{isLoading ? 'Logging Out...' : 'Log Out'}</span>
+            <span>{isLoggingOut ? 'Logging Out...' : 'Log Out'}</span>
           </button>
         </div>
       </div>
