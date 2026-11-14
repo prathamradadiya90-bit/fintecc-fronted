@@ -30,7 +30,7 @@ import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import { DataExportSettings } from '@/components/settings/DataExportSettings';
 import { PaymentGatewaySettings } from '@/components/settings/PaymentGatewaySettings';
 import { ApiKeysSettings } from '@/components/settings/ApiKeysSettings';
-import { CreditCard, KeyRound, Mail } from 'lucide-react';
+import { CreditCard, KeyRound } from 'lucide-react';
 
 type SettingsTab = 'profile' | 'invoice' | 'tax' | 'email' | 'branches' | 'payment-gateway' | 'api-keys' | 'ledger-rules' | 'roles' | 'export';
 
