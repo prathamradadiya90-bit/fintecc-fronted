@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Sparkles,
   Send,
   Loader2,
   Bot,
@@ -189,7 +188,7 @@ export function AiAssistantWidget() {
             aria-label="Open Fintecc AI Assistant"
           >
             <div className="relative">
-              <Sparkles className="w-5 h-5 text-[#A8C5DA] group-hover:rotate-12 transition-transform duration-300" />
+              <Bot className="w-5 h-5 text-[#A8C5DA] group-hover:scale-105 transition-transform duration-300" />
               <span className="absolute -top-1 -right-1 flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4A6FA5] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4A6FA5]" />
@@ -301,7 +300,7 @@ export function AiAssistantWidget() {
                         color: '#4A6FA5',
                       }}
                     >
-                      <Sparkles className="w-3.5 h-3.5" />
+                      <Bot className="w-3.5 h-3.5" />
                     </div>
                   )}
 
@@ -366,7 +365,7 @@ export function AiAssistantWidget() {
                     color: '#4A6FA5',
                   }}
                 >
-                  <Sparkles className="w-3.5 h-3.5 animate-spin" />
+                  <Bot className="w-3.5 h-3.5" />
                 </div>
                 <div
                   className="rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm flex items-center gap-2"

@@ -27,7 +27,7 @@ import {
   FileText, 
   UserPlus, 
   Shield, 
-  Sparkles,
+  Briefcase,
   Layers
 } from "lucide-react";
 
@@ -358,7 +358,7 @@ export function Products() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 md:mb-12">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase bg-[#4A6FA5]/10 text-[#4A6FA5] border border-[#4A6FA5]/20 mb-3 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#4A6FA5]" />
+            <Briefcase className="w-3.5 h-3.5 text-[#4A6FA5]" />
             Complete Practice Suite
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1E2A38] tracking-tight mb-3">

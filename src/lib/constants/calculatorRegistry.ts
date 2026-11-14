@@ -99,7 +99,7 @@ export const CALCULATORS_LIST: CalculatorMeta[] = [
     shortName: 'Compound Interest',
     description: 'Simulate the power of compounding with flexible compounding frequencies (monthly, quarterly, annual).',
     category: 'Banking & Interest',
-    iconName: 'Sparkles',
+    iconName: 'TrendingUp',
     keywords: ['compound interest', 'ci', 'compounding frequency', 'growth', 'wealth multiplier'],
     popular: true,
   },

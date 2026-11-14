@@ -8,7 +8,6 @@ import {
   ReceiptText,
   FileCheck2,
   ArrowRight,
-  Sparkles,
   Database,
   CheckCircle2,
 } from 'lucide-react';
@@ -41,7 +40,7 @@ export default function ItrOverviewPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl border bg-gradient-to-r from-emerald-500/10 via-transparent to-indigo-500/10 border-[var(--color-border)]">
         <div>
           <h2 className="text-base font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>
-            <Sparkles className="w-4 h-4 text-emerald-500" />
+            <ReceiptText className="w-4 h-4 text-emerald-500" />
             Direct Tax (ITR) Hub & Rapid Filing
           </h2>
           <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>

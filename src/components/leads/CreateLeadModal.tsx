@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { useToast } from '@/components/ui/Toast';
 import { useCreateLeadMutation } from '@/lib/store/api/leadsApi';
 import type { LeadStatus } from '@/lib/types/lead.types';
-import { Sparkles } from 'lucide-react';
+import { Plus, UserCheck } from 'lucide-react';
 
 interface CreateLeadModalProps {
   isOpen: boolean;
@@ -87,7 +87,7 @@ export const CreateLeadModal: React.FC<CreateLeadModalProps> = ({ isOpen, onClos
             form="create-lead-form"
             size="sm"
             isLoading={isLoading}
-            leftIcon={<Sparkles className="w-4 h-4 text-emerald-300" />}
+            leftIcon={<Plus className="w-4 h-4" />}
           >
             Create Lead
           </Button>
@@ -185,7 +185,7 @@ export const CreateLeadModal: React.FC<CreateLeadModalProps> = ({ isOpen, onClos
           </div>
           {status === 'WON' && (
             <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 flex items-center gap-1.5 font-medium">
-              <Sparkles className="w-3.5 h-3.5" />
+              <UserCheck className="w-3.5 h-3.5" />
               Automated onboarding will trigger: Client account created, initial KYC task set up, welcome email dispatched & eSign engagement letter generated.
             </p>
           )}

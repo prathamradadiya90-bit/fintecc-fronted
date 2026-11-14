@@ -9,7 +9,7 @@ import { ReportUploader } from '@/features/ecommerce/components/ReportUploader';
 import { SalesSummaryCards } from '@/features/ecommerce/components/SalesSummaryCards';
 import { SalesTable } from '@/features/ecommerce/components/SalesTable';
 import { EcommerceActions } from '@/features/ecommerce/components/EcommerceActions';
-import { ShoppingBag, Sparkles, ShieldCheck, ArrowLeft, ExternalLink } from 'lucide-react';
+import { ShoppingBag, ShieldCheck, ArrowLeft, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function EcommercePage() {

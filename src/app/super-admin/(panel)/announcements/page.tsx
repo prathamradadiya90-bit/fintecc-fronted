@@ -8,7 +8,7 @@ import {
   Trash2,
   AlertTriangle,
   Info,
-  Sparkles,
+  Bell,
   AlertOctagon,
   Calendar,
 } from 'lucide-react';
@@ -72,7 +72,7 @@ export default function SuperAdminAnnouncementsPage() {
         };
       case 'NEWS':
         return {
-          icon: <Sparkles className="w-3 h-3 text-emerald-500" />,
+          icon: <Bell className="w-3 h-3 text-emerald-500" />,
           cls: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 border-emerald-200',
         };
       case 'UPDATE':

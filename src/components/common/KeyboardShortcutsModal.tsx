@@ -4,7 +4,6 @@ import React, { useState, useMemo } from 'react';
 import { 
   Keyboard, 
   Search, 
-  Sparkles, 
   Compass, 
   RefreshCw, 
   Globe, 

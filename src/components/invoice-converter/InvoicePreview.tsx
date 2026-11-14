@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../ui/Button';
-import { FileCode2, FileSpreadsheet, Building2, User2, Receipt, Calendar, Hash, BadgeIndianRupee, Sparkles, Send } from 'lucide-react';
+import { FileCode2, FileSpreadsheet, Building2, User2, Receipt, Calendar, Hash, BadgeIndianRupee, Check, Send } from 'lucide-react';
 import type { ExtractedInvoice } from '@/lib/types/invoice.types';
 
 interface InvoicePreviewProps {
@@ -91,7 +91,7 @@ export function InvoicePreview({
             <h2 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>Invoice Preview</h2>
             {invoice.processingTimeMs ? (
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                <Sparkles className="w-3 h-3" /> Parsed in {invoice.processingTimeMs}ms
+                <Check className="w-3 h-3" /> Parsed in {invoice.processingTimeMs}ms
               </span>
             ) : null}
           </div>

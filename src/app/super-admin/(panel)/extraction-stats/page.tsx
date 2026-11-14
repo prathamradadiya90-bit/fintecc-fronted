@@ -11,7 +11,6 @@ import {
   Download,
   Filter,
   DollarSign,
-  Sparkles,
   Layers,
   ShieldCheck,
   Zap,

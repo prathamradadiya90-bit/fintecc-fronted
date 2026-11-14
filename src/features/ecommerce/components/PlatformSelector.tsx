@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { EcommercePlatform } from '@/lib/types/ecommerce.types';
-import { Sparkles, ShoppingBag, Store, Globe } from 'lucide-react';
+import { ShoppingBag, Store, Globe } from 'lucide-react';
 
 interface PlatformSelectorProps {
   selectedPlatform: EcommercePlatform | 'AUTO' | null;
@@ -35,7 +35,7 @@ export function PlatformSelector({
           1. Select E-Commerce Platform
         </label>
         <span className="text-xs text-[var(--color-text-secondary)] flex items-center gap-1">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-500" /> 11 Marketplaces Supported
+          <Globe className="w-3.5 h-3.5 text-emerald-500" /> 11 Marketplaces Supported
         </span>
       </div>
 
@@ -63,7 +63,7 @@ export function PlatformSelector({
                   className={`w-7 h-7 rounded-lg bg-gradient-to-br ${platform.color} flex items-center justify-center`}
                 >
                   {isAuto ? (
-                    <Sparkles className="w-4 h-4" />
+                    <Globe className="w-4 h-4" />
                   ) : (
                     <Store className="w-4 h-4" />
                   )}

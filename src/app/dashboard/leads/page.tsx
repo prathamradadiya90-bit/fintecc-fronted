@@ -6,7 +6,7 @@ import {
   UserPlus,
   Search,
   TrendingUp,
-  Sparkles,
+  UserCheck,
   CheckCircle2,
   Mail,
   IndianRupee,
@@ -271,7 +271,7 @@ export default function LeadsCrmPage() {
           <div 
             className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 border text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border-[#A8C5DA]/40 dark:border-[#A8C5DA]/40"
           >
-            <Sparkles className="w-5 h-5" />
+            <UserCheck className="w-5 h-5" />
           </div>
           <div>
             <h2 className="text-sm font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>

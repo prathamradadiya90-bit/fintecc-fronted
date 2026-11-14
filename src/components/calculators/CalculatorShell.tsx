@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Home, Sparkles, ArrowLeft, Search } from 'lucide-react';
+import { ChevronRight, Home, Calculator, ArrowLeft, Search } from 'lucide-react';
 import { CalculatorMeta } from '@/lib/types/calculator.types';
 import { CALCULATORS_LIST } from '@/lib/constants/calculatorRegistry';
 import { CalculatorIcon } from '@/components/calculators/CalculatorIcon';
@@ -123,7 +123,7 @@ export function CalculatorShell({ calculator, children, faqs = [] }: CalculatorS
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-emerald-500" />
+              <Calculator className="w-4 h-4 text-emerald-500" />
               <h2 className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>
                 More {calculator.category} Calculators
               </h2>

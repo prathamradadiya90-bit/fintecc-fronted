@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, FileText, Sparkles } from 'lucide-react';
+import { X, FileText, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useToast } from '@/components/ui/Toast';
@@ -170,7 +170,7 @@ export function TemplateModal({ isOpen, onClose, templateToEdit }: TemplateModal
               </label>
               <div className="flex items-center space-x-1">
                 <span className="text-[11px] text-[#5A6E85] dark:text-slate-400 mr-1 flex items-center">
-                  <Sparkles className="w-3 h-3 mr-0.5 text-[#4A6FA5]" /> Quick Tags:
+                  <Tag className="w-3 h-3 mr-0.5 text-[#4A6FA5]" /> Quick Tags:
                 </span>
                 {['clientName', 'dueDate', 'amountDue', 'firmName'].map((tag) => (
                   <button

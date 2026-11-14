@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import {
   FileCode2,
-  Sparkles,
+  Info,
   Search,
   Filter,
   CheckCircle2,
@@ -108,7 +108,7 @@ export default function TemplateProposalsPage() {
 
       {/* Info Notice Banner */}
       <div className="p-4 rounded-xl bg-[#F7F9FB] border border-[#A8C5DA]/50 flex items-start gap-3">
-        <Sparkles className="w-5 h-5 text-[#4A6FA5] shrink-0 mt-0.5" />
+        <Info className="w-5 h-5 text-[#4A6FA5] shrink-0 mt-0.5" />
         <div className="text-sm text-[#1E2A38]">
           <span className="font-semibold text-[#1E2A38]">Deduplication & Provisional Parsing: </span>
           Multiple client uploads with identical column fingerprints increment the{" "}

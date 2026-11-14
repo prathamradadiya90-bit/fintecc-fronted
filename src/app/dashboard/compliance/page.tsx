@@ -12,7 +12,6 @@ import {
   AlertCircle,
   FileText,
   User,
-  Sparkles,
 } from 'lucide-react';
 import {
   useGetUnifiedCalendarQuery,

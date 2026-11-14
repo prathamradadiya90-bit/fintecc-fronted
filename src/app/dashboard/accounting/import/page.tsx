@@ -10,7 +10,7 @@ import {
   Send, 
   Download, 
   RotateCcw,
-  Sparkles,
+  Table,
   Layers,
   HelpCircle
 } from 'lucide-react';
@@ -317,7 +317,7 @@ export default function UniversalImportPage() {
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-indigo-600" />
+              <Table className="w-5 h-5 text-indigo-600" />
               <div>
                 <h3 className="font-bold text-sm text-[var(--color-text-heading)]">
                   Visual Column Mapper ({file?.name})

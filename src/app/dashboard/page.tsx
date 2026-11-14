@@ -12,7 +12,7 @@ import { RecentClientsTable } from '@/components/dashboard/RecentClientsTable';
 import { DscExpiringWidget } from '@/components/dsc/DscExpiringWidget';
 import { AnnouncementBanner } from '@/components/common/AnnouncementBanner';
 import { 
-  Users, FileText, UserCheck, Sparkles, MessageSquare, ArrowRight, 
+  Users, FileText, UserCheck, Info, MessageSquare, ArrowRight, 
   ShieldCheck, Calendar, Database, Clock, UploadCloud, 
   Check, AlertTriangle, Cable, ArrowUpRight 
 } from 'lucide-react';
@@ -234,7 +234,7 @@ export default function DashboardPage() {
           style={{ background: 'var(--color-bg-card)' }}
         >
           <div className="p-2 rounded-lg bg-[#A8C5DA]/20 border border-[#A8C5DA]/30 text-[#4A6FA5] dark:text-[#A8C5DA] shrink-0 mt-0.5">
-            <Sparkles className="w-4 h-4" />
+            <Info className="w-4 h-4" />
           </div>
           <div>
             <h3 className="font-semibold text-xs text-[#4A6FA5] dark:text-[#A8C5DA]">Fintecc AI Statutory Insight</h3>

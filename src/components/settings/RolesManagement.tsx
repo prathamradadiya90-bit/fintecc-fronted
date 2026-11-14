@@ -11,7 +11,6 @@ import {
   AlertTriangle,
   Lock,
   Layers,
-  Sparkles,
 } from 'lucide-react';
 import {
   useGetRolesQuery,

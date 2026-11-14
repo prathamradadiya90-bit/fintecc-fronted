@@ -10,7 +10,7 @@ import {
   Building2,
   User,
   CheckCircle2,
-  Sparkles,
+  UserCheck,
 } from 'lucide-react';
 
 interface LeadDetailsModalProps {
@@ -95,7 +95,7 @@ export const LeadDetailsModal: React.FC<LeadDetailsModalProps> = ({
               size="sm"
               isLoading={isLoading}
               onClick={() => handleStatusChange('WON')}
-              leftIcon={<Sparkles className="w-4 h-4 text-emerald-300" />}
+              leftIcon={<UserCheck className="w-4 h-4 text-emerald-300" />}
               className="bg-emerald-600 hover:bg-emerald-500 text-white"
             >
               Convert to WON (Automate Onboarding)
@@ -194,7 +194,7 @@ export const LeadDetailsModal: React.FC<LeadDetailsModalProps> = ({
         {/* Automated Workflow Notice */}
         <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/5 space-y-2 text-xs">
           <div className="flex items-center gap-2 font-bold text-emerald-600 dark:text-emerald-400">
-            <Sparkles className="w-4 h-4 shrink-0" />
+            <UserCheck className="w-4 h-4 shrink-0" />
             <span>Automated Onboarding Sequence (Triggers on WON)</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600 dark:text-slate-400 pt-1">

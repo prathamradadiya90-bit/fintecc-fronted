@@ -30,7 +30,7 @@ import { ProfileSettings } from '@/components/settings/ProfileSettings';
 import { DataExportSettings } from '@/components/settings/DataExportSettings';
 import { PaymentGatewaySettings } from '@/components/settings/PaymentGatewaySettings';
 import { ApiKeysSettings } from '@/components/settings/ApiKeysSettings';
-import { CreditCard, KeyRound, Sparkles } from 'lucide-react';
+import { CreditCard, KeyRound, Mail } from 'lucide-react';
 
 type SettingsTab = 'profile' | 'invoice' | 'tax' | 'email' | 'branches' | 'payment-gateway' | 'api-keys' | 'ledger-rules' | 'roles' | 'export';
 
@@ -433,7 +433,7 @@ export default function SettingsPage() {
             <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 space-y-2.5">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                  <Mail className="w-3.5 h-3.5 text-emerald-500" />
                   Client Inbox Preview (White-Labeled)
                 </span>
                 <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">

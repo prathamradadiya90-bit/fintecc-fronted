@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Sparkles, ArrowRight, X, Loader2 } from 'lucide-react';
+import { Filter, ArrowRight, X, Loader2 } from 'lucide-react';
 import { useFilterTasksWithAiMutation } from '@/lib/store/api/tasksApi';
 import { useToast } from '@/components/ui/Toast';
 import type { Task } from '@/lib/types/task.types';
@@ -47,7 +47,7 @@ export function TaskAiFilterBar({
           className="flex items-center justify-between p-2.5 px-3.5 rounded-xl border bg-[#4A6FA5]/10 border-[#4A6FA5]/30 text-xs text-[#1E2A38] dark:text-slate-200"
         >
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#4A6FA5]" />
+            <Filter className="w-4 h-4 text-[#4A6FA5]" />
             <span>
               AI Query Filter: <strong className="text-[#4A6FA5]">"{activePrompt}"</strong>
             </span>
@@ -62,7 +62,7 @@ export function TaskAiFilterBar({
         </div>
       ) : (
         <form onSubmit={handleSearch} className="relative flex items-center">
-          <Sparkles className="w-4 h-4 absolute left-3 text-[#4A6FA5] pointer-events-none" />
+          <Filter className="w-4 h-4 absolute left-3 text-[#4A6FA5] pointer-events-none" />
           <input
             type="text"
             value={prompt}

@@ -41,7 +41,7 @@ import {
   FileText,
   AlertCircle,
   CheckCircle2,
-  Sparkles,
+  Cpu,
   Lock,
   Building2,
   ExternalLink,
@@ -511,7 +511,7 @@ function ConvertersPageContent() {
           >
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                <Sparkles className="w-4 h-4" />
+                <Cpu className="w-4 h-4" />
               </div>
               <div>
                 <p className="font-semibold text-xs" style={{ color: 'var(--color-text-primary)' }}>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import {
   CreditCard,
   Save,
-  Sparkles,
+  Zap,
   Landmark,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -122,7 +122,7 @@ export function PaymentGatewaySettings() {
 
           <div className="p-3.5 rounded-xl border border-blue-500/20 bg-blue-500/5 space-y-1">
             <div className="font-semibold text-blue-800 dark:text-blue-300 flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-blue-500" />
+              <Zap className="w-4 h-4 text-blue-500" />
               <span>Automatic Payment Links</span>
             </div>
             <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">

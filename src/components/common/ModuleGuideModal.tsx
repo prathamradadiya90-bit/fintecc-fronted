@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import {
   X,
   HelpCircle,
-  Sparkles,
+  Bot,
   ArrowRight,
   CheckCircle2,
   Lightbulb,
@@ -360,7 +360,7 @@ export function ModuleGuideModal({ isOpen, onClose, guide }: ModuleGuideModalPro
             onClick={handleOpenAi}
             className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors focus:outline-none"
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            <Bot className="w-3.5 h-3.5" />
             <span>Have specific questions? Ask Fintecc AI</span>
           </button>
 

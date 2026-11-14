@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Clock,
-  Sparkles,
+  Cpu,
   ArrowRight,
   Filter,
   Search,
@@ -322,7 +322,7 @@ export default function BankStatementsHubPage() {
                     {/* Parser Engine */}
                     <td className="py-3.5 px-4">
                       <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500">
-                        <Sparkles className="w-3 h-3 text-emerald-500" />
+                        <Cpu className="w-3 h-3 text-emerald-500" />
                         {stmt.parserUsed || 'Intake Auto-detect'}
                       </span>
                     </td>

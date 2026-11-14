@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, LogOut, Sun, Moon, User as UserIcon, Sparkles, HelpCircle, Keyboard, ShieldCheck, Zap } from 'lucide-react';
+import { Menu, LogOut, Sun, Moon, User as UserIcon, Bot, HelpCircle, Keyboard, ShieldCheck, Zap } from 'lucide-react';
 import { ModuleGuideModal } from '@/components/common/ModuleGuideModal';
 import { getModuleGuide } from '@/lib/constants/moduleGuides';
 import { useSelector, useDispatch } from 'react-redux';
@@ -247,7 +247,7 @@ export function Topbar({
                     e.currentTarget.style.background = 'transparent';
                   }}
                 >
-                  <Sparkles className="w-4 h-4 text-[#4A6FA5]" />
+                  <Bot className="w-4 h-4 text-[#4A6FA5]" />
                   Ask Fintecc AI
                 </button>
 

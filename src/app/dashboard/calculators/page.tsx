@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { CALCULATORS_LIST, CALCULATOR_CATEGORIES } from '@/lib/constants/calculatorRegistry';
 import { CalculatorRenderer } from '@/components/calculators/CalculatorRenderer';
 import { CalculatorIcon } from '@/components/calculators/CalculatorIcon';
-import { ExternalLink, Search, X, Sparkles } from 'lucide-react';
+import { ExternalLink, Search, X } from 'lucide-react';
 
 export default function DashboardCalculatorsPage() {
   const [selectedSlug, setSelectedSlug] = useState('emi-calculator');

@@ -9,7 +9,7 @@ import {
   Building2,
   CheckCircle2,
   AlertCircle,
-  Sparkles,
+  FileSearch,
   Loader2,
   FileSpreadsheet,
   Image as ImageIcon,
@@ -372,7 +372,7 @@ export function UploadIntakeModal({
               {currentView === 'password_prompt' ? (
                 <Lock className="w-5 h-5 text-[#9E6B42]" />
               ) : (
-                <Sparkles className="w-5 h-5 text-[#4A6FA5]" />
+                <FileSearch className="w-5 h-5 text-[#4A6FA5]" />
               )}
             </div>
             <div>
@@ -491,7 +491,7 @@ export function UploadIntakeModal({
               <div className="relative w-16 h-16 mx-auto">
                 <div className="w-16 h-16 border-4 border-[#4A6FA5]/20 border-t-[#4A6FA5] rounded-full animate-spin" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-[#4A6FA5] animate-pulse" />
+                  <FileSearch className="w-6 h-6 text-[#4A6FA5] animate-pulse" />
                 </div>
               </div>
 
@@ -748,7 +748,7 @@ export function UploadIntakeModal({
             {/* Auto-detection & Security Info note */}
             <div className="p-3 rounded-xl border border-[#A8C5DA]/40 bg-[#F7F9FB] text-[11px] space-y-1">
               <div className="font-semibold text-[#4A6FA5] flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5" /> 5-Stage Verification Pipeline
+                <ShieldCheck className="w-3.5 h-3.5" /> 5-Stage Verification Pipeline
               </div>
               <p className="text-[#5A6E85]">
                 Includes digital text parsing, auto-OCR for scanned statements, layout column extraction, and double-entry balance check with duplicate detection.

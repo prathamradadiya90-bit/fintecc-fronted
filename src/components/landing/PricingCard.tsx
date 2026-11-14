@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, ArrowRight, Sparkles } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 
 export interface PricingPlanItem {
   id: string;
@@ -63,7 +63,6 @@ export function PricingCard({
                 : "bg-[#A8C5DA]/25 text-[#1E2A38] border border-[#A8C5DA]/40"
             }`}
           >
-            {isPopular && <Sparkles className="w-2.5 h-2.5" />}
             {plan.badge}
           </span>
         ) : (

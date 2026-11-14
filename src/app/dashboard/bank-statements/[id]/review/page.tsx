@@ -20,7 +20,6 @@ import {
   Filter,
   XCircle,
   Clock,
-  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/Toast';

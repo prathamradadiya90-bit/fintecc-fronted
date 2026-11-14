@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, Info, Sparkles, AlertOctagon, X } from 'lucide-react';
+import { AlertTriangle, Info, Bell, AlertOctagon, X } from 'lucide-react';
 import { useGetAnnouncementsQuery } from '@/lib/store/api/announcementsApi';
 import type { AnnouncementType } from '@/lib/types/announcement.types';
 
@@ -62,7 +62,7 @@ export function AnnouncementBanner() {
           border: 'border-emerald-200 dark:border-emerald-800',
           text: 'text-emerald-900 dark:text-emerald-200',
           desc: 'text-emerald-800 dark:text-emerald-300',
-          icon: <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />,
+          icon: <Bell className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />,
         };
       case 'UPDATE':
       default:

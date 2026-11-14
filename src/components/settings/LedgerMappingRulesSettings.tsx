@@ -6,7 +6,6 @@ import {
   Plus,
   Search,
   CheckCircle2,
-  Sparkles,
   Sliders,
   X,
   Loader2,

@@ -10,7 +10,6 @@ import {
   CheckCircle2,
   FileCheck,
   Search,
-  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/Toast';

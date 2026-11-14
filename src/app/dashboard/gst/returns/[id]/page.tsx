@@ -14,7 +14,6 @@ import {
   TrendingUp,
   ShieldCheck,
   Bot,
-  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useGetReturnByIdQuery } from '@/lib/store/api/gstApi';
@@ -348,7 +347,7 @@ export default function ReturnDetailPage() {
           >
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-2xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400">
-                <Sparkles className="w-5 h-5" />
+                <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="font-semibold text-sm text-[var(--color-text-heading)]">

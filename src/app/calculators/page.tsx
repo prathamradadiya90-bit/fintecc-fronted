@@ -7,7 +7,7 @@ import { PublicFooter } from '@/components/layouts/PublicFooter';
 import { CalculatorCard } from '@/components/calculators/CalculatorCard';
 import { CALCULATOR_CATEGORIES, CALCULATORS_LIST } from '@/lib/constants/calculatorRegistry';
 import { CalculatorCategory } from '@/lib/types/calculator.types';
-import { Search, Sparkles, X, Calculator, ArrowRight } from 'lucide-react';
+import { Search, TrendingUp, X, Calculator, ArrowRight } from 'lucide-react';
 import { CalculatorIcon } from '@/components/calculators/CalculatorIcon';
 
 const QUICK_TAGS = [
@@ -56,7 +56,7 @@ export default function PublicCalculatorsHubPage() {
         {/* Hero Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 mb-4 bg-[#10B981]/10 border border-[#10B981]/20 rounded-full">
-            <Sparkles className="w-3.5 h-3.5 text-[#10B981]" />
+            <Calculator className="w-3.5 h-3.5 text-[#10B981]" />
             <span className="text-xs font-semibold text-[#10B981]">
               27 Free Financial & Tax Calculators
             </span>
@@ -212,7 +212,7 @@ export default function PublicCalculatorsHubPage() {
         {selectedCategory === 'All' && !searchQuery && (
           <div className="mb-12">
             <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="w-4 h-4 text-[#10B981]" />
+              <TrendingUp className="w-4 h-4 text-[#10B981]" />
               <h2 className="text-base font-bold" style={{ color: 'var(--color-text-primary)' }}>
                 Most Popular Calculators
               </h2>

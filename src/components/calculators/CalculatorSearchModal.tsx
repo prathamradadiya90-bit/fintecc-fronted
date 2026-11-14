@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, X, Calculator, ArrowRight, CornerDownLeft, Sparkles } from 'lucide-react';
+import { Search, X, Calculator, ArrowRight, CornerDownLeft } from 'lucide-react';
 import { CALCULATORS_LIST } from '@/lib/constants/calculatorRegistry';
 import { CalculatorIcon } from '@/components/calculators/CalculatorIcon';
 import { CalculatorCategory } from '@/lib/types/calculator.types';

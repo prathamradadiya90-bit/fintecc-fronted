@@ -6,7 +6,7 @@ import {
   TransactionStatus,
 } from '@/lib/types/bankStatement.types';
 import {
-  Sparkles,
+  Cpu,
   CheckCircle2,
   AlertTriangle,
   XCircle,
@@ -605,7 +605,7 @@ export function CAReviewTable({
                               </span>
                             ) : tx.source === 'fallback' ? (
                               <span className="inline-flex items-center gap-0.5 text-[#9E6B42] font-medium">
-                                <Sparkles className="w-2.5 h-2.5" /> AI Guessed
+                                <Cpu className="w-2.5 h-2.5" /> AI Guessed
                               </span>
                             ) : (
                               <span className="text-[#8E9FAA]">Verified</span>
