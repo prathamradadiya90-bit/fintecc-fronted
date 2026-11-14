@@ -20,7 +20,7 @@ export const GstClientSelector: React.FC<GstClientSelectorProps> = ({
   const options: SearchableOption[] = [
     {
       value: '',
-      label: 'All Clients (Firm Global View)',
+      label: 'All Clients',
       sublabel: 'View all GST returns & profiles across all clients',
     },
     ...clients.map((client) => ({

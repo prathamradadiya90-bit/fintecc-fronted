@@ -144,11 +144,6 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                     {selectedOption.badge}
                   </span>
                 )}
-                {selectedOption.sublabel && (
-                  <span className="text-[11px] text-[var(--color-text-muted)] truncate hidden sm:inline">
-                    ({selectedOption.sublabel})
-                  </span>
-                )}
               </div>
             ) : (
               <span>{isLoading ? 'Loading options...' : placeholder}</span>

@@ -22,13 +22,13 @@ interface GstLayoutProps {
 
 const navTabs = [
   { name: 'Overview', href: '/dashboard/gst', icon: LayoutDashboard },
-  { name: 'GST Profiles', href: '/dashboard/gst/profiles', icon: Building2 },
-  { name: 'Returns & Filing', href: '/dashboard/gst/returns', icon: FileSpreadsheet },
-  { name: 'GST IMS', href: '/dashboard/gst/ims', icon: FileCheck },
-  { name: 'GST Invoices', href: '/dashboard/gst/invoices', icon: Receipt },
-  { name: 'Statutory Catalog', href: '/dashboard/gst/catalog', icon: BookOpen },
-  { name: 'Interest & Late Fee', href: '/dashboard/gst/calculator', icon: Calculator },
-  { name: 'Portal Status Sync', href: '/dashboard/gst/portal-sync', icon: RefreshCw },
+  { name: 'Profiles', href: '/dashboard/gst/profiles', icon: Building2 },
+  { name: 'Returns', href: '/dashboard/gst/returns', icon: FileSpreadsheet },
+  { name: 'IMS Portal', href: '/dashboard/gst/ims', icon: FileCheck },
+  { name: 'Invoices', href: '/dashboard/gst/invoices', icon: Receipt },
+  { name: 'Catalog', href: '/dashboard/gst/catalog', icon: BookOpen },
+  { name: 'Late Fee Calc', href: '/dashboard/gst/calculator', icon: Calculator },
+  { name: 'Portal Sync', href: '/dashboard/gst/portal-sync', icon: RefreshCw },
 ];
 
 export default function GstLayout({ children }: GstLayoutProps) {
@@ -85,7 +85,7 @@ export default function GstLayout({ children }: GstLayoutProps) {
               key={tab.name}
               href={tab.href}
               className={`
-                flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap
+                flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap
                 ${
                   isActive
                     ? 'bg-emerald-600 text-white shadow-sm'
