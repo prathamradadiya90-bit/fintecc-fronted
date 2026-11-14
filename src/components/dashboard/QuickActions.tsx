@@ -76,19 +76,17 @@ export function QuickActions() {
                 e.currentTarget.style.background = 'var(--color-bg-subtle)';
               }}
             >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className={`p-2.5 rounded-lg shrink-0 transition-colors ${action.iconColor}`}>
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className={`p-2 rounded-lg shrink-0 transition-colors ${action.iconColor}`}>
                   <Icon className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <h4
-                      className="text-xs font-semibold group-hover:text-[#4A6FA5] dark:group-hover:text-[#A8C5DA] transition-colors truncate"
-                      style={{ color: 'var(--color-text-primary)' }}
-                    >
-                      {action.title}
-                    </h4>
-                  </div>
+                  <h4
+                    className="text-xs font-semibold group-hover:text-[#4A6FA5] dark:group-hover:text-[#A8C5DA] transition-colors leading-tight"
+                    style={{ color: 'var(--color-text-primary)' }}
+                  >
+                    {action.title}
+                  </h4>
                   <p
                     className="text-[11px] truncate mt-0.5"
                     style={{ color: 'var(--color-text-secondary)' }}
@@ -98,7 +96,7 @@ export function QuickActions() {
                 </div>
               </div>
               <ArrowRight
-                className="w-3.5 h-3.5 group-hover:text-[#4A6FA5] dark:group-hover:text-[#A8C5DA] group-hover:translate-x-0.5 transition-all shrink-0 ml-2"
+                className="w-3.5 h-3.5 group-hover:text-[#4A6FA5] dark:group-hover:text-[#A8C5DA] group-hover:translate-x-0.5 transition-all shrink-0 ml-1.5"
                 style={{ color: 'var(--color-text-muted)' }}
               />
             </Link>

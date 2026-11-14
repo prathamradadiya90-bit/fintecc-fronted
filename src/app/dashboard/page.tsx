@@ -13,8 +13,8 @@ import { DscExpiringWidget } from '@/components/dsc/DscExpiringWidget';
 import { AnnouncementBanner } from '@/components/common/AnnouncementBanner';
 import { 
   Users, FileText, UserCheck, Sparkles, MessageSquare, ArrowRight, 
-  ShieldCheck, Calendar, Database, Clock, UploadCloud, FolderOpen, 
-  Download, KeyRound, Cpu, Check, AlertTriangle, Cable, ArrowUpRight 
+  ShieldCheck, Calendar, Database, Clock, UploadCloud, 
+  Check, AlertTriangle, Cable, ArrowUpRight 
 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store/store';
@@ -40,11 +40,6 @@ export default function DashboardPage() {
   const stats = data?.data;
   const clients = clientsData?.data || [];
   const clientDocs = clientDocsData?.data || [];
-
-  // Dropzone local UI state for prototype interaction
-  const [selectedFormat, setSelectedFormat] = useState<'Tally XML' | 'Excel' | 'CSV'>('Tally XML');
-  const [autoContra, setAutoContra] = useState(true);
-  const [autoNarration, setAutoNarration] = useState(true);
 
   // Format date for the header
   const today = new Date().toLocaleDateString('en-US', {
@@ -190,7 +185,7 @@ export default function DashboardPage() {
       
       {/* Welcome Header Banner */}
       <section
-        className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3"
         style={{ borderBottom: '1px solid var(--color-border)' }}
       >
         <div>
@@ -199,7 +194,7 @@ export default function DashboardPage() {
               className="text-xl font-bold tracking-tight"
               style={{ color: 'var(--color-text-heading)' }}
             >
-              Good morning, {user?.name?.split(' ')[0] || 'Test'}
+              Good morning, {user?.name?.split(' ')[0] || 'CA'}
             </h1>
             <span className="text-xl">👋</span>
             <span
@@ -209,28 +204,15 @@ export default function DashboardPage() {
             </span>
           </div>
           <p
-            className="text-xs mt-1 flex flex-wrap items-center gap-2"
+            className="text-xs mt-1"
             style={{ color: 'var(--color-text-secondary)' }}
           >
-            <span 
-              className="inline-flex items-center gap-1.5 font-medium"
-              style={{ color: 'var(--color-status-success-text, #3D7A64)' }}
-            >
-              <span 
-                className="w-1.5 h-1.5 rounded-full animate-pulse" 
-                style={{ background: 'var(--color-status-success-text, #3D7A64)' }}
-              />
-              {stats?.pdfsConverted || 48} bank statements converted this week
-            </span>
-            <span>·</span>
-            <span>99.4% OCR accuracy</span>
-            <span>·</span>
-            <span className="font-medium" style={{ color: 'var(--color-text-muted)' }}>Zero data retention on server</span>
+            Practice Overview & Statutory Compliance Command Center
           </p>
         </div>
         <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
           <span
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium"
             style={{
               background: 'var(--color-bg-card)',
               border: '1px solid var(--color-border)',
@@ -238,16 +220,6 @@ export default function DashboardPage() {
           >
             <Calendar className="w-3.5 h-3.5 text-[#4A6FA5] dark:text-[#A8C5DA]" />
             FY 2024-25 (Q4)
-          </span>
-          <span
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded"
-            style={{
-              background: 'var(--color-bg-card)',
-              border: '1px solid var(--color-border)',
-            }}
-          >
-            <Database className="w-3.5 h-3.5 text-[#4A6FA5] dark:text-[#A8C5DA]" />
-            Tally XML v9.2 Ready
           </span>
         </div>
       </section>
@@ -333,212 +305,41 @@ export default function DashboardPage() {
         </section>
       )}
 
-      {/* Quick Conversion Hero Dropzone Widget */}
+      {/* Streamlined Statement Automation Banner */}
       <section
-        className="rounded-xl p-5 relative overflow-hidden shadow-sm"
+        className="rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs"
         style={{
           background: 'var(--color-bg-card)',
           border: '1px solid var(--color-border)',
         }}
       >
-        {/* Radial decorative ambient glow */}
-        <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-[#A8C5DA]/10 blur-3xl pointer-events-none" />
-        
-        <div className="flex flex-col lg:flex-row items-stretch gap-5 relative z-10">
-          {/* Dropzone Left Area */}
-          <div 
-            onClick={() => router.push('/dashboard/converters')}
-            className="flex-1 border-2 border-dashed transition-colors duration-200 rounded-xl p-6 flex flex-col items-center justify-center text-center group cursor-pointer"
-            style={{
-              borderColor: 'var(--color-border)',
-              background: 'var(--color-bg-page)',
-            }}
-          >
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center text-[#4A6FA5] dark:text-[#A8C5DA] group-hover:scale-105 transition-all duration-200 mb-2.5 shadow-xs bg-[#A8C5DA]/25 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/30 dark:border-[#A8C5DA]/30"
-            >
-              <UploadCloud className="w-6 h-6" />
+        <div className="flex items-center gap-3.5 min-w-0">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-[#4A6FA5]/15 text-[#4A6FA5] dark:text-[#A8C5DA] border border-[#4A6FA5]/25">
+            <UploadCloud className="w-5 h-5" />
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-semibold truncate" style={{ color: 'var(--color-text-primary)' }}>
+                Bank Statement OCR & Tally Sync
+              </h3>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-md font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                99.4% OCR
+              </span>
             </div>
-            <h3
-              className="text-sm font-semibold mb-1"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
-              Select Bank Statement PDF or Drag & Drop Here
-            </h3>
-            <p
-              className="text-xs max-w-md mb-3.5"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              Automated parsing for <span className="font-medium" style={{ color: 'var(--color-text-primary)' }}>HDFC, SBI, ICICI, Axis, Kotak, PNB</span> & 1000+ Indian co-op and regional banks.
+            <p className="text-xs truncate mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+              Automated parsing for 1000+ Indian banks with one-click export to Tally XML, Excel, and CSV.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <button 
-                type="button"
-                className="bg-[#4A6FA5] text-white font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 hover:bg-[#3D5D8A] transition-colors shadow-sm active:scale-95 cursor-pointer"
-              >
-                <FolderOpen className="w-3.5 h-3.5 text-[#E0B99B]" />
-                <span>Browse Files</span>
-              </button>
-              <button 
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  router.push('/dashboard/converters');
-                }}
-                className="text-xs transition-colors underline underline-offset-4 flex items-center gap-1 text-[#4A6FA5] dark:text-[#A8C5DA] hover:text-[#3D5D8A] dark:hover:text-white cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Download Sample Statement</span>
-              </button>
-            </div>
-            {/* Trust Micro-pills */}
-            <div
-              className="flex flex-wrap items-center justify-center gap-3 mt-4 text-[11px] font-mono"
-              style={{ color: 'var(--color-text-muted)' }}
-            >
-              <span className="flex items-center gap-1">
-                <KeyRound className="w-3 h-3 text-[#4A6FA5] dark:text-[#A8C5DA]" />
-                Auto-decrypt with client password vault
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1">
-                <Cpu className="w-3 h-3 text-[#4A6FA5] dark:text-[#A8C5DA]" />
-                Multi-column scan OCR
-              </span>
-            </div>
           </div>
+        </div>
 
-          {/* Dropzone Right Configuration Options */}
-          <div
-            className="w-full lg:w-80 flex flex-col justify-between rounded-xl p-4"
-            style={{
-              background: 'var(--color-bg-card)',
-              border: '1px solid var(--color-border)',
-            }}
+        <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto">
+          <Link
+            href="/dashboard/converters"
+            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-[#4A6FA5] hover:bg-[#3D5D8A] text-white text-xs font-semibold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer group"
           >
-            <div>
-              <div
-                className="flex items-center justify-between mb-3 pb-2"
-                style={{ borderBottom: '1px solid var(--color-border)' }}
-              >
-                <span
-                  className="text-xs font-semibold"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
-                  Conversion Preset
-                </span>
-                <span 
-                  className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/20 dark:bg-[#A8C5DA]/15 border border-[#A8C5DA]/40 dark:border-[#A8C5DA]/40 shadow-xs"
-                >
-                  Standard CA Ledger
-                </span>
-              </div>
-              {/* Format Select */}
-              <div className="space-y-3">
-                <div>
-                  <label
-                    className="block text-[11px] font-bold mb-1 uppercase tracking-wider"
-                    style={{ color: 'var(--color-text-secondary)' }}
-                  >
-                    Target Output Format
-                  </label>
-                  <div className="grid grid-cols-3 gap-1.5">
-                    {(['Tally XML', 'Excel', 'CSV'] as const).map((fmt) => (
-                      <button
-                        key={fmt}
-                        type="button"
-                        onClick={() => setSelectedFormat(fmt)}
-                        className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                          selectedFormat === fmt
-                            ? 'border-2 border-[#4A6FA5] dark:border-[#A8C5DA] text-[#4A6FA5] dark:text-[#A8C5DA] bg-[#A8C5DA]/15 dark:bg-[#A8C5DA]/20 shadow-xs'
-                            : 'border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-subtle)]'
-                        }`}
-                      >
-                        {fmt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Client Selector */}
-                <div>
-                  <label
-                    className="block text-[11px] font-bold mb-1 uppercase tracking-wider"
-                    style={{ color: 'var(--color-text-secondary)' }}
-                  >
-                    Assign to Client Folder
-                  </label>
-                  <select 
-                    aria-label="Assign to Client Folder"
-                    className="w-full rounded-lg text-xs px-2.5 py-1.5 focus:border-[#4A6FA5] focus:outline-none cursor-pointer"
-                    style={{
-                      background: 'var(--color-bg-card)',
-                      border: '1px solid var(--color-border)',
-                      color: 'var(--color-text-primary)',
-                    }}
-                  >
-                    {clients.length > 0 ? (
-                      clients.map((c) => (
-                        <option key={c.id} value={c.id}>
-                          {c.name} {c.pan ? `(${c.pan})` : ''}
-                        </option>
-                      ))
-                    ) : (
-                      <>
-                        <option>pratham Radadiya (GFNPR6666C)</option>
-                        <option>Reliance Retail Dist. (GST-27AABCR12)</option>
-                        <option>Apex Infra Buildcon Pvt Ltd</option>
-                        <option>Kothari Textiles LLP</option>
-                      </>
-                    )}
-                  </select>
-                </div>
-
-                {/* Smart Flags */}
-                <div className="space-y-2 pt-1">
-                  <label
-                    className="flex items-center gap-2 cursor-pointer text-xs"
-                    style={{ color: 'var(--color-text-primary)' }}
-                  >
-                    <input 
-                      type="checkbox"
-                      checked={autoContra}
-                      onChange={(e) => setAutoContra(e.target.checked)}
-                      className="rounded accent-[#4A6FA5] w-3.5 h-3.5 cursor-pointer"
-                    />
-                    <span>Auto-categorize GST Contra/Cash txns</span>
-                  </label>
-                  <label
-                    className="flex items-center gap-2 cursor-pointer text-xs"
-                    style={{ color: 'var(--color-text-primary)' }}
-                  >
-                    <input 
-                      type="checkbox"
-                      checked={autoNarration}
-                      onChange={(e) => setAutoNarration(e.target.checked)}
-                      className="rounded accent-[#4A6FA5] w-3.5 h-3.5 cursor-pointer"
-                    />
-                    <span>Generate Narration for BRS Audit trail</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {/* Instant Status Note */}
-            <div
-              className="mt-3 pt-2.5 flex items-center justify-between text-[11px]"
-              style={{
-                borderTop: '1px solid var(--color-border)',
-                color: 'var(--color-text-muted)',
-              }}
-            >
-              <span className="flex items-center gap-1 text-[#4A6FA5] dark:text-[#A8C5DA]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#4A6FA5] dark:bg-[#A8C5DA] animate-pulse" />
-                Engine: Online
-              </span>
-              <span className="text-[#4A6FA5] dark:text-[#A8C5DA] font-mono">Avg: 1.8s / 500 txns</span>
-            </div>
-          </div>
+            <span>Convert Statement</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
         </div>
       </section>
 
