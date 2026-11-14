@@ -77,7 +77,7 @@ export function ChatTab({ clientId }: ChatTabProps) {
 
   const user = useSelector((state: RootState) => state.auth.user);
   const { showToast } = useToast();
-  const { socket, isConnected } = useSocket();
+  const { socket, isConnected, isPollingFallback } = useSocket();
 
   const {
     data: response,
@@ -86,6 +86,7 @@ export function ChatTab({ clientId }: ChatTabProps) {
     refetch,
   } = useGetMessagesQuery(clientId, {
     refetchOnFocus: true,
+    pollingInterval: isConnected ? 0 : 5000,
   });
 
   const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
@@ -225,7 +226,7 @@ export function ChatTab({ clientId }: ChatTabProps) {
       }}
     >
       {/* Connection indicator */}
-      {!isConnected && (
+      {!isConnected && !isPollingFallback && (
         <div className="px-4 py-1.5 bg-amber-50 dark:bg-amber-950/30 text-center">
           <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400 flex items-center justify-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />

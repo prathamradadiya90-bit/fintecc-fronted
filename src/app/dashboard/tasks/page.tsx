@@ -89,8 +89,8 @@ export default function WorkBoardPage() {
   const [importMasterExcel] = useImportMasterExcelMutation();
   const [triggerRecurring, { isLoading: isTriggeringRecurring }] = useTriggerRecurringTasksMutation();
 
-  // WebSockets live sync
-  const { isConnected: isSocketConnected } = useTaskSocket({
+  // WebSockets live sync with intelligent serverless fallback
+  const { isConnected: isSocketConnected, isSyncActive } = useTaskSocket({
     onTaskCreated: (newTask) => {
       showToast(`New task created: "${newTask.title}"`, 'info');
     },
@@ -401,6 +401,7 @@ export default function WorkBoardPage() {
             userRole={user?.role}
             totalTasks={totalTasks}
             isSocketConnected={isSocketConnected}
+            isSyncActive={isSyncActive}
             onViewModeChange={handleViewModeChange}
             onOpenCreateModal={() => setIsCreateOpen(true)}
             onOpenImportModal={() => setIsImportOpen(true)}

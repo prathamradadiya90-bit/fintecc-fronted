@@ -10,6 +10,7 @@ interface TaskGridToolbarProps {
   userRole?: string;
   totalTasks: number;
   isSocketConnected?: boolean;
+  isSyncActive?: boolean;
   onViewModeChange: (mode: TaskFilterState['viewMode']) => void;
   onOpenCreateModal: () => void;
   onOpenImportModal: () => void;
@@ -23,6 +24,7 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
   userRole,
   totalTasks,
   isSocketConnected = false,
+  isSyncActive = false,
   onViewModeChange,
   onOpenCreateModal,
   onOpenImportModal,
@@ -65,21 +67,44 @@ export const TaskGridToolbar: React.FC<TaskGridToolbarProps> = ({
           <div
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border"
             style={{
-              background: isSocketConnected ? 'rgba(61, 122, 100, 0.08)' : 'var(--color-bg-subtle)',
-              borderColor: isSocketConnected ? 'rgba(61, 122, 100, 0.2)' : 'var(--color-border)',
-              color: isSocketConnected ? '#3D7A64' : 'var(--color-text-muted)',
+              background: isSocketConnected
+                ? 'rgba(61, 122, 100, 0.08)'
+                : isSyncActive
+                ? 'rgba(74, 111, 165, 0.08)'
+                : 'var(--color-bg-subtle)',
+              borderColor: isSocketConnected
+                ? 'rgba(61, 122, 100, 0.2)'
+                : isSyncActive
+                ? 'rgba(74, 111, 165, 0.2)'
+                : 'var(--color-border)',
+              color: isSocketConnected
+                ? '#3D7A64'
+                : isSyncActive
+                ? '#4A6FA5'
+                : 'var(--color-text-muted)',
             }}
-            title={isSocketConnected ? 'Real-time WebSocket active' : 'Connecting to real-time sync...'}
+            title={
+              isSocketConnected
+                ? 'Real-time WebSocket active'
+                : isSyncActive
+                ? 'Cloud Auto-Sync active (Periodic & on focus)'
+                : 'Offline'
+            }
           >
             {isSocketConnected ? (
               <>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#3D7A64] animate-ping" />
                 <span>Live Sync</span>
               </>
+            ) : isSyncActive ? (
+              <>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4A6FA5]" />
+                <span>Cloud Sync</span>
+              </>
             ) : (
               <>
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span>Offline Sync</span>
+                <span>Offline</span>
               </>
             )}
           </div>

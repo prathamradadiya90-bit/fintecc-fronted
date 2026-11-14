@@ -11,19 +11,20 @@ interface UseTaskSocketOptions {
   onTaskUpdated?: (task: Task) => void;
   onTaskBulkUpdated?: (tasks: Task[]) => void;
   onTaskDeleted?: (payload: { id: string }) => void;
+  pollingIntervalMs?: number;
 }
 
 /**
- * Custom hook to listen to real-time task events via WebSockets.
- * When task events are received from the firm room, it invalidates the RTK Query
- * tasks cache so all subscribers automatically get updated data.
+ * Custom hook to listen to real-time task events via WebSockets,
+ * with an automatic, resilient HTTP polling fallback for serverless environments (e.g. Vercel).
  */
 export function useTaskSocket(options?: UseTaskSocketOptions) {
-  const { socket, isConnected } = useSocket();
+  const { socket, isConnected, isSupported, isPollingFallback } = useSocket();
   const dispatch = useDispatch();
 
+  // 1. WebSocket Event Listener (active when WebSockets are connected)
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !isConnected) return;
 
     const handleTaskCreated = (newTask: Task) => {
       dispatch(tasksApi.util.invalidateTags([{ type: 'Task', id: 'LIST' }]));
@@ -61,7 +62,36 @@ export function useTaskSocket(options?: UseTaskSocketOptions) {
       socket.off('task_bulk_updated', handleTaskBulkUpdated);
       socket.off('task_deleted', handleTaskDeleted);
     };
-  }, [socket, dispatch, options]);
+  }, [socket, isConnected, dispatch, options]);
 
-  return { socket, isConnected };
+  // 2. Intelligent HTTP Polling Fallback (when WebSockets are not connected or unsupported)
+  useEffect(() => {
+    if (isConnected) return;
+
+    const intervalMs = options?.pollingIntervalMs || 25000;
+    const interval = setInterval(() => {
+      if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
+        dispatch(tasksApi.util.invalidateTags([{ type: 'Task', id: 'LIST' }]));
+      }
+    }, intervalMs);
+
+    const handleFocus = () => {
+      dispatch(tasksApi.util.invalidateTags([{ type: 'Task', id: 'LIST' }]));
+    };
+
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [isConnected, dispatch, options?.pollingIntervalMs]);
+
+  return {
+    socket,
+    isConnected,
+    isSupported,
+    isPollingFallback,
+    isSyncActive: isConnected || isPollingFallback,
+  };
 }
