@@ -198,7 +198,7 @@ export const ImsVoucherView: React.FC<ImsVoucherViewProps> = ({
               <th className="p-3 font-semibold">Invoice Details</th>
               <th className="p-3 font-semibold text-right">Taxable Value</th>
               <th className="p-3 font-semibold text-right">Tax Breakdown</th>
-              <th className="p-3 font-semibold text-right">Total (â‚¹)</th>
+              <th className="p-3 font-semibold text-right">Total (₹)</th>
               <th className="p-3 font-semibold text-center">Books Match</th>
               <th className="p-3 font-semibold text-center">IMS Action</th>
               <th className="p-3 font-semibold text-center">Actions</th>
@@ -264,18 +264,18 @@ export const ImsVoucherView: React.FC<ImsVoucherViewProps> = ({
 
                     {/* Taxable Value */}
                     <td className="p-3 text-right font-mono">
-                      â‚¹{Number(inv.taxableValue || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                      ₹{Number(inv.taxableValue || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </td>
 
                     {/* Tax Breakdown */}
                     <td className="p-3 text-right font-mono text-[11px] text-[var(--color-text-secondary)]">
-                      <div>IGST: â‚¹{Number(inv.igst || 0).toFixed(2)}</div>
-                      <div>C+S: â‚¹{((Number(inv.cgst) || 0) + (Number(inv.sgst) || 0)).toFixed(2)}</div>
+                      <div>IGST: ₹{Number(inv.igst || 0).toFixed(2)}</div>
+                      <div>C+S: ₹{((Number(inv.cgst) || 0) + (Number(inv.sgst) || 0)).toFixed(2)}</div>
                     </td>
 
                     {/* Total Amount */}
                     <td className="p-3 text-right font-mono font-bold text-slate-900 dark:text-slate-100">
-                      â‚¹{Number(inv.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                      ₹{Number(inv.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </td>
 
                     {/* Books Match Status */}

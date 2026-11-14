@@ -428,12 +428,12 @@ export default function UniversalImportPage() {
               className="p-4 rounded-2xl border"
               style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
             >
-              <div className="text-xs text-[var(--color-text-secondary)]">Total Amount (â‚¹)</div>
+              <div className="text-xs text-[var(--color-text-secondary)]">Total Amount (₹)</div>
               <div className="text-xl font-bold font-mono mt-1 text-[var(--color-text-heading)]">
-                â‚¹{Number(validationResult.summary?.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                ₹{Number(validationResult.summary?.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </div>
               <div className="text-[11px] text-slate-400 mt-1">
-                Tax: â‚¹{Number(validationResult.summary?.totalTax || 0).toLocaleString('en-IN')}
+                Tax: ₹{Number(validationResult.summary?.totalTax || 0).toLocaleString('en-IN')}
               </div>
             </div>
           </div>
@@ -494,9 +494,9 @@ export default function UniversalImportPage() {
                     <th className="p-2.5 font-semibold">Date</th>
                     <th className="p-2.5 font-semibold">Voucher #</th>
                     <th className="p-2.5 font-semibold">Party / GSTIN</th>
-                    <th className="p-2.5 font-semibold text-right">Taxable (â‚¹)</th>
-                    <th className="p-2.5 font-semibold text-right">Tax (â‚¹)</th>
-                    <th className="p-2.5 font-semibold text-right">Total (â‚¹)</th>
+                    <th className="p-2.5 font-semibold text-right">Taxable (₹)</th>
+                    <th className="p-2.5 font-semibold text-right">Tax (₹)</th>
+                    <th className="p-2.5 font-semibold text-right">Total (₹)</th>
                     <th className="p-2.5 font-semibold text-center">Status</th>
                     <th className="p-2.5 font-semibold text-center">Master</th>
                   </tr>
@@ -515,11 +515,11 @@ export default function UniversalImportPage() {
                         <div className="font-semibold text-slate-900 dark:text-slate-100">{v.partyName}</div>
                         {v.gstin && <div className="font-mono text-[10px] text-slate-400">{v.gstin}</div>}
                       </td>
-                      <td className="p-2.5 text-right font-mono">â‚¹{v.taxableValue.toFixed(2)}</td>
+                      <td className="p-2.5 text-right font-mono">₹{v.taxableValue.toFixed(2)}</td>
                       <td className="p-2.5 text-right font-mono text-emerald-600">
-                        â‚¹{(v.cgst + v.sgst + v.igst).toFixed(2)}
+                        ₹{(v.cgst + v.sgst + v.igst).toFixed(2)}
                       </td>
-                      <td className="p-2.5 text-right font-mono font-bold">â‚¹{v.totalAmount.toFixed(2)}</td>
+                      <td className="p-2.5 text-right font-mono font-bold">₹{v.totalAmount.toFixed(2)}</td>
                       <td className="p-2.5 text-center">
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
                           <CheckCircle2 className="w-3 h-3" /> Valid

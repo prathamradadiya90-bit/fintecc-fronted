@@ -37,7 +37,10 @@ import type { User } from '@/lib/types/auth.types';
 import type { AttendanceRecord, AttendanceStatus } from '@/lib/types/attendance.types';
 
 const ROLE_STYLES: Record<string, { bg: string; text: string; label: string }> = {
+  FIRM_OWNER: { bg: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800', text: 'text-indigo-700', label: 'Firm Owner' },
+  SUPER_ADMIN: { bg: 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800', text: 'text-purple-700', label: 'Super Admin' },
   PARTNER: { bg: 'bg-blue-50 text-blue-700 border-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800', text: 'text-blue-700', label: 'Partner' },
+  MANAGER: { bg: 'bg-teal-50 text-teal-700 border-teal-100 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-800', text: 'text-teal-700', label: 'Manager' },
   EMPLOYEE: { bg: 'bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800', text: 'text-emerald-700', label: 'Employee' },
   AUDITOR: { bg: 'bg-purple-50 text-purple-700 border-purple-100 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800', text: 'text-purple-700', label: 'Auditor' },
   ACCOUNTANT: { bg: 'bg-amber-50 text-amber-700 border-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800', text: 'text-amber-700', label: 'Accountant' },

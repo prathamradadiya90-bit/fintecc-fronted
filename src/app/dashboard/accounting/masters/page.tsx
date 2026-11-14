@@ -222,7 +222,7 @@ export default function BulkMastersPage() {
                   <th className="p-2.5 font-semibold">Ledger Name</th>
                   <th className="p-2.5 font-semibold">Parent Group</th>
                   <th className="p-2.5 font-semibold">GSTIN (Optional)</th>
-                  <th className="p-2.5 font-semibold text-right">Opening Balance (â‚¹)</th>
+                  <th className="p-2.5 font-semibold text-right">Opening Balance (₹)</th>
                   <th className="p-2.5 w-10"></th>
                 </tr>
               </thead>
@@ -298,7 +298,7 @@ export default function BulkMastersPage() {
                   <th className="p-2.5 font-semibold">Unit (UOM)</th>
                   <th className="p-2.5 font-semibold">HSN/SAC</th>
                   <th className="p-2.5 font-semibold text-right">Opening Qty</th>
-                  <th className="p-2.5 font-semibold text-right">Rate (â‚¹)</th>
+                  <th className="p-2.5 font-semibold text-right">Rate (₹)</th>
                   <th className="p-2.5 w-10"></th>
                 </tr>
               </thead>

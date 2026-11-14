@@ -12,6 +12,7 @@ import {
   BookOpen,
   Calculator,
   RefreshCw,
+  FileCheck,
 } from 'lucide-react';
 import { GstClientSelector } from '@/features/gst/components/GstClientSelector';
 
@@ -23,6 +24,7 @@ const navTabs = [
   { name: 'Overview', href: '/dashboard/gst', icon: LayoutDashboard },
   { name: 'GST Profiles', href: '/dashboard/gst/profiles', icon: Building2 },
   { name: 'Returns & Filing', href: '/dashboard/gst/returns', icon: FileSpreadsheet },
+  { name: 'GST IMS', href: '/dashboard/gst/ims', icon: FileCheck },
   { name: 'GST Invoices', href: '/dashboard/gst/invoices', icon: Receipt },
   { name: 'Statutory Catalog', href: '/dashboard/gst/catalog', icon: BookOpen },
   { name: 'Interest & Late Fee', href: '/dashboard/gst/calculator', icon: Calculator },

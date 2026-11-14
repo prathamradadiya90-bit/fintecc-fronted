@@ -226,8 +226,8 @@ export default function JournalAutomationPage() {
                 <th className="p-3 font-semibold">Date</th>
                 <th className="p-3 font-semibold">Entry #</th>
                 <th className="p-3 font-semibold">Narration</th>
-                <th className="p-3 font-semibold text-right">Debit (â‚¹)</th>
-                <th className="p-3 font-semibold text-right">Credit (â‚¹)</th>
+                <th className="p-3 font-semibold text-right">Debit (₹)</th>
+                <th className="p-3 font-semibold text-right">Credit (₹)</th>
                 <th className="p-3 font-semibold text-center">Status</th>
                 <th className="p-3 font-semibold text-center">Tally Push</th>
               </tr>
@@ -250,10 +250,10 @@ export default function JournalAutomationPage() {
                     </td>
                     <td className="p-3 text-[var(--color-text-secondary)]">{entry.narration || 'General Journal'}</td>
                     <td className="p-3 text-right font-mono font-semibold">
-                      â‚¹{Number(entry.totalDebit || 0).toFixed(2)}
+                      ₹{Number(entry.totalDebit || 0).toFixed(2)}
                     </td>
                     <td className="p-3 text-right font-mono font-semibold">
-                      â‚¹{Number(entry.totalCredit || 0).toFixed(2)}
+                      ₹{Number(entry.totalCredit || 0).toFixed(2)}
                     </td>
                     <td className="p-3 text-center">
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
@@ -322,8 +322,8 @@ export default function JournalAutomationPage() {
                   <thead>
                     <tr style={{ background: 'var(--color-bg-subtle)', borderBottom: '1px solid var(--color-border)' }}>
                       <th className="p-2.5 font-semibold">Particulars / Account Name</th>
-                      <th className="p-2.5 font-semibold w-28 text-right">Debit (â‚¹)</th>
-                      <th className="p-2.5 font-semibold w-28 text-right">Credit (â‚¹)</th>
+                      <th className="p-2.5 font-semibold w-28 text-right">Debit (₹)</th>
+                      <th className="p-2.5 font-semibold w-28 text-right">Credit (₹)</th>
                       <th className="p-2.5 w-10"></th>
                     </tr>
                   </thead>
@@ -382,8 +382,8 @@ export default function JournalAutomationPage() {
                           Add Line
                         </Button>
                       </td>
-                      <td className="p-2.5 text-right font-mono">â‚¹{totalDebit.toFixed(2)}</td>
-                      <td className="p-2.5 text-right font-mono">â‚¹{totalCredit.toFixed(2)}</td>
+                      <td className="p-2.5 text-right font-mono">₹{totalDebit.toFixed(2)}</td>
+                      <td className="p-2.5 text-right font-mono">₹{totalCredit.toFixed(2)}</td>
                       <td></td>
                     </tr>
                   </tfoot>
@@ -393,7 +393,7 @@ export default function JournalAutomationPage() {
               {!isBalanced && (
                 <div className="flex items-center gap-1.5 text-xs text-rose-600 font-medium">
                   <AlertCircle className="w-4 h-4" />
-                  <span>Unbalanced: Difference is â‚¹{Math.abs(totalDebit - totalCredit).toFixed(2)}</span>
+                  <span>Unbalanced: Difference is ₹{Math.abs(totalDebit - totalCredit).toFixed(2)}</span>
                 </div>
               )}
             </div>

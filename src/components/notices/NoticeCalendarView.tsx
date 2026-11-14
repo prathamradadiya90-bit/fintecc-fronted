@@ -224,7 +224,7 @@ export const NoticeCalendarView: React.FC<NoticeCalendarViewProps> = ({ notices 
               {selectedNotice.amountDemanded && (
                 <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
                   <span className="font-semibold">Disputed Demand:</span>{' '}
-                  <strong className="font-mono text-sm">â‚¹{Number(selectedNotice.amountDemanded).toLocaleString('en-IN')}</strong>
+                  <strong className="font-mono text-sm">₹{Number(selectedNotice.amountDemanded).toLocaleString('en-IN')}</strong>
                 </div>
               )}
 

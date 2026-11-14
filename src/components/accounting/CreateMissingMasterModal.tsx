@@ -171,7 +171,7 @@ export const CreateMissingMasterModal: React.FC<CreateMissingMasterModalProps> =
 
             <div>
               <label className="block font-semibold mb-1 text-[var(--color-text-heading)]">
-                Opening Balance (â‚¹)
+                Opening Balance (₹)
               </label>
               <input
                 type="number"
