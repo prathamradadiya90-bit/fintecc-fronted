@@ -8,7 +8,7 @@ import { CalculatorIcon } from '@/components/calculators/CalculatorIcon';
 import { ExternalLink, Search, X } from 'lucide-react';
 
 export default function DashboardCalculatorsPage() {
-  const [selectedSlug, setSelectedSlug] = useState('emi-calculator');
+  const [selectedSlug, setSelectedSlug] = useState('income-tax-calculator');
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
