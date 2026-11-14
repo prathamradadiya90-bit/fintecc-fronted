@@ -355,7 +355,7 @@ export default function DashboardPage() {
         <div className="lg:col-span-4 flex flex-col gap-6">
           {/* Statutory Tax Deadlines Widget */}
           <div
-            className="rounded-xl p-5 shadow-xl"
+            className="rounded-xl p-5 shadow-sm"
             style={{
               background: 'var(--color-bg-card)',
               border: '1px solid var(--color-border)',
@@ -544,7 +544,7 @@ export default function DashboardPage() {
 
           {/* Connected Accounting Integrations Card */}
           <div
-            className="rounded-xl p-5 shadow-xl"
+            className="rounded-xl p-5 shadow-sm"
             style={{
               background: 'var(--color-bg-card)',
               border: '1px solid var(--color-border)',
