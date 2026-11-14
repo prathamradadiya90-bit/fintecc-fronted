@@ -848,6 +848,386 @@ export const MODULE_GUIDES: Record<string, ModuleGuide> = {
       'Bookmark critical dates 3 days in advance to prevent portal server downtime bottlenecks on cutoff evenings.',
     ],
   },
+
+  clients: {
+    id: 'clients',
+    routePrefix: '/dashboard/my-clients',
+    title: 'Client Portfolio Directory',
+    tagline: 'Comprehensive client repository, master statutory IDs, and multi-entity tracking.',
+    category: 'Client Portfolio',
+    overview:
+      'Centralized command for your firm’s client accounts. Track PAN, GSTINs, corporate CIN, entity types, assigned engagement partners, and client password vaults.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Locate Client Profile',
+        description: 'Use the fast search bar to look up clients by PAN, trade name, or primary director.',
+      },
+      {
+        step: 2,
+        title: 'Onboard New Entity',
+        description: 'Click "+ Add Client" to register proprietorships, partnerships, LLPs, or private limited firms.',
+      },
+      {
+        step: 3,
+        title: 'Open Client 360 Workspace',
+        description: 'Click any client to access their filing history, statutory documents, work board tasks, and secure vault.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'Live PAN & GSTIN Verification',
+        description: 'Verify registration authenticity directly against ITD and GSTN records.',
+        tag: 'Verification',
+      },
+      {
+        title: 'Maker-Checker Assignment',
+        description: 'Assign managing partners and audit associates to specific client portfolios.',
+        tag: 'Governance',
+      },
+    ],
+    proTips: [
+      'Keep client contact emails up to date to enable automated deadline reminders and white-labeled invoices.',
+    ],
+  },
+
+  bankStatements: {
+    id: 'bankStatements',
+    routePrefix: '/dashboard/bank-statements',
+    title: 'Bank Statement Converter',
+    tagline: 'Automated digital extraction, scanned OCR parsing, and Tally Prime XML generation.',
+    category: 'Bank Automation',
+    overview:
+      'Convert bank statements across 34+ Indian banks into clean accounting vouchers. Supports native PDFs, password-protected statements, and scanned images with balance validation.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Upload Statement PDF',
+        description: 'Drag and drop your bank statement PDF into the intake zone or select file.',
+      },
+      {
+        step: 2,
+        title: 'Volatile Decryption',
+        description: 'For password-protected statements, enter the PDF password for secure in-memory unlock.',
+      },
+      {
+        step: 3,
+        title: 'Reconcile & Export',
+        description: 'Verify extracted opening/closing balances and download instant Tally XML or audit Excel files.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: '34+ Bank Layout Formats',
+        description: 'Dedicated parsers for SBI, HDFC, ICICI, Axis, Kotak, PNB, and cooperative banks.',
+        tag: 'Engine',
+      },
+      {
+        title: 'Double-Entry Verification',
+        description: 'Automatic running balance calculation to ensure zero missing transactions.',
+        tag: 'Audit Trail',
+      },
+    ],
+    proTips: [
+      'Statements with running balances pass automated mathematical reconciliation with 100% accuracy.',
+    ],
+  },
+
+  converters: {
+    id: 'converters',
+    routePrefix: '/dashboard/converters',
+    title: 'Document Converters & OCR Hub',
+    tagline: 'On-the-fly parsing for bank statements, tax invoices, and financial documents.',
+    category: 'Conversion Tools',
+    overview:
+      'High-speed transformation utility. Convert statements and invoices into accounting-ready formats without saving unnecessary records to client databases.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Select Conversion Type',
+        description: 'Choose between Bank Statement Converter or B2B Invoice PDF to Tally XML.',
+      },
+      {
+        step: 2,
+        title: 'Upload File',
+        description: 'Drop native PDF or scanned document into the conversion intake zone.',
+      },
+      {
+        step: 3,
+        title: 'Download Structured Output',
+        description: 'Obtain Tally XML vouchers or formatted audit Excel spreadsheets in seconds.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'Direct Mode Processing',
+        description: 'Extract data immediately without permanent database retention.',
+        tag: 'Privacy',
+      },
+    ],
+    proTips: [
+      'Use Direct Mode for quick one-off client reviews where vault saving is not required.',
+    ],
+  },
+
+  approvals: {
+    id: 'approvals',
+    routePrefix: '/dashboard/approvals',
+    title: 'Partner Approvals Hub',
+    tagline: 'Centralized maker-checker queue for statutory filings, tasks, and client documents.',
+    category: 'Practice Governance',
+    overview:
+      'Quality control center for CA firms. Partners and senior managers review tasks, computed tax computations, and client deliverables prepared by audit associates before final dispatch.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Review Pending Queue',
+        description: 'Inspect items submitted by associates awaiting senior review.',
+      },
+      {
+        step: 2,
+        title: 'Inspect Deliverables',
+        description: 'Review attached computation sheets, working papers, and statutory challans.',
+      },
+      {
+        step: 3,
+        title: 'Approve or Request Revision',
+        description: 'Mark item approved for client delivery or return with specific audit comments.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'Maker-Checker Protocol',
+        description: 'Prevents unverified filings from reaching statutory portals or clients.',
+        tag: 'Compliance',
+      },
+    ],
+    proTips: [
+      'Use review comments to train article clerks on firm-specific documentation standards.',
+    ],
+  },
+
+  leads: {
+    id: 'leads',
+    routePrefix: '/dashboard/leads',
+    title: 'Prospective Client CRM',
+    tagline: 'Lead tracking, fee quotes, and automated client account provisioning.',
+    category: 'Firm Growth',
+    overview:
+      'Manage new business opportunities from first inquiry to signed engagement. Converting a lead to WON automatically provisions an active client account and creates initial onboarding tasks.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Add Prospective Lead',
+        description: 'Record lead company name, contact person, estimated fee, and required services.',
+      },
+      {
+        step: 2,
+        title: 'Progress Pipeline Stages',
+        description: 'Update status from New to Contacted, Proposal Sent, and Negotiation.',
+      },
+      {
+        step: 3,
+        title: 'Mark as Won',
+        description: 'Transitioning to WON instantly provisions the client portfolio and triggers onboarding.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'Automated Client Provisioning',
+        description: 'No double entry: winning a deal immediately generates client directory entries.',
+        tag: 'Automation',
+      },
+    ],
+    proTips: [
+      'Record specific scope requirements in prospect notes so onboarding tasks are pre-populated.',
+    ],
+  },
+
+  settings: {
+    id: 'settings',
+    routePrefix: '/dashboard/settings',
+    title: 'Firm Practice Settings',
+    tagline: 'Branding, white-labeled SMTP, multi-branch setup, and team permissions.',
+    category: 'Firm Settings',
+    overview:
+      'Customize your CA firm workspace. Set up your firm logo, letterheads, custom SMTP for white-labeled client emails, API keys, branch offices, and team role permissions.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Firm Profile & Branding',
+        description: 'Configure firm trade name, registration number, and upload firm letterhead logo.',
+      },
+      {
+        step: 2,
+        title: 'Custom SMTP Gateway',
+        description: 'Connect your firm email address (e.g., info@yourcafirm.com) for client notifications.',
+      },
+      {
+        step: 3,
+        title: 'Branch & Role Config',
+        description: 'Add branch offices and adjust fine-grained permissions for audit staff.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'Zero Platform Footprint',
+        description: 'Send emails directly from your own domain without third-party platform branding.',
+        tag: 'White-Label',
+      },
+    ],
+    proTips: [
+      'Send a test email after entering SMTP credentials to ensure seamless deliverability.',
+    ],
+  },
+
+  subscription: {
+    id: 'subscription',
+    routePrefix: '/dashboard/subscription',
+    title: 'Subscription & Firm Licensing',
+    tagline: 'Plan tier management, feature quotas, active staff seats, and GST tax invoices.',
+    category: 'Firm Account',
+    overview:
+      'Manage your Fintecc OS subscription plan, review allocated bank statement conversion limits, add additional staff seats, and download formal GST B2B tax invoices.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Inspect Current Plan',
+        description: 'Review active plan tier, renewal date, and statement conversion limits.',
+      },
+      {
+        step: 2,
+        title: 'Select Upgraded Tier',
+        description: 'Upgrade plan as your client portfolio grows with automatic pro-rated billing.',
+      },
+      {
+        step: 3,
+        title: 'Download GST Invoices',
+        description: 'Access B2B tax invoices with your firm GSTIN for input tax credit claims.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'Pro-Rated Plan Switches',
+        description: 'Unused plan balance is automatically credited when changing tiers.',
+        tag: 'Billing',
+      },
+    ],
+    proTips: [
+      'Enter your firm GSTIN in Firm Settings so subscription invoices carry valid input tax credits.',
+    ],
+  },
+
+  auditLogs: {
+    id: 'auditLogs',
+    routePrefix: '/dashboard/audit-logs',
+    title: 'Security & Audit Logs',
+    tagline: 'Immutable chronological trail of staff activities, logins, and document exports.',
+    category: 'Firm Security',
+    overview:
+      'Forensic record of all system events across your firm. Track user logins, client record edits, credential viewings in the vault, and document exports with timestamp and IP records.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Filter Event Types',
+        description: 'Filter logs by user, action category (AUTH, CLIENT, VAULT, EXPORT), or date range.',
+      },
+      {
+        step: 2,
+        title: 'Inspect Security Actions',
+        description: 'Review sensitive events such as vault password reveals or role changes.',
+      },
+      {
+        step: 3,
+        title: 'Export for Compliance',
+        description: 'Download signed audit log reports for internal practice reviews or ICAI inspections.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'Tamper-Proof Audit Trail',
+        description: 'Read-only logs captured in real time to prevent unauthorized alteration.',
+        tag: 'Compliance',
+      },
+    ],
+    proTips: [
+      'Regularly review vault decryption logs to monitor staff access to client portal credentials.',
+    ],
+  },
+
+  calculators: {
+    id: 'calculators',
+    routePrefix: '/dashboard/calculators',
+    title: 'Financial & Tax Calculators',
+    tagline: '27 verified statutory Indian tax, retirement, loan, and investment engines.',
+    category: 'Calculators',
+    overview:
+      'Suite of 27 financial calculators designed for Indian Chartered Accountants. Run instant client simulations for Old vs New Tax Regime, capital gains, gratuity, and loan EMIs.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Search Calculator',
+        description: 'Type keywords like "Old vs New", "SIP", "Gratuity", or "HRA" to locate the right tool.',
+      },
+      {
+        step: 2,
+        title: 'Input Parameters',
+        description: 'Fill in client financial parameters to simulate tax liabilities and schedules.',
+      },
+      {
+        step: 3,
+        title: 'Share Computation',
+        description: 'Review interactive charts and export clean summaries for client consultations.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'FY 2024-25 Tax Slabs',
+        description: 'Updated with latest Finance Act rate slabs and Section 87A rebate rules.',
+        tag: 'Statutory',
+      },
+    ],
+    proTips: [
+      'Use the Old vs New Tax Regime tool during client tax planning meetings to demonstrate tax savings.',
+    ],
+  },
+
+  ecommerce: {
+    id: 'ecommerce',
+    routePrefix: '/dashboard/ecommerce',
+    title: 'E-Commerce Marketplace Hub',
+    tagline: 'Multi-channel sales consolidation for Amazon, Flipkart, Meesho, and Myntra.',
+    category: 'E-Commerce Tax',
+    overview:
+      'Reconcile e-commerce merchant sales for GSTR-1 and GSTR-3B. Process marketplace settlement reports, auto-calculate TCS under Section 52, and compute net GST liabilities.',
+    whereToStart: [
+      {
+        step: 1,
+        title: 'Select Marketplace',
+        description: 'Choose Amazon (MTR), Flipkart (Sales Report), Meesho, or auto-detect parser.',
+      },
+      {
+        step: 2,
+        title: 'Upload Sales Report',
+        description: 'Drop monthly CSV/Excel settlement reports exported from seller portals.',
+      },
+      {
+        step: 3,
+        title: 'Review Tax Breakdown',
+        description: 'Inspect state-wise B2C supplies, return orders, TCS credit, and net taxable turnover.',
+      },
+    ],
+    keyFeatures: [
+      {
+        title: 'Section 52 TCS Reconciliation',
+        description: 'Matches marketplace TCS deductions with official GST portal Form GSTR-8 entries.',
+        tag: 'TCS Reconcile',
+      },
+    ],
+    proTips: [
+      'Always net out return/cancellation reports before finalizing Table 7 of Form GSTR-3B.',
+    ],
+  },
 };
 
 /**
@@ -862,50 +1242,60 @@ export function getModuleGuide(pathname: string): ModuleGuide {
   const cleanPath = pathname.replace(/^\/dashboard\/?/, '');
   const segment = cleanPath.split('/')[0];
 
-  if (segment && MODULE_GUIDES[segment]) {
-    return MODULE_GUIDES[segment];
+  // Route alias mapping
+  const routeAliases: Record<string, string> = {
+    'my-clients': 'clients',
+    'audit-logs': 'auditLogs',
+    'bank-statements': 'bankStatements',
+    'tally-sync': 'converters',
+  };
+
+  const resolvedKey = routeAliases[segment] || segment;
+
+  if (resolvedKey && MODULE_GUIDES[resolvedKey]) {
+    return MODULE_GUIDES[resolvedKey];
   }
 
-  // Generic fallback guide
+  // Clean fallback guide
   return {
     id: 'general',
     routePrefix: pathname,
-    title: 'Module Workspace',
-    tagline: 'Centralized workspace for your Chartered Accountancy practice operations.',
-    category: 'Workspace Guide',
+    title: 'Practice Workspace',
+    tagline: 'Streamlined workspace for Chartered Accountancy firm operations.',
+    category: 'Firm Workspace',
     overview:
-      'This module is designed to streamline client management, compliance filing, and firm operations. Use the tools below to review records, update details, or export certified reports.',
+      'Manage client data, process statutory compliance, and streamline daily firm operations. Use the tools on this page to review active records and perform primary actions.',
     whereToStart: [
       {
         step: 1,
         title: 'Review Active Records',
-        description: 'Check the data table or cards on this page to inspect current entries.',
+        description: 'Inspect the primary data table or summary cards on this page to view current entries.',
       },
       {
         step: 2,
-        title: 'Use Search & Filters',
-        description: 'Narrow down records using client names, dates, or status filters.',
+        title: 'Apply Search & Filters',
+        description: 'Filter records by client entity, date range, or filing status to narrow down records.',
       },
       {
         step: 3,
-        title: 'Execute Primary Action',
-        description: 'Use the primary action buttons in the top-right toolbar to create, import, or export data.',
+        title: 'Execute Workspace Actions',
+        description: 'Use the action toolbar in the upper right to create, import, or export certified reports.',
       },
     ],
     keyFeatures: [
       {
-        title: 'Data Filtering & Export',
-        description: 'Easily filter records and export clean reports for clients or statutory authorities.',
-        tag: 'Data Control',
+        title: 'Centralized Records',
+        description: 'Unified tracking with instant search, filtering, and status updates.',
+        tag: 'Management',
       },
       {
-        title: 'Fintecc AI Integration',
-        description: 'Ask Fintecc AI at any time if you have questions regarding procedures or compliance guidelines.',
-        tag: 'Assistance',
+        title: 'Audit-Ready Exports',
+        description: 'Download reports formatted specifically for CA reviews and statutory authorities.',
+        tag: 'Export',
       },
     ],
     proTips: [
-      'Use the Fintecc AI chatbot in the bottom right corner for immediate answers to complex compliance questions.',
+      'Click the "Ask Fintecc AI" button anytime you need quick guidance on statutory sections or workflow steps.',
     ],
   };
 }
