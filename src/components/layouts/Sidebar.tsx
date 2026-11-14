@@ -160,9 +160,9 @@ export function Sidebar({
           name: 'Firm Management',
           icon: Shield,
           children: [
-            { name: 'Approvals Hub', href: '/dashboard/approvals', icon: CheckSquare },
-            { name: 'Manage Staff', href: '/dashboard/staff', icon: Shield },
+            { name: 'Manage Staff', href: '/dashboard/staff', icon: Users },
             { name: 'Staff Attendance', href: '/dashboard/attendance', icon: Clock },
+            { name: 'Approvals Hub', href: '/dashboard/approvals', icon: CheckSquare },
             { name: 'Audit Logs', href: '/dashboard/audit-logs', icon: ShieldCheck },
           ],
         },
