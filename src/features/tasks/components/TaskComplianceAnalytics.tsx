@@ -148,40 +148,28 @@ export function TaskComplianceAnalytics({ branchId, returnType }: TaskCompliance
         </div>
       </div>
 
-      {/* Return Type Compliance Badges & Staff SLA */}
+      {/* Return Type Compliance Badges */}
       {Object.keys(byReturnType).length > 0 && (
-        <div
-          className="p-4 rounded-2xl border shadow-xs"
-          style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
-        >
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: 'var(--color-text-primary)' }}>
-              <Building className="w-4 h-4 text-[#4A6FA5]" />
-              Compliance Breakdown by Statutory Type
-            </h3>
-            <span className="text-xs text-[#5A6E85]">Real-time firm metrics</span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
-            {Object.entries(byReturnType).map(([type, stats]) => (
-              <div
-                key={type}
-                className="p-2.5 rounded-xl border bg-slate-50/50 dark:bg-slate-900/40 border-slate-200/80 dark:border-slate-800"
-              >
-                <div className="text-xs font-semibold truncate text-[#1E2A38] dark:text-slate-200">
-                  {type}
-                </div>
-                <div className="flex items-center justify-between mt-1.5 text-xs">
-                  <span className="text-[#3D7A64] font-medium">{stats.completed} done</span>
-                  {stats.overdue > 0 ? (
-                    <span className="text-[#9E4A4A] font-semibold">{stats.overdue} overdue</span>
-                  ) : (
-                    <span className="text-[#5A6E85]">{stats.pending} left</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          <span className="text-xs font-medium text-[var(--color-text-muted)] flex items-center gap-1.5 mr-1">
+            <Building className="w-3.5 h-3.5 text-[#4A6FA5]" />
+            Statutory Breakdown:
+          </span>
+          {Object.entries(byReturnType).map(([type, stats]) => (
+            <div
+              key={type}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs bg-[var(--color-bg-card)] border-[var(--color-border)] shadow-2xs"
+            >
+              <span className="font-medium text-[var(--color-text-primary)]">{type}</span>
+              <span className="text-[#3D7A64] font-semibold">{stats.completed} done</span>
+              <span className="text-[var(--color-text-muted)]">·</span>
+              {stats.overdue > 0 ? (
+                <span className="text-[#9E4A4A] font-semibold">{stats.overdue} overdue</span>
+              ) : (
+                <span className="text-[#5A6E85]">{stats.pending} pending</span>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </div>

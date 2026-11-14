@@ -388,14 +388,7 @@ export default function WorkBoardPage() {
           {/* Compliance & SLA Analytics Overview */}
           {showAnalytics && <TaskComplianceAnalytics />}
 
-          {/* AI Natural Language Filter Bar */}
-          <TaskAiFilterBar
-            activePrompt={aiPrompt}
-            onAiFilterResults={handleAiFilter}
-            onClear={handleClearAiFilter}
-          />
-
-          {/* Top Toolbar */}
+          {/* Primary View & Actions Toolbar */}
           <TaskGridToolbar
             viewMode={filters.viewMode}
             userRole={user?.role}
@@ -408,6 +401,13 @@ export default function WorkBoardPage() {
             onExportCSV={handleExportCSV}
             onRefresh={refetchTasks}
             isRefreshing={isFetchingTasks}
+          />
+
+          {/* AI Natural Language Filter Bar */}
+          <TaskAiFilterBar
+            activePrompt={aiPrompt}
+            onAiFilterResults={handleAiFilter}
+            onClear={handleClearAiFilter}
           />
 
           {/* Filter Bar (Only in List or Kanban view) */}
