@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Plus, ShieldCheck, Building2 } from 'lucide-react';
+import React, { useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Plus, ShieldCheck, Building2, User } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useGetProfilesQuery } from '@/lib/store/api/gstApi';
 import { GstProfilesTable } from '@/features/gst/components/GstProfilesTable';
@@ -10,8 +11,13 @@ import { EditProfileModal } from '@/features/gst/components/EditProfileModal';
 import { VerifyGstinModal } from '@/features/gst/components/VerifyGstinModal';
 import type { GstProfile } from '@/lib/types/gst.types';
 
-export default function GstProfilesPage() {
-  const { data: profilesData, isLoading } = useGetProfilesQuery();
+function GstProfilesMainContent() {
+  const searchParams = useSearchParams();
+  const clientId = searchParams.get('clientId') || undefined;
+
+  const { data: profilesData, isLoading } = useGetProfilesQuery(
+    clientId ? { clientId } : undefined
+  );
   const profiles = profilesData?.data || [];
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -24,10 +30,15 @@ export default function GstProfilesPage() {
       {/* Header bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>
-            <Building2 className="w-5 h-5 text-emerald-500" />
-            GST Profiles Directory
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold flex items-center gap-2" style={{ color: 'var(--color-text-heading)' }}>
+              <Building2 className="w-5 h-5 text-emerald-500" />
+              GST Profiles Directory
+            </h2>
+            <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              {profiles.length} {profiles.length === 1 ? 'profile' : 'profiles'}
+            </span>
+          </div>
           <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
             Manage client GSTIN registrations, filing frequencies (Monthly/QRMP), and verification details.
           </p>
@@ -38,6 +49,7 @@ export default function GstProfilesPage() {
             variant="outline"
             onClick={() => setIsStandaloneVerifyOpen(true)}
             leftIcon={<ShieldCheck className="w-4 h-4 text-emerald-500" />}
+            className="text-xs h-8 px-3"
           >
             Verify GSTIN
           </Button>
@@ -46,6 +58,7 @@ export default function GstProfilesPage() {
             variant="primary"
             onClick={() => setIsCreateModalOpen(true)}
             leftIcon={<Plus className="w-4 h-4" />}
+            className="text-xs h-8 px-3"
           >
             Add GST Profile
           </Button>
@@ -62,6 +75,7 @@ export default function GstProfilesPage() {
           isLoading={isLoading}
           onEdit={(profile) => setEditingProfile(profile)}
           onVerify={(profile) => setVerifyingProfile(profile)}
+          onCreateProfile={() => setIsCreateModalOpen(true)}
         />
       </div>
 
@@ -69,6 +83,7 @@ export default function GstProfilesPage() {
       <CreateProfileModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
+        defaultClientId={clientId || ''}
       />
 
       <EditProfileModal
@@ -87,5 +102,17 @@ export default function GstProfilesPage() {
         initialGstin={verifyingProfile?.gstin || ''}
       />
     </div>
+  );
+}
+
+export default function GstProfilesPage() {
+  return (
+    <Suspense fallback={
+      <div className="p-8 text-center text-sm text-[var(--color-text-secondary)] animate-pulse">
+        Loading GST Profiles Directory...
+      </div>
+    }>
+      <GstProfilesMainContent />
+    </Suspense>
   );
 }

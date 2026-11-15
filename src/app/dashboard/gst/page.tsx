@@ -264,6 +264,20 @@ function GstOverviewMainContent() {
             </div>
           </div>
 
+          {clientId && (
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs">
+              <span className="font-semibold text-emerald-800 dark:text-emerald-300">
+                Filtered by selected client
+              </span>
+              <Link
+                href="/dashboard/gst"
+                className="ml-auto text-emerald-600 hover:text-emerald-800 dark:hover:text-emerald-200 flex items-center gap-1 font-semibold"
+              >
+                Clear Filter
+              </Link>
+            </div>
+          )}
+
           <GstProfilesTable
             profiles={profiles}
             isLoading={isLoadingProfiles}
