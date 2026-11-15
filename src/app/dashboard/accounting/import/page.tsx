@@ -208,11 +208,18 @@ export default function UniversalImportPage() {
             onChange={(e) => setSelectedClientId(e.target.value)}
             className="text-xs py-2 pl-3 pr-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-heading)] font-medium"
           >
-            {profiles.map((p) => (
-              <option key={p.id} value={p.clientId}>
-                {p.legalName || p.tradeName} ({p.gstin})
-              </option>
-            ))}
+            {profiles.length === 0 ? (
+              <option value="">No Client Profiles</option>
+            ) : (
+              <>
+                <option value="">Select Client Entity...</option>
+                {profiles.map((p) => (
+                  <option key={p.id} value={p.clientId}>
+                    {p.legalName || p.tradeName} ({p.gstin})
+                  </option>
+                ))}
+              </>
+            )}
           </select>
 
           <div className="inline-flex rounded-xl p-1 bg-[var(--color-bg-subtle)] border border-[var(--color-border)] text-xs">

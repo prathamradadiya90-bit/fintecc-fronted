@@ -141,6 +141,7 @@ function GstInvoicesMainContent() {
               onChange={(e) => setSelectedClientId(e.target.value)}
               className="text-xs py-1.5 px-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-heading)] font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500"
             >
+              <option value="">All Client GSTINs</option>
               {profiles.map((p) => (
                 <option key={p.id} value={p.clientId}>
                   {p.gstin} ({p.legalName || p.tradeName})

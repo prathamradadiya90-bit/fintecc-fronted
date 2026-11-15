@@ -20,7 +20,7 @@ export const GstClientSelector: React.FC<GstClientSelectorProps> = ({
   const options: SearchableOption[] = [
     {
       value: '',
-      label: 'All Clients',
+      label: 'All Clients (Firm-wide)',
       sublabel: 'View all GST returns & profiles across all clients',
     },
     ...clients.map((client) => ({
@@ -36,7 +36,7 @@ export const GstClientSelector: React.FC<GstClientSelectorProps> = ({
     <div className="w-full sm:w-72">
       <SearchableSelect
         options={options}
-        value={selectedClientId}
+        value={selectedClientId || ''}
         onChange={onSelectClient}
         placeholder="Filter by Client / GSTIN..."
         searchPlaceholder="Search by name, company, GSTIN, PAN..."

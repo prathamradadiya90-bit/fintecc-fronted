@@ -54,11 +54,14 @@ function GstImsMainContent() {
               ) : profiles.length === 0 ? (
                 <option value="">No GST Profiles Found</option>
               ) : (
-                profiles.map((p) => (
-                  <option key={p.id} value={p.clientId}>
-                    {p.legalName || p.tradeName} ({p.gstin})
-                  </option>
-                ))
+                <>
+                  <option value="">All GST Profiles / Entities</option>
+                  {profiles.map((p) => (
+                    <option key={p.id} value={p.clientId}>
+                      {p.legalName || p.tradeName} ({p.gstin})
+                    </option>
+                  ))}
+                </>
               )}
             </select>
           </div>

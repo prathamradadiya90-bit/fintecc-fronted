@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, ChevronDown, Check, X, AlertCircle } from 'lucide-react';
+import { Search, ChevronDown, Check, X, AlertCircle, Loader2 } from 'lucide-react';
 
 export interface SearchableOption {
   value: string;
@@ -48,7 +48,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = options.find((opt) => opt.value === value);
+  const selectedOption = options.find((opt) => opt.value === value) || (value === '' && options.length > 0 ? options[0] : undefined);
 
   const filteredOptions = options.filter((opt) => {
     if (!search.trim()) return true;
@@ -127,7 +127,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           disabled={disabled || isLoading}
           onClick={() => setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-[13px] text-left transition-all border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 ${
+          className={`w-full min-w-[200px] flex items-center justify-between px-3 py-2 rounded-xl text-[13px] text-left transition-all border focus:outline-none focus:ring-2 focus:ring-emerald-500/50 ${
             error ? 'border-red-500 ring-1 ring-red-500' : 'border-[var(--color-border)]'
           } ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
           style={{
@@ -135,10 +135,15 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
             color: selectedOption ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
           }}
         >
-          <div className="flex items-center gap-2 truncate pr-2">
-            {selectedOption ? (
-              <div className="flex items-center gap-2 truncate">
-                <span className="font-medium truncate">{selectedOption.label}</span>
+          <div className="flex items-center gap-2 min-w-0 flex-1 truncate pr-2">
+            {isLoading ? (
+              <div className="flex items-center gap-2 text-slate-400 text-xs">
+                <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0 text-emerald-500" />
+                <span className="truncate">Loading clients...</span>
+              </div>
+            ) : selectedOption ? (
+              <div className="flex items-center gap-2 min-w-0 truncate">
+                <span className="font-semibold truncate text-slate-900 dark:text-slate-100">{selectedOption.label}</span>
                 {selectedOption.badge && (
                   <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
                     {selectedOption.badge}
@@ -146,12 +151,12 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                 )}
               </div>
             ) : (
-              <span>{isLoading ? 'Loading options...' : placeholder}</span>
+              <span className="text-slate-500 dark:text-slate-400 truncate font-medium">{placeholder}</span>
             )}
           </div>
 
           <div className="flex items-center gap-1.5 shrink-0 text-slate-400">
-            {clearable && selectedOption && !disabled && (
+            {clearable && selectedOption && value !== '' && !disabled && (
               <span
                 role="button"
                 tabIndex={0}
