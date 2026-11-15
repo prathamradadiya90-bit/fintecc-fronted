@@ -276,7 +276,7 @@ export function Sidebar({
             className="text-base font-bold tracking-tight"
             style={{ color: 'var(--color-text-primary)' }}
           >
-            Fintecc OS
+            Fintecc
           </span>
         </Link>
         <div className="flex items-center gap-1.5 shrink-0">
