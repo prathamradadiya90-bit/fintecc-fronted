@@ -91,6 +91,10 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
       alert('Client ID not found for this GST return.');
       return;
     }
+    if (gstReturn.status !== 'CLIENT_APPROVED') {
+      alert(`GST Return must be reviewed and CLIENT_APPROVED before transmission to GSTN.\n\nSteps:\n1. Click "Compute Liabilities" in the actions bar above.\n2. Click "Submit for Review".\n3. Client approves the return.\n4. Click "File to GSTN".`);
+      return;
+    }
     try {
       if (returnType === 'GSTR1') {
         const res = await fileGstr1Api({ clientId, returnId: gstReturn.id }).unwrap();
@@ -206,6 +210,11 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
           <p className="text-[11px] text-[var(--color-text-secondary)]">
             Directly submit to GSTN & generate ARN.
           </p>
+          {gstReturn.status !== 'CLIENT_APPROVED' && gstReturn.status !== 'FILED' && (
+            <p className="text-[10px] text-amber-500 font-medium">
+              Requires review & client approval before GSTN submission.
+            </p>
+          )}
           {(filingResult?.arn || gstReturn.arn) && (
             <p className="text-[10px] font-mono text-emerald-600 font-bold truncate">
               ARN: {filingResult?.arn || gstReturn.arn}
