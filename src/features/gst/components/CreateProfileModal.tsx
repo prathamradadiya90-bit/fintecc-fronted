@@ -44,6 +44,17 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
 
   const selectedClientId = watch('clientId');
 
+  // Auto-select client if defaultClientId provided or if single client exists
+  React.useEffect(() => {
+    if (!selectedClientId) {
+      if (defaultClientId) {
+        setValue('clientId', defaultClientId, { shouldValidate: true });
+      } else if (clientsData?.data && clientsData.data.length === 1) {
+        setValue('clientId', clientsData.data[0].id, { shouldValidate: true });
+      }
+    }
+  }, [defaultClientId, clientsData?.data, selectedClientId, setValue]);
+
   const clientOptions: SearchableOption[] = (clientsData?.data || []).map((client) => ({
     value: client.id,
     label: client.name,

@@ -48,7 +48,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = options.find((opt) => opt.value === value) || (value === '' && options.length > 0 ? options[0] : undefined);
+  const selectedOption = options.find((opt) => opt.value === value);
 
   const filteredOptions = options.filter((opt) => {
     if (!search.trim()) return true;
