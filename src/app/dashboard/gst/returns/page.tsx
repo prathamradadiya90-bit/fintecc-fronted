@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { useGetReturnsQuery, useGetProfilesQuery } from '@/lib/store/api/gstApi';
 import { ReturnStatusBadge } from '@/features/gst/components/ReturnStatusBadge';
 import { CreateReturnModal } from '@/features/gst/components/CreateReturnModal';
+import { CreateProfileModal } from '@/features/gst/components/CreateProfileModal';
 import type { GstReturn } from '@/lib/types/gst.types';
 
 function GstReturnsMainContent() {
@@ -22,6 +23,7 @@ function GstReturnsMainContent() {
   const [search, setSearch] = useState('');
   const [selectedProfileId, setSelectedProfileId] = useState<string>(profileIdParam);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isCreateProfileOpen, setIsCreateProfileOpen] = useState(false);
 
   const { data: returnsData, isLoading } = useGetReturnsQuery(
     clientId ? { clientId, limit: 100 } : { limit: 100 }
@@ -161,14 +163,26 @@ function GstReturnsMainContent() {
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          onClick={() => setIsCreateModalOpen(true)}
-          leftIcon={<Plus className="w-4 h-4" />}
-          className="text-xs h-8 px-3"
-        >
-          Create Return Draft
-        </Button>
+        <div className="flex items-center gap-2">
+          {profiles.length === 0 && (
+            <Button
+              variant="outline"
+              onClick={() => setIsCreateProfileOpen(true)}
+              leftIcon={<Plus className="w-3.5 h-3.5 text-emerald-500" />}
+              className="text-xs h-8 px-3"
+            >
+              + Onboard Client GSTIN
+            </Button>
+          )}
+          <Button
+            variant="primary"
+            onClick={() => setIsCreateModalOpen(true)}
+            leftIcon={<Plus className="w-4 h-4" />}
+            className="text-xs h-8 px-3"
+          >
+            Create Return Draft
+          </Button>
+        </div>
       </div>
 
       {/* Main Table Card */}
@@ -277,6 +291,18 @@ function GstReturnsMainContent() {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         defaultProfileId={selectedProfileId}
+        defaultClientId={clientId}
+      />
+
+      <CreateProfileModal
+        isOpen={isCreateProfileOpen}
+        onClose={() => setIsCreateProfileOpen(false)}
+        defaultClientId={clientId}
+        onSuccess={(newProfile) => {
+          if (newProfile?.id) {
+            setSelectedProfileId(newProfile.id);
+          }
+        }}
       />
     </div>
   );

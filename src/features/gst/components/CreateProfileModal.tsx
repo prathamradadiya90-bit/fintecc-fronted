@@ -13,12 +13,14 @@ interface CreateProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultClientId?: string;
+  onSuccess?: (newProfile: any) => void;
 }
 
 export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
   isOpen,
   onClose,
   defaultClientId = '',
+  onSuccess,
 }) => {
   const { data: clientsData, isLoading: isLoadingClients } = useGetClientsQuery();
   const [createProfileApi, { isLoading: isSubmitting }] = useCreateProfileMutation();
@@ -52,7 +54,8 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
 
   const onSubmit = async (data: GstProfileFormData) => {
     try {
-      await createProfileApi(data).unwrap();
+      const result = await createProfileApi(data).unwrap();
+      onSuccess?.(result?.data || result);
       reset();
       onClose();
     } catch (err: any) {
