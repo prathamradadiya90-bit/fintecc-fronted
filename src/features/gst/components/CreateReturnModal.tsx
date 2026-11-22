@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AlertCircle, Plus, Building2 } from 'lucide-react';
+import { AlertCircle, Plus, Building2, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { SearchableSelect, SearchableOption } from '@/components/ui/SearchableSelect';
 import { useGetProfilesQuery, useCreateReturnMutation } from '@/lib/store/api/gstApi';
+import { useGetClientsQuery } from '@/lib/store/api/clientsApi';
 import { CreateProfileModal } from './CreateProfileModal';
 import { gstReturnSchema, GstReturnFormData } from '../validation/gst.validation';
 
@@ -24,12 +25,16 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
   defaultClientId = '',
 }) => {
   const [isCreateProfileOpen, setIsCreateProfileOpen] = useState(false);
-  const { data: profilesData, isLoading: isLoadingProfiles } = useGetProfilesQuery();
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const { data: profilesData, isLoading: isLoadingProfiles, refetch: refetchProfiles } = useGetProfilesQuery();
+  const { data: clientsData } = useGetClientsQuery();
   const [createReturnApi, { isLoading: isSubmitting }] = useCreateReturnMutation();
 
   const profiles = profilesData?.data || [];
+  const clients = clientsData?.data || [];
 
-  // Generate current month default period in YYYY-MM format (e.g. 2026-03)
+  // Generate current month default period in YYYY-MM format (e.g. 2026-11)
   const today = new Date();
   const defaultYear = today.getFullYear();
   const defaultMonth = String(today.getMonth() + 1).padStart(2, '0');
@@ -41,6 +46,7 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
     reset,
     setValue,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm<GstReturnFormData>({
     resolver: zodResolver(gstReturnSchema),
@@ -52,15 +58,23 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
   });
 
   const selectedProfileId = watch('gstProfileId');
+  const selectedProfile = profiles.find((p) => p.id === selectedProfileId);
 
-  // Auto-select when defaultProfileId changes or when only 1 profile exists
+  // Auto-select when defaultProfileId changes or when profiles are loaded
   useEffect(() => {
     if (defaultProfileId) {
       setValue('gstProfileId', defaultProfileId, { shouldValidate: true });
-    } else if (profiles.length === 1 && !selectedProfileId) {
+    } else if (profiles.length > 0 && !selectedProfileId) {
       setValue('gstProfileId', profiles[0].id, { shouldValidate: true });
     }
   }, [defaultProfileId, profiles, selectedProfileId, setValue]);
+
+  // Reset errors when modal opens or closes
+  useEffect(() => {
+    if (!isOpen) {
+      setSubmitError(null);
+    }
+  }, [isOpen]);
 
   const profileOptions: SearchableOption[] = profiles.map((profile) => ({
     value: profile.id,
@@ -71,19 +85,26 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
   }));
 
   const handleProfileCreated = (newProfile: any) => {
+    refetchProfiles();
     if (newProfile?.id) {
       setValue('gstProfileId', newProfile.id, { shouldValidate: true });
+      clearErrors('gstProfileId');
     }
     setIsCreateProfileOpen(false);
   };
 
   const onSubmit = async (data: GstReturnFormData) => {
+    setSubmitError(null);
     try {
       await createReturnApi(data).unwrap();
       reset();
       onClose();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to create return draft');
+      const errMsg =
+        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join(', ')
+          : err?.data?.message || err?.message || 'Failed to create return draft';
+      setSubmitError(errMsg);
     }
   };
 
@@ -94,8 +115,20 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
         onClose={onClose}
         title="Create New GST Return Draft"
         maxWidth="md"
+        overflow="visible"
       >
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* In-Modal Error Banner */}
+          {submitError && (
+            <div className="p-3 rounded-xl border border-red-500/30 bg-red-500/10 flex items-start gap-2.5 text-xs text-red-600 dark:text-red-400">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+              <div className="space-y-0.5">
+                <p className="font-semibold">Creation Error</p>
+                <p className="text-[11px] leading-relaxed opacity-90">{submitError}</p>
+              </div>
+            </div>
+          )}
+
           {/* No Profiles Warning Callout */}
           {!isLoadingProfiles && profiles.length === 0 && (
             <div
@@ -122,7 +155,7 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
           )}
 
           {/* Select GST Profile */}
-          <div className="space-y-1">
+          <div className="space-y-1 relative">
             <div className="flex items-center justify-between">
               <label className="block text-[13px] font-medium" style={{ color: 'var(--color-text-on-card)' }}>
                 Select GST Profile *
@@ -138,7 +171,10 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
             <SearchableSelect
               options={profileOptions}
               value={selectedProfileId}
-              onChange={(val) => setValue('gstProfileId', val, { shouldValidate: true })}
+              onChange={(val) => {
+                setValue('gstProfileId', val, { shouldValidate: true });
+                clearErrors('gstProfileId');
+              }}
               placeholder={
                 isLoadingProfiles
                   ? 'Loading GST profiles...'
@@ -151,6 +187,34 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
               emptyMessage="No matching GST profiles found."
               error={errors.gstProfileId?.message}
             />
+
+            {/* Selected Profile Badge / Info */}
+            {selectedProfile && (
+              <div
+                className="p-2.5 rounded-xl border flex items-center justify-between text-xs mt-1.5 transition-all"
+                style={{
+                  background: 'var(--color-bg-subtle)',
+                  borderColor: 'var(--color-border)',
+                }}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                    <Building2 className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="min-w-0 truncate">
+                    <p className="font-semibold text-xs truncate" style={{ color: 'var(--color-text-primary)' }}>
+                      {selectedProfile.legalName}
+                    </p>
+                    <p className="font-mono text-[11px] text-emerald-600 dark:text-emerald-400 font-bold truncate">
+                      {selectedProfile.gstin}
+                    </p>
+                  </div>
+                </div>
+                <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-[var(--color-text-secondary)] shrink-0">
+                  {selectedProfile.filingFrequency || 'MONTHLY'}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Return Type */}
@@ -160,7 +224,7 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
             </label>
             <div className="grid grid-cols-2 gap-3">
               <label
-                className="flex items-center gap-2 p-3 rounded-xl border cursor-pointer transition-all"
+                className="flex items-center gap-2 p-3 rounded-xl border cursor-pointer transition-all hover:border-emerald-500/50"
                 style={{ background: 'var(--color-bg-input)', borderColor: 'var(--color-border)' }}
               >
                 <input
@@ -180,7 +244,7 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
               </label>
 
               <label
-                className="flex items-center gap-2 p-3 rounded-xl border cursor-pointer transition-all"
+                className="flex items-center gap-2 p-3 rounded-xl border cursor-pointer transition-all hover:border-emerald-500/50"
                 style={{ background: 'var(--color-bg-input)', borderColor: 'var(--color-border)' }}
               >
                 <input
@@ -207,7 +271,7 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
           {/* Period */}
           <Input
             label="Filing Period (YYYY-MM or YYYY-Q1) *"
-            placeholder="e.g. 2026-03"
+            placeholder="e.g. 2026-11"
             {...register('period')}
             error={errors.period?.message}
           />

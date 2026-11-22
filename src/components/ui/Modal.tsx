@@ -8,6 +8,7 @@ interface ModalProps {
   children: React.ReactNode;
   footer?: React.ReactNode;
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  overflow?: 'hidden' | 'visible';
 }
 
 export const Modal: React.FC<ModalProps> = ({ 
@@ -16,7 +17,8 @@ export const Modal: React.FC<ModalProps> = ({
   title, 
   children, 
   footer,
-  maxWidth = 'md' 
+  maxWidth = 'md',
+  overflow = 'hidden'
 }) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -53,7 +55,7 @@ export const Modal: React.FC<ModalProps> = ({
 
       {/* Dialog */}
       <div 
-        className={`relative rounded-2xl shadow-xl w-full ${maxWidthClasses[maxWidth]} overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200`}
+        className={`relative rounded-2xl shadow-xl w-full ${maxWidthClasses[maxWidth]} ${overflow === 'visible' ? 'overflow-visible' : 'overflow-hidden'} transform transition-all animate-in fade-in zoom-in-95 duration-200`}
         style={{ background: 'var(--color-bg-elevated)' }}
         role="dialog"
         aria-modal="true"
@@ -72,7 +74,7 @@ export const Modal: React.FC<ModalProps> = ({
           </button>
         </div>
         
-        <div className="px-6 py-4 max-h-[70vh] overflow-y-auto">
+        <div className={`px-6 py-4 ${overflow === 'visible' ? 'overflow-visible' : 'max-h-[70vh] overflow-y-auto'}`}>
           {children}
         </div>
 

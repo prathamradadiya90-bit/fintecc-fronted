@@ -38,7 +38,11 @@ export const ItcReconciliationCard: React.FC<ItcReconciliationCardProps> = ({
         });
       }
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to reconcile ITC');
+      const msg =
+        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
+          : (err?.data?.message && err.data.message !== 'Validation Error' ? err.data.message : err?.message) || 'Failed to reconcile ITC';
+      alert(msg);
     }
   };
 

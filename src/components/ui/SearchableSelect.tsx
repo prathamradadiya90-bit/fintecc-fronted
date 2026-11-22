@@ -177,7 +177,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
         {/* Dropdown Popup */}
         {isOpen && (
           <div
-            className="absolute z-50 left-0 right-0 mt-1.5 rounded-2xl border shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-100"
+            className="absolute z-[70] left-0 right-0 mt-1.5 rounded-2xl border shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-100"
             style={{
               background: 'var(--color-bg-card)',
               borderColor: 'var(--color-border)',

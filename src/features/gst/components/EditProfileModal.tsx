@@ -52,7 +52,11 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       await updateProfileApi({ id: profile.id, data }).unwrap();
       onClose();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to update GST profile');
+      const msg =
+        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
+          : (err?.data?.message && err.data.message !== 'Validation Error' ? err.data.message : err?.message) || 'Failed to update GST profile';
+      alert(msg);
     }
   };
 

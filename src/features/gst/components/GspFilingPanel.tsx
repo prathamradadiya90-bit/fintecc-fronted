@@ -21,8 +21,10 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
   gstReturn,
   onFiled,
 }) => {
-  const clientId = gstReturn.gstProfile?.clientId || (gstReturn as any).clientId || '';
+  const clientId = gstReturn.gstProfile?.clientId || (gstReturn as any).clientId || gstReturn.gstProfileId || '';
   const returnType = gstReturn.returnType;
+  const normalizedType = returnType?.replace('-', '').toUpperCase();
+  const isGstr1 = normalizedType === 'GSTR1';
   const period = gstReturn.period;
 
   const [referenceId, setReferenceId] = useState<string | null>(null);
@@ -34,7 +36,11 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
     if (err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0) {
       return err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n');
     }
-    return err?.data?.message || err?.message || fallback;
+    const msg = err?.data?.message || err?.message;
+    if (msg && msg !== 'Validation Error') {
+      return msg;
+    }
+    return fallback;
   };
 
   // Mutations
@@ -52,11 +58,11 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
 
   const handlePrepare = async () => {
     if (!clientId) {
-      alert('Client ID not found for this GST return. Please ensure the GST profile is associated with a client.');
+      alert('Client identifier not found for this GST return. Please ensure the GST profile is associated with a client.');
       return;
     }
     try {
-      if (returnType === 'GSTR1') {
+      if (isGstr1) {
         const res = await prepareGstr1Api({ clientId, period }).unwrap();
         setReferenceId(res.data?.referenceId || 'REF_GSTR1_MOCK_123');
       } else {
@@ -70,11 +76,11 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
 
   const handleValidate = async () => {
     if (!clientId) {
-      alert('Client ID not found for this GST return.');
+      alert('Client identifier not found for this GST return.');
       return;
     }
     try {
-      if (returnType === 'GSTR1') {
+      if (isGstr1) {
         const res = await validateGstr1Api({ clientId, period }).unwrap();
         setIsValidated(res.data?.isValid ?? true);
       } else {
@@ -88,15 +94,15 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
 
   const handleFile = async () => {
     if (!clientId) {
-      alert('Client ID not found for this GST return.');
+      alert('Client identifier not found for this GST return.');
       return;
     }
     if (gstReturn.status !== 'CLIENT_APPROVED') {
-      alert(`GST Return must be reviewed and CLIENT_APPROVED before transmission to GSTN.\n\nSteps:\n1. Click "Compute Liabilities" in the actions bar above.\n2. Click "Submit for Review".\n3. Client approves the return.\n4. Click "File to GSTN".`);
+      alert(`GST Return must be reviewed and CLIENT_APPROVED before transmission to GSTN.\n\nRequired Steps:\n1. Click "Compute Liabilities" in the actions bar above.\n2. Click "Submit for Review".\n3. Click "Client Approve".\n4. Then click "File to GSTN".`);
       return;
     }
     try {
-      if (returnType === 'GSTR1') {
+      if (isGstr1) {
         const res = await fileGstr1Api({ clientId, returnId: gstReturn.id }).unwrap();
         setFilingResult(res.data);
       } else {

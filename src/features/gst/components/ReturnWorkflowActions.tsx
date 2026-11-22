@@ -33,12 +33,23 @@ export const ReturnWorkflowActions: React.FC<ReturnWorkflowActionsProps> = ({
   const [clientApproveApi, { isLoading: isApproving }] = useClientApproveMutation();
   const [fileReturnApi, { isLoading: isFiling }] = useFileReturnMutation();
 
+  const formatApiError = (err: any, fallback: string) => {
+    if (err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0) {
+      return err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n');
+    }
+    const msg = err?.data?.message || err?.message;
+    if (msg && msg !== 'Validation Error') {
+      return msg;
+    }
+    return fallback;
+  };
+
   const handleCompute = async () => {
     try {
       await computeReturnApi(gstReturn.id).unwrap();
       onRefresh?.();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to compute return liabilities');
+      alert(formatApiError(err, 'Failed to compute return liabilities'));
     }
   };
 
@@ -47,7 +58,7 @@ export const ReturnWorkflowActions: React.FC<ReturnWorkflowActionsProps> = ({
       await submitForApprovalApi(gstReturn.id).unwrap();
       onRefresh?.();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to submit return for review');
+      alert(formatApiError(err, 'Failed to submit return for review'));
     }
   };
 
@@ -56,7 +67,7 @@ export const ReturnWorkflowActions: React.FC<ReturnWorkflowActionsProps> = ({
       await clientApproveApi(gstReturn.id).unwrap();
       onRefresh?.();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to approve return');
+      alert(formatApiError(err, 'Failed to approve return'));
     }
   };
 
@@ -65,7 +76,7 @@ export const ReturnWorkflowActions: React.FC<ReturnWorkflowActionsProps> = ({
       await fileReturnApi(gstReturn.id).unwrap();
       onRefresh?.();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to file return via GSP API');
+      alert(formatApiError(err, 'Failed to file return via GSP API'));
     }
   };
 

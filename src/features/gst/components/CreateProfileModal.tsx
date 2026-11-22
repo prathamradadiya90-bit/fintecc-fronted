@@ -63,6 +63,25 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
     metadata: client.email || client.phone || undefined,
   }));
 
+  // Auto-fill GSTIN & Legal Name when client changes
+  React.useEffect(() => {
+    if (selectedClientId && clientsData?.data) {
+      const client = clientsData.data.find((c) => c.id === selectedClientId);
+      if (client) {
+        if (client.gstin) {
+          setValue('gstin', client.gstin, { shouldValidate: true });
+          if (client.gstin.length >= 2 && !isNaN(Number(client.gstin.substring(0, 2)))) {
+            setValue('stateCode', client.gstin.substring(0, 2), { shouldValidate: true });
+          }
+        }
+        const legal = client.companyName || client.name;
+        if (legal) {
+          setValue('legalName', legal, { shouldValidate: true });
+        }
+      }
+    }
+  }, [selectedClientId, clientsData?.data, setValue]);
+
   const onSubmit = async (data: GstProfileFormData) => {
     try {
       const result = await createProfileApi(data).unwrap();
@@ -70,7 +89,11 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       reset();
       onClose();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to create GST profile');
+      const errMsg =
+        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join(', ')
+          : err?.data?.message || err?.message || 'Failed to create GST profile';
+      alert(errMsg);
     }
   };
 
@@ -89,6 +112,7 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       onClose={onClose}
       title="Create New GST Profile"
       maxWidth="lg"
+      overflow="visible"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Searchable Client Selection */}
