@@ -22,6 +22,17 @@ interface JournalLine {
   credit: number;
 }
 
+type VoucherType = 'CONTRA' | 'PAYMENT' | 'RECEIPT' | 'JOURNAL' | 'SALES' | 'PURCHASE';
+
+const VOUCHER_CONFIG: Record<VoucherType, { label: string; key: string; prefix: string; color: string; desc: string }> = {
+  CONTRA: { label: 'Contra', key: 'F4', prefix: 'CNT-', color: 'text-emerald-600 bg-emerald-500/10 border-emerald-500/30', desc: 'Bank to Cash, Cash to Bank, Bank to Bank' },
+  PAYMENT: { label: 'Payment', key: 'F5', prefix: 'PMT-', color: 'text-rose-600 bg-rose-500/10 border-rose-500/30', desc: 'Expenses, Vendor Payouts, Salaries' },
+  RECEIPT: { label: 'Receipt', key: 'F6', prefix: 'RCT-', color: 'text-blue-600 bg-blue-500/10 border-blue-500/30', desc: 'Customer Inward Payments, Collections' },
+  JOURNAL: { label: 'Journal', key: 'F7', prefix: 'JRN-', color: 'text-indigo-600 bg-indigo-500/10 border-indigo-500/30', desc: 'Provisions, Adjustments, Depreciation' },
+  SALES: { label: 'Sales', key: 'F8', prefix: 'SLS-', color: 'text-amber-600 bg-amber-500/10 border-amber-500/30', desc: 'Tax Invoices, Credit Sales' },
+  PURCHASE: { label: 'Purchase', key: 'F9', prefix: 'PUR-', color: 'text-purple-600 bg-purple-500/10 border-purple-500/30', desc: 'Vendor Inward Supplies, Purchases' },
+};
+
 export default function JournalAutomationPage() {
   const { data: profilesData } = useGetProfilesQuery();
   const profiles = profilesData?.data || [];
@@ -30,6 +41,7 @@ export default function JournalAutomationPage() {
   const [entries, setEntries] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVoucherType, setSelectedVoucherType] = useState<VoucherType>('JOURNAL');
 
   // New Journal Entry Form State
   const [entryDate, setEntryDate] = useState<string>(new Date().toISOString().split('T')[0]);
@@ -40,6 +52,46 @@ export default function JournalAutomationPage() {
     { id: '2', accountName: '', debit: 0, credit: 0 }
   ]);
   const [isSaving, setIsSaving] = useState(false);
+
+  const handleSelectVoucherType = (type: VoucherType) => {
+    setSelectedVoucherType(type);
+    const prefix = VOUCHER_CONFIG[type].prefix;
+    setEntryNumber(`${prefix}${Date.now().toString().slice(-6)}`);
+  };
+
+  // Keyboard shortcut listener for F4, F5, F6, F7, F8, F9
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'F4') {
+        e.preventDefault();
+        handleSelectVoucherType('CONTRA');
+        if (!isModalOpen) setIsModalOpen(true);
+      } else if (e.key === 'F5') {
+        e.preventDefault();
+        handleSelectVoucherType('PAYMENT');
+        if (!isModalOpen) setIsModalOpen(true);
+      } else if (e.key === 'F6') {
+        e.preventDefault();
+        handleSelectVoucherType('RECEIPT');
+        if (!isModalOpen) setIsModalOpen(true);
+      } else if (e.key === 'F7') {
+        e.preventDefault();
+        handleSelectVoucherType('JOURNAL');
+        if (!isModalOpen) setIsModalOpen(true);
+      } else if (e.key === 'F8') {
+        e.preventDefault();
+        handleSelectVoucherType('SALES');
+        if (!isModalOpen) setIsModalOpen(true);
+      } else if (e.key === 'F9') {
+        e.preventDefault();
+        handleSelectVoucherType('PURCHASE');
+        if (!isModalOpen) setIsModalOpen(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen]);
 
   const activeClientId = selectedClientId || profiles[0]?.clientId || '';
 
@@ -175,7 +227,28 @@ export default function JournalAutomationPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Tally Prime Voucher Quick Switcher Bar */}
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-subtle)]">
+            {(Object.keys(VOUCHER_CONFIG) as VoucherType[]).map((type) => {
+              const cfg = VOUCHER_CONFIG[type];
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => {
+                    handleSelectVoucherType(type);
+                    setIsModalOpen(true);
+                  }}
+                  className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all border ${cfg.color} hover:brightness-95`}
+                >
+                  <kbd className="font-mono text-[10px] font-bold">{cfg.key}</kbd>
+                  <span>{cfg.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
           <select
             value={activeClientId}
             onChange={(e) => setSelectedClientId(e.target.value)}
@@ -202,7 +275,7 @@ export default function JournalAutomationPage() {
             className="bg-indigo-600 hover:bg-indigo-500 text-white"
             leftIcon={<Plus className="w-3.5 h-3.5" />}
           >
-            New Journal Entry
+            New Voucher
           </Button>
         </div>
       </div>
@@ -294,10 +367,41 @@ export default function JournalAutomationPage() {
               <div className="flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-indigo-600" />
                 <h3 className="font-bold text-sm text-[var(--color-text-heading)]">
-                  Create Double-Entry Journal Voucher
+                  Create Accounting Voucher — {VOUCHER_CONFIG[selectedVoucherType].label} ({VOUCHER_CONFIG[selectedVoucherType].key})
                 </h3>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">âœ•</button>
+              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">✕</button>
+            </div>
+
+            {/* Tally Prime Voucher Type Switcher */}
+            <div className="space-y-1.5 p-2.5 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-subtle)]">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="font-bold text-[var(--color-text-heading)]">Voucher Type (F4 – F9)</span>
+                <span className="text-[10px] text-[var(--color-text-muted)] font-mono">
+                  {VOUCHER_CONFIG[selectedVoucherType].desc}
+                </span>
+              </div>
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+                {(Object.keys(VOUCHER_CONFIG) as VoucherType[]).map((type) => {
+                  const cfg = VOUCHER_CONFIG[type];
+                  const isSelected = selectedVoucherType === type;
+                  return (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => handleSelectVoucherType(type)}
+                      className={`flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg text-xs font-semibold transition-all border ${
+                        isSelected
+                          ? `${cfg.color} ring-2 ring-indigo-500/30 font-bold shadow-sm`
+                          : 'border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-card-hover)]'
+                      }`}
+                    >
+                      <kbd className="font-mono text-[10px] font-bold">{cfg.key}</kbd>
+                      <span>{cfg.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3 text-xs">

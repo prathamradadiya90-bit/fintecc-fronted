@@ -21,10 +21,14 @@ export function GlobalSearchBar() {
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  // Global Cmd+K / Ctrl+K listener
+  // Global Cmd+K / Ctrl+K and Tally Prime Alt+G listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+        setIsOpen(true);
+      } else if (e.altKey && e.key.toLowerCase() === 'g') {
         e.preventDefault();
         inputRef.current?.focus();
         setIsOpen(true);
@@ -89,8 +93,8 @@ export function GlobalSearchBar() {
             if (!isOpen) setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-          placeholder="Search clients, tasks, docs... (⌘K)"
-          className="w-full h-9 pl-9 pr-14 text-xs rounded-xl transition-all outline-none focus:border-[#4A6FA5] focus:ring-1 focus:ring-[#4A6FA5]/25"
+          placeholder="Search or Go To... (Alt+G / ⌘K)"
+          className="w-full h-9 pl-9 pr-24 text-xs rounded-xl transition-all outline-none focus:border-[#4A6FA5] focus:ring-1 focus:ring-[#4A6FA5]/25"
           style={{
             background: 'var(--color-bg-input)',
             border: '1px solid var(--color-border)',
@@ -118,10 +122,182 @@ export function GlobalSearchBar() {
               color: 'var(--color-text-secondary)',
             }}
           >
-            ⌘K
+            Alt+G / ⌘K
           </kbd>
         )}
       </div>
+
+      {/* Tally Prime Go To Quick Menu (when query is empty) */}
+      {isOpen && !shouldFetch && (
+        <div
+          className="absolute left-0 right-0 mt-2 rounded-xl shadow-xl z-50 overflow-hidden max-h-[70vh] overflow-y-auto"
+          style={{
+            background: 'var(--color-bg-elevated)',
+            border: '1px solid var(--color-border)',
+          }}
+        >
+          <div className="p-3 border-b border-[var(--color-border)] flex items-center justify-between">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              Tally Prime &ldquo;Go To&rdquo; Quick Hub (Alt+G)
+            </span>
+            <span className="text-[10px] text-[var(--color-text-muted)] font-mono">
+              Press Esc to close
+            </span>
+          </div>
+
+          <div className="py-2 divide-y divide-[var(--color-border-subtle)]">
+            <div className="p-2 space-y-1">
+              <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--color-text-muted)]">
+                Financial Reports & Accounts
+              </div>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/my-clients')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>Balance Sheet & P&L (Multi-Year Schedule III)</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  B / P
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/accounting/journal')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>Day Book & Journal Vouchers (F4-F9)</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  K / V
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/accounting/masters')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>Bulk Masters (Ledgers & Stock Items)</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
+                  M
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/accounting/import')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>Universal Excel / CSV Import to Tally</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
+                  Alt+O
+                </kbd>
+              </button>
+            </div>
+
+            <div className="p-2 space-y-1">
+              <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--color-text-muted)]">
+                Invoicing & Transactions
+              </div>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/invoices')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>Tax Invoices (Tally Prime Alt+P Print Layout)</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                  Alt+P
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/bank-statements')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>Bank Statements & Auto BRS Reconciliation</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
+                  BRS
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/petty-cash')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>Petty Cash Book</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
+                  PC
+                </kbd>
+              </button>
+            </div>
+
+            <div className="p-2 space-y-1">
+              <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--color-text-muted)]">
+                Statutory & Tax Compliance
+              </div>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/gst/returns')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>GST Returns Filing (GSTR-1 & GSTR-3B)</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  G
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/gst/ims')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>GST IMS & GSTR-2B Auto-Reconciliation</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
+                  IMS
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/itr')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>Income Tax (ITR) Compliance Hub</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
+                  ITR
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/tds')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>TDS Compliance (24Q, 26Q, 27Q & TRACES)</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
+                  TDS
+                </kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelect('/dashboard/udin')}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold hover:bg-[var(--color-bg-card-hover)] transition-colors text-left"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <span>UDIN Register (ICAI Verified)</span>
+                <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-500">
+                  UDIN
+                </kbd>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isOpen && shouldFetch && (
         <div
