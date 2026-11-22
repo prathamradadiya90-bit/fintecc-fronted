@@ -60,14 +60,18 @@ export const CreateReturnModal: React.FC<CreateReturnModalProps> = ({
   const selectedProfileId = watch('gstProfileId');
   const selectedProfile = profiles.find((p) => p.id === selectedProfileId);
 
-  // Auto-select when defaultProfileId changes or when profiles are loaded
+  // Auto-select when modal opens, defaultProfileId changes, or when profiles are loaded
   useEffect(() => {
-    if (defaultProfileId) {
-      setValue('gstProfileId', defaultProfileId, { shouldValidate: true });
-    } else if (profiles.length > 0 && !selectedProfileId) {
-      setValue('gstProfileId', profiles[0].id, { shouldValidate: true });
+    if (isOpen) {
+      if (defaultProfileId) {
+        setValue('gstProfileId', defaultProfileId, { shouldValidate: true });
+        clearErrors('gstProfileId');
+      } else if (profiles.length > 0 && !selectedProfileId) {
+        setValue('gstProfileId', profiles[0].id, { shouldValidate: true });
+        clearErrors('gstProfileId');
+      }
     }
-  }, [defaultProfileId, profiles, selectedProfileId, setValue]);
+  }, [isOpen, defaultProfileId, profiles, selectedProfileId, setValue, clearErrors]);
 
   // Reset errors when modal opens or closes
   useEffect(() => {

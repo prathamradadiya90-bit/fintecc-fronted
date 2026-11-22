@@ -40,7 +40,13 @@ export const AddItrClientModal: React.FC<AddItrClientModalProps> = ({
       reset();
       onClose();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to add ITR client');
+      const msg =
+        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
+          : err?.data?.message && !err.data.message.toLowerCase().includes('validation error')
+          ? err.data.message
+          : err?.message || 'Failed to add ITR client';
+      alert(msg);
     }
   };
 

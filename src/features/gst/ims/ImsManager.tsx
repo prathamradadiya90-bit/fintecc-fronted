@@ -73,7 +73,13 @@ export const ImsManager: React.FC<ImsManagerProps> = ({ clientId, period }) => {
       alert(res.message || 'Successfully submitted IMS actions to GST portal!');
       handleRefreshAll();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to submit TBS actions');
+      const msg =
+        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
+          : err?.data?.message && !err.data.message.toLowerCase().includes('validation error')
+          ? err.data.message
+          : err?.message || 'Failed to submit TBS actions';
+      alert(msg);
     }
   };
 

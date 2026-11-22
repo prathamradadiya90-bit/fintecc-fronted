@@ -60,12 +60,23 @@ export const ImsVoucherView: React.FC<ImsVoucherViewProps> = ({
     );
   };
 
+  const formatError = (err: any, fallback: string) => {
+    if (err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0) {
+      return err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n');
+    }
+    const msg = err?.data?.message || err?.message;
+    if (msg && !msg.toLowerCase().includes('validation error')) {
+      return msg;
+    }
+    return fallback;
+  };
+
   const handleSingleAction = async (id: string, action: string) => {
     try {
       await takeActionApi({ id, clientId, action }).unwrap();
       onRefresh?.();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to update action');
+      alert(formatError(err, 'Failed to update action'));
     }
   };
 
@@ -76,7 +87,7 @@ export const ImsVoucherView: React.FC<ImsVoucherViewProps> = ({
       setSelectedIds([]);
       onRefresh?.();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to apply bulk action');
+      alert(formatError(err, 'Failed to apply bulk action'));
     }
   };
 
@@ -86,7 +97,7 @@ export const ImsVoucherView: React.FC<ImsVoucherViewProps> = ({
       alert('Internal purchase voucher created and auto-linked!');
       onRefresh?.();
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to create purchase voucher');
+      alert(formatError(err, 'Failed to create purchase voucher'));
     }
   };
 

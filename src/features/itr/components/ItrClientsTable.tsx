@@ -29,7 +29,13 @@ export const ItrClientsTable: React.FC<ItrClientsTableProps> = ({
       const res = await requestConsentApi(client.id).unwrap();
       alert(`Consent requested successfully! Consent ID: ${res?.data?.consentId || 'Recorded'}`);
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to request taxpayer consent');
+      const msg =
+        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
+          : err?.data?.message && !err.data.message.toLowerCase().includes('validation error')
+          ? err.data.message
+          : err?.message || 'Failed to request taxpayer consent';
+      alert(msg);
     } finally {
       setActiveConsentClientId(null);
     }

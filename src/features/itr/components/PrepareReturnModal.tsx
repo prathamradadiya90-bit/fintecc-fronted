@@ -91,7 +91,13 @@ export const PrepareReturnModal: React.FC<PrepareReturnModalProps> = ({
         router.push(`/dashboard/itr/returns/${response.data.id}`);
       }
     } catch (err: any) {
-      alert(err?.data?.message || 'Failed to prepare ITR return draft');
+      const msg =
+        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
+          : err?.data?.message && !err.data.message.toLowerCase().includes('validation error')
+          ? err.data.message
+          : err?.message || 'Failed to prepare ITR return draft';
+      alert(msg);
     }
   };
 
