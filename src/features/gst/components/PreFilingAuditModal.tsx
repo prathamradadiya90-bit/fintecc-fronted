@@ -42,10 +42,11 @@ export function PreFilingAuditModal({
       await preFilingValidation({ clientId, period }).unwrap();
       setHasRun(true);
     } catch (err: any) {
-      const msg =
-        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
-          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
-          : (err?.data?.message && err.data.message !== 'Validation Error' ? err.data.message : err?.message) || 'Pre-filing audit check failed';
+      const fieldErrors = err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+        ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
+        : null;
+      const apiMsg = err?.data?.message || err?.message;
+      const msg = fieldErrors || (apiMsg && apiMsg !== 'Validation Error' ? apiMsg : 'Pre-filing audit check encountered validation errors. Please check client GSTIN details and filing period.');
       alert(msg);
     }
   };

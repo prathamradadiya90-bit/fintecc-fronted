@@ -38,7 +38,7 @@ export const ReturnWorkflowActions: React.FC<ReturnWorkflowActionsProps> = ({
       return err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n');
     }
     const msg = err?.data?.message || err?.message;
-    if (msg && msg !== 'Validation Error') {
+    if (msg && !msg.toLowerCase().includes('validation error')) {
       return msg;
     }
     return fallback;

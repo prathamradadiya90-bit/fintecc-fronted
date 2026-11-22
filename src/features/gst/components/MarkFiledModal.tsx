@@ -38,10 +38,11 @@ export const MarkFiledModal: React.FC<MarkFiledModalProps> = ({
       reset();
       onClose();
     } catch (err: any) {
-      const msg =
-        err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
-          ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
-          : (err?.data?.message && err.data.message !== 'Validation Error' ? err.data.message : err?.message) || 'Failed to mark return as filed';
+      const fieldErrors = err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0
+        ? err.data.errors.map((e: any) => `${e.field ? `${e.field}: ` : ''}${e.message}`).join('\n')
+        : null;
+      const apiMsg = err?.data?.message || err?.message;
+      const msg = fieldErrors || (apiMsg && apiMsg !== 'Validation Error' ? apiMsg : 'Failed to mark return as filed. Please ensure ARN is valid.');
       alert(msg);
     }
   };
