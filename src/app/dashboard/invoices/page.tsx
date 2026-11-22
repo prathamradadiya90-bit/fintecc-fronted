@@ -235,6 +235,15 @@ export default function InvoicesPage() {
             <FileText className="w-4 h-4" />
           </button>
 
+          {/* Quick Tally XML Download */}
+          <button
+            onClick={(e) => handleQuickDownload(e, inv, 'tally-xml')}
+            className="p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+            title="Download Tally Prime XML (.xml)"
+          >
+            <FileCode2 className="w-4 h-4" />
+          </button>
+
           {/* Quick Copy Payment Link */}
           {inv.paymentLinkUrl && (
             <button

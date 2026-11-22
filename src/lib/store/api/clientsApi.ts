@@ -88,6 +88,22 @@ export const clientsApi = createApi({
       }),
       providesTags: ['Client'],
     }),
+    getClientFinancialReports: builder.query<{ success: boolean; data: any }, string>({
+      query: (id) => `/${id}/financial-reports`,
+      providesTags: (result, error, id) => [{ type: 'Client', id: `${id}_financials` }],
+    }),
+    saveClientFinancialReport: builder.mutation<{ success: boolean; data: any; message?: string }, { id: string; data: any }>({
+      query: ({ id, data }) => ({
+        url: `/${id}/financial-reports`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: 'Client', id: `${id}_financials` }],
+    }),
+    getClientAllData: builder.query<{ success: boolean; data: any }, string>({
+      query: (id) => `/${id}/all-data`,
+      providesTags: (result, error, id) => [{ type: 'Client', id: `${id}_all_data` }],
+    }),
     exportClients: builder.mutation<null, ExportClientsParams | void>({
       queryFn: async (params) => {
         try {
@@ -137,6 +153,9 @@ export const {
   useInviteClientMutation,
   useOnboardClientMutation,
   useSearchClientsQuery,
+  useGetClientFinancialReportsQuery,
+  useSaveClientFinancialReportMutation,
+  useGetClientAllDataQuery,
   useExportClientsMutation
 } = clientsApi;
 

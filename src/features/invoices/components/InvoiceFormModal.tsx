@@ -11,8 +11,27 @@ import {
   useUpdateInvoiceMutation,
 } from '@/lib/store/api/invoicesApi';
 import { useToast } from '@/components/ui/Toast';
-import { Plus, Trash2, Calculator, Receipt, Repeat, CreditCard, Link2, Check, Copy } from 'lucide-react';
+import {
+  Plus,
+  Trash2,
+  Receipt,
+  Repeat,
+  CreditCard,
+  Link2,
+  Check,
+  Copy,
+  Truck,
+  FileSpreadsheet,
+  Building,
+  Landmark,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 import type { Invoice, InvoiceLineItem, InvoiceStatus, RecurringInterval } from '@/lib/types/invoice-management.types';
+
+const UOM_OPTIONS = [
+  'NOS', 'PCS', 'KGS', 'MTR', 'BOX', 'PKT', 'SET', 'BAG', 'LTR', 'HRS', 'TON', 'OTH'
+];
 
 interface InvoiceFormModalProps {
   isOpen: boolean;
@@ -42,12 +61,55 @@ export function InvoiceFormModal({
     return d.toISOString().split('T')[0];
   });
   const [status, setStatus] = useState<InvoiceStatus>('DRAFT');
-  const [taxRatePercent, setTaxRatePercent] = useState<number>(18);
+  const [placeOfSupply, setPlaceOfSupply] = useState('');
   const [generatePaymentLink, setGeneratePaymentLink] = useState(false);
   const [isRecurring, setIsRecurring] = useState(false);
   const [recurringInterval, setRecurringInterval] = useState<RecurringInterval>('MONTHLY');
+
+  // Tally Prime Statutory & Dispatch Details
+  const [showTallyDetails, setShowTallyDetails] = useState(false);
+  const [tallyTab, setTallyTab] = useState<'order-dispatch' | 'consignee' | 'bank-statutory'>('order-dispatch');
+  
+  const [buyerOrderNo, setBuyerOrderNo] = useState('');
+  const [buyerOrderDate, setBuyerOrderDate] = useState('');
+  const [termsOfPayment, setTermsOfPayment] = useState('Net 30 Days');
+  const [otherReferences, setOtherReferences] = useState('');
+
+  const [consigneeName, setConsigneeName] = useState('');
+  const [consigneeAddress, setConsigneeAddress] = useState('');
+  const [consigneeGstin, setConsigneeGstin] = useState('');
+  const [consigneeState, setConsigneeState] = useState('');
+
+  const [dispatchDocNo, setDispatchDocNo] = useState('');
+  const [dispatchedThrough, setDispatchedThrough] = useState('');
+  const [destination, setDestination] = useState('');
+  const [carrierName, setCarrierName] = useState('');
+  const [billOfLadingNo, setBillOfLadingNo] = useState('');
+  const [billOfLadingDate, setBillOfLadingDate] = useState('');
+  const [motorVehicleNo, setMotorVehicleNo] = useState('');
+
+  const [bankName, setBankName] = useState('');
+  const [bankAccountNumber, setBankAccountNumber] = useState('');
+  const [bankIfsc, setBankIfsc] = useState('');
+  const [bankBranch, setBankBranch] = useState('');
+
+  const [eWayBillNo, setEWayBillNo] = useState('');
+  const [eWayBillDate, setEWayBillDate] = useState('');
+  const [narration, setNarration] = useState('');
+  const [termsConditions, setTermsConditions] = useState('');
+
   const [lineItems, setLineItems] = useState<InvoiceLineItem[]>([
-    { description: '', quantity: 1, unitPrice: 0, amount: 0 },
+    {
+      description: '',
+      hsnSac: '998311',
+      quantity: 1,
+      uom: 'NOS',
+      unitPrice: 0,
+      rate: 0,
+      discountPercent: 0,
+      gstRate: 18,
+      amount: 0,
+    },
   ]);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -67,23 +129,67 @@ export function InvoiceFormModal({
           : ''
       );
       setStatus(invoiceToEdit.status || 'DRAFT');
+      setPlaceOfSupply(invoiceToEdit.placeOfSupply || '');
       setGeneratePaymentLink(false);
       setIsRecurring(Boolean(invoiceToEdit.isRecurring));
       setRecurringInterval((invoiceToEdit.recurringInterval as RecurringInterval) || 'MONTHLY');
-      
-      const items = invoiceToEdit.lineItems && invoiceToEdit.lineItems.length > 0
-        ? invoiceToEdit.lineItems
-        : [{ description: 'Professional Services', quantity: 1, unitPrice: Number(invoiceToEdit.totalAmount) || 0, amount: Number(invoiceToEdit.totalAmount) || 0 }];
-      
+
+      setBuyerOrderNo(invoiceToEdit.buyerOrderNo || '');
+      setBuyerOrderDate(invoiceToEdit.buyerOrderDate || '');
+      setTermsOfPayment(invoiceToEdit.termsOfPayment || 'Net 30 Days');
+      setOtherReferences(invoiceToEdit.otherReferences || '');
+
+      setConsigneeName(invoiceToEdit.consigneeName || '');
+      setConsigneeAddress(invoiceToEdit.consigneeAddress || '');
+      setConsigneeGstin(invoiceToEdit.consigneeGstin || '');
+      setConsigneeState(invoiceToEdit.consigneeState || '');
+
+      setDispatchDocNo(invoiceToEdit.dispatchDocNo || '');
+      setDispatchedThrough(invoiceToEdit.dispatchedThrough || '');
+      setDestination(invoiceToEdit.destination || '');
+      setCarrierName(invoiceToEdit.carrierName || '');
+      setBillOfLadingNo(invoiceToEdit.billOfLadingNo || '');
+      setBillOfLadingDate(invoiceToEdit.billOfLadingDate || '');
+      setMotorVehicleNo(invoiceToEdit.motorVehicleNo || '');
+
+      setBankName(invoiceToEdit.bankName || '');
+      setBankAccountNumber(invoiceToEdit.bankAccountNumber || '');
+      setBankIfsc(invoiceToEdit.bankIfsc || '');
+      setBankBranch(invoiceToEdit.bankBranch || '');
+
+      setEWayBillNo(invoiceToEdit.eWayBillNo || '');
+      setEWayBillDate(invoiceToEdit.eWayBillDate || '');
+      setNarration(invoiceToEdit.narration || invoiceToEdit.notes || '');
+      setTermsConditions(invoiceToEdit.termsConditions || '');
+
+      const items =
+        invoiceToEdit.lineItems && invoiceToEdit.lineItems.length > 0
+          ? invoiceToEdit.lineItems.map((item) => ({
+              ...item,
+              hsnSac: item.hsnSac || '998311',
+              uom: item.uom || 'NOS',
+              unitPrice: Number(item.unitPrice ?? item.rate) || 0,
+              rate: Number(item.rate ?? item.unitPrice) || 0,
+              discountPercent: Number(item.discountPercent) || 0,
+              gstRate: Number(item.gstRate ?? 18),
+              amount: Number(item.amount) || Number((item.quantity || 1) * (item.unitPrice || 0)),
+            }))
+          : [
+              {
+                description: 'Professional Accounting & CA Services',
+                hsnSac: '998311',
+                quantity: 1,
+                uom: 'NOS',
+                unitPrice: Number(invoiceToEdit.totalAmount) || 0,
+                rate: Number(invoiceToEdit.totalAmount) || 0,
+                discountPercent: 0,
+                gstRate: 18,
+                amount: Number(invoiceToEdit.totalAmount) || 0,
+              },
+            ];
+
       setLineItems(items);
-      
-      // Infer tax rate if available
-      if (invoiceToEdit.totalAmount && invoiceToEdit.taxAmount) {
-        const sub = Number(invoiceToEdit.totalAmount) - Number(invoiceToEdit.taxAmount);
-        if (sub > 0) {
-          setTaxRatePercent(Math.round((Number(invoiceToEdit.taxAmount) / sub) * 100));
-        }
-      }
+      setShowTallyDetails(Boolean(invoiceToEdit.buyerOrderNo || invoiceToEdit.dispatchDocNo || invoiceToEdit.consigneeName));
     } else {
       setClientId('');
       setInvoiceNumber(`INV-${Date.now().toString().slice(-6)}`);
@@ -92,11 +198,49 @@ export function InvoiceFormModal({
       d.setDate(d.getDate() + 30);
       setDueDate(d.toISOString().split('T')[0]);
       setStatus('DRAFT');
-      setTaxRatePercent(18);
+      setPlaceOfSupply('');
       setGeneratePaymentLink(false);
       setIsRecurring(false);
       setRecurringInterval('MONTHLY');
-      setLineItems([{ description: '', quantity: 1, unitPrice: 0, amount: 0 }]);
+
+      setBuyerOrderNo('');
+      setBuyerOrderDate('');
+      setTermsOfPayment('Net 30 Days');
+      setOtherReferences('');
+      setConsigneeName('');
+      setConsigneeAddress('');
+      setConsigneeGstin('');
+      setConsigneeState('');
+      setDispatchDocNo('');
+      setDispatchedThrough('');
+      setDestination('');
+      setCarrierName('');
+      setBillOfLadingNo('');
+      setBillOfLadingDate('');
+      setMotorVehicleNo('');
+      setBankName('');
+      setBankAccountNumber('');
+      setBankIfsc('');
+      setBankBranch('');
+      setEWayBillNo('');
+      setEWayBillDate('');
+      setNarration('');
+      setTermsConditions('');
+
+      setLineItems([
+        {
+          description: '',
+          hsnSac: '998311',
+          quantity: 1,
+          uom: 'NOS',
+          unitPrice: 0,
+          rate: 0,
+          discountPercent: 0,
+          gstRate: 18,
+          amount: 0,
+        },
+      ]);
+      setShowTallyDetails(false);
     }
     setErrors({});
   }, [invoiceToEdit, isOpen]);
@@ -110,8 +254,24 @@ export function InvoiceFormModal({
   }));
 
   // Calculations
-  const subTotal = lineItems.reduce((acc, item) => acc + (Number(item.amount) || 0), 0);
-  const taxAmount = Number(((subTotal * (taxRatePercent || 0)) / 100).toFixed(2));
+  const calculatedItems = lineItems.map((item) => {
+    const qty = Number(item.quantity) || 1;
+    const rate = Number(item.unitPrice) || 0;
+    const gross = qty * rate;
+    const disc = (gross * (Number(item.discountPercent) || 0)) / 100;
+    const taxable = gross - disc;
+    const gstRate = Number(item.gstRate ?? 18);
+    const tax = (taxable * gstRate) / 100;
+    return {
+      ...item,
+      amount: Number(taxable.toFixed(2)),
+      taxAmount: Number(tax.toFixed(2)),
+      total: Number((taxable + tax).toFixed(2)),
+    };
+  });
+
+  const subTotal = calculatedItems.reduce((acc, item) => acc + item.amount, 0);
+  const taxAmount = Number(calculatedItems.reduce((acc, item) => acc + item.taxAmount, 0).toFixed(2));
   const totalAmount = Number((subTotal + taxAmount).toFixed(2));
 
   // Line item handlers
@@ -125,12 +285,22 @@ export function InvoiceFormModal({
 
     if (field === 'description') {
       current.description = String(value);
+    } else if (field === 'hsnSac') {
+      current.hsnSac = String(value);
+    } else if (field === 'uom') {
+      current.uom = String(value);
     } else if (field === 'quantity') {
       current.quantity = Number(value) || 0;
-      current.amount = Number((current.quantity * current.unitPrice).toFixed(2));
+      current.amount = Number(((current.quantity * (current.unitPrice || 0)) * (1 - (current.discountPercent || 0) / 100)).toFixed(2));
     } else if (field === 'unitPrice') {
       current.unitPrice = Number(value) || 0;
-      current.amount = Number((current.quantity * current.unitPrice).toFixed(2));
+      current.rate = current.unitPrice;
+      current.amount = Number((((current.quantity || 1) * current.unitPrice) * (1 - (current.discountPercent || 0) / 100)).toFixed(2));
+    } else if (field === 'discountPercent') {
+      current.discountPercent = Number(value) || 0;
+      current.amount = Number((((current.quantity || 1) * (current.unitPrice || 0)) * (1 - current.discountPercent / 100)).toFixed(2));
+    } else if (field === 'gstRate') {
+      current.gstRate = Number(value) || 0;
     }
 
     updated[index] = current;
@@ -140,7 +310,17 @@ export function InvoiceFormModal({
   const handleAddItem = () => {
     setLineItems([
       ...lineItems,
-      { description: '', quantity: 1, unitPrice: 0, amount: 0 },
+      {
+        description: '',
+        hsnSac: '998311',
+        quantity: 1,
+        uom: 'NOS',
+        unitPrice: 0,
+        rate: 0,
+        discountPercent: 0,
+        gstRate: 18,
+        amount: 0,
+      },
     ]);
   };
 
@@ -157,7 +337,7 @@ export function InvoiceFormModal({
     if (!dueDate) errs.dueDate = 'Due date is required';
 
     const hasEmptyDesc = lineItems.some((item) => !item.description.trim());
-    if (hasEmptyDesc) errs.lineItems = 'All items must have a description';
+    if (hasEmptyDesc) errs.lineItems = 'All items must have an item description';
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -182,12 +362,43 @@ export function InvoiceFormModal({
         date: new Date(date).toISOString(),
         dueDate: new Date(dueDate).toISOString(),
         status,
+        placeOfSupply: placeOfSupply.trim() || undefined,
         totalAmount,
+        subTotal,
         taxAmount,
-        lineItems,
+        lineItems: calculatedItems,
         generatePaymentLink,
         isRecurring,
         recurringInterval: isRecurring ? recurringInterval : undefined,
+
+        // Tally Prime Statutory, Order, Dispatch & Remittance fields
+        buyerOrderNo: buyerOrderNo.trim() || undefined,
+        buyerOrderDate: buyerOrderDate || undefined,
+        termsOfPayment: termsOfPayment.trim() || undefined,
+        otherReferences: otherReferences.trim() || undefined,
+
+        consigneeName: consigneeName.trim() || undefined,
+        consigneeAddress: consigneeAddress.trim() || undefined,
+        consigneeGstin: consigneeGstin.trim().toUpperCase() || undefined,
+        consigneeState: consigneeState.trim() || undefined,
+
+        dispatchDocNo: dispatchDocNo.trim() || undefined,
+        dispatchedThrough: dispatchedThrough.trim() || undefined,
+        destination: destination.trim() || undefined,
+        carrierName: carrierName.trim() || undefined,
+        billOfLadingNo: billOfLadingNo.trim() || undefined,
+        billOfLadingDate: billOfLadingDate || undefined,
+        motorVehicleNo: motorVehicleNo.trim().toUpperCase() || undefined,
+
+        bankName: bankName.trim() || undefined,
+        bankAccountNumber: bankAccountNumber.trim() || undefined,
+        bankIfsc: bankIfsc.trim().toUpperCase() || undefined,
+        bankBranch: bankBranch.trim() || undefined,
+
+        eWayBillNo: eWayBillNo.trim() || undefined,
+        eWayBillDate: eWayBillDate || undefined,
+        narration: narration.trim() || undefined,
+        termsConditions: termsConditions.trim() || undefined,
       };
 
       if (isEditing && invoiceToEdit) {
@@ -195,7 +406,7 @@ export function InvoiceFormModal({
         showToast('Invoice updated successfully', 'success');
       } else {
         await createInvoice(payload).unwrap();
-        showToast('Invoice created successfully', 'success');
+        showToast('Tally Prime compliant Invoice created successfully', 'success');
       }
       onClose();
     } catch (error: any) {
@@ -208,28 +419,33 @@ export function InvoiceFormModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={isEditing ? `Edit Invoice (${invoiceToEdit.invoiceNumber})` : 'Create New Invoice'}
+      title={isEditing ? `Edit Invoice (${invoiceToEdit.invoiceNumber})` : 'Create Tally Prime Compliant Invoice'}
       maxWidth="2xl"
       footer={
-        <div className="flex items-center justify-end gap-3 w-full">
-          <Button variant="outline" type="button" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            form="invoice-form"
-            isLoading={isCreating || isUpdating}
-            leftIcon={<Receipt className="w-4 h-4" />}
-          >
-            {isEditing ? 'Save Changes' : 'Create Invoice'}
-          </Button>
+        <div className="flex items-center justify-between gap-3 w-full">
+          <div className="flex items-center gap-1.5 text-xs text-slate-500">
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">Tally XML & GST Ready</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" type="button" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              form="invoice-form"
+              isLoading={isCreating || isUpdating}
+              leftIcon={<Receipt className="w-4 h-4" />}
+            >
+              {isEditing ? 'Save Changes' : 'Create & Generate Tally XML'}
+            </Button>
+          </div>
         </div>
       }
     >
       <form id="invoice-form" onSubmit={handleSubmit} className="space-y-5">
         {/* Row 1: Client and Status */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:col-span-2">
             <SearchableSelect
               label="Select Client *"
               placeholder="Search client by name / GSTIN..."
@@ -246,7 +462,7 @@ export function InvoiceFormModal({
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>
-              Status *
+              Voucher Status *
             </label>
             <select
               value={status}
@@ -268,8 +484,8 @@ export function InvoiceFormModal({
           </div>
         </div>
 
-        {/* Row 2: Invoice #, Date, Due Date */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* Row 2: Invoice #, Date, Due Date, Place of Supply */}
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
           <Input
             label="Invoice Number *"
             placeholder="INV-001"
@@ -279,7 +495,7 @@ export function InvoiceFormModal({
           />
           <Input
             type="date"
-            label="Issue Date *"
+            label="Invoice Date *"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             error={errors.date}
@@ -291,122 +507,226 @@ export function InvoiceFormModal({
             onChange={(e) => setDueDate(e.target.value)}
             error={errors.dueDate}
           />
+          <Input
+            label="Place of Supply (State)"
+            placeholder="e.g. 27-Maharashtra"
+            value={placeOfSupply}
+            onChange={(e) => setPlaceOfSupply(e.target.value)}
+          />
         </div>
 
-        {/* Row 3: Payment Link & Recurring Invoice Options */}
+        {/* ─── TALLY PRIME & STATUTORY ACCORDION ─────────────────────────── */}
         <div
-          className="rounded-xl p-4 space-y-3.5"
-          style={{
-            background: 'var(--color-bg-subtle)',
-            border: '1px solid var(--color-border)',
-          }}
+          className="rounded-xl border overflow-hidden transition-all"
+          style={{ borderColor: 'var(--color-border)', background: 'var(--color-bg-subtle)' }}
         >
-          <div className="flex items-center justify-between">
-            <h4 className="text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--color-text-secondary)' }}>
-              <CreditCard className="w-3.5 h-3.5 text-emerald-500" />
-              Automated Billing & Client Payment Options
-            </h4>
-          </div>
+          <button
+            type="button"
+            onClick={() => setShowTallyDetails(!showTallyDetails)}
+            className="w-full p-3.5 flex items-center justify-between text-left hover:bg-slate-500/5 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <Truck className="w-4 h-4 text-emerald-500" />
+              <div>
+                <span className="text-xs font-bold" style={{ color: 'var(--color-text-heading)' }}>
+                  Tally Prime Statutory & Dispatch Specifications
+                </span>
+                <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+                  Buyer Order PO, Dispatch doc, Consignee / Ship-to, Bank remittance, E-way bill & Narration
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+              <span>{showTallyDetails ? 'Hide Fields' : 'Configure Tally Fields'}</span>
+              {showTallyDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </div>
+          </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-            {/* Payment Link Option */}
-            <div
-              className="p-3.5 rounded-xl border transition-all space-y-2.5"
-              style={{
-                background: 'var(--color-bg-card)',
-                borderColor: generatePaymentLink ? '#4A6FA5' : 'var(--color-border)',
-              }}
-            >
-              <label className="flex items-start gap-2.5 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={generatePaymentLink}
-                  onChange={(e) => setGeneratePaymentLink(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-300 text-[#4A6FA5] focus:ring-[#4A6FA5] w-4 h-4 accent-[#4A6FA5]"
-                />
-                <div className="space-y-0.5">
-                  <span className="text-xs font-semibold flex items-center gap-1.5" style={{ color: 'var(--color-text-primary)' }}>
-                    <Link2 className="w-3.5 h-3.5 text-[#4A6FA5]" />
-                    Generate & Send Payment Link to Client via SMS/Email
-                  </span>
-                  <p className="text-[11px] leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
-                    Creates a Razorpay payment link and sends SMS/email to the client. Requires client phone or email.
-                  </p>
+          {showTallyDetails && (
+            <div className="p-4 pt-1 space-y-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
+              {/* Internal tabs */}
+              <div className="flex items-center gap-1 border-b pb-2" style={{ borderColor: 'var(--color-border)' }}>
+                <button
+                  type="button"
+                  onClick={() => setTallyTab('order-dispatch')}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold ${
+                    tallyTab === 'order-dispatch'
+                      ? 'bg-emerald-600 text-white'
+                      : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                  }`}
+                >
+                  Order & Dispatch
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTallyTab('consignee')}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold ${
+                    tallyTab === 'consignee'
+                      ? 'bg-emerald-600 text-white'
+                      : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                  }`}
+                >
+                  Consignee (Ship To)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTallyTab('bank-statutory')}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold ${
+                    tallyTab === 'bank-statutory'
+                      ? 'bg-emerald-600 text-white'
+                      : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                  }`}
+                >
+                  Bank & Statutory
+                </button>
+              </div>
+
+              {/* Tab 1: Order & Dispatch */}
+              {tallyTab === 'order-dispatch' && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                  <Input
+                    label="Buyer's Order / PO No."
+                    placeholder="e.g. PO-2026-981"
+                    value={buyerOrderNo}
+                    onChange={(e) => setBuyerOrderNo(e.target.value)}
+                  />
+                  <Input
+                    type="date"
+                    label="Order Date"
+                    value={buyerOrderDate}
+                    onChange={(e) => setBuyerOrderDate(e.target.value)}
+                  />
+                  <Input
+                    label="Terms of Payment"
+                    placeholder="e.g. Net 30 Days"
+                    value={termsOfPayment}
+                    onChange={(e) => setTermsOfPayment(e.target.value)}
+                  />
+                  <Input
+                    label="Dispatch Document / DC No."
+                    placeholder="e.g. DC-1029"
+                    value={dispatchDocNo}
+                    onChange={(e) => setDispatchDocNo(e.target.value)}
+                  />
+                  <Input
+                    label="Dispatched Through"
+                    placeholder="e.g. By Road / Courier"
+                    value={dispatchedThrough}
+                    onChange={(e) => setDispatchedThrough(e.target.value)}
+                  />
+                  <Input
+                    label="Destination (Place of Delivery)"
+                    placeholder="e.g. Mumbai / Pune Works"
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                  />
+                  <Input
+                    label="Carrier / Transporter Name"
+                    placeholder="e.g. BlueDart / V-Trans"
+                    value={carrierName}
+                    onChange={(e) => setCarrierName(e.target.value)}
+                  />
+                  <Input
+                    label="Bill of Lading / LR-RR No."
+                    placeholder="e.g. LR-448899"
+                    value={billOfLadingNo}
+                    onChange={(e) => setBillOfLadingNo(e.target.value)}
+                  />
+                  <Input
+                    label="Motor Vehicle No."
+                    placeholder="e.g. MH-12-AB-1234"
+                    value={motorVehicleNo}
+                    onChange={(e) => setMotorVehicleNo(e.target.value)}
+                  />
                 </div>
-              </label>
+              )}
 
-              {invoiceToEdit?.paymentLinkUrl && (
-                <div className="pt-2 border-t flex items-center justify-between gap-2 text-xs" style={{ borderColor: 'var(--color-border)' }}>
-                  <span className="text-[11px] truncate" style={{ color: 'var(--color-text-secondary)' }}>
-                    Active Link: <span className="font-mono text-[10px] text-[#3D7A64]">{invoiceToEdit.paymentLinkUrl}</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => handleCopyExistingLink(invoiceToEdit.paymentLinkUrl!)}
-                    className="p-1 px-2 rounded-lg border text-[11px] flex items-center gap-1 hover:opacity-80 transition-opacity shrink-0"
-                    style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-primary)' }}
-                  >
-                    {copiedLink ? <Check className="w-3 h-3 text-[#3D7A64]" /> : <Copy className="w-3 h-3" />}
-                    {copiedLink ? 'Copied' : 'Copy'}
-                  </button>
+              {/* Tab 2: Consignee Details */}
+              {tallyTab === 'consignee' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <Input
+                    label="Consignee (Ship-To) Name"
+                    placeholder="Leave blank if same as Billed Client"
+                    value={consigneeName}
+                    onChange={(e) => setConsigneeName(e.target.value)}
+                  />
+                  <Input
+                    label="Consignee GSTIN"
+                    placeholder="15-digit GSTIN"
+                    value={consigneeGstin}
+                    onChange={(e) => setConsigneeGstin(e.target.value)}
+                  />
+                  <Input
+                    label="Consignee State / State Code"
+                    placeholder="e.g. Maharashtra (27)"
+                    value={consigneeState}
+                    onChange={(e) => setConsigneeState(e.target.value)}
+                  />
+                  <Input
+                    label="Consignee Shipping Address"
+                    placeholder="Full delivery warehouse address"
+                    value={consigneeAddress}
+                    onChange={(e) => setConsigneeAddress(e.target.value)}
+                  />
+                </div>
+              )}
+
+              {/* Tab 3: Bank & Statutory */}
+              {tallyTab === 'bank-statutory' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <Input
+                    label="Remittance Bank Name"
+                    placeholder="e.g. HDFC Bank"
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
+                  />
+                  <Input
+                    label="Account Number"
+                    placeholder="e.g. 50200012345678"
+                    value={bankAccountNumber}
+                    onChange={(e) => setBankAccountNumber(e.target.value)}
+                  />
+                  <Input
+                    label="Bank IFSC Code"
+                    placeholder="e.g. HDFC0001234"
+                    value={bankIfsc}
+                    onChange={(e) => setBankIfsc(e.target.value)}
+                  />
+                  <Input
+                    label="Bank Branch"
+                    placeholder="e.g. Fort, Mumbai"
+                    value={bankBranch}
+                    onChange={(e) => setBankBranch(e.target.value)}
+                  />
+                  <Input
+                    label="E-Way Bill Number"
+                    placeholder="12-digit E-Way bill"
+                    value={eWayBillNo}
+                    onChange={(e) => setEWayBillNo(e.target.value)}
+                  />
+                  <Input
+                    type="date"
+                    label="E-Way Bill Date"
+                    value={eWayBillDate}
+                    onChange={(e) => setEWayBillDate(e.target.value)}
+                  />
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-semibold mb-1" style={{ color: 'var(--color-text-secondary)' }}>
+                      Tally Voucher Narration
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Being sales of statutory consulting and CA services against PO #..."
+                      value={narration}
+                      onChange={(e) => setNarration(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border text-xs bg-transparent"
+                      style={{ borderColor: 'var(--color-border)' }}
+                    />
+                  </div>
                 </div>
               )}
             </div>
-
-            {/* Recurring Invoice Option */}
-            <div
-              className="p-3.5 rounded-xl border transition-all space-y-2.5"
-              style={{
-                background: 'var(--color-bg-card)',
-                borderColor: isRecurring ? '#4A6FA5' : 'var(--color-border)',
-              }}
-            >
-              <label className="flex items-start gap-2.5 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={isRecurring}
-                  onChange={(e) => setIsRecurring(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-300 text-[#4A6FA5] focus:ring-[#4A6FA5] w-4 h-4 accent-[#4A6FA5]"
-                />
-                <div className="space-y-0.5">
-                  <span className="text-xs font-semibold flex items-center gap-1.5" style={{ color: 'var(--color-text-primary)' }}>
-                    <Repeat className="w-3.5 h-3.5 text-[#4A6FA5]" />
-                    Set as Recurring Invoice
-                  </span>
-                  <p className="text-[11px] leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
-                    Automated cron job will duplicate and generate future invoices on schedule.
-                  </p>
-                </div>
-              </label>
-
-              {isRecurring && (
-                <div className="pt-2 border-t space-y-1.5" style={{ borderColor: 'var(--color-border)' }}>
-                  <label className="block text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
-                    Billing Interval *
-                  </label>
-                  <select
-                    value={recurringInterval}
-                    onChange={(e) => setRecurringInterval(e.target.value as RecurringInterval)}
-                    className="w-full h-8 px-2.5 rounded-lg border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
-                    style={{
-                      background: 'var(--color-bg-subtle)',
-                      borderColor: 'var(--color-border)',
-                      color: 'var(--color-text-primary)',
-                    }}
-                  >
-                    <option value="MONTHLY">Monthly (Every month)</option>
-                    <option value="QUARTERLY">Quarterly (Every 3 months)</option>
-                    <option value="YEARLY">Yearly (Annual)</option>
-                  </select>
-                  {invoiceToEdit?.nextRecurringDate && (
-                    <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
-                      Next recurring date: {new Date(invoiceToEdit.nextRecurringDate).toLocaleDateString('en-IN')}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Line Items Section */}
@@ -418,9 +738,14 @@ export function InvoiceFormModal({
           }}
         >
           <div className="flex items-center justify-between">
-            <h4 className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
-              Line Items & Services
-            </h4>
+            <div>
+              <h4 className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
+                Line Items (Accounting & Stock Specifications)
+              </h4>
+              <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+                HSN/SAC code, quantity, Unit of Measurement (UOM), rate, discount % & GST rate
+              </p>
+            </div>
             <Button
               type="button"
               variant="outline"
@@ -440,16 +765,40 @@ export function InvoiceFormModal({
             {lineItems.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-12 gap-2 items-center rounded-lg p-2.5"
-                style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
+                className="grid grid-cols-12 gap-2 items-center rounded-xl p-3 border"
+                style={{ background: 'var(--color-bg-card)', borderColor: 'var(--color-border)' }}
               >
-                <div className="col-span-12 sm:col-span-5">
+                {/* Description */}
+                <div className="col-span-12 sm:col-span-4">
+                  <label className="block text-[10px] font-semibold mb-1" style={{ color: 'var(--color-text-muted)' }}>
+                    Item / Service Description *
+                  </label>
                   <input
                     type="text"
-                    placeholder="Description (e.g. Audit Consultation)"
+                    placeholder="e.g. Statutory Audit Consulting"
                     value={item.description}
                     onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
+                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    style={{
+                      background: 'var(--color-bg-subtle)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-primary)',
+                    }}
+                    required
+                  />
+                </div>
+
+                {/* HSN/SAC */}
+                <div className="col-span-4 sm:col-span-2">
+                  <label className="block text-[10px] font-semibold mb-1" style={{ color: 'var(--color-text-muted)' }}>
+                    HSN/SAC
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="998311"
+                    value={item.hsnSac || ''}
+                    onChange={(e) => handleItemChange(index, 'hsnSac', e.target.value)}
+                    className="w-full px-2 py-1.5 rounded-lg border text-xs font-mono text-center focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -457,14 +806,18 @@ export function InvoiceFormModal({
                     }}
                   />
                 </div>
-                <div className="col-span-4 sm:col-span-2">
+
+                {/* Quantity */}
+                <div className="col-span-4 sm:col-span-1">
+                  <label className="block text-[10px] font-semibold mb-1 text-center" style={{ color: 'var(--color-text-muted)' }}>
+                    Qty
+                  </label>
                   <input
                     type="number"
                     min="1"
-                    placeholder="Qty"
                     value={item.quantity || ''}
                     onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs text-center focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
+                    className="w-full px-2 py-1.5 rounded-lg border text-xs text-center focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -472,15 +825,43 @@ export function InvoiceFormModal({
                     }}
                   />
                 </div>
+
+                {/* UOM */}
+                <div className="col-span-4 sm:col-span-1">
+                  <label className="block text-[10px] font-semibold mb-1 text-center" style={{ color: 'var(--color-text-muted)' }}>
+                    UOM
+                  </label>
+                  <select
+                    value={item.uom || 'NOS'}
+                    onChange={(e) => handleItemChange(index, 'uom', e.target.value)}
+                    className="w-full h-8 px-1 rounded-lg border text-xs text-center font-bold focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+                    style={{
+                      background: 'var(--color-bg-subtle)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-primary)',
+                    }}
+                  >
+                    {UOM_OPTIONS.map((u) => (
+                      <option key={u} value={u}>
+                        {u}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Rate */}
                 <div className="col-span-4 sm:col-span-2">
+                  <label className="block text-[10px] font-semibold mb-1 text-right" style={{ color: 'var(--color-text-muted)' }}>
+                    Rate (₹)
+                  </label>
                   <input
                     type="number"
                     min="0"
                     step="0.01"
-                    placeholder="Rate (₹)"
+                    placeholder="0.00"
                     value={item.unitPrice || ''}
                     onChange={(e) => handleItemChange(index, 'unitPrice', e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border text-xs text-right focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500"
+                    className="w-full px-2 py-1.5 rounded-lg border text-xs text-right focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     style={{
                       background: 'var(--color-bg-subtle)',
                       borderColor: 'var(--color-border)',
@@ -488,17 +869,37 @@ export function InvoiceFormModal({
                     }}
                   />
                 </div>
-                <div className="col-span-3 sm:col-span-2 text-right">
-                  <span className="text-xs font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-                    ₹{item.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                  </span>
+
+                {/* GST % */}
+                <div className="col-span-4 sm:col-span-1">
+                  <label className="block text-[10px] font-semibold mb-1 text-center" style={{ color: 'var(--color-text-muted)' }}>
+                    GST %
+                  </label>
+                  <select
+                    value={item.gstRate ?? 18}
+                    onChange={(e) => handleItemChange(index, 'gstRate', e.target.value)}
+                    className="w-full h-8 px-1 rounded-lg border text-xs text-center font-semibold"
+                    style={{
+                      background: 'var(--color-bg-subtle)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-primary)',
+                    }}
+                  >
+                    <option value={0}>0%</option>
+                    <option value={5}>5%</option>
+                    <option value={12}>12%</option>
+                    <option value={18}>18%</option>
+                    <option value={28}>28%</option>
+                  </select>
                 </div>
-                <div className="col-span-1 sm:col-span-1 text-center">
+
+                {/* Action Remove */}
+                <div className="col-span-4 sm:col-span-1 text-center pt-4">
                   <button
                     type="button"
                     onClick={() => handleRemoveItem(index)}
                     disabled={lineItems.length === 1}
-                    className="p-1 rounded text-rose-500 hover:bg-rose-500/10 disabled:opacity-30 disabled:hover:bg-transparent"
+                    className="p-1.5 rounded text-rose-500 hover:bg-rose-500/10 disabled:opacity-30 disabled:hover:bg-transparent"
                     title="Remove item"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -511,38 +912,22 @@ export function InvoiceFormModal({
           {/* Tax & Total Summary */}
           <div className="pt-3 border-t flex flex-col sm:flex-row items-end sm:items-center justify-between gap-3 text-xs" style={{ borderColor: 'var(--color-border)' }}>
             <div className="flex items-center gap-2">
-              <label className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>
-                GST / Tax Rate:
-              </label>
-              <select
-                value={taxRatePercent}
-                onChange={(e) => setTaxRatePercent(Number(e.target.value))}
-                className="px-2 py-1 rounded-md border text-xs font-medium"
-                style={{
-                  background: 'var(--color-bg-card)',
-                  borderColor: 'var(--color-border)',
-                  color: 'var(--color-text-primary)',
-                }}
-              >
-                <option value={0}>0% (Exempt)</option>
-                <option value={5}>5% GST</option>
-                <option value={12}>12% GST</option>
-                <option value={18}>18% GST (Standard)</option>
-                <option value={28}>28% GST</option>
-              </select>
+              <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                ✓ Auto-computed Tally ledger entries for Sales & Duties
+              </span>
             </div>
 
             <div className="w-full sm:w-64 space-y-1">
               <div className="flex justify-between" style={{ color: 'var(--color-text-secondary)' }}>
-                <span>Subtotal:</span>
+                <span>Subtotal (Taxable):</span>
                 <span>₹{subTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               </div>
               <div className="flex justify-between" style={{ color: 'var(--color-text-secondary)' }}>
-                <span>Tax ({taxRatePercent}%):</span>
+                <span>Total GST Output:</span>
                 <span>₹{taxAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               </div>
               <div className="flex justify-between pt-1 border-t font-bold text-sm" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-primary)' }}>
-                <span>Total:</span>
+                <span>Invoice Total:</span>
                 <span className="text-emerald-600 dark:text-emerald-400">
                   ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </span>

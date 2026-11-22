@@ -22,8 +22,10 @@ import { ClientOverviewTab } from '@/components/clients/ClientOverviewTab';
 import { ClientDocumentsTab } from '@/components/clients/ClientDocumentsTab';
 import { ChatTab } from '@/components/clients/ChatTab';
 import { ClientLedgerTab } from '@/components/clients/ClientLedgerTab';
+import { ClientFinancialReportsTab } from '@/components/clients/ClientFinancialReportsTab';
+import { ClientAllDataTab } from '@/components/clients/ClientAllDataTab';
 
-type Tab = 'overview' | 'documents' | 'chat' | 'ledger';
+type Tab = 'overview' | 'financials' | 'all-data' | 'ledger' | 'documents' | 'chat';
 
 function ClientIdBadge({ id }: { id: string }) {
   return (
@@ -102,8 +104,10 @@ export default function ClientDetailPage() {
   const hasGst = !!client.gstin && client.gstin.length > 5;
   const tabs: { key: Tab; label: string }[] = [
     { key: 'overview',   label: 'Overview'   },
+    { key: 'financials', label: 'Profit & Loss & Reports' },
+    { key: 'all-data',   label: 'Client 360° Data Hub' },
     { key: 'ledger',     label: 'Ledger & Account' },
-    { key: 'documents',  label: 'Documents'  },
+    { key: 'documents',  label: 'Documents Vault'  },
     { key: 'chat',       label: 'Chat'       },
   ];
 
@@ -319,6 +323,18 @@ export default function ClientDetailPage() {
         {/* Tab Content */}
         <div className="p-6">
           {activeTab === 'overview' && <ClientOverviewTab client={client} />}
+          {activeTab === 'financials' && <ClientFinancialReportsTab client={client} />}
+          {activeTab === 'all-data' && (
+            <ClientAllDataTab
+              client={client}
+              invoices={(client as any).invoices || []}
+              gstReturns={(client as any).gstReturns || []}
+              itrReturns={(client as any).itrReturns || []}
+              documents={(client as any).documents || []}
+              tasks={(client as any).tasks || []}
+              onRefresh={refetch}
+            />
+          )}
           {activeTab === 'ledger' && <ClientLedgerTab clientId={client.id} clientName={client.name} />}
           {activeTab === 'documents' && <ClientDocumentsTab clientId={client.id} />}
           {activeTab === 'chat' && <ChatTab clientId={client.id} />}
