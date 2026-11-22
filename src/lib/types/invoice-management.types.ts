@@ -31,6 +31,7 @@ export interface Invoice {
   subTotal?: number;
   discountAmount?: number;
   taxAmount: number;
+  taxRate?: number;
   totalAmount: number;
   cgstAmount?: number;
   sgstAmount?: number;
@@ -45,11 +46,15 @@ export interface Invoice {
   termsConditions?: string | null;
   narration?: string | null;
   
+  clientGstin?: string | null;
   consigneeName?: string | null;
   consigneeAddress?: string | null;
   consigneeGstin?: string | null;
   consigneeState?: string | null;
   
+  deliveryNote?: string | null;
+  deliveryNoteDate?: string | null;
+  referenceNo?: string | null;
   dispatchDocNo?: string | null;
   dispatchedThrough?: string | null;
   destination?: string | null;
@@ -121,6 +126,7 @@ export interface CreateInvoiceRequest {
   subTotal?: number;
   discountAmount?: number;
   taxAmount: number;
+  taxRate?: number;
   totalAmount: number;
   placeOfSupply?: string;
   lineItems?: InvoiceLineItem[];
