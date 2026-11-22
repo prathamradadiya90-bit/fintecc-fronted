@@ -231,11 +231,15 @@ export const GspFilingPanel: React.FC<GspFilingPanelProps> = ({
             size="sm"
             onClick={handleFile}
             isLoading={isFiling}
-            disabled={!isValidated || gstReturn.status === 'FILED'}
+            disabled={gstReturn.status !== 'CLIENT_APPROVED'}
             leftIcon={<UploadCloud className="w-3.5 h-3.5" />}
-            className="w-full text-xs"
+            className="w-full text-xs font-bold"
           >
-            {gstReturn.status === 'FILED' ? 'Already Filed' : 'File to GSTN'}
+            {gstReturn.status === 'FILED'
+              ? 'Already Filed'
+              : gstReturn.status !== 'CLIENT_APPROVED'
+              ? 'Requires Client Approval (Step 3)'
+              : 'Transmit & File to GSTN'}
           </Button>
         </div>
       </div>

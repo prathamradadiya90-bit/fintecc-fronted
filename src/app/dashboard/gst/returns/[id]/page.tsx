@@ -18,8 +18,7 @@ import {
 import { Button } from '@/components/ui/Button';
 import { useGetReturnByIdQuery } from '@/lib/store/api/gstApi';
 import { ReturnStatusBadge } from '@/features/gst/components/ReturnStatusBadge';
-import { FilingProgressStepper } from '@/features/gst/components/FilingProgressStepper';
-import { ReturnWorkflowActions } from '@/features/gst/components/ReturnWorkflowActions';
+import { UnifiedFilingJourney } from '@/features/gst/components/UnifiedFilingJourney';
 import { GspFilingPanel } from '@/features/gst/components/GspFilingPanel';
 import { ItcReconciliationCard } from '@/features/gst/components/ItcReconciliationCard';
 import { ItcMaximizationCard } from '@/features/gst/components/ItcMaximizationCard';
@@ -149,11 +148,8 @@ export default function ReturnDetailPage() {
         </div>
       </div>
 
-      {/* Stepper Component */}
-      <FilingProgressStepper status={gstReturn.status} isComputed={isComputed} />
-
-      {/* Workflow Actions Toolbar */}
-      <ReturnWorkflowActions gstReturn={gstReturn} onRefresh={refetch} />
+      {/* Unified Filing Journey & Direct Transmission Stepper */}
+      <UnifiedFilingJourney gstReturn={gstReturn} onRefresh={refetch} />
 
       {/* Tabs Selection Bar */}
       <div className="flex items-center gap-2 border-b border-[var(--color-border)] overflow-x-auto pb-1">
@@ -165,7 +161,7 @@ export default function ReturnDetailPage() {
               : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
-          <Cpu className="w-4 h-4" /> GSP Sandbox Direct Filing
+          <Cpu className="w-4 h-4" /> GSTN Gateway & Diagnostics
         </button>
 
         <button
