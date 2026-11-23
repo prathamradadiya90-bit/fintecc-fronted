@@ -346,8 +346,10 @@ function ConvertersPageContent() {
     if (!invoiceData) return;
     setIsQueueingInvoiceTally(true);
     try {
-      const res = await fetch('/api/v1/accounting/import/queue-tally', {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://fintecc-backend.vercel.app/api/v1';
+      const res = await fetch(`${API_BASE}/accounting/import/queue-tally`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`

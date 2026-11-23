@@ -87,6 +87,7 @@ export default function BulkMastersPage() {
 
   const handlePushBulkMasters = async () => {
     setIsLoading(true);
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://fintecc-backend.vercel.app/api/v1';
     try {
       const isLedger = tab === 'ledgers';
       const validItems = isLedger
@@ -99,8 +100,9 @@ export default function BulkMastersPage() {
         return;
       }
 
-      const res = await fetch('/api/v1/tally/sync/bulk-masters', {
+      const res = await fetch(`${API_BASE}/tally/sync/bulk-masters`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`

@@ -60,7 +60,7 @@ export default function ColumnCanvasEditor({
     }
     if (imageUrl) {
       if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) return imageUrl;
-      const apiHost = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+      const apiHost = process.env.NEXT_PUBLIC_API_URL || "https://fintecc-backend.vercel.app/api/v1";
       const cleanPath = imageUrl.replace(/\\/g, "/");
       return `${apiHost.replace(/\/api\/v1\/?$/, "")}/${cleanPath.replace(/^\//, "")}`;
     }

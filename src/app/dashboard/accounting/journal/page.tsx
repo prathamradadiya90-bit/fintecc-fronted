@@ -94,12 +94,14 @@ export default function JournalAutomationPage() {
   }, [isModalOpen]);
 
   const activeClientId = selectedClientId || profiles[0]?.clientId || '';
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://fintecc-backend.vercel.app/api/v1';
 
   const fetchEntries = async () => {
     if (!activeClientId) return;
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/v1/erp/journal-entries`, {
+      const res = await fetch(`${API_BASE}/erp/journal-entries`, {
+        credentials: 'include',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || ''}` }
       });
       const data = await res.json();
@@ -145,8 +147,9 @@ export default function JournalAutomationPage() {
     setIsSaving(true);
     try {
       // 1. Create Journal Entry
-      const createRes = await fetch(`/api/v1/erp/journal-entries`, {
+      const createRes = await fetch(`${API_BASE}/erp/journal-entries`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
@@ -171,15 +174,17 @@ export default function JournalAutomationPage() {
 
       // 2. Post
       if (entryId) {
-        await fetch(`/api/v1/erp/journal-entries/${entryId}/post`, {
+        await fetch(`${API_BASE}/erp/journal-entries/${entryId}/post`, {
           method: 'POST',
+          credentials: 'include',
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || ''}` }
         });
 
         // 3. Queue to Tally if requested
         if (pushToTally) {
-          await fetch(`/api/v1/erp/journal-entries/${entryId}/queue-tally`, {
+          await fetch(`${API_BASE}/erp/journal-entries/${entryId}/queue-tally`, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || ''}` }
           });
         }
@@ -197,8 +202,9 @@ export default function JournalAutomationPage() {
 
   const handleQueueTally = async (id: string) => {
     try {
-      const res = await fetch(`/api/v1/erp/journal-entries/${id}/queue-tally`, {
+      const res = await fetch(`${API_BASE}/erp/journal-entries/${id}/queue-tally`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || ''}` }
       });
       const data = await res.json();

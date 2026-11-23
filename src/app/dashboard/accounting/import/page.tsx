@@ -53,6 +53,7 @@ export default function UniversalImportPage() {
 
   const activeClientId = selectedClientId || profiles[0]?.clientId || '';
   const selectedProfile = profiles.find(p => p.clientId === activeClientId);
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://fintecc-backend.vercel.app/api/v1';
 
   // Step 1: Detect Headers on file drop
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,8 +67,9 @@ export default function UniversalImportPage() {
     formData.append('file', selectedFile);
 
     try {
-      const response = await fetch('/api/v1/accounting/import/detect-headers', {
+      const response = await fetch(`${API_BASE}/accounting/import/detect-headers`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
         },
@@ -99,8 +101,9 @@ export default function UniversalImportPage() {
     formData.append('voucherType', voucherType);
 
     try {
-      const response = await fetch('/api/v1/accounting/import/preview', {
+      const response = await fetch(`${API_BASE}/accounting/import/preview`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
         },
@@ -125,8 +128,9 @@ export default function UniversalImportPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/v1/accounting/import/queue-tally', {
+      const response = await fetch(`${API_BASE}/accounting/import/queue-tally`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
@@ -155,8 +159,9 @@ export default function UniversalImportPage() {
     if (!validationResult?.validRows?.length) return;
 
     try {
-      const response = await fetch('/api/v1/accounting/import/download-xml', {
+      const response = await fetch(`${API_BASE}/accounting/import/download-xml`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
