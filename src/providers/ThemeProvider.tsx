@@ -18,10 +18,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Read persisted theme on mount (default to dark)
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const initial = stored === "light" ? "light" : "dark";
-    setTheme(initial);
-    document.documentElement.classList.toggle("dark", initial === "dark");
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
+      if (stored === "light") {
+        setTheme("light");
+        document.documentElement.classList.remove("dark");
+      } else {
+        document.documentElement.classList.add("dark");
+      }
+    } catch {
+      // ignore
+    }
   }, []);
 
   const toggleTheme = useCallback(() => {

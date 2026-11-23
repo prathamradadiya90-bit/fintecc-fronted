@@ -32,7 +32,7 @@ export function generateAmortizationSchedule(
   let balance = principal;
   const schedule: AmortizationRow[] = [];
   
-  let currentDate = new Date(startDate);
+  const currentDate = new Date(startDate);
   // Start from next month
   currentDate.setMonth(currentDate.getMonth() + 1);
 

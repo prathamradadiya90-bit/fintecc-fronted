@@ -35,8 +35,8 @@ function ResetPasswordForm() {
     }
   }, [isAuthenticated, user, router]);
 
-  const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
+  const [email, setEmail] = useState(() => searchParams.get("email") || "");
+  const [otp, setOtp] = useState(() => searchParams.get("otp") || "");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -46,14 +46,6 @@ function ResetPasswordForm() {
   const [localSuccess, setLocalSuccess] = useState("");
 
   const [resetPassword, { isLoading: isResetLoading }] = useResetPasswordMutation();
-
-  useEffect(() => {
-    const paramEmail = searchParams.get("email");
-    const paramOtp = searchParams.get("otp");
-
-    if (paramEmail) setEmail(paramEmail);
-    if (paramOtp) setOtp(paramOtp);
-  }, [searchParams]);
 
   const handleResetSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

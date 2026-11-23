@@ -26,6 +26,8 @@ const TALLY_GROUPS = [
   { group: 'Current Liabilities', label: 'Current Liabilities' }
 ];
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://fintecc-backend.vercel.app/api/v1';
+
 export const CreateMissingMasterModal: React.FC<CreateMissingMasterModalProps> = ({
   isOpen,
   onClose,
@@ -59,8 +61,9 @@ export const CreateMissingMasterModal: React.FC<CreateMissingMasterModalProps> =
     setError(null);
 
     try {
-      const response = await fetch('/api/v1/erp/ledgers/quick-create', {
+      const response = await fetch(`${API_BASE}/erp/ledgers/quick-create`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
